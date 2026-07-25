@@ -68,17 +68,18 @@
 ## F-0005 — 真实边单位容量与加权 Hall 接口
 
 - **Status:** partially_proved
-- **Statement:** 在统一认证网络中，若每条真实边配置容量至多为一，则义务质量能否注入真实边等价于相应加权 Hall 条件；该接口可防止把不同历史中同一真实边重复计为多条边。
-- **Scope:** 依赖统一测试空间、第一认证分割与真实边身份完整保留。
-- **Evidence:** 两份 handout 给出最大流/最小割形式的加权 Hall 证明；从任意极小反例抽取满足全部网络公理的全局对象在早期记录中仍曾标为开放，故保留范围限制。
+- **Statement:** 在统一认证网络中，若每条真实边配置容量至多为一，则义务质量能否注入真实边等价于相应加权 Hall 条件；该接口可防止把不同历史中同一真实边重复计为多条边。确定性的第一阻断边只把失败尝试分成互斥证书类，并不自动给出单位容量。
+- **Scope:** 依赖统一测试空间、第一认证分割、真实边身份完整保留，以及义务账本与真实边容量账本的明确分离。
+- **Evidence:** 两份 handout 给出最大流/最小割形式的加权 Hall 证明；`SINGLE_DEFECT_FRAMEWORK.md` 进一步区分“投影—边出现重数”与“全局真实边容量”。从任意极小反例抽取满足全部网络公理的全局对象仍开放。
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 233–270 行，发言者 `unknown`
   - `handout(4).md`，第 347–491 行，发言者 `unknown`
   - `chatgpt-export_第一阶段解析骨架.txt`，助手回答轮次 1，第 73–117 行，发言者 `assistant`
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 12 节
 - **Dependencies:** F-0001
-- **Related:** A-0010, Q-0002
-- **Caveats:** Hall 接口本身不证明所需网络必能从原超图以近无损方式构造。
-- **Last updated:** 2026-07-24
+- **Related:** A-0010, A-0019, Q-0002
+- **Caveats:** 第一阻断证书唯一、每个投影—边对出现一次，均不足以推出同一真实边在不同投影间没有被重复兑现；Hall 接口本身也不证明所需网络必能从原超图近无损构造。
+- **Last updated:** 2026-07-25
 
 ## F-0006 — \(4/27\) 基准充分条件
 
@@ -334,21 +335,35 @@
 ## F-0022 — 单缺陷递推的条件闭合
 
 - **Status:** partially_proved
-- **Statement:** 若对每个固定 \(\varepsilon>0\) 能构造单缺陷搜索方案，使失败扩张数满足
+- **Statement:** 设深度 \(k\) 的稳定执行记录总质量为 \(A_k\)，根失败质量为 \(\mathcal B_k\)。若每个普通失败具有两步单缺陷因子化，并且对每个深度 \(k-2\) 的有指针稳定记录 \(\widetilde S\) 与每条含其 pivot 的真实边 \(e\)，有
   \[
-  |\mathcal B_k|\le(1+\gamma)\Delta(H)|\mathcal S_{k-2}|,
-  \quad
+  \operatorname{mult}_k(\widetilde S,e)\le1+\gamma,
+  \]
+  则
+  \[
+  \mathcal B_k\le(1+\gamma)\Delta(H)A_{k-2},
+  \qquad
+  A_k\ge bA_{k-1}-(1+\gamma)\Delta(H)A_{k-2}-E_k,
+  \]
+  其中 \(E_k\) 是明确分离的异常质量。若 \(E_k=0\) 且
+  \[
   (1+\gamma)(1/4-\varepsilon)<1/4,
   \]
   则 \(\Delta(H)\le(1/4-\varepsilon)b^2\) 推出存在 IT。
-- **Scope:** 条件于搜索方案存在、质量守恒、真实边容量至多一和投影重数界。
-- **Evidence:** 递推 \(A_k\ge bA_{k-1}-(1+\gamma)\Delta A_{k-2}\) 的正根归纳。
+- **Scope:** 条件于实际搜索记录的质量守恒、每个普通失败的唯一两步因子化、root projection 属于实际稳定层，以及异常质量没有被静默丢弃。全局真实边 Hall 容量是另一账本，不能由上述投影重数自动推出。
+- **Evidence:** 对固定 \(\widetilde S\)，所有根收费边均含预先固定的唯一 pivot \(p(\widetilde S)\)，故总根失败质量至多
+  \[
+  (1+\gamma)d_H(p(\widetilde S))w(\widetilde S)
+  \le(1+\gamma)\Delta(H)w(\widetilde S).
+  \]
+  求和后得到失败质量界，再用二阶递推的正根归纳。
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 827–951 行，发言者 `unknown`
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 10–12 节
 - **Dependencies:** F-0005
-- **Related:** Q-0002, Q-0003, Q-0004, Q-0005
-- **Caveats:** 搜索方案存在性是当前主缺口，故不能据此声称 \(1/4\) 已证。
-- **Last updated:** 2026-07-24
+- **Related:** F-0027, F-0028, Q-0002, Q-0003, Q-0004, Q-0005, Q-0014
+- **Caveats:** 搜索方案存在性、两步定向、投影闭包和投影重数仍开放，故不能据此声称 \(1/4\) 已证。
+- **Last updated:** 2026-07-25
 
 ## F-0023 — 固定轻锚可局部关闭 residual
 
@@ -405,3 +420,37 @@
 - **Related:** A-0011, Q-0012
 - **Caveats:** handoff 明确说明未重新运行全部求解；不能升级为渐近事实。
 - **Last updated:** 2026-07-24
+
+## F-0027 — 当前递推需要预置唯一 pivot 的稳定状态
+
+- **Status:** derived
+- **Statement:** 在 F-0022 的逐状态收费证明中，深度 \(k-2\) 的稳定状态必须在两步窗口开始前带有唯一真实 pivot \(p\)，或提供等价的总质量为一的分数 pivot 分配。若状态只记录无指针部分横截 \(T\)，并在失败后从 \(T\) 中自由选择收费顶点，则直接估计一般只有
+  \[
+  \sum_{v\in T}d_H(v)\le |T|\Delta(H),
+  \]
+  不能得到所需的单个 \(\Delta(H)\) 因子。
+- **Scope:** 这是当前单缺陷二阶递推账本的必要接口；不排除存在另一套带分数 pivot 或不同势函数的证明。
+- **Evidence:** F-0022 的逐投影求和必须把所有根收费边限制在同一个预先指定的 pivot 星中。
+- **Sources:**
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 3–4 节及定理 11.2
+- **Dependencies:** F-0022
+- **Related:** A-0021, Q-0002, Q-0014
+- **Caveats:** “唯一 pivot”是对当前账本的要求，不应被误述为所有可能证明方法的绝对必要条件。
+- **Last updated:** 2026-07-25
+
+## F-0028 — 单端点释放后必须重新验证独立性
+
+- **Status:** confirmed
+- **Statement:** 设 \(T\) 为独立部分横截，尝试加入 \(x\) 时第一阻断边为 \(e_0=\{p,r,x\}\)。删除 \(r\) 后所得
+  \[
+  (T\setminus\{r\})\cup\{x\}
+  \]
+  不必自动独立，因为另一条阻断边可能不含 \(r\)。因此普通单缺陷状态必须把释放后独立性列为定义条件；否则该失败属于 multi-defect 或其他异常分支。
+- **Scope:** 任意三一致分块超图中的单缺陷交换。
+- **Evidence:** 若另有阻断边 \(\{x,u,v\}\) 且 \(r\notin\{u,v\}\)，删除 \(r\) 后该边仍完整存在。
+- **Sources:**
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 6.2–6.3 节
+- **Dependencies:** F-0001
+- **Related:** A-0020, Q-0002, Q-0014
+- **Caveats:** 第一阻断边的确定性只选择证书，不排除同时存在其他阻断边。
+- **Last updated:** 2026-07-25

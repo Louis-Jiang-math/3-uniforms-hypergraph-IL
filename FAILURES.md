@@ -329,3 +329,58 @@
 - **Do not repeat:** 更换每个兄弟状态的新后继块仍会产生不同真实边并累加到旧锚。
 - **Status:** failed
 - **Last updated:** unknown
+
+## A-0019 — 将第一阻断边唯一性当作真实边单位容量
+
+- **Goal:** 用确定性的第一阻断规则直接完成真实边不复用账本。
+- **Approach:** 对每次失败选择字典序最小阻断边，并认为不同失败因此自动对应不同真实边。
+- **Failure type:** logical
+- **Failure point:** 确定规则只保证每次失败有唯一证书；同一真实边仍可能是许多不同执行记录或投影状态的第一阻断边。
+- **Why it failed:** “失败尝试的分割”与“义务注入真实边的容量分配”是不同问题；后者仍需显式注入或加权 Hall。
+- **Failure signature:** `deterministic first blocker mistaken for unit real-edge capacity`
+- **Evidence:**
+  - F-0005
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 5、12 节
+- **Related:** F-0005, F-0022, Q-0002
+- **Retry conditions:** 明确区分投影—边出现重数与全局真实边容量；为后者给出注入或 Hall 证明。
+- **Do not repeat:** 把字典序、最早时间或最小相位换成另一确定规则不会解决跨状态复用。
+- **Status:** failed
+- **Last updated:** 2026-07-25
+
+## A-0020 — 删除第一阻断边一个端点后自动宣称单缺陷
+
+- **Goal:** 把每次失败直接降秩为一个缺失块的活动缺陷。
+- **Approach:** 若第一阻断边为 \(\{p,r,x\}\)，删除旧端点 \(r\)，不再检查剩余迹是否独立。
+- **Failure type:** logical
+- **Failure point:** 另一条阻断边 \(\{x,u,v\}\) 可能不含 \(r\)，删除 \(r\) 后仍完整存在。
+- **Why it failed:** 一次加入可同时产生多条超边；第一阻断边只是证书选择，不是唯一阻断边断言。
+- **Failure signature:** `single endpoint release without rechecking independence`
+- **Evidence:**
+  - F-0028
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 6.2–6.3 节
+- **Related:** F-0028, Q-0002, Q-0014
+- **Retry conditions:** 把释放后独立性写入普通 defect 的定义；失败时进入 multi-defect 或显式异常账本。
+- **Do not repeat:** 改为删除另一旧端点也必须重新验证全部真实边。
+- **Status:** failed
+- **Last updated:** 2026-07-25
+
+## A-0021 — 用无指针稳定状态直接得到单个 \(\Delta\) 因子
+
+- **Goal:** 从深度 \(k-2\) 的部分横截状态直接估计根失败数。
+- **Approach:** 状态只保存 \(T\)，失败发生后任选 \(p\in T\) 收费，并把总量估为 \(\Delta(H)|\mathcal S_{k-2}|\)。
+- **Failure type:** computational
+- **Failure point:** 对同一状态的所有可能 pivot 求和一般只有
+  \[
+  \sum_{p\in T}d_H(p)\le |T|\Delta(H).
+  \]
+- **Why it failed:** 当前二阶递推需要所有投影到同一状态的根收费边落在一个预先固定的真实 pivot 星中。
+- **Failure signature:** `unpointed stable state loses a factor equal to state depth`
+- **Evidence:**
+  - F-0027
+  - `SINGLE_DEFECT_FRAMEWORK.md`，第 3–4、10–11 节
+- **Related:** F-0022, F-0027, Q-0002, Q-0014
+- **Retry conditions:** 在两步窗口开始前固定唯一 pivot，或证明一个总质量为一且与 genealogy 相容的分数 pivot 分配。
+- **Do not repeat:** 事后选择度数最大的、最小的或最早出现的顶点仍不能自动恢复逐状态单位预算。
+- **Status:** failed
+- **Last updated:** 2026-07-25
+
