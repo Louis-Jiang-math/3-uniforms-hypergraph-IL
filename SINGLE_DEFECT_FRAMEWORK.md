@@ -1,8 +1,8 @@
 # SINGLE_DEFECT_FRAMEWORK
 
-> **版本：** v0.3-refutation-confirmed
+> **版本：** v0.4-auditor-grounded
 > **日期：** 2026-07-27
-> **状态：** 研究草稿；零误差共同预置 pivot 命题已被真实正常四块反例否定；框架入口采用无 pivot 义务源与真实配置提取；配置流、投影容量与 terminal SCC 分类仍开放。
+> **状态：** 研究草稿；零误差共同预置 pivot 命题已被否定；Q-0015 首轮真实执行审计器、预算 LP、对偶 Hall 证书和回归测试已经实现；一般低度近无损配置定理、defect closure 与 terminal SCC 分类仍开放。
 > **目标：** 将“单缺陷可逆修复”写成一个可证明、可反驳、可编程检查的数学对象。
 
 ---
@@ -15,7 +15,8 @@
 2. 给出 \(\widehat{\mathcal S}_k,\mathcal D_k\)、第一阻断边、合法单缺陷配置和执行投影 \(\pi\) 的候选定义；
 3. 证明在配置预算与投影—根边槽位容量成立时，单缺陷递推确实闭合；
 4. 将唯一 pivot 降为零误差配置流的特例，并把 terminal defect graph 明确放在配置提取之后；
-5. 把尚未证明的内容压缩成可由最大流/最小割审计的接口和反例搜索目标。
+5. 把尚未证明的内容压缩成可由预算 LP、固定预算最大流/最小割和真实边 Hall 审计的接口；
+6. 记录 Q-0015 首轮审计器已经完成的范围、计算观察和仍未解决的理论接口。
 
 本文件**不宣称**：
 
@@ -44,6 +45,7 @@
 | `old/chatgpt-export_文章核心问题分析(1).txt` | 有序旋转、pivot persistence、偏轴/远端缺陷；单个轻锚局部关闭不能无条件全局重复。 |
 | `old/chatgpt-export_证明主线与障碍.txt` | 历史重数不等于真实边数；SCC、代码簿与有限相位模型必须保留真实 lift。 |
 | `FACTS.md`, `QUESTIONS.md`, `FAILURES.md` | F-0005、F-0022、F-0027–F-0029；Q-0002–Q-0007、Q-0014–Q-0015；A-0001–A-0004、A-0010–A-0013、A-0018、A-0020–A-0022。 |
+| `q0015_configuration_auditor.py` 及其归档结果 | 实际成功执行树、失败义务、合法配置枚举、预算 LP、分数 Hall 对偶、固定预算最大流、独立真实边账本和三组回归测试。其输出是计算证书，不自动升级为一般定理。 |
 
 ### 1.1 三条设计原则
 
@@ -653,7 +655,74 @@ w(\widetilde D)
 \right\}.
 \]
 
-若不可行，最大流最小割必须输出具体义务子集及其合法配置邻域。该最小割是待分类的真实接口障碍；不能只输出抽象相位缺口。
+若不可行，必须输出具体义务、合法配置邻域和容量对偶证书。该证书是待分类的真实接口障碍；不能只输出抽象相位缺口。
+
+### 命题 10.6：配置预算接口是 LP，固定预算后才是普通最大流
+
+固定源根投影 \(\widehat S\)。令 \(\mathcal A(\widehat S)\) 为投影到它的失败义务，令
+\(\mathcal K(\widehat S)\) 为合法槽位 \(s=(p,e)\) 的集合。对每个合法配置
+\(c\in\mathcal C(a)\)，记其槽位为 \(s(c)\)。
+
+在零槽位误差 \(\gamma=0\) 时，引入
+
+\[
+q_{a,c}\ge0,\qquad y_p\ge0,
+\]
+
+并考虑
+
+\[
+\begin{aligned}
+\text{最小化}\quad &t=\sum_p y_p,\\
+\text{满足}\quad
+&\sum_{c\in\mathcal C(a)}q_{a,c}=w(a)
+&&\text{对每个 }a,\\
+&\sum_{\substack{a,c\\s(c)=(p,e)}}q_{a,c}
+\le y_p\,w(\widehat S)
+&&\text{对每个槽位 }(p,e).
+\end{aligned}
+\tag{10.3}
+\]
+
+于是
+
+\[
+\eta_{\rm cfg}^{(0)}(\widehat S)=\max\{0,t_{\min}-1\}.
+\tag{10.4}
+\]
+
+问题 (10.3) 一般不是单层普通最大流，因为同一 pivot 的不同根边槽位共享变量 \(y_p\)。
+其对偶为
+
+\[
+\begin{aligned}
+\text{最大化}\quad
+&\sum_a w(a)\alpha_a,\\
+\text{满足}\quad
+&\alpha_a\le\beta_{p,e}
+&&\text{若 }a\text{ 有使用 }(p,e)\text{ 的合法配置},\\
+&\sum_{e:(p,e)\in\mathcal K(\widehat S)}\beta_{p,e}\le1
+&&\text{对每个 }p,\\
+&\alpha_a,\beta_{p,e}\ge0.
+\end{aligned}
+\tag{10.5}
+\]
+
+对偶可行解给出可独立复算的分数 Hall 证书。只有在归一化预算
+\(\lambda_{\widehat S}(p)\) 已固定后，剩余网络
+\(a\to(p,e)\) 才是普通最大流，槽位容量为
+
+\[
+\lambda_{\widehat S}(p)w(\widehat S).
+\tag{10.6}
+\]
+
+因此完整审计器必须分别输出：
+
+1. 预算 LP 的原始最优解；
+2. 对偶 \((\alpha,\beta)\) 证书；
+3. 固定归一化预算后的最大流/最小割；
+4. 与其独立的全局真实边容量流。
 
 ---
 
@@ -1028,16 +1097,47 @@ t4_phase_id
 exception_type
 ```
 
+### ConfigurationBudgetCertificate
+
+```text
+root_projection_id
+primal_objective_t
+eta_cfg
+root_pivot_y
+normalized_lambda
+configuration_flow
+dual_alpha
+dual_beta
+dual_objective
+dual_constraints_verified
+```
+
 ### ConfigurationCutCertificate
 
 ```text
 cut_id
+root_projection_id
 obligation_ids
 legal_configuration_ids
+slot_labels
 required_mass
 available_root_pivot_edge_capacity
+fixed_budget_max_flow
 cut_type                # no-configuration / root-budget / slot-congestion / reuse
 ```
+
+### RealEdgeCapacityCertificate
+
+```text
+obligation_ids
+real_edge_ids
+required_mass
+available_real_edge_capacity
+max_flow
+feasible
+```
+
+预算 LP 对偶证书、固定预算最小割和全局真实边最小割是三个不同对象，不能只保存一个笼统的 `hall_gap` 数值。
 
 ### 必须自动检查的断言
 
@@ -1054,7 +1154,9 @@ cut_type                # no-configuration / root-budget / slot-congestion / reu
 11. 同一执行记录的质量守恒；
 12. SCC 的所有出口；
 13. 子核心是否由完整真实块组成；
-14. 不可行配置流的最大流/最小割证书可独立复算。
+14. 预算 LP 的原始—对偶目标和对偶约束可独立复算；
+15. 固定预算后的普通最大流/最小割可独立复算；
+16. 全局真实边容量流与配置预算证书分开保存。
 
 ---
 
@@ -1167,20 +1269,38 @@ FOR depth k = 1,...,m:
 
 ## 21. 建议的下一项具体工作
 
-最小而高价值的下一项不是再次枚举正常 \(Q_4\) 或直接枚举 terminal SCC，而是实现并验证：
+义务—真实配置审计器和第一组回归测试已经完成。下一项工作不再是重复实现该审计器，
+而是把它接到低度候选超图的外层生成器，并让内层返回四种互斥证书之一：
 
-> **义务—真实配置最大流审计器。**
-> 对一个给定真实超图和确定性下一块策略，生成全部实际源稳定记录、失败义务及合法根配置；求解 (6.3)、(10.1)、(10.2) 的配置流。若不可行，输出精确加权 Hall 最小割，并区分无配置、root-pivot 预算、投影槽位拥塞和跨投影真实边复用。
+1. **IT 证书：** 给出一个独立完整横截；
+2. **无配置证书：** 给出失败义务 \(a\) 且 \(\mathcal C(a)=\varnothing\)；
+3. **配置预算证书：** 给出命题 10.6 的原始—对偶最优解和固定预算最小割；
+4. **真实边复用证书：** 给出第三份账本中的真实边 Hall 最小割。
 
-第一组回归测试必须同时重现：
+外层候选必须至少保存真实块、顶点和边、最大度上界、当前横截覆盖切平面、边极小/
+块极小见证、块顺序、第一阻断边顺序和完整 genealogy。
 
-- 命题 3.1 的八边正常四块反例及其两个互斥 pivot 义务；
-- 四块正常模板中的 persistent 源 pivot 缺口；
-- 允许全部真实配置后，源缺口不必等于真实边 overflow；
-- 九边覆盖中源缺口可由额外认证消失；
-- 压缩 genealogy 时人为产生的槽位重数 \(>1\)。
+每次出现最小割后，程序应依次区分
 
-该审计器完成后，下一理论问题才是对其真实最小割分类。若最小割集中在高度重用的真实边上，应进一步输出有限深度未来区分证书，而不是预先假设可 quotient。只有配置提取、投影闭包和槽位容量完成后，才恢复 terminal defect SCC 的研究。
+\[
+\text{no-configuration}
+\longrightarrow
+\text{root-budget}
+\longrightarrow
+\text{slot-congestion}
+\longrightarrow
+\text{global real-edge reuse}.
+\]
+
+若割集中在高度重用的真实边上，下一输出必须是有限深度未来区分证书。只有能证明未来
+等价保持义务、槽位和真实边账本时，才允许 quotient。
+
+当前最小而高价值的理论问题是：
+
+> **低度、块极小、真实可达的配置 Hall 最小割，是否必产生新鲜真实度数、合法未来等价
+> quotient，或一个完整真实子核心？**
+
+在配置最小割分类、投影闭包和 defect closure 完成前，仍不恢复 terminal SCC 枚举。
 
 ---
 
@@ -1190,15 +1310,102 @@ FOR depth k = 1,...,m:
 
 - [x] 零误差共同预置 pivot 命题由命题 3.1 的真实反例否定；
 - [ ] 源稳定记录、失败义务、根配置、缺陷记录和执行词定义冻结；
-- [ ] 每个失败义务的合法配置集合被完备枚举；
-- [ ] 每个正流配置的单端点释放独立性被逐次验证；
+- [x] 给定固定真实超图、块顺序和边顺序时，审计器可完备枚举定义 6.3 的合法配置；
+- [ ] 对一般自适应搜索策略，合法配置完备性被统一证明；
+- [x] 审计器对每个正流配置逐次验证单端点释放后的独立性；
 - [ ] root projection 属于实际源稳定层；
-- [ ] 配置流满足需求守恒，或输出可复算的 Hall 最小割；
-- [ ] root-pivot 预算与投影—pivot—根边槽位容量定义无歧义；
+- [x] 固定实例中，预算 LP、对偶 Hall 证书和固定预算最大流/最小割可复算；
+- [ ] 对所有低度块极小实例证明近无损配置预算，或给出满足目标条件的反模型；
+- [x] root-pivot 预算 LP、对偶变量和投影—pivot—根边槽位容量已形式化并实现；
 - [ ] 质量在尝试、配置分裂、缺陷移动和汇合中严格守恒；
-- [ ] 义务—配置、递推槽位与全局真实边三个账本分离；
+- [x] 审计器分别输出义务—配置、递推槽位和全局真实边三份证书；
 - [ ] 每条真实边容量通过 Hall 或显式注入验证；
 - [ ] terminal defect graph 只由获得正配置流的真实分支生成，并保存 pivot genealogy；
 - [ ] 零误差 SCC 定理被证明或被满足全部配置公理的真实反模型否定。
 
 在此之前，`SINGLE_DEFECT_FRAMEWORK.md` 应被视为一份候选基础设施，而不是 \(1/4\) 证明。
+---
+
+## 23. Q-0015 首轮审计器的计算状态
+
+本节记录 `q0015_configuration_auditor.py` 的首轮输出。除命题 10.6 的 LP 对偶外，
+具体数字均是可复算的计算观察，而不是一般定理。
+
+### 23.1 F-0029 指定窗口
+
+对第 3 节八边反例，取块顺序 \((0,1,2,3)\) 和根迹
+\(R=\{0_0,1_0\}\)。审计器得到两个单位义务和两个合法配置，预算 LP 满足
+
+\[
+t_{\min}=2,\qquad \eta_{\rm cfg}^{(0)}(R)=1.
+\tag{23.1}
+\]
+
+固定归一化预算
+\(\lambda_R(0_0)=\lambda_R(1_0)=1/2\) 后，槽位最大流为 \(1\)，总需求为 \(2\)。
+
+但是两个义务使用两条不同真实根边；在全局真实边账本中给每条边单位容量时，最大流为
+\(2\)。因此
+
+\[
+\boxed{\text{配置 root-pivot 预算缺口不等于全局真实边 overflow。}}
+\tag{23.2}
+\]
+
+### 23.2 全部固定块顺序
+
+对同一八边模型的全部 \(24\) 个固定块顺序，程序生成 \(144\) 个带失败义务的实际
+root group，分类为
+
+\[
+48\ \text{个零误差预算可行},\quad
+48\ \text{个正预算缺口},\quad
+48\ \text{个含 no-configuration 义务}.
+\tag{23.3}
+\]
+
+因此 `no-configuration` 和正 root-budget 缺口必须分开分类。
+
+### 23.3 九边预算修复
+
+自动搜索找到新增真实边
+
+\[
+\{0_0,1_0,2_1\}.
+\]
+
+把它置于第一阻断优先级最前，并取块顺序 \((0,3,1,2)\)，可得到一个至少含两个失败
+义务的根组，其两个义务共享同一 pivot、使用不同根边槽位，并满足
+
+\[
+\eta_{\rm cfg}^{(0)}=0.
+\tag{23.4}
+\]
+
+所以八边正常模板的源预算缺口不是对额外真实认证稳定的 obstruction。
+
+### 23.4 genealogy 压缩碰撞
+
+两个具有相同压缩迹但不同真实 `root_projection_id` 的根记录，分别审计时都可有
+\(\eta_{\rm cfg}^{(0)}=0\)。若错误合并两个 root ID，使两个单位义务共享同一
+\((p,e)\) 槽位，则得到
+
+\[
+\eta_{\rm cfg}^{(0)}=1.
+\tag{23.5}
+\]
+
+因此未经证明的 genealogy 压缩会人为制造槽位重数和 Hall 缺口。
+
+### 23.5 尚未完成
+
+首轮审计器没有证明：
+
+- 低度一般实例存在 \(o_\varepsilon(1)\) 的配置预算；
+- 固定块顺序可以避免所有 `no-configuration` 义务；
+- 跨多个 root projection 的联合预算可行；
+- 全局真实边复用总能收费；
+- 配置流之后的 defect closure 成立；
+- terminal SCC 有三出口分类。
+
+它完成的是 Q-0015 的审计基础设施和最小回归基线。
