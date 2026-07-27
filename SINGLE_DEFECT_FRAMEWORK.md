@@ -1253,9 +1253,11 @@ FOR depth k = 1,...,m:
 
 或输出可独立复算的加权 Hall 最小割。最小割必须保留真实义务、真实两步前驱、pivot、根边和 genealogy，不能只给相位级缺口。
 
-### O4. 配置化 defect closure
+### O4. 配置化 closure-or-charge
 
-对每个获得正配置流的根缺陷，证明后续非增广步骤保持同一真实 pivot、同一源根投影和一个缺失块；否则相应质量进入命名异常账本。
+形式部分已经完成：对每个获得正配置流的根缺陷，后续尝试要么增广，要么沿 ordinary 方向保持同一真实 pivot、同一源根投影和一个缺失块；若 ordinary 方向不存在，则组合 switch 或释放后第二阻断边产生真实 incidence escape obligation。该质量要么由剩余真实边容量满流支付，要么输出可复算的真实边 Hall 最小割。
+
+仍开放的是定量部分：证明一般低度搜索中，未被配置流或 escape 流吸收的 projection、boundary、competition 与不可审计残余为 \(o_\varepsilon(1)\)，并证明大量分散的已收费 incidence 不能无损再生。
 
 ### O5. 零误差 terminal SCC 定理
 
@@ -1263,7 +1265,7 @@ FOR depth k = 1,...,m:
 
 ### O6. 固定 \(\varepsilon\) 稳定化
 
-仅在 O1–O5 的零误差接口明确后，把配置 Hall 缺口、multi-defect、off-pivot、non-normal、boundary、reuse 和 projection collision 的总质量控制为 \(\eta(\varepsilon),\gamma(\varepsilon)\) 与 \(E_k\)，并验证递推阈值。
+仅在 O1–O5 的零误差接口明确后，把配置 Hall 缺口、escape Hall 缺口、non-normal、boundary、competition、projection collision 和不可审计残余控制为 \(\eta(\varepsilon),\gamma(\varepsilon)\) 与 \(E_k\)。`off-pivot` 与 `multi-defect` 的可收费部分不再预设为小误差，而计入真实 fresh/reuse 账本；随后还须完成 Q-0016 的因果 incidence 集中和 Q-0017 的临界正常形，才能验证递推阈值。
 
 ---
 
@@ -1405,7 +1407,7 @@ root group，分类为
 - 固定块顺序可以避免所有 `no-configuration` 义务；
 - 跨多个 root projection 的联合预算可行；
 - 全局真实边复用总能收费；
-- 配置流之后的 defect closure 成立；
+- 配置流之后的一般**近无损动态 closure**成立；形式上的 ordinary-or-escape-charge/Hall-cut 分类已在第 24 节完成；
 - terminal SCC 有三出口分类。
 
 它完成的是 Q-0015 的审计基础设施和最小回归基线。

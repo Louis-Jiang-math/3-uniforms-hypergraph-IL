@@ -24,7 +24,7 @@
   (1+\eta)(1+\gamma)(1/4-\varepsilon)<1/4
   \]
   并控制全部异常质量，就直接给出 \((1/4-\varepsilon)b^2\) 以下存在 IT。
-- **Known so far:** Q-0014 的共同预置 pivot 命题已被 F-0029 的真实正常四块反例否定。`SINGLE_DEFECT_FRAMEWORK.md` v0.3 改用无 pivot 源稳定记录、失败义务、合法根配置和配置流；条件递推已保留（F-0005, F-0022, F-0027–F-0029）。
+- **Known so far:** Q-0014 的共同预置 pivot 命题已被 F-0029 的真实正常四块反例否定。`SINGLE_DEFECT_FRAMEWORK.md` v0.5 改用无 pivot 源稳定记录、失败义务、合法根配置和配置流；条件递推已保留（F-0005, F-0022, F-0027–F-0029）。
 - **Missing:** 证明以下接口对实际搜索同时成立：
   1. O1：每个失败义务的全部真实两步单缺陷配置被完备枚举；
   2. O2：每个合法配置的 root projection 属于实际访问的深度 \(k-2\) 源稳定层；
@@ -33,8 +33,8 @@
 - **Related:** F-0022, F-0027, F-0028, F-0029, Q-0003, Q-0004, Q-0005, Q-0014, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 827–951 行及第 1103–1121 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3–11、17、20–22 节
-- **Suggested next action:** 先完成 Q-0015 的义务—真实配置最大流审计器；在配置提取、投影闭包和槽位容量完成前，不生成或分类 terminal defect SCC。
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 3–11、17、20–22 节
+- **Suggested next action:** 审计器已完成；下一步把它接到低度候选生成器，并加入 escape-charge、跨 root projection 联合预算和可复算最小割分类。
 - **Answer criterion:** 对所有步 \(k\) 完整验证修订后的 SD1–SD8、MC1–MC5，并证明
   \[
   \mathcal B_k\le(1+\eta)(1+\gamma)\Delta(H)A_{k-2},
@@ -71,7 +71,7 @@
 - **Related:** F-0013, F-0022, F-0029, A-0001, A-0005, A-0006, A-0022, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 993–1010 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3、9–10、13、20–21 节
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 3、9–10、13、20–21 节
 - **Suggested next action:** 对 Q-0015 输出的真实 Hall 最小割保存插入顶点、释放顶点、根边、root projection 和配置来源；先分类哪些高重叠分支可以保持未来行为地合并。
 - **Answer criterion:** 构造配置分支的全局运输并证明槽位重数界；若还需要全局真实边注入，另行证明加权 Hall，不能只给 cocycle 分类。
 - **Last updated:** 2026-07-27
@@ -109,7 +109,7 @@
 - **Related:** Q-0002, Q-0005, Q-0007, Q-0014, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 1148–1168 行及第 1253–1290 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 14、18、20 节
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 14、18、20 节
 - **Suggested next action:** 在 Q-0015 与配置化 defect closure 通过后，对最小真实执行模型进行证明或穷举；枚举器必须检查每条阻断边、每个 root projection 和每份配置流的真实身份。
 - **Answer criterion:** 给出严格三出口分类；若为假，给出满足全部配置化零误差公理的真实反模型，而不是仅给相位商图。
 - **Last updated:** 2026-07-27
@@ -127,7 +127,7 @@
 - **Related:** Q-0002, Q-0003, Q-0004, Q-0006, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 1170–1194 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 15、17、20 节
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 15、17、20 节
 - **Suggested next action:** 在 Q-0006 完成后，逐类定义异常质量；禁止把义务需求、配置槽位、transition edge 和全局真实边容量记在同一份未归一化账本中。
 - **Answer criterion:** 显式给出 \(\delta(\varepsilon)\)、\(\eta(\varepsilon)\)、\(\gamma(\varepsilon)\)、全部异常账本和最终递推。
 - **Last updated:** 2026-07-27
@@ -246,24 +246,26 @@
 - **Known so far:** 该反例否定字面零误差命题，但因 \(b=2,\Delta=3\)，不否定低度渐近条件下“绝大部分义务可由近无损配置流吸收”的稳定化命题。
 - **Related:** F-0027, F-0028, F-0029, A-0021, A-0022, Q-0002, Q-0004, Q-0006, Q-0015
 - **Sources:**
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3 节
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 3 节
   - `FACTS.md`，F-0029
-- **Suggested next action:** 不再重试共同预置 pivot；把该反例作为配置流审计器的强制回归测试，并转向 Q-0015。
+- **Suggested next action:** 不再重试共同预置 pivot；继续把该反例作为配置流、genealogy 和 escape-charge 审计的强制回归测试。
 - **Answer criterion:** 已满足：真实块、顶点、边、执行根迹、成功旧端点、两个失败、第一阻断边和释放后独立性均已列出。
 - **Last updated:** 2026-07-27
 
 ## Q-0015 — 义务—真实配置流与 Hall 最小割
 
 - **Question:** 对实际搜索产生的失败义务集合，能否完备枚举全部合法真实两步配置，并构造满足需求守恒、root-pivot 总预算和投影—pivot—根边槽位容量的近无损配置流；若不能，Hall 最小割是否必有可分类的真实结构？
-- **Status:** open
+- **Status:** partially answered — auditor infrastructure completed; general theorem open
 - **Why it matters:** Q-0014 已证明共同预置 pivot 过强；Q-0015 是失败义务进入单缺陷状态空间并仍保住单个 \(\Delta(H)\) 因子的最早合法接口。
-- **Known so far:** `SINGLE_DEFECT_FRAMEWORK.md` v0.3 给出 `FailureObligation`、`RootConfiguration`、配置流 \(q(a,c)\)、预算 \(\lambda_{\widehat S}(p)\) 和槽位容量。F-0029 的反例要求至少允许同一源记录分裂到不同 pivot 配置。
-- **Missing:** 对真实执行的完备配置枚举器、最大流/最小割证书、投影闭包，以及对无配置、槽位拥塞、高真实边复用和 genealogy 碰撞的结构分类。
-- **Related:** F-0005, F-0022, F-0027, F-0028, F-0029, Q-0002, Q-0004, Q-0006
+- **Known so far:** `enumerate/q0015_configuration_auditor.py` 已实现真实执行记录、合法配置枚举、root-pivot 预算原始/对偶 LP、固定预算槽位流和独立真实边 Hall 流。八边回归的 24 个块顺序产生 144 个 root group：48 个零误差预算可行、48 个正预算缺口、48 个含 no-configuration 义务；genealogy 错误合并可人为制造缺口。后续严格计数证明 \((b,m,\Delta)=(3,14,2)\) 不存在无 IT 实例。
+- **Missing:** 一般低度、块极小、真实可达执行中的近无损配置流；跨 root projection 联合预算；以及把 no-configuration、预算/槽位 cut、真实边 reuse 和 persistent blocker 分类为 fresh、合法未来 quotient、完整子核心或其他明确出口的结构定理。
+- **Related:** F-0005, F-0022, F-0027–F-0035, Q-0002, Q-0004, Q-0006, Q-0016, Q-0017
 - **Sources:**
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 6、10、17、20–21 节
-- **Suggested next action:** 实现真实执行审计器；对每个不可行实例输出可独立复算的义务子集、合法配置邻域、槽位容量和最小割，而不是只输出相位级缺口。
-- **Answer criterion:** 对所有深度和所有源记录证明近无损配置流，或给出满足低度、块极小、真实可达条件的 Hall 最小割反模型。
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 6、10、20、23–24 节
+  - `enumerate/q0015_first_execution_report.md`
+  - `enumerate/q0015_hall_cut_structural_analysis.md`
+- **Suggested next action:** 把审计器接到低度候选生成器，加入 escape-charge 和跨投影联合账本；每个失败实例输出机器可读最小割、未来区分或完整块支持证书。
+- **Answer criterion:** 对所有深度和源记录证明近无损配置/escape 流，或给出满足低度、块极小、无 IT、真实可达条件的 Hall/closure 反模型。
 - **Last updated:** 2026-07-27
 
 

@@ -63,7 +63,7 @@
 ## 6. Open and answered questions
 
 1. Q-0014 — **answered negative**：共同预置 pivot 的零误差命题为假。
-2. Q-0015 — 失败义务能否被近无损分配到真实两步配置；不可行 Hall 最小割有何结构？
+2. Q-0015 — 审计基础设施已完成；一般近无损配置流与 Hall 最小割结构分类仍开放。
 3. Q-0002 — 配置优先搜索能否满足投影闭包、槽位容量和配置化 defect closure？
 4. Q-0004 — 配置分支的正常相位如何保留真实 root projection 和 genealogy 地全局粘合？
 5. Q-0006 — 在配置化执行图存在后，零误差 terminal SCC 是否有增广叶、\(1/4\) link 乘积或完整子核心？
@@ -76,30 +76,32 @@
 
 ## 7. Immediate next actions
 
-1. **实现义务—真实配置审计器（Q-0015）：** 从真实执行记录生成每个失败义务的全部合法配置；求解需求守恒、root-pivot 总预算和投影—pivot—根边槽位容量。不可行时输出可独立复算的 Hall 最小割。
-2. **完成配置入口的搜索存在性（Q-0002）：** 证明每个正流配置的 root projection 属于实际深度 \(k-2\) 源稳定层；质量在配置分裂和汇合中守恒；未分配质量进入命名异常。
-3. **分类配置最小割：** 区分无合法配置、投影槽位拥塞、跨投影真实边复用和 genealogy 碰撞；对高度重叠部分输出有限深度未来区分证书。
-4. **建立配置化真实 defect graph：** 仅对获得正配置流的分支生成缺陷状态；每条 transition 保存真实 pivot、根配置、缺失块、第一阻断边和 root projection。
-5. **随后研究 Q-0006/Q-0003/Q-0005：** 在配置入口和 closure 完成前，不枚举 terminal SCC。
-6. **稳定化最后处理（Q-0007）：** 分别控制配置 Hall 缺口、multi-defect、off-pivot、orientation、projection、competition、reuse、boundary 和 non-normal 质量。
-7. **复核证书（Q-0012, Q-0013）：** 保留 F-0029 反例作为强制回归测试，并补充历史程序与锐性构造。
+1. **把 Q-0015 审计器接到外层候选生成器：** 对每个低度候选输出 IT、无配置、配置预算/槽位最小割或全局真实边 Hall 最小割，并保存边极小、块极小、块顺序和 genealogy 见证。
+2. **实现 escape-charge 审计：** 对每个非 ordinary 步骤枚举组合 switch 方向或第二阻断边，把质量路由到真实 incidence；满流失败时输出可复算的真实边 Hall 割。
+3. **完成配置入口的搜索存在性（Q-0002）：** 证明正流配置的 root projection 实际可达，配置分裂/汇合质量守恒，且未分配质量进入命名残余账本。
+4. **攻击 Q-0017 的深度二正常形：** 展开两个连续 persistent-blocker 模块，搜索或证明 \(11/27\) 收缩失败必产生 fresh、reuse、增广、quotient 或内部闭合。
+5. **攻击 Q-0016 的因果 incidence 再生：** 在真实 switch/reroot genealogy 下证明新锚不能长期无损增殖；先做两个连续近临界模块的附加费引理。
+6. **terminal SCC 后置：** 只有在配置入口、formal closure-or-charge 和正常形接口完成后，才研究 Q-0006/Q-0003/Q-0005。
+7. **复核证书（Q-0012, Q-0013）：** 保留 F-0029、genealogy collision 和 \((3,14,2)\) 精确排除作为回归测试，并补充历史程序与锐性构造。
 
 ## 8. Required reading for the next agent
 
-- `SINGLE_DEFECT_FRAMEWORK.md` v0.3：优先读第 3–11、14、17、20–22 节。
-- `QUESTIONS.md`：优先读 Q-0002、Q-0004、Q-0006、Q-0007、Q-0014、Q-0015。
-- `FACTS.md`：优先读 F-0005、F-0008–F-0013、F-0022、F-0027–F-0029。
-- `FAILURES.md`：优先读 A-0019–A-0022。
-- `handoff_toward_one_quarter.md`：优先读第 2–4、6–8、10–14 节。
-- 旧导出中的相位、配置和真实容量讨论仍可作历史证据，但抽象相位缺口不能替代真实配置 Hall 最小割。
+- `SINGLE_DEFECT_FRAMEWORK.md` v0.5：优先读第 3–12、20、23–24 节。
+- `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：组合 switch、reroot lift、escape Hall、条件森林摊还及其结构边界。
+- `QUESTIONS.md`：优先读 Q-0002、Q-0004、Q-0006、Q-0007、Q-0015–Q-0017。
+- `enumerate/README.md` 与 `enumerate/manifest.json`：机器文件角色、历史运行状态和后续严格升级。
+- `FACTS.md`：优先读 F-0005、F-0022、F-0027–F-0029、F-0030–F-0035。
+- `FAILURES.md`：优先读 A-0019–A-0025。
+- `old/handoff_toward_one_quarter.md`：优先读第 2–4、6–8、10–14 节。
+- 旧导出中的相位、配置和真实容量讨论仍可作历史证据，但抽象相位缺口不能替代真实配置/escape Hall 最小割。
 
 ## 9. Recent changes
 
-- `SINGLE_DEFECT_FRAMEWORK.md`：升级为 v0.3，加入 F-0029 的显式反例，源稳定记录改为无 pivot，terminal SCC 后移到配置提取之后。
-- `QUESTIONS.md`：Q-0014 改为 negative answer；新增 Q-0015；重写 Q-0002、Q-0004、Q-0006、Q-0007。
-- `FACTS.md`：重写 F-0022、F-0027；新增 F-0029。
-- `FAILURES.md`：更新 A-0021；新增 A-0022。
-- 主线调整：不再证明共同预置 pivot；下一接口是义务—真实配置最大流与可复算 Hall 最小割。
+- `SINGLE_DEFECT_FRAMEWORK.md`：当前为 v0.5；Q-0015 审计状态、组合 pivot-switch、escape charge、条件森林摊还和 incidence 集中边界均已写入。
+- `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：新增纯组合 switch、真实 reroot lift、可路由容量和 formal closure-or-charge 规范。
+- `QUESTIONS.md`：Q-0015 拆分为“审计基础设施已完成、一般近无损/结构分类仍开放”；新增 Q-0016、Q-0017。
+- `enumerate/`：统一归档审计脚本、原始 JSON、可读报告和结构分析；根目录不再保存重复机器产物。
+- 主线调整：不再把 off-pivot/multi-defect 全部预设为小误差；先做真实 incidence 收费或 Hall 割，再研究因果再生与 persistent-blocker 正常形。
 
 ## 10. Integrity warnings
 

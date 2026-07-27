@@ -14,17 +14,17 @@
 - `q0015_first_execution_report.md`：首轮可读报告及后续精确参数升级说明。
 - `q0015_hall_cut_structural_analysis.json`：144 个 root group 的结构摘要。
 - `q0015_hall_cut_structural_analysis.md`：Hall cut、genealogy、no-configuration 和 \((3,14,2)\) 精确排除的数学分析。
+- `manifest.json`：机器文件角色、历史运行状态与后续严格结论之间的可机读索引。
 
 ## 运行
 
 ```bash
 python enumerate/q0015_configuration_auditor.py \
-  --output-dir enumerate/run \
   --iterations 100 \
   --time-limit 3
 ```
 
-依赖：Python 3、NumPy、SciPy、NetworkX。脚本是依据公开 Markdown 规格的独立重建，不声称与未提交的历史实现逐字一致。
+默认输出目录是 `enumerate/run/`；该目录只保存重新运行产物，不覆盖已归档的历史 JSON/报告。依赖版本见根目录 `requirements.txt`。脚本是依据公开 Markdown 规格的独立重建，不声称与未提交的历史实现逐字一致。
 
 ## 归档约定
 

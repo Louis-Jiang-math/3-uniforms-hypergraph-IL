@@ -1039,7 +1039,7 @@ def make_markdown_report(results: Dict) -> str:
         "",
         "## 5. 可复算文件",
         "",
-        "- `q0015_configuration_auditor_rebuilt.py`：完整脚本。",
+        "- `q0015_configuration_auditor.py`：完整脚本。",
         "- `q0015_first_execution_results.json`：机器可读原始结果，包括 LP 解、对偶证书、最小割和 100 轮日志。",
     ]
     return "\n".join(lines) + "\n"
@@ -1058,7 +1058,9 @@ def run(output_dir: Path, iterations: int, time_limit: float) -> Dict:
     results = {
         "metadata": {
             "implementation": "independent reconstruction from public Markdown",
-            "framework_version": "v0.4-auditor-grounded",
+            "auditor_schema_version": "q0015-v1",
+            "framework_version_at_run": "v0.4-auditor-grounded",
+            "current_interpretation_version": "v0.5-switch-audited",
             "outer_search_parameters": {
                 "m": 14,
                 "b": 3,
@@ -1081,7 +1083,8 @@ def run(output_dir: Path, iterations: int, time_limit: float) -> Dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output-dir", type=Path, default=Path("."))
+    default_output_dir = Path(__file__).resolve().parent / "run"
+    parser.add_argument("--output-dir", type=Path, default=default_output_dir)
     parser.add_argument("--iterations", type=int, default=100)
     parser.add_argument("--time-limit", type=float, default=3.0)
     args = parser.parse_args()
