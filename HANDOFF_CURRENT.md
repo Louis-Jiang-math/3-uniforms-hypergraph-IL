@@ -1,128 +1,108 @@
 # Current Handoff
 
-## 1. Project objective
+## 1. Objective and status
 
-当前项目研究三一致等块分块超图中的独立横截阈值。目标是在块大小为 \(b\) 时证明：若最大度严格低于 \((1/4-o(1))b^2\)，则存在独立横截。成功标准是得到对当前模型全部实例成立的无条件证明，同时严格保留真实边身份、单位容量、完整块范围、执行 genealogy 和所有低阶误差。当前输入仍没有在同一手稿中完整复核 \(1/4\) 锐性构造（Q-0013）。
+研究对象是三一致等块分块超图。目标是在块大小为 \(b\) 时证明
+\[
+\Delta(H)<\left(\frac14-o(1)\right)b^2\Longrightarrow H\text{ 有独立横截（IT）}.
+\]
+当前尚无完整的 \(1/4\) 证明。现有成果已经建立配置优先的单缺陷账本、可审计 pivot-switch、escape Hall 收费和条件森林摊还；未解决的是近无损配置入口、persistent-blocker 正常形，以及因果 incidence 再生为何最终集中或闭合。
 
-## 2. Current state
+任何证明必须保留真实块、顶点、边身份，全局单位边容量，实际执行 genealogy，root projection，配置槽位和完整块支持。相位标签、压缩状态或历史出现次数不能替代这些对象。
 
-- 当前阶段：`SINGLE_DEFECT_FRAMEWORK.md` 已修订为 v0.5 的配置优先、switch 可审计框架。
-- 已确认的关键变化：Q-0014 的“同一源稳定记录预置共同唯一 pivot”零误差命题为假。
-- 真实反例：四个二元块上的八边正常 \(Q_4\) 模型，无 IT、边极小、块极小、无竞争认证；同一成功后继的两个失败分别强制两个不同 pivot，且释放后均独立（F-0029）。
-- 因此源稳定记录不再包含 pivot。失败先形成义务，枚举全部合法真实两步配置；只有获得正配置流的分支才生成带 pivot 的缺陷记录。
-- 当前主要方向：Q-0015 首轮审计器与结果已归档到 `enumerate/`；形式 defect closure 已细化为 ordinary fixed-pivot 继续或真实 incidence 收费/Hall 割。下一结构任务是 Q-0017 的 persistent-blocker 正常形和 Q-0016 的因果 incidence 再生集中；在此之前不声称 terminal SCC 三出口分类。
-- 当前阻塞点：尚未证明一般低度搜索中的近无损配置流；也未证明 persistent blocker 进入 11/27 临界正常形，或大量分散的新 pivot 必然重新集中、形成完整子核心或产生 IT。
+## 2. Frozen decisions
 
-## 3. Confirmed knowledge
+- **共同预置 pivot 已被否定。** F-0029/Q-0014 的四块八边反例表明，同一成功后继的不同失败可强制不同 pivot；源稳定记录不得预置共同 pivot。
+- **配置优先入口已冻结。** 失败先形成 obligation；枚举全部合法真实两步 root configurations；只有获得正配置流的分支才生成带 pivot 的 defect record。
+- **释放端点后必须复检独立性。** 结果是 ordinary single-defect、组合 pivot-switch，或仍含第二真实边的 multi-defect。
+- **pivot-switch 不是免费换账。** 组合 switch 是静态交换方块；只有真实 reroot lift 才能生成新的可执行根配置，继续质量必须保留旧 genealogy 和统一真实边容量。
+- **terminal SCC 后置。** 在配置流、投影闭包、formal closure-or-charge 和正常形接口成立前，不把压缩 SCC 当作合法终局对象。
 
-- F-0002 — 可先取对完整真实块块极小的无 IT 实例。
-- F-0003 — 中位源满足精确质量恒等式。
-- F-0004 — 中位义务质量至少为 \(b+\lfloor b^2/4\rfloor\)。
-- F-0008 — 干净四块窗口产生 \(Q_4\) 坐标完美匹配。
-- F-0009 — 坐标完美匹配总数为 272。
-- F-0010 — 正常带标号模板恰有 8 个。
-- F-0011 — 每个非正常模板至少有 9 个共同锚面。
-- F-0012 — 八相位由 \(\mathbf F_2^4/\langle1111\rangle\) 参数化。
-- F-0018 — 状态依赖坐标迁移局部可实现，但显式模型付出 \(b^2\) 根次数。
-- F-0020 — 当前材料没有完成任何无条件优于 \(4/27\) 的首项常数证明。
-- F-0021 — 保留纤维标签的条件化不产生信息损失。
-- F-0028 — 单端点释放后必须重新验证独立性。
-- F-0029 — 零误差共同预置 pivot 命题已由真实正常四块反例否定。
+## 3. Current proof architecture
 
-## 4. Important provisional findings
+当前候选管线是
+\[
+\text{obligations}\to\text{root-configuration LP/Hall}\to
+\text{positive-flow defect fibers}\to\text{ordinary or escape charge}\to
+\text{critical forest}\to\text{degree / IT / complete-block core}.
+\]
+三份账本必须分开：
+1. obligation–configuration 需求与 root-pivot 总预算；
+2. \((\widehat S,p,e)\) 递推槽位容量；
+3. 全局真实边剩余容量。
+任何一份可行都不能自动推出另外两份可行。
 
-- F-0005 — status: partially_proved；真实边单位容量与加权 Hall 是正确账本接口，但全局近无损网络抽取仍需审计。
-- F-0006 — status: partially_proved；\(4/27\) 基准依赖未在本轮独立核验的外部定理。
-- F-0007 — status: derived；基准后 residual 为 \(11/108\)，条件于 F-0006。
-- F-0013 — status: partially_proved；抽象刚性图册由 cocycle 分类，但不含真实支持。
-- F-0014 — status: partially_proved；遗传扩张完整时可 lift，缺的是从一般终端核心推出该完整性。
-- F-0015 — status: confirmed；\(3/20\) 管线唯一 Gap 是 ExtDef–Credit，但它不是 \(1/4\) 的唯一 Gap。
-- F-0022 — status: partially_proved；配置预算和槽位容量若成立，则条件递推以系数 \((1+\eta)(1+\gamma)\Delta(H)\) 闭合。
-- F-0027 — status: derived；单个 \(\Delta\) 因子的正确入口是总 root-pivot 配置预算和逐槽位容量，不是源状态共同 pivot。
-- F-0023 — status: partially_proved；单个固定轻锚可低于 \(1/4\) 局部关闭 residual。
-- F-0024 — status: partially_proved；广泛的三端口圆柱连接器仍被 \(1/4\) 下界阻挡。
-- F-0025, F-0026 — status: observed；历史机器报告尚需独立复核。
+## 4. Established components
 
-## 5. Do not repeat
-
-- A-0001 — 非平凡 monodromy 可完全可逆；不能自动收费。
-- A-0002 — 相位一致不等于真实支持乘积化；对角代码簿是反例。
-- A-0003/A-0012 — 条件化或 bounded width 本身不产生熵损失。
-- A-0004 — 状态依赖的好坐标不能无条件圆整为固定坐标。
-- A-0008/A-0010 — 错误依赖图或未证忠实相位投影不能产生无条件新常数。
-- A-0009 — “任意二相位关系可分裂为三相位最大负载 5”已有显式反例。
-- A-0011 — 小规模 LP/MILP 不可行不能代替有限见证定理。
-- A-0013 — 不得对部分支持、代码簿或相位轨道使用块极小性。
-- A-0015 — 十八块是 \(3/20\) sector 阈值，不是 \(1/4\) 的本征结构。
-- A-0018 — 单个轻锚服务线性多个兄弟状态会累积 \(\Theta(b^3)\) 次数。
-- A-0019 — 第一阻断边的确定性不等于真实边单位容量。
-- A-0020 — 删除第一阻断边一个端点后不能跳过独立性复检。
-- A-0021 — 无指针稳定状态不能直接给出逐状态单个 \(\Delta\) 因子。
-- A-0022 — 正常性不推出同一成功后继的共同预置 pivot；不要通过换序或事后选 pivot 重试。
-
-## 6. Open and answered questions
-
-1. Q-0014 — **answered negative**：共同预置 pivot 的零误差命题为假。
-2. Q-0015 — 审计基础设施已完成；一般近无损配置流与 Hall 最小割结构分类仍开放。
-3. Q-0002 — 配置优先搜索能否满足投影闭包、槽位容量和配置化 defect closure？
-4. Q-0004 — 配置分支的正常相位如何保留真实 root projection 和 genealogy 地全局粘合？
-5. Q-0006 — 在配置化执行图存在后，零误差 terminal SCC 是否有增广叶、\(1/4\) link 乘积或完整子核心？
-6. Q-0003 — terminal critical link 的平衡二部稳定性。
-7. Q-0005 — 无出口 terminal 组件如何迫使 \(1/4\) link 乘积或完整真子核心？
-8. Q-0007 — 配置化零误差分类后的固定 \(\varepsilon\) 稳定化。
-9. Q-0012 — 机器证书独立复核。
-10. Q-0013 — \(1/4\) 锐性构造同稿复核。
-11. Q-0001 — 若继续较弱目标，\(3/20\) ExtDef–Credit 仍开放。
-
-## 7. Immediate next actions
-
-1. **把 Q-0015 审计器接到外层候选生成器：** 对每个低度候选输出 IT、无配置、配置预算/槽位最小割或全局真实边 Hall 最小割，并保存边极小、块极小、块顺序和 genealogy 见证。
-2. **实现 escape-charge 审计：** 对每个非 ordinary 步骤枚举组合 switch 方向或第二阻断边，把质量路由到真实 incidence；满流失败时输出可复算的真实边 Hall 割。
-3. **完成配置入口的搜索存在性（Q-0002）：** 证明正流配置的 root projection 实际可达，配置分裂/汇合质量守恒，且未分配质量进入命名残余账本。
-4. **攻击 Q-0017 的深度二正常形：** 展开两个连续 persistent-blocker 模块，搜索或证明 \(11/27\) 收缩失败必产生 fresh、reuse、增广、quotient 或内部闭合。
-5. **攻击 Q-0016 的因果 incidence 再生：** 在真实 switch/reroot genealogy 下证明新锚不能长期无损增殖；先做两个连续近临界模块的附加费引理。
-6. **terminal SCC 后置：** 只有在配置入口、formal closure-or-charge 和正常形接口完成后，才研究 Q-0006/Q-0003/Q-0005。
-7. **复核证书（Q-0012, Q-0013）：** 保留 F-0029、genealogy collision 和 \((3,14,2)\) 精确排除作为回归测试，并补充历史程序与锐性构造。
-
-## 8. Required reading for the next agent
-
-- `SINGLE_DEFECT_FRAMEWORK.md` v0.5：优先读第 3–12、20、23–24 节。
-- `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：组合 switch、reroot lift、escape Hall、条件森林摊还及其结构边界。
-- `QUESTIONS.md`：优先读 Q-0002、Q-0004、Q-0006、Q-0007、Q-0015–Q-0017。
-- `enumerate/README.md` 与 `enumerate/manifest.json`：机器文件角色、历史运行状态和后续严格升级。
-- `FACTS.md`：优先读 F-0005、F-0022、F-0027–F-0029、F-0030–F-0035。
-- `FAILURES.md`：优先读 A-0019–A-0025。
-- `old/handoff_toward_one_quarter.md`：优先读第 2–4、6–8、10–14 节。
-- 旧导出中的相位、配置和真实容量讨论仍可作历史证据，但抽象相位缺口不能替代真实配置/escape Hall 最小割。
-
-## 9. Recent changes
-
-- `SINGLE_DEFECT_FRAMEWORK.md`：当前为 v0.5；Q-0015 审计状态、组合 pivot-switch、escape charge、条件森林摊还和 incidence 集中边界均已写入。
-- `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：新增纯组合 switch、真实 reroot lift、可路由容量和 formal closure-or-charge 规范。
-- `QUESTIONS.md`：Q-0015 拆分为“审计基础设施已完成、一般近无损/结构分类仍开放”；新增 Q-0016、Q-0017。
-- `enumerate/`：统一归档审计脚本、原始 JSON、可读报告和结构分析；根目录不再保存重复机器产物。
-- 主线调整：不再把 off-pivot/multi-defect 全部预设为小误差；先做真实 incidence 收费或 Hall 割，再研究因果再生与 persistent-blocker 正常形。
-
-## 10. Integrity warnings
-
-- F-0029 否定的是字面零误差共同 pivot 命题，不是 \(1/4\) 阈值；该模型有 \(b=2,\Delta=3\)。
-- 配置流、槽位容量和全局真实边 Hall 是三份不同账本；任何后续证明必须说明当前使用哪一份。
-- 局部正常相位或源 Hall 缺口不能直接升级为真实边容量 obstruction。
-- terminal SCC 只有在配置提取、投影闭包和配置化 defect closure 完成后才有合法定义。
-- F-0006 的外部 \(4/27\) 输入、Q-0013 的锐性构造及部分历史机器报告仍未独立复核。
-- 当前框架是候选基础设施，不是 \(1/4\) 证明。
-
-
-## 11. 2026-07-27 switch/escape 更新
-
-- 新增 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：把 pivot-switch 分成纯组合交换方块、真实 reroot lift 与容量可路由三层。
-- 已证明局部交换方向三分法：ordinary move、组合 switch、或释放后暴露第二真实阻断边。
-- 已证明 escape obligation 的真实边 Hall 二分：全部逃逸质量可由真实 incidence 支付，或输出真实边 reuse 最小割。
-- 已证明条件临界分裂器森林的截断摊还
+- 完整真实块上的块极小化成立；中位源给出 \((1/4+o(1))b^2\) 规模义务（F-0002–F-0004）。
+- 真实边单位容量的正确接口是加权 Hall；配置预算与槽位容量若成立，条件递推保留单个 \(\Delta(H)\) 因子（F-0005、F-0022、F-0027）。
+- Q-0015 审计器已归档在 `enumerate/`：合法配置枚举、预算原始/对偶 LP、槽位流、真实边 Hall 流和回归证书（F-0030）。
+- \((b,m,\Delta)=(3,14,2)\) 的无 IT 候选已被严格排除（F-0031）。
+- 组合 pivot-switch、真实 reroot lift 和执行可审计性已证明（F-0032）。
+- 非 ordinary 失败可产生 switch incidence 或第二真实边 incidence；有限 escape obligations 要么全部由真实边剩余容量支付，要么输出真实边 Hall/reuse 割（F-0033）。
+- 移除已支付 escape 质量后，未支付活动质量严格保持同一 pivot、同一 root projection 和一个缺失块：这是 **formal closure-or-charge**，不是近无损动态 closure。
+- 若每个森林节点的继续质量至多为父质量的 \(11/27\)，则
   \[
-  W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h,
+  W_h\le \frac{27}{16}(F_h+R_h+A_h)+B_h;
   \]
-  但 \(11/27\) 收缩仍是正常形假设。
-- 已确认真实 incidence 无条件只给出“集中或顶点增殖”；朴素集中到 \(1/4\)/子核心的命题有对角分散反例。
-- 新的主开放问题是 Q-0016（因果 incidence 再生与集中）和 Q-0017（persistent-blocker 临界正常形）。
-- 所有枚举脚本、JSON 输出和报告统一放入 `enumerate/`；后续机器结果不得散落根目录。
+  常数最佳（F-0034）。
+- 真实 incidence 无条件只能推出“负载集中或收费顶点增殖”，不能推出 \(1/4\) 或完整子核心（F-0035）。
+
+## 5. Open bottlenecks
+
+### A. Configuration entry — Q-0002 / Q-0015
+需要从任意低度、块极小、无 IT 实例构造近无损配置流，并同时证明合法配置完备、root projection 实际可达、质量守恒、root-pivot 预算、槽位容量及全局真实边容量。审计基础设施已完成；一般存在性定理仍开放。
+
+### B. Persistent-blocker normal form — Q-0017
+需要证明持续 blocker 要么进入增广、fresh、reuse、Hall、quotient 或内部闭合出口，要么可归约为每层继续质量至多 \((11/27+o(1))\) 的临界 splitter。F-0034 只是在该假设下的摊还定理。
+
+### C. Causal incidence regeneration — Q-0016
+即使 escape 费用可注入真实边，费用仍可分散到不断出生的新 pivot。需要证明：在无 reuse、无增广、无 exact-future quotient 的未来闭合区域中，可审计的新 pivot 再生不能长期无损；否则产生正比例 fresh 容量、某点 \((1/4-o(1))b^2\) 度数、完整真子无 IT 核心或未覆盖未来选择。
+
+### D. Terminal structure and stability — Q-0003 / Q-0005–Q-0007
+critical-link 稳定性、二进制强迫森林终局、零误差 terminal 分类和固定 \(\varepsilon\) 稳定化均依赖 A–C；当前均未完成。
+
+## 6. Immediate proof target
+
+下一条应证明的是 **深度二临界 splitter–再生引理**：对两个连续近临界 defect 模块，在保留真实边、pivot、root projection 和 genealogy 的条件下，至少出现：
+1. 第二层支付使用正比例新鲜真实容量；
+2. 第二层质量回到有界旧锚集合，从而可用已有基准负载逼近 \(1/4\)；
+3. 两层未来支持对完整真子块集闭合并形成无 IT 子核心；
+4. 存在未被 blocker 覆盖的合法未来选择，产生增广或 IT；
+5. 或输出槽位/真实边 reuse、exact-future quotient 等已命名证书。
+
+先证明零误差深度二版本，再迭代到 genealogy 森林；不要从总 incidence 质量直接声称集中。计算侧应在 `enumerate/` 中加入两层 ordinary/switch/multi-defect 展开，搜索最小反例和等号结构。
+
+## 7. Computational state
+
+- `enumerate/q0015_configuration_auditor.py` 是当前审计基线。
+- `q0015_first_execution_results.json` 保存历史原始运行；当时的 100 轮 MILP 不是穷尽证明。
+- `q0015_hall_cut_structural_analysis.md` 随后严格排除 \((3,14,2)\)，并分析预算缺口、no-configuration 和 genealogy collision。
+- F-0029、九边预算修复、错误 genealogy 合并和 \((3,14,2)\) 排除必须保留为回归测试。
+- 所有新脚本、JSON、日志和报告只能进入 `enumerate/`。
+
+## 8. Do not repeat
+
+- 不用 monodromy、条件化、bounded width 或状态熵自动收费。
+- 不从相位一致、满投影、代码簿或部分支持推出笛卡尔乘积；块极小性只适用于完整真实块。
+- 不把第一阻断边唯一性当作真实边单位容量；不在删除端点后跳过独立性复检。
+- 不合并仅有相同压缩迹、但 genealogy、槽位或未来阻断标签不同的状态。
+- 不把 pivot-switch 当作重新获得免费 \(\Delta(H)\) 预算。
+- 不从 incidence 增殖直接推出 \(1/4\) 或子核心；对角分散模型是否定该推论的回归反例。
+- 不把 persistent-blocker 圆柱化当作已知分类；“闭合后推出子核心”不等于“必须闭合”。
+- 不用有限 LP/MILP 超时或小参数不可行代替一般结构定理。
+
+## 9. Integrity checks
+
+任何新的 closure、quotient、收费或终局命题都必须说明：使用哪份容量账本；真实边是否跨 projection/genealogy 重复；root projection 是否实际可达；switch 后质量是否保留原 genealogy 且是否已支付；quotient 是否保持未来义务、槽位、真实边账本和第一阻断标签；子核心是否由完整真实块组成并对每个完整横截都有内部真实阻断边。
+
+当前框架是候选证明基础设施，不是 \(1/4\) 定理。外部 \(4/27\) 基准、历史机器报告和 \(1/4\) 锐性构造仍需独立复核。
+
+## 10. Required reading
+
+1. `SINGLE_DEFECT_FRAMEWORK.md` v0.5：第 3–12、20、23–24 节。
+2. `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：组合 switch、reroot lift、escape Hall、formal closure-or-charge、条件森林摊还及其局限。
+3. `QUESTIONS.md`：Q-0002、Q-0015–Q-0017；随后读 Q-0003、Q-0005–Q-0007。
+4. `FACTS.md`：F-0005、F-0022、F-0027–F-0035；`FAILURES.md`：A-0019–A-0025。
+5. `enumerate/q0015_first_execution_report.md` 与 `enumerate/q0015_hall_cut_structural_analysis.md`。
+6. `old/handoff_toward_one_quarter.md` 仅作历史背景；共同预置 pivot、直接 terminal SCC 和未经配置审计的圆柱化表述已被当前框架替代。
