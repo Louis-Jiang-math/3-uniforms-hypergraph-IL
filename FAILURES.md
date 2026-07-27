@@ -413,3 +413,37 @@
 - **Do not repeat:** 不要通过更换字典序、块顺序或事后选择 pivot 来声称解决；同一执行组件必须同时处理两个失败。
 - **Status:** failed
 - **Last updated:** 2026-07-27
+
+
+## A-0023 — 把 pivot-switch 当作免费重新开账
+- **Goal:** 在遇到 off-pivot 阻断边后直接改用新 pivot，并重新获得一份完整 \(\Delta(H)\) 预算。
+- **Approach:** 只依据阻断边中出现了另一个旧端点，就把当前义务迁移到新 fixed-pivot fiber。
+- **Failure type:** logical
+- **Failure point:** 同一质量可沿 \(p_0\to p_1\to\cdots\) 反复重置预算；同一真实 switch 边也可能被不同 genealogy 重复当作新度数证书。
+- **Why it failed:** pivot 是真实 link 的共同端点，不是免费状态标签；切换必须作为已支付出口，或通过真实 reroot lift 与统一容量 LP 路由。
+- **Retry conditions:** 使用 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` 的组合 switch、真实 reroot lift 和全局真实边容量。
+- **Do not repeat:** 仅保留新 pivot 名称而删除旧 genealogy 不能修复账本。
+- **Status:** failed
+- **Last updated:** 2026-07-27
+
+## A-0024 — 从大量分散 incidence 自动推出 \(1/4\) 或子核心
+- **Goal:** 用真实 incidence 总量直接证明某个顶点高度集中，或完整块支持闭合。
+- **Approach:** 由 \(\sum_vL(v)=M\) 和低度假设断言分散收费不可持续。
+- **Failure type:** counterexample
+- **Failure point:** 对角分散模型 \(f_i=\{q_i,z_i,y_i\}\) 可让每个 switch 使用不同顶点和不同真实边，最大度为 1、无 reuse，但仍有 IT 且没有完整块无 IT 子核心。
+- **Why it failed:** Hall/度数账本只给出“集中或顶点增殖”，不编码新 pivot 的因果产生、未来闭合或全局无 IT。
+- **Retry conditions:** 加入块极小无 IT、未来闭合、因果再生见证和 exact-future quotient 排除。
+- **Do not repeat:** 仅用鸽巢原理或总顶点数不能控制块数增长。
+- **Status:** failed
+- **Last updated:** 2026-07-27
+
+## A-0025 — 把 persistent-blocker 圆柱化当作已知分类
+- **Goal:** 由无 fresh、无 quotient 直接推出完整笛卡尔覆盖或 \(1/4\) link 圆柱。
+- **Approach:** 将所有尚未解释的选择性未来筛选统一命名为 persistent blocker，并假设其最终圆柱化。
+- **Failure type:** unsupported-assumption
+- **Failure point:** 旧阻断边可跨 genealogy 持续存在，且不同前驱在更远未来才被区分；尚无单调量或因果再生定理迫使坐标饱和。
+- **Why it failed:** “闭合后推出子核心”已证明，但“为什么必须闭合”正是开放结构命题。
+- **Retry conditions:** 先证明 persistent-blocker 正常形或因果 incidence 再生/集中定理。
+- **Do not repeat:** 不得把该开放命题改名为 terminal classification 后当作引理使用。
+- **Status:** open-obstruction
+- **Last updated:** 2026-07-27

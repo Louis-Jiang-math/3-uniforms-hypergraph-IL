@@ -265,3 +265,26 @@
 - **Suggested next action:** 实现真实执行审计器；对每个不可行实例输出可独立复算的义务子集、合法配置邻域、槽位容量和最小割，而不是只输出相位级缺口。
 - **Answer criterion:** 对所有深度和所有源记录证明近无损配置流，或给出满足低度、块极小、真实可达条件的 Hall 最小割反模型。
 - **Last updated:** 2026-07-27
+
+
+## Q-0016 — 因果 incidence 再生与集中
+- **Question:** 在块极小无 IT、未来闭合、无真实边 reuse、无增广和无 exact-future quotient 的执行区域中，若每个新收费 pivot 都有可审计的组合 switch/reroot 因果见证，是否必然产生正比例新增真实容量、某顶点 \((1/4-o(1))b^2\) 度数、完整真子无 IT 核心或未覆盖未来选择？
+- **Status:** open
+- **Why it matters:** F-0033 只把 off-pivot/multi-defect 转化为真实 incidence 费用；F-0035 只给出集中或顶点增殖。Q-0016 是从“顶点增殖”回到 \(1/4\) 或完整块终局的主结构桥梁。
+- **Known so far:** 两固定基准锚下的平均计数可给出 \(1/4\)；一般分散 incidence 有对角反例 A-0024。
+- **Missing:** 证明新 pivot 的因果再生不能长期无损，或给出符合全部全局条件的反模型。
+- **Related:** F-0023, F-0024, F-0032–F-0035, A-0018, A-0024, Q-0005, Q-0010
+- **Suggested next action:** 先证明两个连续近临界模块的深度二再生附加费，再迭代到截断森林。
+- **Answer criterion:** 所有费用必须使用真实边身份、全局单位容量、完整块支持和可审计 genealogy。
+- **Last updated:** 2026-07-27
+
+## Q-0017 — Persistent-blocker 临界正常形
+- **Question:** 对真实可达配置流中的持续 persistent blocker，能否证明它要么进入命名 Hall/closure 出口，要么归约成每层继续质量至多 \((11/27+o(1))\) 的临界 splitter 正常形？
+- **Status:** open
+- **Why it matters:** F-0034 的截断摊还已完全证明，但其 \(11/27\) 局部收缩是假设，不是一般 defect 系统的结论。
+- **Known so far:** 旧对话构造并分析了临界 \(16/27\)-\(11/27\) 链；Q-0015 枚举发现 persistent old blocker/no-configuration 是真实障碍。
+- **Missing:** 从一般低度配置执行到临界 splitter 的结构抽取，且保存真实 root projection、pivot、槽位和边账本。
+- **Related:** F-0030, F-0034, A-0025, Q-0005, Q-0015, Q-0016
+- **Suggested next action:** 在 `enumerate/` 审计器中加入深度二 ordinary/switch/multi-defect 展开，搜索违反 \(11/27\) 正常形的最小真实反例。
+- **Answer criterion:** 给出统一误差 \(o_\varepsilon(1)\) 的正常形定理，或满足低度、块极小、无 IT、真实可达的反模型。
+- **Last updated:** 2026-07-27

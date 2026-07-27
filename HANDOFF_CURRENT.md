@@ -6,12 +6,12 @@
 
 ## 2. Current state
 
-- 当前阶段：`SINGLE_DEFECT_FRAMEWORK.md` 已修订为 v0.3 的配置优先框架。
+- 当前阶段：`SINGLE_DEFECT_FRAMEWORK.md` 已修订为 v0.5 的配置优先、switch 可审计框架。
 - 已确认的关键变化：Q-0014 的“同一源稳定记录预置共同唯一 pivot”零误差命题为假。
 - 真实反例：四个二元块上的八边正常 \(Q_4\) 模型，无 IT、边极小、块极小、无竞争认证；同一成功后继的两个失败分别强制两个不同 pivot，且释放后均独立（F-0029）。
 - 因此源稳定记录不再包含 pivot。失败先形成义务，枚举全部合法真实两步配置；只有获得正配置流的分支才生成带 pivot 的缺陷记录。
-- 当前主要方向：完成 Q-0015 的义务—真实配置最大流接口、Q-0002 的投影闭包和配置化 defect closure；在此之前不建立或分类 terminal SCC。
-- 当前阻塞点：尚未证明实际低度搜索中的失败义务可被近无损分配到真实配置槽位；高度复用的真实边和 genealogy 汇合可能产生 Hall 最小割。
+- 当前主要方向：Q-0015 首轮审计器与结果已归档到 `enumerate/`；形式 defect closure 已细化为 ordinary fixed-pivot 继续或真实 incidence 收费/Hall 割。下一结构任务是 Q-0017 的 persistent-blocker 正常形和 Q-0016 的因果 incidence 再生集中；在此之前不声称 terminal SCC 三出口分类。
+- 当前阻塞点：尚未证明一般低度搜索中的近无损配置流；也未证明 persistent blocker 进入 11/27 临界正常形，或大量分散的新 pivot 必然重新集中、形成完整子核心或产生 IT。
 
 ## 3. Confirmed knowledge
 
@@ -109,3 +109,18 @@
 - terminal SCC 只有在配置提取、投影闭包和配置化 defect closure 完成后才有合法定义。
 - F-0006 的外部 \(4/27\) 输入、Q-0013 的锐性构造及部分历史机器报告仍未独立复核。
 - 当前框架是候选基础设施，不是 \(1/4\) 证明。
+
+
+## 11. 2026-07-27 switch/escape 更新
+
+- 新增 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：把 pivot-switch 分成纯组合交换方块、真实 reroot lift 与容量可路由三层。
+- 已证明局部交换方向三分法：ordinary move、组合 switch、或释放后暴露第二真实阻断边。
+- 已证明 escape obligation 的真实边 Hall 二分：全部逃逸质量可由真实 incidence 支付，或输出真实边 reuse 最小割。
+- 已证明条件临界分裂器森林的截断摊还
+  \[
+  W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h,
+  \]
+  但 \(11/27\) 收缩仍是正常形假设。
+- 已确认真实 incidence 无条件只给出“集中或顶点增殖”；朴素集中到 \(1/4\)/子核心的命题有对角分散反例。
+- 新的主开放问题是 Q-0016（因果 incidence 再生与集中）和 Q-0017（persistent-blocker 临界正常形）。
+- 所有枚举脚本、JSON 输出和报告统一放入 `enumerate/`；后续机器结果不得散落根目录。

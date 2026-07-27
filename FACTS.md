@@ -519,3 +519,63 @@
 - **Related:** A-0022, Q-0002, Q-0004, Q-0014, Q-0015
 - **Caveats:** 该模型有 \(b=2,\Delta=3\)，不是 \(1/4\) 低度反例；它不否定低度渐近条件下近无损配置流的可能性。
 - **Last updated:** 2026-07-27
+
+
+## F-0030 — Q-0015 首轮真实执行审计基线
+- **Status:** confirmed_computational
+- **Statement:** 对 F-0029 八边模型的全部 24 个块顺序，审计器生成 144 个带失败义务的实际 root group：48 个零误差 root-pivot 预算可行、48 个正 root-budget 缺口、48 个含 `no-configuration` 义务。指定窗口满足 \(t_{\min}=2,\eta=1\)，固定半预算槽位流为 \(1/2\) 总需求，而独立真实边流为 \(2/2\)。
+- **Evidence:** `enumerate/q0015_first_execution_results.json` 与 `enumerate/q0015_first_execution_report.md`。
+- **Related:** F-0027–F-0029, Q-0015
+- **Caveats:** 这是计算证书，不是一般低度配置定理。
+- **Last updated:** 2026-07-27
+
+## F-0031 — \((b,m,\Delta)=(3,14,2)\) 必有 IT
+- **Status:** confirmed
+- **Statement:** 每块大小 3、块数 14、最大度至多 2 的三一致分块超图必有独立横截。
+- **Evidence:** 若随机横截含边数为 \(Z\)，无 IT 给出 \(Z\ge1\)，而总度预算给出 \(|E|\in\{27,28\}\)。\(|E|=27\) 时所有边对必须不相容，但 14 个块至多认证 168 对，而共有 351 对。\(|E|=28\) 时至少 210 对相容，故 \(\mathbb E\binom Z2\ge70/243\)；另一方面 \(Z\le9\) 且 \(\mathbb E(Z-1)=1/27\)，故 \(\mathbb E\binom Z2\le1/6\)，矛盾。
+- **Sources:** `enumerate/q0015_hall_cut_structural_analysis.md`
+- **Related:** Q-0015
+- **Caveats:** 这是单个有限参数点，不给出渐近 \(1/4\) 定理。
+- **Last updated:** 2026-07-27
+
+## F-0032 — 组合 pivot-switch 与真实 reroot lift
+- **Status:** confirmed
+- **Statement:** 若活动独立迹 \(U\) 恰缺块 \(M\)，尝试 \(y\in M\) 的阻断边为 \(f=\{q,z,y\}\)，且 \((U-z)+y\) 独立，则 \(z\leftrightarrow y\) 围绕共同端点 \(q\) 构成组合 pivot-switch 方块。该方块可重新解释为合法 \(q\)-pivot 根配置，当且仅当存在实际访问的 path-lift \(U-z\xrightarrow{+z}U\xrightarrow{y}f\)。
+- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §§2–3
+- **Related:** F-0028, Q-0002
+- **Caveats:** 组合方块本身不提供新的免费 pivot 预算。
+- **Last updated:** 2026-07-27
+
+## F-0033 — Escape obligation 的真实边 Hall 二分
+- **Status:** confirmed
+- **Statement:** `off-pivot` switch 与 `multi-defect` 的第二阻断边均可产生真实 incidence 候选。对任意有限 escape obligation 族，或者全部质量可注入真实边剩余容量，或者存在义务子集的需求严格超过其候选真实边容量，形成可复算 Hall/reuse 证书。
+- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §§4–7
+- **Dependencies:** F-0005, F-0032
+- **Related:** Q-0002, Q-0015
+- **Caveats:** 满流只给出总真实费用，不保证费用集中到一个顶点。
+- **Last updated:** 2026-07-27
+
+## F-0034 — 条件临界分裂器森林的最佳截断摊还
+- **Status:** confirmed_conditional
+- **Statement:** 若 genealogy 森林每个节点质量守恒，且子节点总质量至多为父质量的 \(11/27\)，则任意深度截断满足
+  \[
+  W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h.
+  \]
+  临界 \(16/27\)-\(11/27\) 几何链取等，故 \(27/16\) 最佳。
+- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §8
+- **Related:** Q-0005, Q-0017
+- **Caveats:** 未证明一般 persistent blocker 自动满足该局部收缩正常形。
+- **Last updated:** 2026-07-27
+
+## F-0035 — 真实 incidence 只能无条件推出集中或增殖
+- **Status:** confirmed
+- **Statement:** 若总收费质量为 \(M\)，顶点负载为 \(L(v)\)，则
+  \[
+  \sum_vL(v)=M,\qquad L(v)\le d_H(v)\le\Delta(H),
+  \]
+  从而 \(|\operatorname{supp}L|\ge M/\Delta(H)\)。
+- **Evidence:** 真实边单位容量逐顶点求和。
+- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §9
+- **Related:** A-0024, Q-0016
+- **Caveats:** 对角分散 switch 模型表明，incidence 增殖不自动给出完整子核心或 \(1/4\) link 乘积。
+- **Last updated:** 2026-07-27

@@ -1,0 +1,3104 @@
+diff --git a/FACTS.md b/FACTS.md
+index d5f6e72..c6ffb79 100644
+--- a/FACTS.md
++++ b/FACTS.md
+@@ -519,3 +519,63 @@
+ - **Related:** A-0022, Q-0002, Q-0004, Q-0014, Q-0015
+ - **Caveats:** 该模型有 \(b=2,\Delta=3\)，不是 \(1/4\) 低度反例；它不否定低度渐近条件下近无损配置流的可能性。
+ - **Last updated:** 2026-07-27
++
++
++## F-0030 — Q-0015 首轮真实执行审计基线
++- **Status:** confirmed_computational
++- **Statement:** 对 F-0029 八边模型的全部 24 个块顺序，审计器生成 144 个带失败义务的实际 root group：48 个零误差 root-pivot 预算可行、48 个正 root-budget 缺口、48 个含 `no-configuration` 义务。指定窗口满足 \(t_{\min}=2,\eta=1\)，固定半预算槽位流为 \(1/2\) 总需求，而独立真实边流为 \(2/2\)。
++- **Evidence:** `enumerate/q0015_first_execution_results.json` 与 `enumerate/q0015_first_execution_report.md`。
++- **Related:** F-0027–F-0029, Q-0015
++- **Caveats:** 这是计算证书，不是一般低度配置定理。
++- **Last updated:** 2026-07-27
++
++## F-0031 — \((b,m,\Delta)=(3,14,2)\) 必有 IT
++- **Status:** confirmed
++- **Statement:** 每块大小 3、块数 14、最大度至多 2 的三一致分块超图必有独立横截。
++- **Evidence:** 若随机横截含边数为 \(Z\)，无 IT 给出 \(Z\ge1\)，而总度预算给出 \(|E|\in\{27,28\}\)。\(|E|=27\) 时所有边对必须不相容，但 14 个块至多认证 168 对，而共有 351 对。\(|E|=28\) 时至少 210 对相容，故 \(\mathbb E\binom Z2\ge70/243\)；另一方面 \(Z\le9\) 且 \(\mathbb E(Z-1)=1/27\)，故 \(\mathbb E\binom Z2\le1/6\)，矛盾。
++- **Sources:** `enumerate/q0015_hall_cut_structural_analysis.md`
++- **Related:** Q-0015
++- **Caveats:** 这是单个有限参数点，不给出渐近 \(1/4\) 定理。
++- **Last updated:** 2026-07-27
++
++## F-0032 — 组合 pivot-switch 与真实 reroot lift
++- **Status:** confirmed
++- **Statement:** 若活动独立迹 \(U\) 恰缺块 \(M\)，尝试 \(y\in M\) 的阻断边为 \(f=\{q,z,y\}\)，且 \((U-z)+y\) 独立，则 \(z\leftrightarrow y\) 围绕共同端点 \(q\) 构成组合 pivot-switch 方块。该方块可重新解释为合法 \(q\)-pivot 根配置，当且仅当存在实际访问的 path-lift \(U-z\xrightarrow{+z}U\xrightarrow{y}f\)。
++- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §§2–3
++- **Related:** F-0028, Q-0002
++- **Caveats:** 组合方块本身不提供新的免费 pivot 预算。
++- **Last updated:** 2026-07-27
++
++## F-0033 — Escape obligation 的真实边 Hall 二分
++- **Status:** confirmed
++- **Statement:** `off-pivot` switch 与 `multi-defect` 的第二阻断边均可产生真实 incidence 候选。对任意有限 escape obligation 族，或者全部质量可注入真实边剩余容量，或者存在义务子集的需求严格超过其候选真实边容量，形成可复算 Hall/reuse 证书。
++- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §§4–7
++- **Dependencies:** F-0005, F-0032
++- **Related:** Q-0002, Q-0015
++- **Caveats:** 满流只给出总真实费用，不保证费用集中到一个顶点。
++- **Last updated:** 2026-07-27
++
++## F-0034 — 条件临界分裂器森林的最佳截断摊还
++- **Status:** confirmed_conditional
++- **Statement:** 若 genealogy 森林每个节点质量守恒，且子节点总质量至多为父质量的 \(11/27\)，则任意深度截断满足
++  \[
++  W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h.
++  \]
++  临界 \(16/27\)-\(11/27\) 几何链取等，故 \(27/16\) 最佳。
++- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §8
++- **Related:** Q-0005, Q-0017
++- **Caveats:** 未证明一般 persistent blocker 自动满足该局部收缩正常形。
++- **Last updated:** 2026-07-27
++
++## F-0035 — 真实 incidence 只能无条件推出集中或增殖
++- **Status:** confirmed
++- **Statement:** 若总收费质量为 \(M\)，顶点负载为 \(L(v)\)，则
++  \[
++  \sum_vL(v)=M,\qquad L(v)\le d_H(v)\le\Delta(H),
++  \]
++  从而 \(|\operatorname{supp}L|\ge M/\Delta(H)\)。
++- **Evidence:** 真实边单位容量逐顶点求和。
++- **Sources:** `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` §9
++- **Related:** A-0024, Q-0016
++- **Caveats:** 对角分散 switch 模型表明，incidence 增殖不自动给出完整子核心或 \(1/4\) link 乘积。
++- **Last updated:** 2026-07-27
+diff --git a/FAILURES.md b/FAILURES.md
+index ac75fac..1b00081 100644
+--- a/FAILURES.md
++++ b/FAILURES.md
+@@ -413,3 +413,37 @@
+ - **Do not repeat:** 不要通过更换字典序、块顺序或事后选择 pivot 来声称解决；同一执行组件必须同时处理两个失败。
+ - **Status:** failed
+ - **Last updated:** 2026-07-27
++
++
++## A-0023 — 把 pivot-switch 当作免费重新开账
++- **Goal:** 在遇到 off-pivot 阻断边后直接改用新 pivot，并重新获得一份完整 \(\Delta(H)\) 预算。
++- **Approach:** 只依据阻断边中出现了另一个旧端点，就把当前义务迁移到新 fixed-pivot fiber。
++- **Failure type:** logical
++- **Failure point:** 同一质量可沿 \(p_0\to p_1\to\cdots\) 反复重置预算；同一真实 switch 边也可能被不同 genealogy 重复当作新度数证书。
++- **Why it failed:** pivot 是真实 link 的共同端点，不是免费状态标签；切换必须作为已支付出口，或通过真实 reroot lift 与统一容量 LP 路由。
++- **Retry conditions:** 使用 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md` 的组合 switch、真实 reroot lift 和全局真实边容量。
++- **Do not repeat:** 仅保留新 pivot 名称而删除旧 genealogy 不能修复账本。
++- **Status:** failed
++- **Last updated:** 2026-07-27
++
++## A-0024 — 从大量分散 incidence 自动推出 \(1/4\) 或子核心
++- **Goal:** 用真实 incidence 总量直接证明某个顶点高度集中，或完整块支持闭合。
++- **Approach:** 由 \(\sum_vL(v)=M\) 和低度假设断言分散收费不可持续。
++- **Failure type:** counterexample
++- **Failure point:** 对角分散模型 \(f_i=\{q_i,z_i,y_i\}\) 可让每个 switch 使用不同顶点和不同真实边，最大度为 1、无 reuse，但仍有 IT 且没有完整块无 IT 子核心。
++- **Why it failed:** Hall/度数账本只给出“集中或顶点增殖”，不编码新 pivot 的因果产生、未来闭合或全局无 IT。
++- **Retry conditions:** 加入块极小无 IT、未来闭合、因果再生见证和 exact-future quotient 排除。
++- **Do not repeat:** 仅用鸽巢原理或总顶点数不能控制块数增长。
++- **Status:** failed
++- **Last updated:** 2026-07-27
++
++## A-0025 — 把 persistent-blocker 圆柱化当作已知分类
++- **Goal:** 由无 fresh、无 quotient 直接推出完整笛卡尔覆盖或 \(1/4\) link 圆柱。
++- **Approach:** 将所有尚未解释的选择性未来筛选统一命名为 persistent blocker，并假设其最终圆柱化。
++- **Failure type:** unsupported-assumption
++- **Failure point:** 旧阻断边可跨 genealogy 持续存在，且不同前驱在更远未来才被区分；尚无单调量或因果再生定理迫使坐标饱和。
++- **Why it failed:** “闭合后推出子核心”已证明，但“为什么必须闭合”正是开放结构命题。
++- **Retry conditions:** 先证明 persistent-blocker 正常形或因果 incidence 再生/集中定理。
++- **Do not repeat:** 不得把该开放命题改名为 terminal classification 后当作引理使用。
++- **Status:** open-obstruction
++- **Last updated:** 2026-07-27
+diff --git a/HANDOFF_CURRENT.md b/HANDOFF_CURRENT.md
+index 6c83153..ca39641 100644
+--- a/HANDOFF_CURRENT.md
++++ b/HANDOFF_CURRENT.md
+@@ -6,12 +6,12 @@
+ 
+ ## 2. Current state
+ 
+-- 当前阶段：`SINGLE_DEFECT_FRAMEWORK.md` 已修订为 v0.3 的配置优先框架。
++- 当前阶段：`SINGLE_DEFECT_FRAMEWORK.md` 已修订为 v0.5 的配置优先、switch 可审计框架。
+ - 已确认的关键变化：Q-0014 的“同一源稳定记录预置共同唯一 pivot”零误差命题为假。
+ - 真实反例：四个二元块上的八边正常 \(Q_4\) 模型，无 IT、边极小、块极小、无竞争认证；同一成功后继的两个失败分别强制两个不同 pivot，且释放后均独立（F-0029）。
+ - 因此源稳定记录不再包含 pivot。失败先形成义务，枚举全部合法真实两步配置；只有获得正配置流的分支才生成带 pivot 的缺陷记录。
+-- 当前主要方向：完成 Q-0015 的义务—真实配置最大流接口、Q-0002 的投影闭包和配置化 defect closure；在此之前不建立或分类 terminal SCC。
+-- 当前阻塞点：尚未证明实际低度搜索中的失败义务可被近无损分配到真实配置槽位；高度复用的真实边和 genealogy 汇合可能产生 Hall 最小割。
++- 当前主要方向：Q-0015 首轮审计器与结果已归档到 `enumerate/`；形式 defect closure 已细化为 ordinary fixed-pivot 继续或真实 incidence 收费/Hall 割。下一结构任务是 Q-0017 的 persistent-blocker 正常形和 Q-0016 的因果 incidence 再生集中；在此之前不声称 terminal SCC 三出口分类。
++- 当前阻塞点：尚未证明一般低度搜索中的近无损配置流；也未证明 persistent blocker 进入 11/27 临界正常形，或大量分散的新 pivot 必然重新集中、形成完整子核心或产生 IT。
+ 
+ ## 3. Confirmed knowledge
+ 
+@@ -109,3 +109,18 @@
+ - terminal SCC 只有在配置提取、投影闭包和配置化 defect closure 完成后才有合法定义。
+ - F-0006 的外部 \(4/27\) 输入、Q-0013 的锐性构造及部分历史机器报告仍未独立复核。
+ - 当前框架是候选基础设施，不是 \(1/4\) 证明。
++
++
++## 11. 2026-07-27 switch/escape 更新
++
++- 新增 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`：把 pivot-switch 分成纯组合交换方块、真实 reroot lift 与容量可路由三层。
++- 已证明局部交换方向三分法：ordinary move、组合 switch、或释放后暴露第二真实阻断边。
++- 已证明 escape obligation 的真实边 Hall 二分：全部逃逸质量可由真实 incidence 支付，或输出真实边 reuse 最小割。
++- 已证明条件临界分裂器森林的截断摊还
++  \[
++  W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h,
++  \]
++  但 \(11/27\) 收缩仍是正常形假设。
++- 已确认真实 incidence 无条件只给出“集中或顶点增殖”；朴素集中到 \(1/4\)/子核心的命题有对角分散反例。
++- 新的主开放问题是 Q-0016（因果 incidence 再生与集中）和 Q-0017（persistent-blocker 临界正常形）。
++- 所有枚举脚本、JSON 输出和报告统一放入 `enumerate/`；后续机器结果不得散落根目录。
+diff --git a/PIVOT_SWITCH_ESCAPE_FRAMEWORK.md b/PIVOT_SWITCH_ESCAPE_FRAMEWORK.md
+new file mode 100644
+index 0000000..b8e76b4
+--- /dev/null
++++ b/PIVOT_SWITCH_ESCAPE_FRAMEWORK.md
+@@ -0,0 +1,194 @@
++# Pivot-switch 与逃逸收费框架
++
++> **状态：** 组合定义与可审计性引理已证明；逃逸收费 Hall 定理已证明；因果 incidence 集中仍开放。
++> **依赖：** `SINGLE_DEFECT_FRAMEWORK.md` v0.5、真实第一阻断边、实际执行 genealogy、全局真实边单位容量。
++
++## 1. 目的
++
++普通 defect move 要求第一阻断边包含当前 pivot。若第一阻断边不含当前 pivot，旧框架把它记为 `off-pivot`。本文件把该情形拆成：
++
++1. 纯组合的交换方块；
++2. 真实执行中的 reroot lift；
++3. 可路由的质量与容量网络。
++
++组合定义不携带执行账本；可审计性引理说明何时组合方块可承载真实搜索质量。
++
++## 2. 组合 pivot-switch
++
++设 \(H\) 是三一致分块超图，\(\mathcal J\) 是活动块集。称 \((U,p,M)\) 为单缺陷组合状态，如果
++\[
++U\text{ 独立},\quad p\in U,\quad
++\operatorname{blk}(U)=\mathcal J\setminus\{M\}.
++\]
++
++### 定义 2.1
++
++取 \(y\in M\)。四元组
++\[
++\sigma=(y,z,q,f)
++\]
++称为从 \((U,p,M)\) 出发的组合 pivot-switch 方块，如果
++\[
++q,z\in U,\quad q\ne z,\quad p\notin\{q,z\},
++\]
++\[
++f=\{q,z,y\}\in E(H),
++\]
++并且
++\[
++U^\sigma=(U-z)+y
++\]
++是独立部分横截。记
++\[
++(U,p,M)\overset\sigma\rightsquigarrow(U^\sigma,q,B(z)).
++\]
++
++### 引理 2.2（交换方块）
++
++若 \(\sigma\) 合法，则 \(U\) 与 \(U^\sigma\) 都独立，而 \(U+y\) 不独立；并且
++\[
++p,q\in U^\sigma,
++\qquad
++\operatorname{blk}(U^\sigma)=\mathcal J\setminus\{B(z)\}.
++\]
++
++**证明。** \(f\subseteq U+y\)，故 \(U+y\) 不独立。删除的是 \(z\ne p,q\)，故 \(p,q\) 保留。加入 \(y\) 填入块 \(M\)，删除 \(z\) 使 \(B(z)\) 成为唯一缺失块。独立性由定义给出。∎
++
++## 3. 真实 reroot lift
++
++设 \(\widetilde D\) 是真实活动执行记录，迹为 \(U\)，当前 pivot 为 \(p\)，缺失块为 \(M\)。尝试 \(y\) 的第一阻断边为 \(f=\{q,z,y\}\)，且 \(\sigma=(y,z,q,f)\) 是组合 switch。
++
++### 定义 3.1
++
++一对实际执行记录 \((\widehat S'_0,\widehat S'_1)\) 称为 \(\sigma\) 的真实 reroot lift，如果：
++
++1. \(\widehat S'_0\) 实际被搜索访问，且其迹为 \(U-z\)；
++2. 从 \(\widehat S'_0\) 实际成功插入 \(z\)，得到 \(\widehat S'_1\)，其迹为 \(U\)；
++3. 在 \(\widehat S'_1\) 尝试 \(y\) 的第一阻断边正是 \(f\)。
++
++### 引理 3.2（执行可审计性）
++
++组合 switch \(\sigma\) 加真实 reroot lift，当且仅当数据
++\[
++(\widehat S'_0,z,q,f,U^\sigma)
++\]
++可被审计为失败义务 \((\widehat S'_1,y,f)\) 的合法根单缺陷配置。
++
++**证明。** 前向：源迹为 \(U-z\)，插入 \(z\) 实际到达 \(U\)；\(q\in U-z\)，且 \(f=\{q,z,y\}\)；组合 switch 给出 \((U-z)+y=U^\sigma\) 独立，故满足根配置全部条件。反向：合法根配置的实际父子指针给出真实 reroot lift，其释放后独立迹和根边身份给出组合 switch。∎
++
++该引理说明：静态交换方块可以不依赖 genealogy 定义；但将它变成新的未支付 defect 根状态，必须有实际 path-lift。
++
++## 4. 统一交换方向分类
++
++若第一阻断边为 \(f=\{a,b,y\}\)，定义
++\[
++\Omega(U,y,f)=
++\{(a,b):(U-b)+y\text{ 独立}\}
++\cup
++\{(b,a):(U-a)+y\text{ 独立}\}.
++\]
++
++### 引理 4.1
++
++每个失败尝试恰属于：
++
++1. \((p,z)\in\Omega\)：普通 fixed-pivot move；
++2. \(\Omega\ne\varnothing\) 且无原 pivot 方向：组合 pivot-switch；
++3. \(\Omega=\varnothing\)：存在不同于 \(f\) 的第二真实阻断边。
++
++**证明。** 前两类按定义互斥。若 \(\Omega=\varnothing\)，则例如 \((U-b)+y\) 不独立，故含某边 \(g\)。由于 \(U-b\) 独立，\(g\) 必含 \(y\)；又因 \(b\notin(U-b)+y\) 而 \(b\in f\)，有 \(g\ne f\)。∎
++
++## 5. Escape obligation 与真实 incidence
++
++不能普通继续的失败质量记为 escape obligation \(o\)，质量为 \(\mu(o)\)。
++
++- switch 型：每个合法方向 \((q,z)\) 提供候选 incidence \((q,f)\)；
++- multi-defect 型：释放后存活的第二边 \(g\) 提供候选 incidence \((y,g)\)。
++
++记候选集为 \(\mathcal I(o)\)。
++
++## 6. 逃逸收费 Hall 定理
++
++对所有 escape obligations 建立网络
++\[
++s\to o\to(v,e)\to e\to t,
++\]
++其中 \(s\to o\) 容量为 \(\mu(o)\)，中间弧容量无穷，真实边 \(e\to t\) 容量为其全局剩余容量 \(c_{\rm res}(e)\)。
++
++### 定理 6.1
++
++恰有以下两种结果之一：
++
++1. 全部 escape 质量可注入真实 incidence，并满足每条真实边的全局剩余容量；
++2. 存在义务子集 \(\mathcal A\) 使
++   \[
++   \sum_{o\in\mathcal A}\mu(o)
++   >
++   \sum_{e\in N_E(\mathcal A)}c_{\rm res}(e),
++   \]
++   即可复算的真实边 Hall/reuse 证书。
++
++若满流存在，定义顶点负载
++\[
++L(v)=\sum_{o,e}x(o,v,e).
++\]
++在单位边容量下
++\[
++L(v)\le d_H(v).
++\]
++
++**证明。** 最大流—最小割给出二分。对固定 \(v\)，所有流均通过含 \(v\) 的不同真实边容量，故总量不超过 \(d_H(v)\)。∎
++
++## 7. 未支付 fixed-pivot closure
++
++把增广质量移入增广账本，把 escape 满流质量移入已支付账本；只有普通 move 的质量继续作为未支付活动质量。于是沿任意未支付活动路径，pivot、root projection 和“恰缺一个块”严格保持不变。若 escape 网络非满流，则输出真实边 Hall 割，而不是无声丢失 closure 质量。
++
++这给出形式上的 closure-or-charge，但不证明逃逸费用会集中到一个 pivot。
++
++## 8. 条件临界分裂器森林摊还
++
++设 genealogy 森林节点质量为 \(\mu(v)\)，支付、增广和子节点满足
++\[
++\mu(v)=p(v)+a(v)+\sum_{u\in\operatorname{ch}(v)}\mu(u),
++\]
++并假设
++\[
++\sum_{u\in\operatorname{ch}(v)}\mu(u)
++\le\frac{11}{27}\mu(v).
++\]
++对深度 \(h\) 截断，记累计节点质量为 \(W_h\)，fresh 容量为 \(F_h\)，reuse 溢出为 \(R_h\)，增广叶质量为 \(A_h\)，边界为 \(B_h\)。则
++\[
++W_h\le\frac{27}{16}(F_h+R_h+A_h)+B_h.
++\]
++
++**证明。** 每个内部节点有 \(p(v)+a(v)\ge16\mu(v)/27\)。求和并将真实支付分成 fresh 与 reuse 即得。临界几何链取等，故常数最佳。∎
++
++注意：该定理没有证明一般 persistent blocker 满足 \(11/27\) 收缩。
++
++## 9. Incidence 集中—增殖及其局限
++
++满流时
++\[
++\sum_vL(v)=M,
++\qquad
++L(v)\le d_H(v)\le\Delta(H),
++\]
++所以
++\[
++|\operatorname{supp}L|\ge M/\Delta(H).
++\]
++这是“集中或增殖”定理：若没有大负载点，则必须出现许多收费顶点。
++
++它不能推出子核心。取不同块中的顶点族 \(p_i,q_i,z_i,y_i\)，仅加入
++\[
++f_i=\{q_i,z_i,y_i\}.
++\]
++状态 \(U_i=\{p_i,q_i,z_i\}\) 尝试 \(y_i\) 时产生合法 switch，全部 incidence 可分散到 \((q_i,f_i)\)，最大度为 1；但该超图有 IT，也没有完整块无 IT 子核心。
++
++因此必须额外使用无 IT、块极小、未来闭合和因果再生结构。
++
++## 10. 当前开放命题
++
++真正需要证明的是因果 incidence 再生/集中：若未来闭合区域中所有新 pivot 都由旧 pivot 通过可审计交换方块产生，且无 reuse、无增广、无 exact-future quotient，那么持续的 incidence 增殖必须导致大度数、完整真子核心或未覆盖未来选择。
++
++该命题包含旧材料中的认证再生附加费和二进制强迫森林终局，目前仍开放。
+diff --git a/QUESTIONS.md b/QUESTIONS.md
+index 7806823..bc77493 100644
+--- a/QUESTIONS.md
++++ b/QUESTIONS.md
+@@ -265,3 +265,26 @@
+ - **Suggested next action:** 实现真实执行审计器；对每个不可行实例输出可独立复算的义务子集、合法配置邻域、槽位容量和最小割，而不是只输出相位级缺口。
+ - **Answer criterion:** 对所有深度和所有源记录证明近无损配置流，或给出满足低度、块极小、真实可达条件的 Hall 最小割反模型。
+ - **Last updated:** 2026-07-27
++
++
++## Q-0016 — 因果 incidence 再生与集中
++- **Question:** 在块极小无 IT、未来闭合、无真实边 reuse、无增广和无 exact-future quotient 的执行区域中，若每个新收费 pivot 都有可审计的组合 switch/reroot 因果见证，是否必然产生正比例新增真实容量、某顶点 \((1/4-o(1))b^2\) 度数、完整真子无 IT 核心或未覆盖未来选择？
++- **Status:** open
++- **Why it matters:** F-0033 只把 off-pivot/multi-defect 转化为真实 incidence 费用；F-0035 只给出集中或顶点增殖。Q-0016 是从“顶点增殖”回到 \(1/4\) 或完整块终局的主结构桥梁。
++- **Known so far:** 两固定基准锚下的平均计数可给出 \(1/4\)；一般分散 incidence 有对角反例 A-0024。
++- **Missing:** 证明新 pivot 的因果再生不能长期无损，或给出符合全部全局条件的反模型。
++- **Related:** F-0023, F-0024, F-0032–F-0035, A-0018, A-0024, Q-0005, Q-0010
++- **Suggested next action:** 先证明两个连续近临界模块的深度二再生附加费，再迭代到截断森林。
++- **Answer criterion:** 所有费用必须使用真实边身份、全局单位容量、完整块支持和可审计 genealogy。
++- **Last updated:** 2026-07-27
++
++## Q-0017 — Persistent-blocker 临界正常形
++- **Question:** 对真实可达配置流中的持续 persistent blocker，能否证明它要么进入命名 Hall/closure 出口，要么归约成每层继续质量至多 \((11/27+o(1))\) 的临界 splitter 正常形？
++- **Status:** open
++- **Why it matters:** F-0034 的截断摊还已完全证明，但其 \(11/27\) 局部收缩是假设，不是一般 defect 系统的结论。
++- **Known so far:** 旧对话构造并分析了临界 \(16/27\)-\(11/27\) 链；Q-0015 枚举发现 persistent old blocker/no-configuration 是真实障碍。
++- **Missing:** 从一般低度配置执行到临界 splitter 的结构抽取，且保存真实 root projection、pivot、槽位和边账本。
++- **Related:** F-0030, F-0034, A-0025, Q-0005, Q-0015, Q-0016
++- **Suggested next action:** 在 `enumerate/` 审计器中加入深度二 ordinary/switch/multi-defect 展开，搜索违反 \(11/27\) 正常形的最小真实反例。
++- **Answer criterion:** 给出统一误差 \(o_\varepsilon(1)\) 的正常形定理，或满足低度、块极小、无 IT、真实可达的反模型。
++- **Last updated:** 2026-07-27
+diff --git a/SINGLE_DEFECT_FRAMEWORK.md b/SINGLE_DEFECT_FRAMEWORK.md
+index ed640be..9ec8f1d 100644
+--- a/SINGLE_DEFECT_FRAMEWORK.md
++++ b/SINGLE_DEFECT_FRAMEWORK.md
+@@ -1,8 +1,8 @@
+ # SINGLE_DEFECT_FRAMEWORK
+ 
+-> **版本：** v0.4-auditor-grounded
++> **版本：** v0.5-switch-audited
+ > **日期：** 2026-07-27
+-> **状态：** 研究草稿；零误差共同预置 pivot 命题已被否定；Q-0015 首轮真实执行审计器、预算 LP、对偶 Hall 证书和回归测试已经实现；一般低度近无损配置定理、defect closure 与 terminal SCC 分类仍开放。
++> **状态：** 研究草稿；Q-0015 审计器与结果已归档到 `enumerate/`；组合 pivot-switch、真实 reroot lift、逃逸收费 Hall 网络和条件临界分裂器森林摊还已经形式化；一般低度近无损配置定理、因果 incidence 集中、persistent-blocker 正常形与 terminal SCC 分类仍开放。
+ > **目标：** 将“单缺陷可逆修复”写成一个可证明、可反驳、可编程检查的数学对象。
+ 
+ ---
+@@ -45,7 +45,7 @@
+ | `old/chatgpt-export_文章核心问题分析(1).txt` | 有序旋转、pivot persistence、偏轴/远端缺陷；单个轻锚局部关闭不能无条件全局重复。 |
+ | `old/chatgpt-export_证明主线与障碍.txt` | 历史重数不等于真实边数；SCC、代码簿与有限相位模型必须保留真实 lift。 |
+ | `FACTS.md`, `QUESTIONS.md`, `FAILURES.md` | F-0005、F-0022、F-0027–F-0029；Q-0002–Q-0007、Q-0014–Q-0015；A-0001–A-0004、A-0010–A-0013、A-0018、A-0020–A-0022。 |
+-| `q0015_configuration_auditor.py` 及其归档结果 | 实际成功执行树、失败义务、合法配置枚举、预算 LP、分数 Hall 对偶、固定预算最大流、独立真实边账本和三组回归测试。其输出是计算证书，不自动升级为一般定理。 |
++| `enumerate/q0015_configuration_auditor.py` 及 `enumerate/` 中的归档结果 | 实际成功执行树、失败义务、合法配置枚举、预算 LP、分数 Hall 对偶、固定预算最大流、独立真实边账本和三组回归测试。其输出是计算证书，不自动升级为一般定理。 |
+ 
+ ### 1.1 三条设计原则
+ 
+@@ -1409,3 +1409,128 @@ root group，分类为
+ - terminal SCC 有三出口分类。
+ 
+ 它完成的是 Q-0015 的审计基础设施和最小回归基线。
++
++
++---
++## 24. Pivot-switch、逃逸收费与当前结构边界
++
++本节把配置化 defect closure 中的 `off-pivot` 与 `multi-defect` 从未分类异常细化为可审计的组合对象和真实边容量接口。完整证明与实现规格见 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`。
++
++### 24.1 组合 pivot-switch
++
++设活动单缺陷状态为
++\[
++(U,p,M),\qquad U\text{ 独立},\quad p\in U,\quad
++\operatorname{blk}(U)=\mathcal J\setminus\{M\}.
++\]
++尝试 \(y\in M\)，第一阻断边为
++\[
++f=\{q,z,y\},\qquad q,z\in U,\quad p\notin f.
++\]
++若
++\[
++U'=(U\setminus\{z\})\cup\{y\}
++\]
++独立，则称 \((y,z,q,f)\) 为一个组合 pivot-switch 方块，并记
++\[
++(U,p,M)\rightsquigarrow(U',q,B(z)).
++\]
++这是纯组合定义：它只断言同一真实三边 \(f\) 连接两个独立交换侧。root projection、genealogy 和容量不属于组合定义。
++
++### 24.2 可执行性与真实 reroot lift
++
++一个组合 switch 只有在存在实际访问的两步前驱
++\[
++U-z\xrightarrow{+z}U\xrightarrow[\mathrm{fail}]{y}f
++\]
++时，才可重新解释为以 \(q\) 为 pivot 的合法新根配置。该 path-lift 必须保存原 genealogy 与新 reroot 见证；不能通过事后从集合 \(U\) 删除 \(z\) 来制造父记录。
++
++因此：
++
++- 组合 switch 可直接作为真实边收费出口；
++- 组合 switch 加真实 reroot lift 可作为已支付的新 defect 状态继续；
++- 未经 path-lift 的 switch 不得伪装成新的未支付根分支。
++
++### 24.3 交换方向的完全局部分类
++
++若第一阻断边为 \(f=\{a,b,y\}\)，定义
++\[
++\Omega(U,y,f)=
++\{(a,b):(U-b)+y\text{ 独立}\}
++\cup
++\{(b,a):(U-a)+y\text{ 独立}\}.
++\]
++则每个失败尝试恰落入：
++
++1. \((p,z)\in\Omega\)：普通 fixed-pivot move；
++2. \(\Omega\ne\varnothing\) 但无原 pivot 方向：组合 pivot-switch；
++3. \(\Omega=\varnothing\)：删除任一旧端点后仍不独立，因而可抽取一条不同于 \(f\) 的第二真实阻断边。
++
++所以 orientation ambiguity 不需要作为独立黑箱异常；应完整枚举两个交换方向。
++
++### 24.4 逃逸收费 Hall 网络
++
++对不能普通继续的 escape obligation \(o\)，建立候选 incidence 集：
++
++- switch 型：合法方向 \((q,z)\) 给出 \((q,f)\)；
++- multi-defect 型：释放后存活的第二真实边 \(g\) 给出 \((y,g)\)。
++
++建立网络
++\[
++s\to o\to(v,e)\to e\to t,
++\]
++其中真实边 \(e\to t\) 使用全局剩余单位容量。最大流若覆盖全部 escape 质量，则所有 escape 质量被真实 incidence 支付；否则最小割给出
++\[
++\sum_{o\in\mathcal A}\mu(o)
++>
++\sum_{e\in N_E(\mathcal A)}c_{\rm res}(e),
++\]
++即一份可复算的真实边 reuse/Hall 证书。
++
++因此，在已支付 escape 质量移出活动系统后，所有仍未支付的活动质量严格留在同一个 fixed-pivot、同一 root projection、恰缺一个块的 defect 纤维中。
++
++### 24.5 条件临界分裂器森林摊还
++
++若 genealogy 展开的森林在每个内部节点满足质量守恒，且继续质量至多为
++\[
++\frac{11}{27}\mu(v),
++\]
++则任意深度 \(h\) 的截断满足
++\[
++W_h\le
++\frac{27}{16}\bigl(F_h+R_h+A_h\bigr)+B_h,
++\]
++其中 \(F_h\) 为 fresh 真实容量、\(R_h\) 为 reuse 溢出、\(A_h\) 为增广叶质量、\(B_h\) 为截断边界质量。临界 \(16/27\)-\(11/27\) 链取等，所以常数 \(27/16\) 最佳。
++
++该定理是条件记账结论；它不证明一般 persistent blocker 自动进入该正常形。
++
++### 24.6 真实 incidence 只能推出“集中或增殖”
++
++若总收费质量为 \(M\)，顶点负载为 \(L(v)\)，则
++\[
++\sum_vL(v)=M,
++\qquad
++L(v)\le d_H(v)\le\Delta(H),
++\]
++从而
++\[
++|\operatorname{supp}L|\ge M/\Delta(H).
++\]
++这只能推出“某点负载大，或出现许多不同收费顶点”。它不能无条件推出完整子核心或 \(1/4\) link 乘积。
++
++对角分散模型
++\[
++f_i=\{q_i,z_i,y_i\}
++\]
++给出低度、无复用、完全分散的 switch incidence，而仍有 IT、无完整块无 IT 子核心。因此朴素的 incidence concentration 定理为假。
++
++### 24.7 当前真正开放的结构命题
++
++剩余核心应表述为因果 incidence 再生/集中：在块极小无 IT、未来闭合、无 reuse、无增广、无 exact-future quotient 的真实执行区域中，若新收费 pivot 均有可审计的因果生产见证，则大量分散的新 pivot 必须产生以下至少一项：
++
++1. 正比例新增真实容量；
++2. 某顶点度数达到 \((1/4-o(1))b^2\)；
++3. 完整真子无 IT 核心；
++4. 未覆盖未来选择，从而产生 IT。
++
++该命题仍开放，等价地包含旧 handoff 中的认证再生附加费/二进制强迫森林终局。不得把第 24.6 节的集中—增殖不等式误写成该结构定理。
+diff --git a/enumerate/README.md b/enumerate/README.md
+new file mode 100644
+index 0000000..f5634a0
+--- /dev/null
++++ b/enumerate/README.md
+@@ -0,0 +1,39 @@
++# enumerate
++
++本目录统一存放可复算枚举代码、原始机器输出和对结果的数学分析。根目录文档可以引用这里的结论，但必须区分：
++
++- `confirmed_computational`：由脚本和结果文件复算；
++- `confirmed`：另有完整数学证明；
++- `observed`：只在有限搜索中出现；
++- `open`：枚举尚未覆盖的一般结构问题。
++
++## Q-0015 文件
++
++- `q0015_configuration_auditor.py`：依据 `SINGLE_DEFECT_FRAMEWORK.md` v0.4/v0.5 重建的真实执行审计器；包括配置枚举、root-pivot 预算 LP、对偶、固定预算槽位流、全局真实边流和外层 MILP。
++- `q0015_first_execution_results.json`：首轮机器原始结果和 100 轮外层日志。
++- `q0015_first_execution_report.md`：首轮可读报告及后续精确参数升级说明。
++- `q0015_hall_cut_structural_analysis.json`：144 个 root group 的结构摘要。
++- `q0015_hall_cut_structural_analysis.md`：Hall cut、genealogy、no-configuration 和 \((3,14,2)\) 精确排除的数学分析。
++
++## 运行
++
++```bash
++python enumerate/q0015_configuration_auditor.py \
++  --output-dir enumerate/run \
++  --iterations 100 \
++  --time-limit 3
++```
++
++依赖：Python 3、NumPy、SciPy、NetworkX。脚本是依据公开 Markdown 规格的独立重建，不声称与未提交的历史实现逐字一致。
++
++## 归档约定
++
++后续枚举采用：
++
++```text
++enumerate/<question-id>_<experiment>.py
++enumerate/<question-id>_<experiment>_results.json
++enumerate/<question-id>_<experiment>_report.md
++```
++
++报告必须记录参数、版本、随机种子/确定规则、求解状态、超时与数学结论之间的区别。
+diff --git a/enumerate/q0015_configuration_auditor.py b/enumerate/q0015_configuration_auditor.py
+new file mode 100644
+index 0000000..26eb6c7
+--- /dev/null
++++ b/enumerate/q0015_configuration_auditor.py
+@@ -0,0 +1,1102 @@
++#!/usr/bin/env python3
++"""
++Q-0015 configuration auditor and first outer-generator experiment.
++
++Grounded in SINGLE_DEFECT_FRAMEWORK.md v0.4/v0.5:
++- actual successful execution records;
++- failure obligations with first blocking edge;
++- complete legal root single-defect configurations;
++- root-pivot budget primal/dual LP;
++- fixed-budget slot max-flow/min-cut;
++- independent global real-edge Hall flow;
++- cutting-plane MILP outer search for low-degree no-IT candidates.
++
++This is a reconstruction from the public Markdown specification. It is not
++claimed to be byte-for-byte identical to the uncommitted historical auditor.
++"""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import math
++import time
++from collections import Counter
++from dataclasses import dataclass
++from itertools import combinations, permutations, product
++from pathlib import Path
++from typing import Dict, FrozenSet, Iterable, List, Optional, Sequence, Tuple
++
++import networkx as nx
++import numpy as np
++import scipy.sparse as sp
++from scipy.optimize import Bounds, LinearConstraint, linprog, milp
++
++Vertex = Tuple[int, int]
++Edge = FrozenSet[Vertex]
++
++
++def canonical_edge(vertices: Iterable[Vertex]) -> Edge:
++    edge = frozenset(vertices)
++    if len(edge) != 3:
++        raise ValueError(f"Expected a 3-edge, got {edge}")
++    if len({block for block, _ in edge}) != 3:
++        raise ValueError(f"Edge is not transversal across three blocks: {edge}")
++    return edge
++
++
++def vertex_name(v: Vertex) -> str:
++    return f"{v[0]}_{v[1]}"
++
++
++def edge_name(e: Edge) -> str:
++    return "{" + ",".join(vertex_name(v) for v in sorted(e)) + "}"
++
++
++def trace_name(trace: Sequence[Vertex]) -> str:
++    return "{" + ",".join(vertex_name(v) for v in trace) + "}"
++
++
++@dataclass(frozen=True)
++class Hypergraph:
++    m: int
++    b: int
++    edges: Tuple[Edge, ...]
++    edge_order: Tuple[Edge, ...]
++
++    @classmethod
++    def build(
++        cls,
++        m: int,
++        b: int,
++        edges: Sequence[Iterable[Vertex]],
++        edge_order: Optional[Sequence[Iterable[Vertex]]] = None,
++    ) -> "Hypergraph":
++        edge_tuple = tuple(canonical_edge(e) for e in edges)
++        if len(set(edge_tuple)) != len(edge_tuple):
++            raise ValueError("Duplicate real edges are not allowed.")
++        order_tuple = (
++            tuple(canonical_edge(e) for e in edge_order)
++            if edge_order is not None
++            else edge_tuple
++        )
++        if set(order_tuple) != set(edge_tuple):
++            raise ValueError("edge_order must contain every real edge exactly once.")
++        for edge in edge_tuple:
++            for block, index in edge:
++                if not (0 <= block < m and 0 <= index < b):
++                    raise ValueError(f"Vertex {(block, index)} outside declared blocks.")
++        return cls(m=m, b=b, edges=edge_tuple, edge_order=order_tuple)
++
++    @property
++    def edge_rank(self) -> Dict[Edge, int]:
++        return {edge: i for i, edge in enumerate(self.edge_order)}
++
++    def degree(self, vertex: Vertex) -> int:
++        return sum(vertex in edge for edge in self.edges)
++
++    def max_degree(self) -> int:
++        return max(
++            (self.degree((block, index)) for block in range(self.m) for index in range(self.b)),
++            default=0,
++        )
++
++    def is_independent(self, vertices: Iterable[Vertex]) -> bool:
++        chosen = set(vertices)
++        return not any(edge <= chosen for edge in self.edges)
++
++    def blocking_edges(self, trace: Sequence[Vertex], x: Vertex) -> List[Edge]:
++        chosen = set(trace)
++        chosen.add(x)
++        return [edge for edge in self.edges if edge <= chosen]
++
++    def first_blocking_edge(self, trace: Sequence[Vertex], x: Vertex) -> Optional[Edge]:
++        blockers = self.blocking_edges(trace, x)
++        if not blockers:
++            return None
++        rank = self.edge_rank
++        return min(blockers, key=rank.__getitem__)
++
++    def find_independent_transversal(
++        self, active_blocks: Optional[Sequence[int]] = None
++    ) -> Optional[Tuple[Vertex, ...]]:
++        blocks = list(range(self.m)) if active_blocks is None else list(active_blocks)
++        incident = {
++            block: [edge for edge in self.edges if any(v[0] == block for v in edge)]
++            for block in blocks
++        }
++        # A high-incidence-first order typically finds contradictions earlier.
++        order = sorted(blocks, key=lambda block: -len(incident[block]))
++        chosen: Dict[int, Vertex] = {}
++
++        def dfs(position: int) -> Optional[Tuple[Vertex, ...]]:
++            if position == len(order):
++                return tuple(chosen[block] for block in blocks)
++            block = order[position]
++            for index in range(self.b):
++                candidate = (block, index)
++                selected = set(chosen.values())
++                selected.add(candidate)
++                if any(edge <= selected for edge in incident[block]):
++                    continue
++                chosen[block] = candidate
++                answer = dfs(position + 1)
++                if answer is not None:
++                    return answer
++                del chosen[block]
++            return None
++
++        return dfs(0)
++
++
++@dataclass(frozen=True)
++class ExecutionRecord:
++    record_id: str
++    block_word: Tuple[int, ...]
++    trace: Tuple[Vertex, ...]
++    genealogy: Tuple[Vertex, ...]
++
++
++@dataclass(frozen=True)
++class Configuration:
++    root_record_id: str
++    released_vertex: Vertex
++    pivot: Vertex
++    root_edge: Edge
++    released_trace: Tuple[Vertex, ...]
++
++    @property
++    def slot(self) -> Tuple[Vertex, Edge]:
++        return self.pivot, self.root_edge
++
++
++@dataclass(frozen=True)
++class Obligation:
++    obligation_id: str
++    parent_record_id: str
++    inserted_vertex: Vertex
++    attempted_vertex: Vertex
++    first_edge: Edge
++    weight: float
++    configurations: Tuple[Configuration, ...]
++
++
++@dataclass
++class RootGroup:
++    block_order: Tuple[int, ...]
++    root_record: ExecutionRecord
++    success_block: int
++    failure_block: int
++    obligations: List[Obligation]
++
++
++def make_record_id(block_order: Sequence[int], trace: Sequence[Vertex]) -> str:
++    raw = repr((tuple(block_order[: len(trace)]), tuple(trace))).encode()
++    return hashlib.sha256(raw).hexdigest()[:16]
++
++
++def build_root_groups(hg: Hypergraph, block_order: Sequence[int]) -> List[RootGroup]:
++    order = tuple(block_order)
++    current = [
++        ExecutionRecord(
++            record_id=make_record_id(order, ()),
++            block_word=(),
++            trace=(),
++            genealogy=(),
++        )
++    ]
++    groups: List[RootGroup] = []
++
++    for step, block in enumerate(order):
++        # A two-step window starts at an actually visited root record, succeeds
++        # in `block`, then attempts the next block.
++        if step >= 1 and step + 1 < len(order):
++            failure_block = order[step + 1]
++            for root in current:
++                obligations: List[Obligation] = []
++                for r_index in range(hg.b):
++                    r = (block, r_index)
++                    if not hg.is_independent(root.trace + (r,)):
++                        continue
++                    parent_id = make_record_id(order, root.trace + (r,))
++                    for x_index in range(hg.b):
++                        x = (failure_block, x_index)
++                        first_edge = hg.first_blocking_edge(root.trace + (r,), x)
++                        if first_edge is None:
++                            continue
++                        released_trace = root.trace + (x,)
++                        configurations: List[Configuration] = []
++                        if hg.is_independent(released_trace):
++                            for pivot in root.trace:
++                                if first_edge == canonical_edge((pivot, r, x)):
++                                    configurations.append(
++                                        Configuration(
++                                            root_record_id=root.record_id,
++                                            released_vertex=r,
++                                            pivot=pivot,
++                                            root_edge=first_edge,
++                                            released_trace=released_trace,
++                                        )
++                                    )
++                        obligation_id = hashlib.sha256(
++                            repr(
++                                (
++                                    root.record_id,
++                                    r,
++                                    x,
++                                    tuple(sorted(first_edge)),
++                                )
++                            ).encode()
++                        ).hexdigest()[:16]
++                        obligations.append(
++                            Obligation(
++                                obligation_id=obligation_id,
++                                parent_record_id=parent_id,
++                                inserted_vertex=r,
++                                attempted_vertex=x,
++                                first_edge=first_edge,
++                                weight=1.0,
++                                configurations=tuple(configurations),
++                            )
++                        )
++                if obligations:
++                    groups.append(
++                        RootGroup(
++                            block_order=order,
++                            root_record=root,
++                            success_block=block,
++                            failure_block=failure_block,
++                            obligations=obligations,
++                        )
++                    )
++
++        new_records: List[ExecutionRecord] = []
++        for record in current:
++            for index in range(hg.b):
++                x = (block, index)
++                if hg.is_independent(record.trace + (x,)):
++                    trace = record.trace + (x,)
++                    new_records.append(
++                        ExecutionRecord(
++                            record_id=make_record_id(order, trace),
++                            block_word=record.block_word + (block,),
++                            trace=trace,
++                            genealogy=record.genealogy + (x,),
++                        )
++                    )
++        current = new_records
++
++    return groups
++
++
++def configuration_budget_lp(group: RootGroup) -> Dict:
++    obligations = group.obligations
++    if any(not obligation.configurations for obligation in obligations):
++        return {
++            "status": "no-configuration",
++            "no_configuration_ids": [
++                obligation.obligation_id
++                for obligation in obligations
++                if not obligation.configurations
++            ],
++        }
++
++    pivots = sorted(
++        {
++            configuration.pivot
++            for obligation in obligations
++            for configuration in obligation.configurations
++        }
++    )
++    slots = sorted(
++        {
++            configuration.slot
++            for obligation in obligations
++            for configuration in obligation.configurations
++        },
++        key=lambda item: (item[0], tuple(sorted(item[1]))),
++    )
++    q_variables = [
++        (a_index, c_index, configuration)
++        for a_index, obligation in enumerate(obligations)
++        for c_index, configuration in enumerate(obligation.configurations)
++    ]
++    q_count = len(q_variables)
++    variable_count = q_count + len(pivots)
++
++    objective = np.zeros(variable_count)
++    objective[q_count:] = 1.0
++
++    equality_rows = []
++    equality_rhs = []
++    for a_index, obligation in enumerate(obligations):
++        row = np.zeros(variable_count)
++        for q_index, (candidate_a, _, _) in enumerate(q_variables):
++            if candidate_a == a_index:
++                row[q_index] = 1.0
++        equality_rows.append(row)
++        equality_rhs.append(obligation.weight)
++
++    upper_rows = []
++    upper_rhs = []
++    for pivot, edge in slots:
++        row = np.zeros(variable_count)
++        for q_index, (_, _, configuration) in enumerate(q_variables):
++            if configuration.pivot == pivot and configuration.root_edge == edge:
++                row[q_index] = 1.0
++        row[q_count + pivots.index(pivot)] = -1.0
++        upper_rows.append(row)
++        upper_rhs.append(0.0)
++
++    primal = linprog(
++        objective,
++        A_ub=np.asarray(upper_rows),
++        b_ub=np.asarray(upper_rhs),
++        A_eq=np.asarray(equality_rows),
++        b_eq=np.asarray(equality_rhs),
++        bounds=(0, None),
++        method="highs",
++    )
++    if not primal.success:
++        return {"status": "lp-failure", "message": primal.message}
++
++    # Explicit dual (10.5), solved independently.
++    # Variables: alpha_a followed by beta_slot. Maximize sum w(a) alpha_a.
++    # scipy minimizes, so use negative coefficients.
++    dual_count = len(obligations) + len(slots)
++    dual_objective = np.zeros(dual_count)
++    dual_objective[: len(obligations)] = [
++        -obligation.weight for obligation in obligations
++    ]
++    dual_rows = []
++    dual_rhs = []
++    for a_index, obligation in enumerate(obligations):
++        available_slots = {configuration.slot for configuration in obligation.configurations}
++        for slot in available_slots:
++            row = np.zeros(dual_count)
++            row[a_index] = 1.0
++            row[len(obligations) + slots.index(slot)] = -1.0
++            dual_rows.append(row)
++            dual_rhs.append(0.0)
++    for pivot in pivots:
++        row = np.zeros(dual_count)
++        for slot_index, (slot_pivot, _) in enumerate(slots):
++            if slot_pivot == pivot:
++                row[len(obligations) + slot_index] = 1.0
++        dual_rows.append(row)
++        dual_rhs.append(1.0)
++
++    dual = linprog(
++        dual_objective,
++        A_ub=np.asarray(dual_rows),
++        b_ub=np.asarray(dual_rhs),
++        bounds=(0, None),
++        method="highs",
++    )
++    if not dual.success:
++        return {"status": "dual-failure", "message": dual.message}
++
++    q_solution = {}
++    for q_index, (a_index, c_index, configuration) in enumerate(q_variables):
++        value = float(primal.x[q_index])
++        if value > 1e-9:
++            q_solution[
++                f"{obligations[a_index].obligation_id}:c{c_index}"
++            ] = {
++                "flow": value,
++                "pivot": vertex_name(configuration.pivot),
++                "edge": edge_name(configuration.root_edge),
++            }
++
++    y_solution = {
++        vertex_name(pivot): float(primal.x[q_count + pivot_index])
++        for pivot_index, pivot in enumerate(pivots)
++        if primal.x[q_count + pivot_index] > 1e-9
++    }
++    alpha_solution = {
++        obligations[a_index].obligation_id: float(dual.x[a_index])
++        for a_index in range(len(obligations))
++        if dual.x[a_index] > 1e-9
++    }
++    beta_solution = {
++        f"{vertex_name(pivot)}|{edge_name(edge)}": float(
++            dual.x[len(obligations) + slot_index]
++        )
++        for slot_index, (pivot, edge) in enumerate(slots)
++        if dual.x[len(obligations) + slot_index] > 1e-9
++    }
++
++    t_min = float(primal.fun)
++    dual_value = float(-dual.fun)
++    return {
++        "status": "optimal",
++        "t_min": t_min,
++        "eta": max(0.0, t_min - 1.0),
++        "primal_objective": t_min,
++        "dual_objective": dual_value,
++        "duality_gap": abs(t_min - dual_value),
++        "q": q_solution,
++        "y": y_solution,
++        "alpha": alpha_solution,
++        "beta": beta_solution,
++    }
++
++
++def flow_cut_summary(graph: nx.DiGraph, source: str, sink: str) -> Dict:
++    value, flow = nx.maximum_flow(graph, source, sink, capacity="capacity")
++    cut_value, partition = nx.minimum_cut(graph, source, sink, capacity="capacity")
++    source_side, sink_side = partition
++    cut_edges = []
++    for u in source_side:
++        for v, attrs in graph[u].items():
++            if v in sink_side and attrs.get("capacity", 0) > 0:
++                cut_edges.append(
++                    {"from": str(u), "to": str(v), "capacity": attrs["capacity"]}
++                )
++    return {
++        "max_flow": float(value),
++        "min_cut": float(cut_value),
++        "source_side": sorted(map(str, source_side)),
++        "sink_side": sorted(map(str, sink_side)),
++        "cut_edges": cut_edges,
++    }
++
++
++def fixed_budget_slot_flow(group: RootGroup, lambdas: Dict[Vertex, float]) -> Dict:
++    graph = nx.DiGraph()
++    source, sink = "source", "sink"
++    demand = sum(obligation.weight for obligation in group.obligations)
++    for obligation in group.obligations:
++        a_node = f"a:{obligation.obligation_id}"
++        graph.add_edge(source, a_node, capacity=obligation.weight)
++        for configuration in obligation.configurations:
++            p, edge = configuration.slot
++            slot_node = f"slot:{vertex_name(p)}|{edge_name(edge)}"
++            graph.add_edge(a_node, slot_node, capacity=demand + 1.0)
++    slots = {
++        configuration.slot
++        for obligation in group.obligations
++        for configuration in obligation.configurations
++    }
++    for pivot, edge in slots:
++        slot_node = f"slot:{vertex_name(pivot)}|{edge_name(edge)}"
++        graph.add_edge(slot_node, sink, capacity=float(lambdas.get(pivot, 0.0)))
++    answer = flow_cut_summary(graph, source, sink)
++    answer["demand"] = demand
++    answer["unmet"] = demand - answer["max_flow"]
++    return answer
++
++
++def global_real_edge_flow(group: RootGroup, edge_capacity: float = 1.0) -> Dict:
++    graph = nx.DiGraph()
++    source, sink = "source", "sink"
++    demand = sum(obligation.weight for obligation in group.obligations)
++    real_edges = set()
++    for obligation in group.obligations:
++        a_node = f"a:{obligation.obligation_id}"
++        graph.add_edge(source, a_node, capacity=obligation.weight)
++        for configuration in obligation.configurations:
++            edge = configuration.root_edge
++            real_edges.add(edge)
++            edge_node = f"edge:{edge_name(edge)}"
++            graph.add_edge(a_node, edge_node, capacity=demand + 1.0)
++    for edge in real_edges:
++        graph.add_edge(f"edge:{edge_name(edge)}", sink, capacity=edge_capacity)
++    answer = flow_cut_summary(graph, source, sink)
++    answer["demand"] = demand
++    answer["unmet"] = demand - answer["max_flow"]
++    return answer
++
++
++def classify_group(group: RootGroup) -> Tuple[str, Dict]:
++    lp = configuration_budget_lp(group)
++    if lp["status"] == "no-configuration":
++        return "no-configuration", lp
++    if lp["status"] != "optimal":
++        return "solver-failure", lp
++    if lp["eta"] <= 1e-8:
++        return "zero-error-budget-feasible", lp
++    return "positive-root-budget-gap", lp
++
++
++def eight_edge_model() -> Hypergraph:
++    edges = [
++        ((0, 0), (1, 0), (2, 0)),
++        ((0, 0), (1, 1), (3, 0)),
++        ((0, 0), (2, 1), (3, 1)),
++        ((0, 1), (1, 0), (3, 1)),
++        ((0, 1), (1, 1), (2, 1)),
++        ((0, 1), (2, 0), (3, 0)),
++        ((1, 0), (2, 1), (3, 0)),
++        ((1, 1), (2, 0), (3, 1)),
++    ]
++    return Hypergraph.build(4, 2, edges)
++
++
++def nine_edge_repair_model() -> Hypergraph:
++    base = eight_edge_model()
++    new_edge = canonical_edge(((0, 0), (1, 0), (2, 1)))
++    edges = (new_edge,) + base.edges
++    return Hypergraph.build(4, 2, edges, edge_order=edges)
++
++
++def model_minimality_report(hg: Hypergraph) -> Dict:
++    full_it = hg.find_independent_transversal()
++    edge_deletion_witnesses = {}
++    for index, deleted in enumerate(hg.edges):
++        reduced_edges = [edge for edge in hg.edges if edge != deleted]
++        reduced = Hypergraph.build(hg.m, hg.b, reduced_edges)
++        witness = reduced.find_independent_transversal()
++        edge_deletion_witnesses[edge_name(deleted)] = (
++            [vertex_name(v) for v in witness] if witness else None
++        )
++    block_deletion_witnesses = {}
++    for deleted_block in range(hg.m):
++        active = [block for block in range(hg.m) if block != deleted_block]
++        witness = hg.find_independent_transversal(active_blocks=active)
++        block_deletion_witnesses[str(deleted_block)] = (
++            [vertex_name(v) for v in witness] if witness else None
++        )
++    return {
++        "independent_transversal": (
++            [vertex_name(v) for v in full_it] if full_it else None
++        ),
++        "no_IT": full_it is None,
++        "max_degree": hg.max_degree(),
++        "edge_minimal_no_IT": all(edge_deletion_witnesses.values()),
++        "block_minimal_no_IT": all(block_deletion_witnesses.values()),
++        "edge_deletion_IT_witnesses": edge_deletion_witnesses,
++        "block_deletion_IT_witnesses": block_deletion_witnesses,
++    }
++
++
++def run_regressions() -> Dict:
++    hg8 = eight_edge_model()
++    all_groups: List[RootGroup] = []
++    classification_counter = Counter()
++    for order in permutations(range(4)):
++        groups = build_root_groups(hg8, order)
++        all_groups.extend(groups)
++        for group in groups:
++            classification, _ = classify_group(group)
++            classification_counter[classification] += 1
++
++    specified = next(
++        group
++        for group in all_groups
++        if group.block_order == (0, 1, 2, 3)
++        and group.root_record.trace == ((0, 0), (1, 0))
++        and group.success_block == 2
++        and group.failure_block == 3
++    )
++    specified_lp = configuration_budget_lp(specified)
++    specified_fixed = fixed_budget_slot_flow(
++        specified, {(0, 0): 0.5, (1, 0): 0.5}
++    )
++    specified_real = global_real_edge_flow(specified, edge_capacity=1.0)
++
++    hg9 = nine_edge_repair_model()
++    repair_groups = build_root_groups(hg9, (0, 3, 1, 2))
++    repair = next(
++        group
++        for group in repair_groups
++        if len(group.obligations) >= 2
++        and configuration_budget_lp(group).get("eta", math.inf) <= 1e-8
++        and len(
++            {
++                configuration.pivot
++                for obligation in group.obligations
++                for configuration in obligation.configurations
++            }
++        )
++        == 1
++        and len(
++            {
++                configuration.root_edge
++                for obligation in group.obligations
++                for configuration in obligation.configurations
++            }
++        )
++        >= 2
++    )
++    repair_lp = configuration_budget_lp(repair)
++
++    # Synthetic genealogy collision regression:
++    # one actual zero-error obligation duplicated under a distinct root ID.
++    single_group = next(
++        group
++        for group in all_groups
++        if len(group.obligations) == 1
++        and classify_group(group)[0] == "zero-error-budget-feasible"
++    )
++    original = single_group.obligations[0]
++    clone_configurations = tuple(
++        Configuration(
++            root_record_id="synthetic-root-B",
++            released_vertex=c.released_vertex,
++            pivot=c.pivot,
++            root_edge=c.root_edge,
++            released_trace=c.released_trace,
++        )
++        for c in original.configurations
++    )
++    cloned = Obligation(
++        obligation_id="synthetic-clone",
++        parent_record_id="synthetic-parent-B",
++        inserted_vertex=original.inserted_vertex,
++        attempted_vertex=original.attempted_vertex,
++        first_edge=original.first_edge,
++        weight=original.weight,
++        configurations=clone_configurations,
++    )
++    root_a = RootGroup(
++        block_order=single_group.block_order,
++        root_record=single_group.root_record,
++        success_block=single_group.success_block,
++        failure_block=single_group.failure_block,
++        obligations=[original],
++    )
++    root_b_record = ExecutionRecord(
++        record_id="synthetic-root-B",
++        block_word=single_group.root_record.block_word,
++        trace=single_group.root_record.trace,
++        genealogy=single_group.root_record.genealogy,
++    )
++    root_b = RootGroup(
++        block_order=single_group.block_order,
++        root_record=root_b_record,
++        success_block=single_group.success_block,
++        failure_block=single_group.failure_block,
++        obligations=[cloned],
++    )
++    merged_record = ExecutionRecord(
++        record_id="incorrectly-merged-root",
++        block_word=single_group.root_record.block_word,
++        trace=single_group.root_record.trace,
++        genealogy=single_group.root_record.genealogy,
++    )
++    merged = RootGroup(
++        block_order=single_group.block_order,
++        root_record=merged_record,
++        success_block=single_group.success_block,
++        failure_block=single_group.failure_block,
++        obligations=[original, cloned],
++    )
++
++    return {
++        "eight_edge_model": model_minimality_report(hg8),
++        "specified_window": {
++            "order": list(specified.block_order),
++            "root_trace": [vertex_name(v) for v in specified.root_record.trace],
++            "obligations": [
++                {
++                    "r": vertex_name(o.inserted_vertex),
++                    "x": vertex_name(o.attempted_vertex),
++                    "first_edge": edge_name(o.first_edge),
++                    "configurations": [
++                        {
++                            "pivot": vertex_name(c.pivot),
++                            "edge": edge_name(c.root_edge),
++                            "released_trace": [
++                                vertex_name(v) for v in c.released_trace
++                            ],
++                        }
++                        for c in o.configurations
++                    ],
++                }
++                for o in specified.obligations
++            ],
++            "budget_lp": specified_lp,
++            "fixed_half_budget_flow": specified_fixed,
++            "global_real_edge_flow": specified_real,
++        },
++        "all_24_orders": {
++            "root_groups_with_failures": len(all_groups),
++            "classification": dict(classification_counter),
++        },
++        "nine_edge_repair": {
++            "added_edge": edge_name(canonical_edge(((0, 0), (1, 0), (2, 1)))),
++            "order": [0, 3, 1, 2],
++            "root_trace": [vertex_name(v) for v in repair.root_record.trace],
++            "obligation_count": len(repair.obligations),
++            "budget_lp": repair_lp,
++            "obligations": [
++                {
++                    "r": vertex_name(o.inserted_vertex),
++                    "x": vertex_name(o.attempted_vertex),
++                    "first_edge": edge_name(o.first_edge),
++                    "pivots": [
++                        vertex_name(c.pivot) for c in o.configurations
++                    ],
++                }
++                for o in repair.obligations
++            ],
++        },
++        "genealogy_collision": {
++            "root_A_t_min": configuration_budget_lp(root_a)["t_min"],
++            "root_B_t_min": configuration_budget_lp(root_b)["t_min"],
++            "incorrectly_merged_t_min": configuration_budget_lp(merged)["t_min"],
++            "incorrectly_merged_eta": configuration_budget_lp(merged)["eta"],
++        },
++    }
++
++
++def all_possible_edges(m: int, b: int) -> List[Tuple[Vertex, Vertex, Vertex]]:
++    return [
++        tuple(zip(blocks, values))
++        for blocks in combinations(range(m), 3)
++        for values in product(range(b), repeat=3)
++    ]
++
++
++def counting_obstruction(m: int, b: int, degree_bound: int) -> Dict:
++    minimum_edges_to_cover_all_transversals = b**3
++    maximum_edges_from_degree_budget = (m * b * degree_bound) // 3
++    impossible = m * b * degree_bound < 3 * b**3
++    return {
++        "m": m,
++        "b": b,
++        "degree_bound": degree_bound,
++        "minimum_edges_needed_by_transversal_counting": minimum_edges_to_cover_all_transversals,
++        "maximum_edges_allowed_by_degree_sum": maximum_edges_from_degree_budget,
++        "no_IT_candidate_impossible_by_counting": impossible,
++        "inequality": f"{m}*{b}*{degree_bound} < 3*{b}^3",
++    }
++
++
++def find_it_from_selected_edges(
++    m: int,
++    b: int,
++    selected_edges: Sequence[Tuple[Vertex, Vertex, Vertex]],
++) -> Optional[Tuple[Vertex, ...]]:
++    incident = {
++        block: [
++            edge
++            for edge in selected_edges
++            if any(vertex[0] == block for vertex in edge)
++        ]
++        for block in range(m)
++    }
++    order = sorted(range(m), key=lambda block: -len(incident[block]))
++    chosen: Dict[int, Vertex] = {}
++
++    def dfs(position: int) -> Optional[Tuple[Vertex, ...]]:
++        if position == m:
++            return tuple(chosen[block] for block in range(m))
++        block = order[position]
++        for index in range(b):
++            candidate = (block, index)
++            selected = set(chosen.values())
++            selected.add(candidate)
++            if any(set(edge) <= selected for edge in incident[block]):
++                continue
++            chosen[block] = candidate
++            answer = dfs(position + 1)
++            if answer is not None:
++                return answer
++            del chosen[block]
++        return None
++
++    return dfs(0)
++
++
++def cutting_plane_outer_search(
++    m: int,
++    b: int,
++    degree_bound: int,
++    max_iterations: int,
++    per_iteration_time_limit: float,
++) -> Dict:
++    counting = counting_obstruction(m, b, degree_bound)
++    if counting["no_IT_candidate_impossible_by_counting"]:
++        return {
++            "status": "infeasible-by-counting",
++            "counting_certificate": counting,
++            "iterations": [],
++        }
++
++    edges = all_possible_edges(m, b)
++    edge_count = len(edges)
++
++    degree_rows, degree_cols, degree_data = [], [], []
++    row = 0
++    for block in range(m):
++        for index in range(b):
++            vertex = (block, index)
++            for edge_index, edge in enumerate(edges):
++                if vertex in edge:
++                    degree_rows.append(row)
++                    degree_cols.append(edge_index)
++                    degree_data.append(1.0)
++            row += 1
++    degree_matrix = sp.csr_matrix(
++        (degree_data, (degree_rows, degree_cols)),
++        shape=(m * b, edge_count),
++    )
++    base_matrices = [degree_matrix, sp.csr_matrix(np.ones((1, edge_count)))]
++    base_lower = [
++        np.full(m * b, -np.inf),
++        np.array([float(b**3)]),
++    ]
++    base_upper = [
++        np.full(m * b, float(degree_bound)),
++        np.array([np.inf]),
++    ]
++
++    cuts: List[np.ndarray] = []
++    iteration_log = []
++    selected_edges: List[Tuple[Vertex, Vertex, Vertex]] = []
++    last_witness: Optional[Tuple[Vertex, ...]] = None
++    objective = np.ones(edge_count)
++
++    for iteration in range(max_iterations):
++        matrices = list(base_matrices)
++        lower = list(base_lower)
++        upper = list(base_upper)
++        if cuts:
++            cut_row_indices = np.repeat(
++                np.arange(len(cuts)), [len(cut) for cut in cuts]
++            )
++            cut_col_indices = np.concatenate(cuts)
++            cut_matrix = sp.csr_matrix(
++                (
++                    np.ones(len(cut_col_indices)),
++                    (cut_row_indices, cut_col_indices),
++                ),
++                shape=(len(cuts), edge_count),
++            )
++            matrices.append(cut_matrix)
++            lower.append(np.ones(len(cuts)))
++            upper.append(np.full(len(cuts), np.inf))
++
++        constraint_matrix = sp.vstack(matrices, format="csr")
++        lower_bound = np.concatenate(lower)
++        upper_bound = np.concatenate(upper)
++
++        started = time.time()
++        result = milp(
++            objective,
++            integrality=np.ones(edge_count),
++            bounds=Bounds(0.0, 1.0),
++            constraints=LinearConstraint(
++                constraint_matrix, lower_bound, upper_bound
++            ),
++            options={
++                "time_limit": per_iteration_time_limit,
++                "mip_rel_gap": 0.0,
++            },
++        )
++        elapsed = time.time() - started
++
++        if result.x is None:
++            return {
++                "status": "solver-stopped-without-incumbent",
++                "counting_certificate": counting,
++                "edge_variable_count": edge_count,
++                "cut_count": len(cuts),
++                "iterations": iteration_log,
++                "solver_message": result.message,
++            }
++
++        selected_indices = np.flatnonzero(result.x > 0.5)
++        selected_edges = [edges[index] for index in selected_indices]
++        witness = find_it_from_selected_edges(m, b, selected_edges)
++        witness_hash = None
++        if witness is not None:
++            witness_hash = hashlib.sha256(repr(witness).encode()).hexdigest()[:16]
++
++        iteration_log.append(
++            {
++                "iteration": iteration,
++                "solver_message": result.message,
++                "elapsed_seconds": elapsed,
++                "selected_edge_count": len(selected_edges),
++                "IT_found": witness is not None,
++                "IT_witness_hash": witness_hash,
++            }
++        )
++
++        if witness is None:
++            candidate = Hypergraph.build(m, b, selected_edges)
++            return {
++                "status": "no-IT-candidate-found",
++                "counting_certificate": counting,
++                "edge_variable_count": edge_count,
++                "cut_count": len(cuts),
++                "iterations": iteration_log,
++                "candidate": {
++                    "max_degree": candidate.max_degree(),
++                    "edges": [edge_name(canonical_edge(edge)) for edge in selected_edges],
++                },
++            }
++
++        last_witness = witness
++        witness_set = set(witness)
++        cut = np.array(
++            [
++                edge_index
++                for edge_index, edge in enumerate(edges)
++                if set(edge) <= witness_set
++            ],
++            dtype=int,
++        )
++        # Each full transversal contains C(m,3) possible real 3-edges.
++        if len(cut) != math.comb(m, 3):
++            raise AssertionError("Malformed transversal cover cut.")
++        cuts.append(cut)
++
++    final_hg = Hypergraph.build(m, b, selected_edges)
++    return {
++        "status": "iteration-limit-reached-with-IT-certificates",
++        "counting_certificate": counting,
++        "edge_variable_count": edge_count,
++        "cut_count": len(cuts),
++        "iterations": iteration_log,
++        "last_candidate": {
++            "selected_edge_count": len(selected_edges),
++            "max_degree": final_hg.max_degree(),
++            "IT_witness": [vertex_name(v) for v in last_witness]
++            if last_witness
++            else None,
++            "edges": [edge_name(canonical_edge(edge)) for edge in selected_edges],
++        },
++        "interpretation": (
++            "Every MILP incumbent was refuted by an explicit independent "
++            "transversal. Reaching the iteration limit is not an exhaustive "
++            "infeasibility proof."
++        ),
++    }
++
++
++def make_markdown_report(results: Dict) -> str:
++    regressions = results["regressions"]
++    outer = results["outer_search"]
++    counts = regressions["all_24_orders"]["classification"]
++    specified = regressions["specified_window"]
++    repair = regressions["nine_edge_repair"]
++    collision = regressions["genealogy_collision"]
++
++    iteration_times = [
++        item["elapsed_seconds"] for item in outer.get("iterations", [])
++    ]
++    total_solver_time = sum(iteration_times)
++    max_solver_time = max(iteration_times, default=0.0)
++
++    lines = [
++        "# Q-0015 重建审计器：首轮实际执行报告",
++        "",
++        "## 1. 实现范围",
++        "",
++        "本次从公开的 `SINGLE_DEFECT_FRAMEWORK.md` v0.4 定义重建了：真实成功执行树、失败义务、合法根配置枚举、root-pivot 预算原始/对偶 LP、固定预算槽位最大流/最小割、独立的全局真实边 Hall 流，以及低度候选的切平面 MILP 外层。",
++        "",
++        "> 注意：仓库主分支未公开文档所称的历史 Python 文件，因此这是依据公开数学规格的独立重建，不声称与历史实现逐字一致。",
++        "",
++        "## 2. 四项回归基线",
++        "",
++        f"- 八边模型：无 IT = `{regressions['eight_edge_model']['no_IT']}`；边极小 = `{regressions['eight_edge_model']['edge_minimal_no_IT']}`；块极小 = `{regressions['eight_edge_model']['block_minimal_no_IT']}`；最大度 = `{regressions['eight_edge_model']['max_degree']}`。",
++        f"- 指定窗口：义务数 `{len(specified['obligations'])}`，`t_min={specified['budget_lp']['t_min']:.6g}`，`eta={specified['budget_lp']['eta']:.6g}`，原始—对偶间隙 `{specified['budget_lp']['duality_gap']:.3g}`。",
++        f"- 固定 `lambda(0_0)=lambda(1_0)=1/2`：槽位最大流 `{specified['fixed_half_budget_flow']['max_flow']:.6g}` / 需求 `{specified['fixed_half_budget_flow']['demand']:.6g}`。",
++        f"- 全局真实边单位容量：最大流 `{specified['global_real_edge_flow']['max_flow']:.6g}` / 需求 `{specified['global_real_edge_flow']['demand']:.6g}`。",
++        f"- 全部 24 个块顺序：带失败义务的实际 root group 共 `{regressions['all_24_orders']['root_groups_with_failures']}` 个；零误差 `{counts.get('zero-error-budget-feasible',0)}`，正 root-budget 缺口 `{counts.get('positive-root-budget-gap',0)}`，含 no-configuration `{counts.get('no-configuration',0)}`。",
++        f"- 九边修复：新增 `{repair['added_edge']}`，块顺序 `{tuple(repair['order'])}`，义务数 `{repair['obligation_count']}`，`t_min={repair['budget_lp']['t_min']:.6g}`，`eta={repair['budget_lp']['eta']:.6g}`。",
++        f"- genealogy 碰撞：两个 root 分开时 `t_min={collision['root_A_t_min']:.6g},{collision['root_B_t_min']:.6g}`；错误合并后 `t_min={collision['incorrectly_merged_t_min']:.6g}`，`eta={collision['incorrectly_merged_eta']:.6g}`。",
++        "",
++        "上述数值完整复现了文档第 23.1–23.4 节给出的四组基线。",
++        "",
++        "## 3. 低度外层生成器首轮",
++        "",
++        f"执行参数：`b={outer['counting_certificate']['b']}`，`m={outer['counting_certificate']['m']}`，顶点最大度上界 `D={outer['counting_certificate']['degree_bound']}`。这是 `b=3` 严格低于 `b^2/4=2.25` 时第一个未被简单总度计数立即排除的块数。",
++        "",
++        f"- 潜在真实边变量数：`{outer.get('edge_variable_count', 0)}`。",
++        f"- 执行状态：`{outer['status']}`。",
++        f"- 完成切平面轮数：`{len(outer.get('iterations', []))}`；加入横截覆盖切平面 `{outer.get('cut_count',0)}` 条。",
++        f"- MILP 求解累计时间：`{total_solver_time:.3f}` 秒；单轮最大 `{max_solver_time:.3f}` 秒。",
++    ]
++    if outer["status"] == "iteration-limit-reached-with-IT-certificates":
++        last = outer["last_candidate"]
++        lines += [
++            f"- 每一轮最优 incumbent 均含 `{last['selected_edge_count']}` 条边，且都由一个显式 IT 否定。",
++            f"- 最后一轮候选最大度：`{last['max_degree']}`；IT 证书：`{tuple(last['IT_witness'])}`。",
++            "",
++            "这不是对 `(b,m,D)=(3,14,2)` 的穷尽不可行证明；它证明的是：当前 100 个由累积覆盖切平面产生的最稀疏候选全部落入第一类证书（IT 证书），尚未触发 no-configuration、root-budget、slot-congestion 或 global real-edge reuse。",
++        ]
++    elif outer["status"] == "no-IT-candidate-found":
++        lines += [
++            "",
++            "**发现了无 IT 候选。** 下一步应立即对其所有块顺序运行内层配置审计，并检查边极小/块极小见证。",
++        ]
++    else:
++        lines += ["", outer.get("interpretation", "")]
++
++    lines += [
++        "",
++        "## 4. 当前计算结论",
++        "",
++        "1. 重建实现通过全部公开回归数值，因此足以作为接外层生成器的可复算基线。",
++        "2. 首个真正低度参数点的 100 轮切平面搜索只产生 IT 证书，没有发现目标反模型或配置 Hall 障碍。",
++        "3. 下一次计算最有价值的改进，是给外层加入同构破除、边极小/块极小约束与跨 root projection 的联合预算，而不是继续重复固定窗口审计。",
++        "",
++        "## 5. 可复算文件",
++        "",
++        "- `q0015_configuration_auditor_rebuilt.py`：完整脚本。",
++        "- `q0015_first_execution_results.json`：机器可读原始结果，包括 LP 解、对偶证书、最小割和 100 轮日志。",
++    ]
++    return "\n".join(lines) + "\n"
++
++
++def run(output_dir: Path, iterations: int, time_limit: float) -> Dict:
++    output_dir.mkdir(parents=True, exist_ok=True)
++    regressions = run_regressions()
++    outer = cutting_plane_outer_search(
++        m=14,
++        b=3,
++        degree_bound=2,
++        max_iterations=iterations,
++        per_iteration_time_limit=time_limit,
++    )
++    results = {
++        "metadata": {
++            "implementation": "independent reconstruction from public Markdown",
++            "framework_version": "v0.4-auditor-grounded",
++            "outer_search_parameters": {
++                "m": 14,
++                "b": 3,
++                "degree_bound": 2,
++                "iterations": iterations,
++                "per_iteration_time_limit_seconds": time_limit,
++            },
++        },
++        "regressions": regressions,
++        "outer_search": outer,
++    }
++    result_path = output_dir / "q0015_first_execution_results.json"
++    result_path.write_text(
++        json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
++    )
++    report_path = output_dir / "q0015_first_execution_report.md"
++    report_path.write_text(make_markdown_report(results), encoding="utf-8")
++    return results
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--output-dir", type=Path, default=Path("."))
++    parser.add_argument("--iterations", type=int, default=100)
++    parser.add_argument("--time-limit", type=float, default=3.0)
++    args = parser.parse_args()
++    results = run(args.output_dir, args.iterations, args.time_limit)
++    print(json.dumps({
++        "classification": results["regressions"]["all_24_orders"],
++        "specified_t_min": results["regressions"]["specified_window"]["budget_lp"]["t_min"],
++        "specified_fixed_flow": results["regressions"]["specified_window"]["fixed_half_budget_flow"]["max_flow"],
++        "specified_real_edge_flow": results["regressions"]["specified_window"]["global_real_edge_flow"]["max_flow"],
++        "nine_edge_eta": results["regressions"]["nine_edge_repair"]["budget_lp"]["eta"],
++        "genealogy_merged_eta": results["regressions"]["genealogy_collision"]["incorrectly_merged_eta"],
++        "outer_status": results["outer_search"]["status"],
++        "outer_iterations": len(results["outer_search"].get("iterations", [])),
++    }, ensure_ascii=False, indent=2))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/enumerate/q0015_first_execution_report.md b/enumerate/q0015_first_execution_report.md
+new file mode 100644
+index 0000000..b9dc3f5
+--- /dev/null
++++ b/enumerate/q0015_first_execution_report.md
+@@ -0,0 +1,52 @@
++# Q-0015 重建审计器：首轮实际执行报告
++
++## 1. 实现范围
++
++本次从公开的 `SINGLE_DEFECT_FRAMEWORK.md` v0.4 定义重建了：真实成功执行树、失败义务、合法根配置枚举、root-pivot 预算原始/对偶 LP、固定预算槽位最大流/最小割、独立的全局真实边 Hall 流，以及低度候选的切平面 MILP 外层。
++
++> 注意：仓库主分支未公开文档所称的历史 Python 文件，因此这是依据公开数学规格的独立重建，不声称与历史实现逐字一致。
++
++## 2. 四项回归基线
++
++- 八边模型：无 IT = `True`；边极小 = `True`；块极小 = `True`；最大度 = `3`。
++- 指定窗口：义务数 `2`，`t_min=2`，`eta=1`，原始—对偶间隙 `0`。
++- 固定 `lambda(0_0)=lambda(1_0)=1/2`：槽位最大流 `1` / 需求 `2`。
++- 全局真实边单位容量：最大流 `2` / 需求 `2`。
++- 全部 24 个块顺序：带失败义务的实际 root group 共 `144` 个；零误差 `48`，正 root-budget 缺口 `48`，含 no-configuration `48`。
++- 九边修复：新增 `{0_0,1_0,2_1}`，块顺序 `(0, 3, 1, 2)`，义务数 `2`，`t_min=1`，`eta=0`。
++- genealogy 碰撞：两个 root 分开时 `t_min=1,1`；错误合并后 `t_min=2`，`eta=1`。
++
++上述数值完整复现了文档第 23.1–23.4 节给出的四组基线。
++
++## 3. 低度外层生成器首轮
++
++执行参数：`b=3`，`m=14`，顶点最大度上界 `D=2`。这是 `b=3` 严格低于 `b^2/4=2.25` 时第一个未被简单总度计数立即排除的块数。
++
++- 潜在真实边变量数：`9828`。
++- 执行状态：`iteration-limit-reached-with-IT-certificates`。
++- 完成切平面轮数：`100`；加入横截覆盖切平面 `100` 条。
++- MILP 求解累计时间：`45.734` 秒；单轮最大 `0.657` 秒。
++- 每一轮最优 incumbent 均含 `27` 条边，且都由一个显式 IT 否定。
++- 最后一轮候选最大度：`2`；IT 证书：`('0_0', '1_0', '2_0', '3_1', '4_0', '5_0', '6_0', '7_0', '8_0', '9_0', '10_1', '11_0', '12_0', '13_1')`。
++
++这不是对 `(b,m,D)=(3,14,2)` 的穷尽不可行证明；它证明的是：当前 100 个由累积覆盖切平面产生的最稀疏候选全部落入第一类证书（IT 证书），尚未触发 no-configuration、root-budget、slot-congestion 或 global real-edge reuse。
++
++## 4. 当前计算结论
++
++1. 重建实现通过全部公开回归数值，因此足以作为接外层生成器的可复算基线。
++2. 首个真正低度参数点的 100 轮切平面搜索只产生 IT 证书，没有发现目标反模型或配置 Hall 障碍。
++3. 下一次计算最有价值的改进，是给外层加入同构破除、边极小/块极小约束与跨 root projection 的联合预算，而不是继续重复固定窗口审计。
++
++## 5. 可复算文件
++
++- `q0015_configuration_auditor.py`：完整脚本。
++- `q0015_first_execution_results.json`：机器可读原始结果，包括 LP 解、对偶证书、最小割和 100 轮日志。
++
++
++## 6. 后续严格升级
++
++首轮报告中的 MILP 状态只记录当时的 100 轮计算。随后用随机横截的一阶、二阶矩计数严格证明：
++\[
++(b,m,\Delta)=(3,14,2)
++\]
++不存在无 IT 实例。完整证明见 `q0015_hall_cut_structural_analysis.md` 第四节。因此该参数点现在是数学不可行结论，而不再只是计算观察。
+diff --git a/enumerate/q0015_first_execution_results.json b/enumerate/q0015_first_execution_results.json
+new file mode 100644
+index 0000000..31684ce
+--- /dev/null
++++ b/enumerate/q0015_first_execution_results.json
+@@ -0,0 +1,1169 @@
++{
++  "metadata": {
++    "implementation": "independent reconstruction from public Markdown",
++    "framework_version": "v0.4-auditor-grounded",
++    "outer_search_parameters": {
++      "m": 14,
++      "b": 3,
++      "degree_bound": 2,
++      "iterations": 100,
++      "per_iteration_time_limit_seconds": 3.0
++    }
++  },
++  "regressions": {
++    "eight_edge_model": {
++      "independent_transversal": null,
++      "no_IT": true,
++      "max_degree": 3,
++      "edge_minimal_no_IT": true,
++      "block_minimal_no_IT": true,
++      "edge_deletion_IT_witnesses": {
++        "{0_0,1_0,2_0}": [
++          "0_0",
++          "1_0",
++          "2_0",
++          "3_0"
++        ],
++        "{0_0,1_1,3_0}": [
++          "0_0",
++          "1_1",
++          "2_0",
++          "3_0"
++        ],
++        "{0_0,2_1,3_1}": [
++          "0_0",
++          "1_0",
++          "2_1",
++          "3_1"
++        ],
++        "{0_1,1_0,3_1}": [
++          "0_1",
++          "1_0",
++          "2_0",
++          "3_1"
++        ],
++        "{0_1,1_1,2_1}": [
++          "0_1",
++          "1_1",
++          "2_1",
++          "3_0"
++        ],
++        "{0_1,2_0,3_0}": [
++          "0_1",
++          "1_0",
++          "2_0",
++          "3_0"
++        ],
++        "{1_0,2_1,3_0}": [
++          "0_0",
++          "1_0",
++          "2_1",
++          "3_0"
++        ],
++        "{1_1,2_0,3_1}": [
++          "0_0",
++          "1_1",
++          "2_0",
++          "3_1"
++        ]
++      },
++      "block_deletion_IT_witnesses": {
++        "0": [
++          "1_0",
++          "2_0",
++          "3_0"
++        ],
++        "1": [
++          "0_0",
++          "2_0",
++          "3_0"
++        ],
++        "2": [
++          "0_0",
++          "1_0",
++          "3_0"
++        ],
++        "3": [
++          "0_0",
++          "1_0",
++          "2_1"
++        ]
++      }
++    },
++    "specified_window": {
++      "order": [
++        0,
++        1,
++        2,
++        3
++      ],
++      "root_trace": [
++        "0_0",
++        "1_0"
++      ],
++      "obligations": [
++        {
++          "r": "2_1",
++          "x": "3_0",
++          "first_edge": "{1_0,2_1,3_0}",
++          "configurations": [
++            {
++              "pivot": "1_0",
++              "edge": "{1_0,2_1,3_0}",
++              "released_trace": [
++                "0_0",
++                "1_0",
++                "3_0"
++              ]
++            }
++          ]
++        },
++        {
++          "r": "2_1",
++          "x": "3_1",
++          "first_edge": "{0_0,2_1,3_1}",
++          "configurations": [
++            {
++              "pivot": "0_0",
++              "edge": "{0_0,2_1,3_1}",
++              "released_trace": [
++                "0_0",
++                "1_0",
++                "3_1"
++              ]
++            }
++          ]
++        }
++      ],
++      "budget_lp": {
++        "status": "optimal",
++        "t_min": 2.0,
++        "eta": 1.0,
++        "primal_objective": 2.0,
++        "dual_objective": 2.0,
++        "duality_gap": 0.0,
++        "q": {
++          "c676abc6d38b85f0:c0": {
++            "flow": 1.0,
++            "pivot": "1_0",
++            "edge": "{1_0,2_1,3_0}"
++          },
++          "0a1f8dd8da7d69ae:c0": {
++            "flow": 1.0,
++            "pivot": "0_0",
++            "edge": "{0_0,2_1,3_1}"
++          }
++        },
++        "y": {
++          "0_0": 1.0,
++          "1_0": 1.0
++        },
++        "alpha": {
++          "c676abc6d38b85f0": 1.0,
++          "0a1f8dd8da7d69ae": 1.0
++        },
++        "beta": {
++          "0_0|{0_0,2_1,3_1}": 1.0,
++          "1_0|{1_0,2_1,3_0}": 1.0
++        }
++      },
++      "fixed_half_budget_flow": {
++        "max_flow": 1.0,
++        "min_cut": 1.0,
++        "source_side": [
++          "a:0a1f8dd8da7d69ae",
++          "a:c676abc6d38b85f0",
++          "slot:0_0|{0_0,2_1,3_1}",
++          "slot:1_0|{1_0,2_1,3_0}",
++          "source"
++        ],
++        "sink_side": [
++          "sink"
++        ],
++        "cut_edges": [
++          {
++            "from": "slot:0_0|{0_0,2_1,3_1}",
++            "to": "sink",
++            "capacity": 0.5
++          },
++          {
++            "from": "slot:1_0|{1_0,2_1,3_0}",
++            "to": "sink",
++            "capacity": 0.5
++          }
++        ],
++        "demand": 2.0,
++        "unmet": 1.0
++      },
++      "global_real_edge_flow": {
++        "max_flow": 2.0,
++        "min_cut": 2.0,
++        "source_side": [
++          "a:0a1f8dd8da7d69ae",
++          "a:c676abc6d38b85f0",
++          "edge:{0_0,2_1,3_1}",
++          "edge:{1_0,2_1,3_0}",
++          "source"
++        ],
++        "sink_side": [
++          "sink"
++        ],
++        "cut_edges": [
++          {
++            "from": "edge:{0_0,2_1,3_1}",
++            "to": "sink",
++            "capacity": 1.0
++          },
++          {
++            "from": "edge:{1_0,2_1,3_0}",
++            "to": "sink",
++            "capacity": 1.0
++          }
++        ],
++        "demand": 2.0,
++        "unmet": 0.0
++      }
++    },
++    "all_24_orders": {
++      "root_groups_with_failures": 144,
++      "classification": {
++        "zero-error-budget-feasible": 48,
++        "positive-root-budget-gap": 48,
++        "no-configuration": 48
++      }
++    },
++    "nine_edge_repair": {
++      "added_edge": "{0_0,1_0,2_1}",
++      "order": [
++        0,
++        3,
++        1,
++        2
++      ],
++      "root_trace": [
++        "0_0",
++        "3_0"
++      ],
++      "obligation_count": 2,
++      "budget_lp": {
++        "status": "optimal",
++        "t_min": 1.0,
++        "eta": 0.0,
++        "primal_objective": 1.0,
++        "dual_objective": 1.0,
++        "duality_gap": 0.0,
++        "q": {
++          "21ff887089db6346:c0": {
++            "flow": 1.0,
++            "pivot": "0_0",
++            "edge": "{0_0,1_0,2_0}"
++          },
++          "b4913fdc8023deb0:c0": {
++            "flow": 1.0,
++            "pivot": "0_0",
++            "edge": "{0_0,1_0,2_1}"
++          }
++        },
++        "y": {
++          "0_0": 1.0
++        },
++        "alpha": {
++          "b4913fdc8023deb0": 1.0
++        },
++        "beta": {
++          "0_0|{0_0,1_0,2_1}": 1.0
++        }
++      },
++      "obligations": [
++        {
++          "r": "1_0",
++          "x": "2_0",
++          "first_edge": "{0_0,1_0,2_0}",
++          "pivots": [
++            "0_0"
++          ]
++        },
++        {
++          "r": "1_0",
++          "x": "2_1",
++          "first_edge": "{0_0,1_0,2_1}",
++          "pivots": [
++            "0_0"
++          ]
++        }
++      ]
++    },
++    "genealogy_collision": {
++      "root_A_t_min": 1.0,
++      "root_B_t_min": 1.0,
++      "incorrectly_merged_t_min": 2.0,
++      "incorrectly_merged_eta": 1.0
++    }
++  },
++  "outer_search": {
++    "status": "iteration-limit-reached-with-IT-certificates",
++    "counting_certificate": {
++      "m": 14,
++      "b": 3,
++      "degree_bound": 2,
++      "minimum_edges_needed_by_transversal_counting": 27,
++      "maximum_edges_allowed_by_degree_sum": 28,
++      "no_IT_candidate_impossible_by_counting": false,
++      "inequality": "14*3*2 < 3*3^3"
++    },
++    "edge_variable_count": 9828,
++    "cut_count": 100,
++    "iterations": [
++      {
++        "iteration": 0,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.638394832611084,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "a23788e32796e9d7"
++      },
++      {
++        "iteration": 1,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.32201313972473145,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "78c08fcb2a9d3cbe"
++      },
++      {
++        "iteration": 2,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4227612018585205,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "17c386453dc8b544"
++      },
++      {
++        "iteration": 3,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.16104960441589355,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "7f5628632dfbefab"
++      },
++      {
++        "iteration": 4,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.43480515480041504,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "1549bba604c4067f"
++      },
++      {
++        "iteration": 5,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4138059616088867,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "b68efc1e97697120"
++      },
++      {
++        "iteration": 6,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.34597086906433105,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0fb69bc8e99c0141"
++      },
++      {
++        "iteration": 7,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.38886070251464844,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "db828a5332063dd6"
++      },
++      {
++        "iteration": 8,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.17646574974060059,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5cb03de9c675458f"
++      },
++      {
++        "iteration": 9,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.48664212226867676,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5979a04987e8de1f"
++      },
++      {
++        "iteration": 10,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6015121936798096,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "17c691962eaa6faf"
++      },
++      {
++        "iteration": 11,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.17525839805603027,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "ef7f92688b88286e"
++      },
++      {
++        "iteration": 12,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4791285991668701,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "50d1b6b22f783626"
++      },
++      {
++        "iteration": 13,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.17723941802978516,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "e0cbf28ff976e5eb"
++      },
++      {
++        "iteration": 14,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4827768802642822,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0dac640a9f7a6baa"
++      },
++      {
++        "iteration": 15,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.43914127349853516,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "c64e098fbc4d93ca"
++      },
++      {
++        "iteration": 16,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4493584632873535,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "e5c3d38a16447328"
++      },
++      {
++        "iteration": 17,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.3227100372314453,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "8bbaf132706a9c72"
++      },
++      {
++        "iteration": 18,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.18858551979064941,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "2550101d5d923cfa"
++      },
++      {
++        "iteration": 19,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4418635368347168,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "232309cd5f7b5c08"
++      },
++      {
++        "iteration": 20,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6242411136627197,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "d54702b7917d0f68"
++      },
++      {
++        "iteration": 21,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.23613882064819336,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "80fa475374908ba7"
++      },
++      {
++        "iteration": 22,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.3954017162322998,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "540909d73e095c50"
++      },
++      {
++        "iteration": 23,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4333186149597168,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0a96cf0f5b20b0a3"
++      },
++      {
++        "iteration": 24,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4471859931945801,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "a3cdfdda2498c0c1"
++      },
++      {
++        "iteration": 25,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4499175548553467,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "d78eb09d0ee05b93"
++      },
++      {
++        "iteration": 26,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.38504576683044434,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5249eaef875574d5"
++      },
++      {
++        "iteration": 27,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.3619849681854248,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "09aae62638d6372d"
++      },
++      {
++        "iteration": 28,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4993565082550049,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "4d00934c57aa9068"
++      },
++      {
++        "iteration": 29,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5331220626831055,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5112b61399ff2574"
++      },
++      {
++        "iteration": 30,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5242748260498047,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "08fa9e5664bdf092"
++      },
++      {
++        "iteration": 31,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4226541519165039,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "703153f2a1c2d698"
++      },
++      {
++        "iteration": 32,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.41248154640197754,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "d1dfe352a8fa3a1e"
++      },
++      {
++        "iteration": 33,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4445664882659912,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "6bfe979517e43dca"
++      },
++      {
++        "iteration": 34,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.3871421813964844,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "ebebec448259ef16"
++      },
++      {
++        "iteration": 35,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4658060073852539,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "3d668677c18b1e70"
++      },
++      {
++        "iteration": 36,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5358691215515137,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "429ed9d94a31ea51"
++      },
++      {
++        "iteration": 37,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.45267796516418457,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0c4006bc215795f4"
++      },
++      {
++        "iteration": 38,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.20744538307189941,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "7ece9e81ec1641d2"
++      },
++      {
++        "iteration": 39,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4846806526184082,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5e64a67d6d11871e"
++      },
++      {
++        "iteration": 40,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4726979732513428,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "4103fbec1b45c1d9"
++      },
++      {
++        "iteration": 41,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5265612602233887,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "fe71de694df62d52"
++      },
++      {
++        "iteration": 42,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.38559484481811523,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "e779c7df2ea54263"
++      },
++      {
++        "iteration": 43,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.46519923210144043,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "816ef727cf009e31"
++      },
++      {
++        "iteration": 44,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6491339206695557,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "db91f6133dd17ea0"
++      },
++      {
++        "iteration": 45,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5489223003387451,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5c4f79ed3f4aca80"
++      },
++      {
++        "iteration": 46,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.2396700382232666,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "f57a27cfb1afc9fa"
++      },
++      {
++        "iteration": 47,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.39640212059020996,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "214e1189898018c6"
++      },
++      {
++        "iteration": 48,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4184761047363281,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "13c790a735ca752b"
++      },
++      {
++        "iteration": 49,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5661783218383789,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "d43b401df643072a"
++      },
++      {
++        "iteration": 50,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.41690659523010254,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "7e9c32ba6cd25afc"
++      },
++      {
++        "iteration": 51,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.49442267417907715,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "c39fad587b4272ea"
++      },
++      {
++        "iteration": 52,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.42981410026550293,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "af3227e8477f5c86"
++      },
++      {
++        "iteration": 53,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5691797733306885,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "cccd91756b955b5d"
++      },
++      {
++        "iteration": 54,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4353959560394287,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "432d17af230f743a"
++      },
++      {
++        "iteration": 55,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4329695701599121,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "a3629eec70b97048"
++      },
++      {
++        "iteration": 56,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.656620979309082,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "694eb9d5b91dfa21"
++      },
++      {
++        "iteration": 57,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.1809844970703125,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "c521d3d2692905c1"
++      },
++      {
++        "iteration": 58,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6229920387268066,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "9c78ae1310f85d97"
++      },
++      {
++        "iteration": 59,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5302627086639404,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "9afa92d79a2c0a88"
++      },
++      {
++        "iteration": 60,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5153939723968506,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0468fd8d43709584"
++      },
++      {
++        "iteration": 61,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5059733390808105,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "4b384e2d053bf489"
++      },
++      {
++        "iteration": 62,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.46107006072998047,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "ff9251c3e1a5aa2a"
++      },
++      {
++        "iteration": 63,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4315836429595947,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0308f57a2e89178c"
++      },
++      {
++        "iteration": 64,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.39536428451538086,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "0d9abaeb6e4b99f4"
++      },
++      {
++        "iteration": 65,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4600794315338135,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "410aacf8d76d98f0"
++      },
++      {
++        "iteration": 66,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4953618049621582,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "e9d740111c8d522e"
++      },
++      {
++        "iteration": 67,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5075702667236328,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "3a0941b1c77eb043"
++      },
++      {
++        "iteration": 68,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.565868616104126,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "31aae6815ea9b261"
++      },
++      {
++        "iteration": 69,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.42192816734313965,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "eb3ebc42a28b37da"
++      },
++      {
++        "iteration": 70,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5900435447692871,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "748c5b23d6a78f0a"
++      },
++      {
++        "iteration": 71,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.22637701034545898,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "d520169b73fc7106"
++      },
++      {
++        "iteration": 72,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4443185329437256,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "caef620a05107792"
++      },
++      {
++        "iteration": 73,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4675264358520508,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "05af427d0511b6f6"
++      },
++      {
++        "iteration": 74,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.46013474464416504,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "9357fb720ba16680"
++      },
++      {
++        "iteration": 75,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.45951294898986816,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "cb83b5013d70e816"
++      },
++      {
++        "iteration": 76,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.47000622749328613,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "88b0381be7810fda"
++      },
++      {
++        "iteration": 77,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.42503976821899414,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "4567b96790e3f7cf"
++      },
++      {
++        "iteration": 78,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4125652313232422,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "bcd95b9c33109584"
++      },
++      {
++        "iteration": 79,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.46616196632385254,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5964557fd3bf72b0"
++      },
++      {
++        "iteration": 80,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.46449995040893555,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "bd91e65206e6a072"
++      },
++      {
++        "iteration": 81,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5785534381866455,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "56630ef88eb1b37d"
++      },
++      {
++        "iteration": 82,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5890393257141113,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "c8607556d5f3af2c"
++      },
++      {
++        "iteration": 83,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.43694543838500977,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "773d63dedda8e2f5"
++      },
++      {
++        "iteration": 84,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4436218738555908,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "7675b7348527e7ee"
++      },
++      {
++        "iteration": 85,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5534536838531494,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5d5b7587af8eaf25"
++      },
++      {
++        "iteration": 86,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4608592987060547,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "e658ed881f47bb00"
++      },
++      {
++        "iteration": 87,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6368134021759033,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "c497a6714dbd7bca"
++      },
++      {
++        "iteration": 88,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5543708801269531,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "98a8fbe3451f6f08"
++      },
++      {
++        "iteration": 89,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6277544498443604,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "2a547c4a0c2c00ca"
++      },
++      {
++        "iteration": 90,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5611791610717773,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "5bb646c16610d323"
++      },
++      {
++        "iteration": 91,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4750840663909912,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "1de251222ae289f3"
++      },
++      {
++        "iteration": 92,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5511059761047363,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "db5e9fb091829965"
++      },
++      {
++        "iteration": 93,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.4820871353149414,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "7352f40ff02fa7d2"
++      },
++      {
++        "iteration": 94,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5214753150939941,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "49559ddd79b59cac"
++      },
++      {
++        "iteration": 95,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6471695899963379,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "2adbd216c4607307"
++      },
++      {
++        "iteration": 96,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5853016376495361,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "9aae70ffc4a5ce59"
++      },
++      {
++        "iteration": 97,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.5557458400726318,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "eaf72b6e9df7ed41"
++      },
++      {
++        "iteration": 98,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.6422171592712402,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "86cd384d1ed2fe1b"
++      },
++      {
++        "iteration": 99,
++        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
++        "elapsed_seconds": 0.49526071548461914,
++        "selected_edge_count": 27,
++        "IT_found": true,
++        "IT_witness_hash": "784bde0cbde34350"
++      }
++    ],
++    "last_candidate": {
++      "selected_edge_count": 27,
++      "max_degree": 2,
++      "IT_witness": [
++        "0_0",
++        "1_0",
++        "2_0",
++        "3_1",
++        "4_0",
++        "5_0",
++        "6_0",
++        "7_0",
++        "8_0",
++        "9_0",
++        "10_1",
++        "11_0",
++        "12_0",
++        "13_1"
++      ],
++      "edges": [
++        "{0_1,1_2,10_1}",
++        "{0_0,3_0,6_0}",
++        "{0_0,3_2,6_0}",
++        "{0_2,4_0,5_0}",
++        "{0_2,5_1,11_0}",
++        "{1_1,2_1,3_2}",
++        "{1_0,4_0,13_0}",
++        "{1_2,5_0,11_2}",
++        "{1_0,7_0,10_0}",
++        "{1_1,10_0,12_1}",
++        "{2_0,4_2,9_2}",
++        "{2_2,4_1,9_1}",
++        "{2_1,6_1,12_2}",
++        "{2_0,7_1,13_1}",
++        "{2_2,9_1,12_0}",
++        "{3_1,11_0,12_1}",
++        "{4_2,5_2,8_1}",
++        "{4_1,7_1,10_2}",
++        "{5_1,10_1,11_1}",
++        "{5_2,10_2,11_1}",
++        "{6_2,7_0,9_0}",
++        "{6_1,8_2,13_1}",
++        "{6_2,11_2,12_2}",
++        "{7_2,8_0,12_0}",
++        "{7_2,8_1,13_2}",
++        "{8_0,9_2,13_2}",
++        "{8_2,9_0,13_0}"
++      ]
++    },
++    "interpretation": "Every MILP incumbent was refuted by an explicit independent transversal. Reaching the iteration limit is not an exhaustive infeasibility proof."
++  }
++}
+diff --git a/enumerate/q0015_hall_cut_structural_analysis.json b/enumerate/q0015_hall_cut_structural_analysis.json
+new file mode 100644
+index 0000000..be39f50
+--- /dev/null
++++ b/enumerate/q0015_hall_cut_structural_analysis.json
+@@ -0,0 +1,58 @@
++{
++  "classification": {
++    "zero-error-budget-feasible": 48,
++    "positive-root-budget-gap": 48,
++    "no-configuration": 48
++  },
++  "positive_root_budget_signature_counts": {
++    "(2, 2, 2, 2, 2, 2.0)": 48
++  },
++  "positive_root_edge_multiplicity": {
++    "{1_0,2_1,3_0}": 12,
++    "{0_0,2_1,3_1}": 12,
++    "{0_1,2_0,3_0}": 12,
++    "{1_1,2_0,3_1}": 12,
++    "{0_0,1_1,3_0}": 12,
++    "{0_1,1_0,3_1}": 12,
++    "{0_0,1_0,2_0}": 12,
++    "{0_1,1_1,2_1}": 12
++  },
++  "positive_pivot_multiplicity": {
++    "1_0": 12,
++    "0_0": 12,
++    "0_1": 12,
++    "1_1": 12,
++    "2_0": 12,
++    "2_1": 12,
++    "3_0": 12,
++    "3_1": 12
++  },
++  "no_configuration_signature_counts": {
++    "(4, 2, 2, 2, 1, 1, True)": 48
++  },
++  "no_configuration_edge_multiplicity": {
++    "{0_0,1_1,3_0}": 12,
++    "{0_1,1_0,3_1}": 12,
++    "{0_0,1_0,2_0}": 12,
++    "{0_1,1_1,2_1}": 12,
++    "{0_0,2_1,3_1}": 12,
++    "{0_1,2_0,3_0}": 12,
++    "{1_0,2_1,3_0}": 12,
++    "{1_1,2_0,3_1}": 12
++  },
++  "no_configuration_groups_with_future_distinguished_predecessors": 48,
++  "b3_m14_D2_exclusion": {
++    "edge_count_range_if_no_IT": [
++      27,
++      28
++    ],
++    "max_incompatible_edge_pairs": 168,
++    "case_27_total_pairs": 351,
++    "case_27_contradiction": true,
++    "case_28_compatible_pairs_lower_bound": 210,
++    "case_28_second_factorial_moment_lower_bound": 0.2880658436213992,
++    "case_28_Z_max": 9,
++    "case_28_second_factorial_moment_upper_bound": 0.1666666666666664,
++    "case_28_contradiction": true
++  }
++}
+diff --git a/enumerate/q0015_hall_cut_structural_analysis.md b/enumerate/q0015_hall_cut_structural_analysis.md
+new file mode 100644
+index 0000000..d26adc4
+--- /dev/null
++++ b/enumerate/q0015_hall_cut_structural_analysis.md
+@@ -0,0 +1,115 @@
++# 配置 Hall 枚举数据的结构分析
++
++## 一、144 个真实 root group 的精确分类
++
++- 零误差预算可行：48。
++- 正 root-budget 缺口：48。
++- 含 no-configuration 义务：48。
++
++### 正 root-budget 缺口的统一签名
++
++全部 48 个正缺口具有同一结构：
++
++- 根迹长度为 2；
++- 恰有 2 个单位义务；
++- 每个义务恰有 1 个合法配置；
++- 两个配置使用 2 个不同 pivot；
++- 两个配置使用 2 条不同真实根边；
++- `t_min=2`，所以 `eta=1`。
++
++因此，在单个真实 root 内，这些缺口不是“同一真实边重复使用”，而是两个不同
++pivot-edge incidence 同时要求完整单位预算。它们具有局部度数收费解释。
++
++但是，把 24 个块顺序全部统计在一起时，每条八边模型的真实边都出现 12 次，每个真实
++顶点也作为 pivot 出现 12 次。因此“在一个 root 内是新边”绝不等于“在全局账本中仍然
++新鲜”。任何证明都必须保存块顺序/genealogy，或者给出合法的未来等价 quotient；否则会
++把同一真实度数重复收费。
++
++### no-configuration 的统一签名
++
++全部 48 个 no-configuration root group 也具有同一结构：
++
++- 共 4 个义务，其中 2 个无配置、2 个有配置；
++- 两个无配置义务对应两个不同的插入顶点 `r`；
++- 它们尝试同一个 `x`；
++- 它们共享同一条第一阻断真实边；
++- 该阻断边不含 `r`，所以释放 `r` 后阻断边仍完整存在；
++- 两个前驱在另一个候选 `x` 上的第一阻断边不同，故全部 48 对前驱都被有限未来明确区分。
++
++所以这些前驱不能仅因当前失败边相同而 quotient。它们表现为“同一旧阻断边跨两个
++genealogy 重用”，但下一次测试已经把二者区分开来。
++
++## 二、genealogy 碰撞给 quotient 的限制
++
++回归数据中，两个 root 分开时各自 `t_min=1`；错误合并相同压缩迹后变成
++`t_min=2, eta=1`。这说明一个合法 quotient 至少必须保持：
++
++1. root projection 的质量重数；
++2. 每个 `(root,pivot,edge)` 槽位容量；
++3. 真实边账本中的容量；
++4. 所有未来第一阻断边的标签。
++
++“相同部分横截”或“相同当前动作”都不足以定义未来等价。
++
++## 三、九边修复的含义
++
++新增一条优先级更高的真实边后，某个两义务根组由正缺口变成 `eta=0`。因此 Hall 缺口
++不是仅由无标签局部相位决定的稳定拓扑障碍；第一阻断真实边的身份与顺序会改变配置邻域。
++若要从最小割推出子核心，必须先证明该割对允许的真实认证选择具有稳定性。
++
++## 四、首个低度参数点可以严格排除
++
++考虑 `b=3, m=14, Delta<=2`。若无 IT，令随机完整横截中所含真实边数为 `Z`。
++
++每条边被随机横截包含的概率为 `1/27`，故
++`E[Z]=|E|/27`。无 IT 给出 `Z>=1`；总度预算给出 `27<=|E|<=28`。
++
++### 情形 |E|=27
++
++此时 `E[Z]=1` 且 `Z>=1`，所以每个横截恰含一条边，任意两条边必须不相容。
++
++每个块的三个顶点度数均至多 2；在一个块内，由不同顶点产生的不相容边对至多为
++`2*2+2*2+2*2=12`。14 个块至多认证 168 对不相容边，但 27 条边共有
++`C(27,2)=351` 对，矛盾。
++
++### 情形 |E|=28
++
++仍有至多 168 对不相容边，故至少 `C(28,2)-168=210` 对相容边。每对相容三边的联合
++支持至多使用 6 个块，所以同时落入随机横截的概率至少 `3^(-6)=1/729`。于是
++
++`E[C(Z,2)] >= 210/729 = 70/243`.
++
++另一方面，一个横截有 14 个选中顶点，每个选中顶点至多属于 2 条边，因此
++`3Z<=28`，即 `Z<=9`。对 `1<=Z<=9`，
++
++`C(Z,2) <= (9/2)(Z-1)`。
++
++又 `E[Z-1]=1/27`，故
++
++`E[C(Z,2)] <= (9/2)(1/27)=1/6`.
++
++但 `70/243 > 1/6`，矛盾。
++
++因此 `(b,m,Delta)=(3,14,2)` 不存在无 IT 候选；此前 100 轮 MILP 只能给出 IT 并非偶然。
++
++## 五、对核心三出口问题的当前回答
++
++现有数据支持以下较弱结论：
++
++- 对全部真实正 root-budget 缺口，单 root 内确实存在不同的真实 pivot-edge incidence，
++  因而有局部“度数收费”解释；
++- 所有看似可 quotient 的 no-configuration 重用都被一层未来测试区分；
++- 唯一制造纯槽位缺口的 quotient 样例来自非法 genealogy 合并；
++- 当前数据没有出现合法、低度、块极小、无 IT 的真实 Hall 最小割，所以尚未测试真正困难的
++  三出口情形；
++- 当前数据也没有出现必须由完整真子核心解释的割。
++
++因此不能从这些枚举断言三出口命题为真，但数据强烈支持这样一个精化方向：
++
++> 先按真实 root projection 分离最小割；若割需求能注入尚未收费的真实
++> `(pivot,edge)` incidence，则走度数出口。若不能，先以有限深度、全标签未来树检验
++> ledger-preserving quotient。若既无新鲜注入又无合法 quotient，再证明最小割的块支持
++> 对所有第一阻断和 defect move 闭合；只有这一步才有希望推出完整真实子核心。
++
++其中最缺少的并不是更多八边模型枚举，而是“无法新鲜收费 + 无未来等价”如何强迫块支持
++闭合的组合引理。

@@ -1,8 +1,8 @@
 # SINGLE_DEFECT_FRAMEWORK
 
-> **版本：** v0.4-auditor-grounded
+> **版本：** v0.5-switch-audited
 > **日期：** 2026-07-27
-> **状态：** 研究草稿；零误差共同预置 pivot 命题已被否定；Q-0015 首轮真实执行审计器、预算 LP、对偶 Hall 证书和回归测试已经实现；一般低度近无损配置定理、defect closure 与 terminal SCC 分类仍开放。
+> **状态：** 研究草稿；Q-0015 审计器与结果已归档到 `enumerate/`；组合 pivot-switch、真实 reroot lift、逃逸收费 Hall 网络和条件临界分裂器森林摊还已经形式化；一般低度近无损配置定理、因果 incidence 集中、persistent-blocker 正常形与 terminal SCC 分类仍开放。
 > **目标：** 将“单缺陷可逆修复”写成一个可证明、可反驳、可编程检查的数学对象。
 
 ---
@@ -45,7 +45,7 @@
 | `old/chatgpt-export_文章核心问题分析(1).txt` | 有序旋转、pivot persistence、偏轴/远端缺陷；单个轻锚局部关闭不能无条件全局重复。 |
 | `old/chatgpt-export_证明主线与障碍.txt` | 历史重数不等于真实边数；SCC、代码簿与有限相位模型必须保留真实 lift。 |
 | `FACTS.md`, `QUESTIONS.md`, `FAILURES.md` | F-0005、F-0022、F-0027–F-0029；Q-0002–Q-0007、Q-0014–Q-0015；A-0001–A-0004、A-0010–A-0013、A-0018、A-0020–A-0022。 |
-| `q0015_configuration_auditor.py` 及其归档结果 | 实际成功执行树、失败义务、合法配置枚举、预算 LP、分数 Hall 对偶、固定预算最大流、独立真实边账本和三组回归测试。其输出是计算证书，不自动升级为一般定理。 |
+| `enumerate/q0015_configuration_auditor.py` 及 `enumerate/` 中的归档结果 | 实际成功执行树、失败义务、合法配置枚举、预算 LP、分数 Hall 对偶、固定预算最大流、独立真实边账本和三组回归测试。其输出是计算证书，不自动升级为一般定理。 |
 
 ### 1.1 三条设计原则
 
@@ -1409,3 +1409,128 @@ root group，分类为
 - terminal SCC 有三出口分类。
 
 它完成的是 Q-0015 的审计基础设施和最小回归基线。
+
+
+---
+## 24. Pivot-switch、逃逸收费与当前结构边界
+
+本节把配置化 defect closure 中的 `off-pivot` 与 `multi-defect` 从未分类异常细化为可审计的组合对象和真实边容量接口。完整证明与实现规格见 `PIVOT_SWITCH_ESCAPE_FRAMEWORK.md`。
+
+### 24.1 组合 pivot-switch
+
+设活动单缺陷状态为
+\[
+(U,p,M),\qquad U\text{ 独立},\quad p\in U,\quad
+\operatorname{blk}(U)=\mathcal J\setminus\{M\}.
+\]
+尝试 \(y\in M\)，第一阻断边为
+\[
+f=\{q,z,y\},\qquad q,z\in U,\quad p\notin f.
+\]
+若
+\[
+U'=(U\setminus\{z\})\cup\{y\}
+\]
+独立，则称 \((y,z,q,f)\) 为一个组合 pivot-switch 方块，并记
+\[
+(U,p,M)\rightsquigarrow(U',q,B(z)).
+\]
+这是纯组合定义：它只断言同一真实三边 \(f\) 连接两个独立交换侧。root projection、genealogy 和容量不属于组合定义。
+
+### 24.2 可执行性与真实 reroot lift
+
+一个组合 switch 只有在存在实际访问的两步前驱
+\[
+U-z\xrightarrow{+z}U\xrightarrow[\mathrm{fail}]{y}f
+\]
+时，才可重新解释为以 \(q\) 为 pivot 的合法新根配置。该 path-lift 必须保存原 genealogy 与新 reroot 见证；不能通过事后从集合 \(U\) 删除 \(z\) 来制造父记录。
+
+因此：
+
+- 组合 switch 可直接作为真实边收费出口；
+- 组合 switch 加真实 reroot lift 可作为已支付的新 defect 状态继续；
+- 未经 path-lift 的 switch 不得伪装成新的未支付根分支。
+
+### 24.3 交换方向的完全局部分类
+
+若第一阻断边为 \(f=\{a,b,y\}\)，定义
+\[
+\Omega(U,y,f)=
+\{(a,b):(U-b)+y\text{ 独立}\}
+\cup
+\{(b,a):(U-a)+y\text{ 独立}\}.
+\]
+则每个失败尝试恰落入：
+
+1. \((p,z)\in\Omega\)：普通 fixed-pivot move；
+2. \(\Omega\ne\varnothing\) 但无原 pivot 方向：组合 pivot-switch；
+3. \(\Omega=\varnothing\)：删除任一旧端点后仍不独立，因而可抽取一条不同于 \(f\) 的第二真实阻断边。
+
+所以 orientation ambiguity 不需要作为独立黑箱异常；应完整枚举两个交换方向。
+
+### 24.4 逃逸收费 Hall 网络
+
+对不能普通继续的 escape obligation \(o\)，建立候选 incidence 集：
+
+- switch 型：合法方向 \((q,z)\) 给出 \((q,f)\)；
+- multi-defect 型：释放后存活的第二真实边 \(g\) 给出 \((y,g)\)。
+
+建立网络
+\[
+s\to o\to(v,e)\to e\to t,
+\]
+其中真实边 \(e\to t\) 使用全局剩余单位容量。最大流若覆盖全部 escape 质量，则所有 escape 质量被真实 incidence 支付；否则最小割给出
+\[
+\sum_{o\in\mathcal A}\mu(o)
+>
+\sum_{e\in N_E(\mathcal A)}c_{\rm res}(e),
+\]
+即一份可复算的真实边 reuse/Hall 证书。
+
+因此，在已支付 escape 质量移出活动系统后，所有仍未支付的活动质量严格留在同一个 fixed-pivot、同一 root projection、恰缺一个块的 defect 纤维中。
+
+### 24.5 条件临界分裂器森林摊还
+
+若 genealogy 展开的森林在每个内部节点满足质量守恒，且继续质量至多为
+\[
+\frac{11}{27}\mu(v),
+\]
+则任意深度 \(h\) 的截断满足
+\[
+W_h\le
+\frac{27}{16}\bigl(F_h+R_h+A_h\bigr)+B_h,
+\]
+其中 \(F_h\) 为 fresh 真实容量、\(R_h\) 为 reuse 溢出、\(A_h\) 为增广叶质量、\(B_h\) 为截断边界质量。临界 \(16/27\)-\(11/27\) 链取等，所以常数 \(27/16\) 最佳。
+
+该定理是条件记账结论；它不证明一般 persistent blocker 自动进入该正常形。
+
+### 24.6 真实 incidence 只能推出“集中或增殖”
+
+若总收费质量为 \(M\)，顶点负载为 \(L(v)\)，则
+\[
+\sum_vL(v)=M,
+\qquad
+L(v)\le d_H(v)\le\Delta(H),
+\]
+从而
+\[
+|\operatorname{supp}L|\ge M/\Delta(H).
+\]
+这只能推出“某点负载大，或出现许多不同收费顶点”。它不能无条件推出完整子核心或 \(1/4\) link 乘积。
+
+对角分散模型
+\[
+f_i=\{q_i,z_i,y_i\}
+\]
+给出低度、无复用、完全分散的 switch incidence，而仍有 IT、无完整块无 IT 子核心。因此朴素的 incidence concentration 定理为假。
+
+### 24.7 当前真正开放的结构命题
+
+剩余核心应表述为因果 incidence 再生/集中：在块极小无 IT、未来闭合、无 reuse、无增广、无 exact-future quotient 的真实执行区域中，若新收费 pivot 均有可审计的因果生产见证，则大量分散的新 pivot 必须产生以下至少一项：
+
+1. 正比例新增真实容量；
+2. 某顶点度数达到 \((1/4-o(1))b^2\)；
+3. 完整真子无 IT 核心；
+4. 未覆盖未来选择，从而产生 IT。
+
+该命题仍开放，等价地包含旧 handoff 中的认证再生附加费/二进制强迫森林终局。不得把第 24.6 节的集中—增殖不等式误写成该结构定理。

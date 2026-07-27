@@ -1,0 +1,1169 @@
+{
+  "metadata": {
+    "implementation": "independent reconstruction from public Markdown",
+    "framework_version": "v0.4-auditor-grounded",
+    "outer_search_parameters": {
+      "m": 14,
+      "b": 3,
+      "degree_bound": 2,
+      "iterations": 100,
+      "per_iteration_time_limit_seconds": 3.0
+    }
+  },
+  "regressions": {
+    "eight_edge_model": {
+      "independent_transversal": null,
+      "no_IT": true,
+      "max_degree": 3,
+      "edge_minimal_no_IT": true,
+      "block_minimal_no_IT": true,
+      "edge_deletion_IT_witnesses": {
+        "{0_0,1_0,2_0}": [
+          "0_0",
+          "1_0",
+          "2_0",
+          "3_0"
+        ],
+        "{0_0,1_1,3_0}": [
+          "0_0",
+          "1_1",
+          "2_0",
+          "3_0"
+        ],
+        "{0_0,2_1,3_1}": [
+          "0_0",
+          "1_0",
+          "2_1",
+          "3_1"
+        ],
+        "{0_1,1_0,3_1}": [
+          "0_1",
+          "1_0",
+          "2_0",
+          "3_1"
+        ],
+        "{0_1,1_1,2_1}": [
+          "0_1",
+          "1_1",
+          "2_1",
+          "3_0"
+        ],
+        "{0_1,2_0,3_0}": [
+          "0_1",
+          "1_0",
+          "2_0",
+          "3_0"
+        ],
+        "{1_0,2_1,3_0}": [
+          "0_0",
+          "1_0",
+          "2_1",
+          "3_0"
+        ],
+        "{1_1,2_0,3_1}": [
+          "0_0",
+          "1_1",
+          "2_0",
+          "3_1"
+        ]
+      },
+      "block_deletion_IT_witnesses": {
+        "0": [
+          "1_0",
+          "2_0",
+          "3_0"
+        ],
+        "1": [
+          "0_0",
+          "2_0",
+          "3_0"
+        ],
+        "2": [
+          "0_0",
+          "1_0",
+          "3_0"
+        ],
+        "3": [
+          "0_0",
+          "1_0",
+          "2_1"
+        ]
+      }
+    },
+    "specified_window": {
+      "order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "root_trace": [
+        "0_0",
+        "1_0"
+      ],
+      "obligations": [
+        {
+          "r": "2_1",
+          "x": "3_0",
+          "first_edge": "{1_0,2_1,3_0}",
+          "configurations": [
+            {
+              "pivot": "1_0",
+              "edge": "{1_0,2_1,3_0}",
+              "released_trace": [
+                "0_0",
+                "1_0",
+                "3_0"
+              ]
+            }
+          ]
+        },
+        {
+          "r": "2_1",
+          "x": "3_1",
+          "first_edge": "{0_0,2_1,3_1}",
+          "configurations": [
+            {
+              "pivot": "0_0",
+              "edge": "{0_0,2_1,3_1}",
+              "released_trace": [
+                "0_0",
+                "1_0",
+                "3_1"
+              ]
+            }
+          ]
+        }
+      ],
+      "budget_lp": {
+        "status": "optimal",
+        "t_min": 2.0,
+        "eta": 1.0,
+        "primal_objective": 2.0,
+        "dual_objective": 2.0,
+        "duality_gap": 0.0,
+        "q": {
+          "c676abc6d38b85f0:c0": {
+            "flow": 1.0,
+            "pivot": "1_0",
+            "edge": "{1_0,2_1,3_0}"
+          },
+          "0a1f8dd8da7d69ae:c0": {
+            "flow": 1.0,
+            "pivot": "0_0",
+            "edge": "{0_0,2_1,3_1}"
+          }
+        },
+        "y": {
+          "0_0": 1.0,
+          "1_0": 1.0
+        },
+        "alpha": {
+          "c676abc6d38b85f0": 1.0,
+          "0a1f8dd8da7d69ae": 1.0
+        },
+        "beta": {
+          "0_0|{0_0,2_1,3_1}": 1.0,
+          "1_0|{1_0,2_1,3_0}": 1.0
+        }
+      },
+      "fixed_half_budget_flow": {
+        "max_flow": 1.0,
+        "min_cut": 1.0,
+        "source_side": [
+          "a:0a1f8dd8da7d69ae",
+          "a:c676abc6d38b85f0",
+          "slot:0_0|{0_0,2_1,3_1}",
+          "slot:1_0|{1_0,2_1,3_0}",
+          "source"
+        ],
+        "sink_side": [
+          "sink"
+        ],
+        "cut_edges": [
+          {
+            "from": "slot:0_0|{0_0,2_1,3_1}",
+            "to": "sink",
+            "capacity": 0.5
+          },
+          {
+            "from": "slot:1_0|{1_0,2_1,3_0}",
+            "to": "sink",
+            "capacity": 0.5
+          }
+        ],
+        "demand": 2.0,
+        "unmet": 1.0
+      },
+      "global_real_edge_flow": {
+        "max_flow": 2.0,
+        "min_cut": 2.0,
+        "source_side": [
+          "a:0a1f8dd8da7d69ae",
+          "a:c676abc6d38b85f0",
+          "edge:{0_0,2_1,3_1}",
+          "edge:{1_0,2_1,3_0}",
+          "source"
+        ],
+        "sink_side": [
+          "sink"
+        ],
+        "cut_edges": [
+          {
+            "from": "edge:{0_0,2_1,3_1}",
+            "to": "sink",
+            "capacity": 1.0
+          },
+          {
+            "from": "edge:{1_0,2_1,3_0}",
+            "to": "sink",
+            "capacity": 1.0
+          }
+        ],
+        "demand": 2.0,
+        "unmet": 0.0
+      }
+    },
+    "all_24_orders": {
+      "root_groups_with_failures": 144,
+      "classification": {
+        "zero-error-budget-feasible": 48,
+        "positive-root-budget-gap": 48,
+        "no-configuration": 48
+      }
+    },
+    "nine_edge_repair": {
+      "added_edge": "{0_0,1_0,2_1}",
+      "order": [
+        0,
+        3,
+        1,
+        2
+      ],
+      "root_trace": [
+        "0_0",
+        "3_0"
+      ],
+      "obligation_count": 2,
+      "budget_lp": {
+        "status": "optimal",
+        "t_min": 1.0,
+        "eta": 0.0,
+        "primal_objective": 1.0,
+        "dual_objective": 1.0,
+        "duality_gap": 0.0,
+        "q": {
+          "21ff887089db6346:c0": {
+            "flow": 1.0,
+            "pivot": "0_0",
+            "edge": "{0_0,1_0,2_0}"
+          },
+          "b4913fdc8023deb0:c0": {
+            "flow": 1.0,
+            "pivot": "0_0",
+            "edge": "{0_0,1_0,2_1}"
+          }
+        },
+        "y": {
+          "0_0": 1.0
+        },
+        "alpha": {
+          "b4913fdc8023deb0": 1.0
+        },
+        "beta": {
+          "0_0|{0_0,1_0,2_1}": 1.0
+        }
+      },
+      "obligations": [
+        {
+          "r": "1_0",
+          "x": "2_0",
+          "first_edge": "{0_0,1_0,2_0}",
+          "pivots": [
+            "0_0"
+          ]
+        },
+        {
+          "r": "1_0",
+          "x": "2_1",
+          "first_edge": "{0_0,1_0,2_1}",
+          "pivots": [
+            "0_0"
+          ]
+        }
+      ]
+    },
+    "genealogy_collision": {
+      "root_A_t_min": 1.0,
+      "root_B_t_min": 1.0,
+      "incorrectly_merged_t_min": 2.0,
+      "incorrectly_merged_eta": 1.0
+    }
+  },
+  "outer_search": {
+    "status": "iteration-limit-reached-with-IT-certificates",
+    "counting_certificate": {
+      "m": 14,
+      "b": 3,
+      "degree_bound": 2,
+      "minimum_edges_needed_by_transversal_counting": 27,
+      "maximum_edges_allowed_by_degree_sum": 28,
+      "no_IT_candidate_impossible_by_counting": false,
+      "inequality": "14*3*2 < 3*3^3"
+    },
+    "edge_variable_count": 9828,
+    "cut_count": 100,
+    "iterations": [
+      {
+        "iteration": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.638394832611084,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "a23788e32796e9d7"
+      },
+      {
+        "iteration": 1,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.32201313972473145,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "78c08fcb2a9d3cbe"
+      },
+      {
+        "iteration": 2,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4227612018585205,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "17c386453dc8b544"
+      },
+      {
+        "iteration": 3,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.16104960441589355,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "7f5628632dfbefab"
+      },
+      {
+        "iteration": 4,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.43480515480041504,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "1549bba604c4067f"
+      },
+      {
+        "iteration": 5,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4138059616088867,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "b68efc1e97697120"
+      },
+      {
+        "iteration": 6,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.34597086906433105,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0fb69bc8e99c0141"
+      },
+      {
+        "iteration": 7,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.38886070251464844,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "db828a5332063dd6"
+      },
+      {
+        "iteration": 8,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.17646574974060059,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5cb03de9c675458f"
+      },
+      {
+        "iteration": 9,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.48664212226867676,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5979a04987e8de1f"
+      },
+      {
+        "iteration": 10,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6015121936798096,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "17c691962eaa6faf"
+      },
+      {
+        "iteration": 11,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.17525839805603027,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "ef7f92688b88286e"
+      },
+      {
+        "iteration": 12,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4791285991668701,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "50d1b6b22f783626"
+      },
+      {
+        "iteration": 13,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.17723941802978516,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "e0cbf28ff976e5eb"
+      },
+      {
+        "iteration": 14,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4827768802642822,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0dac640a9f7a6baa"
+      },
+      {
+        "iteration": 15,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.43914127349853516,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "c64e098fbc4d93ca"
+      },
+      {
+        "iteration": 16,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4493584632873535,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "e5c3d38a16447328"
+      },
+      {
+        "iteration": 17,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.3227100372314453,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "8bbaf132706a9c72"
+      },
+      {
+        "iteration": 18,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.18858551979064941,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "2550101d5d923cfa"
+      },
+      {
+        "iteration": 19,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4418635368347168,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "232309cd5f7b5c08"
+      },
+      {
+        "iteration": 20,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6242411136627197,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "d54702b7917d0f68"
+      },
+      {
+        "iteration": 21,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.23613882064819336,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "80fa475374908ba7"
+      },
+      {
+        "iteration": 22,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.3954017162322998,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "540909d73e095c50"
+      },
+      {
+        "iteration": 23,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4333186149597168,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0a96cf0f5b20b0a3"
+      },
+      {
+        "iteration": 24,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4471859931945801,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "a3cdfdda2498c0c1"
+      },
+      {
+        "iteration": 25,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4499175548553467,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "d78eb09d0ee05b93"
+      },
+      {
+        "iteration": 26,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.38504576683044434,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5249eaef875574d5"
+      },
+      {
+        "iteration": 27,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.3619849681854248,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "09aae62638d6372d"
+      },
+      {
+        "iteration": 28,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4993565082550049,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "4d00934c57aa9068"
+      },
+      {
+        "iteration": 29,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5331220626831055,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5112b61399ff2574"
+      },
+      {
+        "iteration": 30,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5242748260498047,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "08fa9e5664bdf092"
+      },
+      {
+        "iteration": 31,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4226541519165039,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "703153f2a1c2d698"
+      },
+      {
+        "iteration": 32,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.41248154640197754,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "d1dfe352a8fa3a1e"
+      },
+      {
+        "iteration": 33,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4445664882659912,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "6bfe979517e43dca"
+      },
+      {
+        "iteration": 34,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.3871421813964844,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "ebebec448259ef16"
+      },
+      {
+        "iteration": 35,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4658060073852539,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "3d668677c18b1e70"
+      },
+      {
+        "iteration": 36,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5358691215515137,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "429ed9d94a31ea51"
+      },
+      {
+        "iteration": 37,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.45267796516418457,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0c4006bc215795f4"
+      },
+      {
+        "iteration": 38,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.20744538307189941,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "7ece9e81ec1641d2"
+      },
+      {
+        "iteration": 39,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4846806526184082,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5e64a67d6d11871e"
+      },
+      {
+        "iteration": 40,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4726979732513428,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "4103fbec1b45c1d9"
+      },
+      {
+        "iteration": 41,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5265612602233887,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "fe71de694df62d52"
+      },
+      {
+        "iteration": 42,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.38559484481811523,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "e779c7df2ea54263"
+      },
+      {
+        "iteration": 43,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.46519923210144043,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "816ef727cf009e31"
+      },
+      {
+        "iteration": 44,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6491339206695557,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "db91f6133dd17ea0"
+      },
+      {
+        "iteration": 45,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5489223003387451,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5c4f79ed3f4aca80"
+      },
+      {
+        "iteration": 46,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.2396700382232666,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "f57a27cfb1afc9fa"
+      },
+      {
+        "iteration": 47,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.39640212059020996,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "214e1189898018c6"
+      },
+      {
+        "iteration": 48,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4184761047363281,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "13c790a735ca752b"
+      },
+      {
+        "iteration": 49,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5661783218383789,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "d43b401df643072a"
+      },
+      {
+        "iteration": 50,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.41690659523010254,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "7e9c32ba6cd25afc"
+      },
+      {
+        "iteration": 51,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.49442267417907715,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "c39fad587b4272ea"
+      },
+      {
+        "iteration": 52,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.42981410026550293,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "af3227e8477f5c86"
+      },
+      {
+        "iteration": 53,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5691797733306885,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "cccd91756b955b5d"
+      },
+      {
+        "iteration": 54,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4353959560394287,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "432d17af230f743a"
+      },
+      {
+        "iteration": 55,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4329695701599121,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "a3629eec70b97048"
+      },
+      {
+        "iteration": 56,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.656620979309082,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "694eb9d5b91dfa21"
+      },
+      {
+        "iteration": 57,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.1809844970703125,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "c521d3d2692905c1"
+      },
+      {
+        "iteration": 58,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6229920387268066,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "9c78ae1310f85d97"
+      },
+      {
+        "iteration": 59,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5302627086639404,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "9afa92d79a2c0a88"
+      },
+      {
+        "iteration": 60,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5153939723968506,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0468fd8d43709584"
+      },
+      {
+        "iteration": 61,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5059733390808105,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "4b384e2d053bf489"
+      },
+      {
+        "iteration": 62,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.46107006072998047,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "ff9251c3e1a5aa2a"
+      },
+      {
+        "iteration": 63,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4315836429595947,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0308f57a2e89178c"
+      },
+      {
+        "iteration": 64,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.39536428451538086,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "0d9abaeb6e4b99f4"
+      },
+      {
+        "iteration": 65,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4600794315338135,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "410aacf8d76d98f0"
+      },
+      {
+        "iteration": 66,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4953618049621582,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "e9d740111c8d522e"
+      },
+      {
+        "iteration": 67,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5075702667236328,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "3a0941b1c77eb043"
+      },
+      {
+        "iteration": 68,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.565868616104126,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "31aae6815ea9b261"
+      },
+      {
+        "iteration": 69,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.42192816734313965,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "eb3ebc42a28b37da"
+      },
+      {
+        "iteration": 70,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5900435447692871,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "748c5b23d6a78f0a"
+      },
+      {
+        "iteration": 71,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.22637701034545898,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "d520169b73fc7106"
+      },
+      {
+        "iteration": 72,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4443185329437256,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "caef620a05107792"
+      },
+      {
+        "iteration": 73,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4675264358520508,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "05af427d0511b6f6"
+      },
+      {
+        "iteration": 74,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.46013474464416504,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "9357fb720ba16680"
+      },
+      {
+        "iteration": 75,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.45951294898986816,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "cb83b5013d70e816"
+      },
+      {
+        "iteration": 76,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.47000622749328613,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "88b0381be7810fda"
+      },
+      {
+        "iteration": 77,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.42503976821899414,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "4567b96790e3f7cf"
+      },
+      {
+        "iteration": 78,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4125652313232422,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "bcd95b9c33109584"
+      },
+      {
+        "iteration": 79,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.46616196632385254,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5964557fd3bf72b0"
+      },
+      {
+        "iteration": 80,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.46449995040893555,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "bd91e65206e6a072"
+      },
+      {
+        "iteration": 81,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5785534381866455,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "56630ef88eb1b37d"
+      },
+      {
+        "iteration": 82,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5890393257141113,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "c8607556d5f3af2c"
+      },
+      {
+        "iteration": 83,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.43694543838500977,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "773d63dedda8e2f5"
+      },
+      {
+        "iteration": 84,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4436218738555908,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "7675b7348527e7ee"
+      },
+      {
+        "iteration": 85,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5534536838531494,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5d5b7587af8eaf25"
+      },
+      {
+        "iteration": 86,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4608592987060547,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "e658ed881f47bb00"
+      },
+      {
+        "iteration": 87,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6368134021759033,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "c497a6714dbd7bca"
+      },
+      {
+        "iteration": 88,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5543708801269531,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "98a8fbe3451f6f08"
+      },
+      {
+        "iteration": 89,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6277544498443604,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "2a547c4a0c2c00ca"
+      },
+      {
+        "iteration": 90,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5611791610717773,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "5bb646c16610d323"
+      },
+      {
+        "iteration": 91,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4750840663909912,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "1de251222ae289f3"
+      },
+      {
+        "iteration": 92,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5511059761047363,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "db5e9fb091829965"
+      },
+      {
+        "iteration": 93,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.4820871353149414,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "7352f40ff02fa7d2"
+      },
+      {
+        "iteration": 94,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5214753150939941,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "49559ddd79b59cac"
+      },
+      {
+        "iteration": 95,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6471695899963379,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "2adbd216c4607307"
+      },
+      {
+        "iteration": 96,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5853016376495361,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "9aae70ffc4a5ce59"
+      },
+      {
+        "iteration": 97,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.5557458400726318,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "eaf72b6e9df7ed41"
+      },
+      {
+        "iteration": 98,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.6422171592712402,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "86cd384d1ed2fe1b"
+      },
+      {
+        "iteration": 99,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "elapsed_seconds": 0.49526071548461914,
+        "selected_edge_count": 27,
+        "IT_found": true,
+        "IT_witness_hash": "784bde0cbde34350"
+      }
+    ],
+    "last_candidate": {
+      "selected_edge_count": 27,
+      "max_degree": 2,
+      "IT_witness": [
+        "0_0",
+        "1_0",
+        "2_0",
+        "3_1",
+        "4_0",
+        "5_0",
+        "6_0",
+        "7_0",
+        "8_0",
+        "9_0",
+        "10_1",
+        "11_0",
+        "12_0",
+        "13_1"
+      ],
+      "edges": [
+        "{0_1,1_2,10_1}",
+        "{0_0,3_0,6_0}",
+        "{0_0,3_2,6_0}",
+        "{0_2,4_0,5_0}",
+        "{0_2,5_1,11_0}",
+        "{1_1,2_1,3_2}",
+        "{1_0,4_0,13_0}",
+        "{1_2,5_0,11_2}",
+        "{1_0,7_0,10_0}",
+        "{1_1,10_0,12_1}",
+        "{2_0,4_2,9_2}",
+        "{2_2,4_1,9_1}",
+        "{2_1,6_1,12_2}",
+        "{2_0,7_1,13_1}",
+        "{2_2,9_1,12_0}",
+        "{3_1,11_0,12_1}",
+        "{4_2,5_2,8_1}",
+        "{4_1,7_1,10_2}",
+        "{5_1,10_1,11_1}",
+        "{5_2,10_2,11_1}",
+        "{6_2,7_0,9_0}",
+        "{6_1,8_2,13_1}",
+        "{6_2,11_2,12_2}",
+        "{7_2,8_0,12_0}",
+        "{7_2,8_1,13_2}",
+        "{8_0,9_2,13_2}",
+        "{8_2,9_0,13_0}"
+      ]
+    },
+    "interpretation": "Every MILP incumbent was refuted by an explicit independent transversal. Reaching the iteration limit is not an exhaustive infeasibility proof."
+  }
+}
