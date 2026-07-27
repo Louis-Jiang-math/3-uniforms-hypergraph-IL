@@ -1,8 +1,8 @@
 # SINGLE_DEFECT_FRAMEWORK
 
-> **版本：** v0.1-definition-first  
-> **日期：** 2026-07-25  
-> **状态：** 研究草稿；定义与条件递推可审计，搜索方案存在性与 terminal SCC 分类仍开放。  
+> **版本：** v0.3-refutation-confirmed
+> **日期：** 2026-07-27
+> **状态：** 研究草稿；零误差共同预置 pivot 命题已被真实正常四块反例否定；框架入口采用无 pivot 义务源与真实配置提取；配置流、投影容量与 terminal SCC 分类仍开放。
 > **目标：** 将“单缺陷可逆修复”写成一个可证明、可反驳、可编程检查的数学对象。
 
 ---
@@ -11,15 +11,17 @@
 
 本文件尝试完成 `HANDOFF_CURRENT.md` 中 Q-0002 的第一部分：
 
-1. 严格区分**执行记录**、**稳定状态**、**活动缺陷状态**和**真实阻断边**；
-2. 给出 \(\mathcal S_k,\mathcal D_k\)、第一阻断边、单缺陷因子化和投影 \(\pi\) 的候选定义；
-3. 证明在投影重数界成立时，单缺陷递推确实闭合；
-4. 定义 terminal defect graph 的零误差版本；
-5. 把尚未证明的内容压缩成明确公理和反例搜索目标。
+1. 严格区分**源稳定执行记录**、**失败义务**、**合法根配置**、**活动缺陷状态**和**真实阻断边**；
+2. 给出 \(\widehat{\mathcal S}_k,\mathcal D_k\)、第一阻断边、合法单缺陷配置和执行投影 \(\pi\) 的候选定义；
+3. 证明在配置预算与投影—根边槽位容量成立时，单缺陷递推确实闭合；
+4. 将唯一 pivot 降为零误差配置流的特例，并把 terminal defect graph 明确放在配置提取之后；
+5. 把尚未证明的内容压缩成可由最大流/最小割审计的接口和反例搜索目标。
 
 本文件**不宣称**：
 
 - 已经构造出适用于任意块极小无 IT 实例的单缺陷搜索；
+- 零误差共同预置 pivot 命题成立；该命题已被第 3 节的真实反例否定；
+- 每个失败义务都存在近无损的真实配置流；
 - 第一阻断边自动具有真实边单位容量；
 - 正常 \(\mathcal T_4\) 相位自动全局粘合；
 - monodromy、bounded width、条件化或相位一致性自动产生费用；
@@ -34,24 +36,24 @@
 
 | 来源 | 本文件采用的内容 |
 |---|---|
-| `HANDOFF_CURRENT.md` | 冻结单缺陷状态空间；先做零误差 terminal SCC；投影重数是主接口。 |
+| `HANDOFF_CURRENT.md` | 原始单缺陷目标与投影重数接口；本版本将唯一 pivot 从源定义后移到配置提取。 |
 | `old/handoff_toward_one_quarter.md` §§7–10, 14 | 单缺陷递推、critical link、pivot 粘合、二进制强迫森林。 |
 | `old/chatgpt-export_第一阶段解析骨架.txt` | 保留标签的条件化不降熵；执行历史不能在汇合时无代价擦除；可逆闭路必须保留真实身份。 |
 | `old/chatgpt-export_基准真实边集合证明.txt` | 语义地址、真实边容量、加权 Hall；历史依赖相位需要真实 path-lift。 |
 | `old/chatgpt-export_数学语言描述_mathcal T_4图册(2).txt` | 合法刷新应使用协变运输；原始端点变化不是费用；异常必须相对于规范真实运输定义。 |
 | `old/chatgpt-export_文章核心问题分析(1).txt` | 有序旋转、pivot persistence、偏轴/远端缺陷；单个轻锚局部关闭不能无条件全局重复。 |
 | `old/chatgpt-export_证明主线与障碍.txt` | 历史重数不等于真实边数；SCC、代码簿与有限相位模型必须保留真实 lift。 |
-| `FACTS.md`, `QUESTIONS.md`, `FAILURES.md` | F-0005、F-0022–F-0024；Q-0002–Q-0007；A-0001–A-0004、A-0010–A-0013、A-0018。 |
+| `FACTS.md`, `QUESTIONS.md`, `FAILURES.md` | F-0005、F-0022、F-0027–F-0029；Q-0002–Q-0007、Q-0014–Q-0015；A-0001–A-0004、A-0010–A-0013、A-0018、A-0020–A-0022。 |
 
 ### 1.1 三条设计原则
 
-**原则 P1：所有组合对象必须有真实身份。**  
+**原则 P1：所有组合对象必须有真实身份。**
 块、顶点、超边、插入顶点、释放顶点和缺失块均来自原超图。相位、类型和代码只能作为注释，不能替代真实对象。
 
-**原则 P2：执行记录可以保存真实 genealogy，但不得制造容量。**  
+**原则 P2：执行记录可以保存真实 genealogy，但不得制造容量。**
 为了定义深度、父子关系和“两步投影”，可以保存由真实块和真实顶点组成的执行词。该执行词不是额外 sheet，也不允许把同一真实边复制成多份容量。
 
-**原则 P3：递推账本与真实边度数账本必须分开。**  
+**原则 P3：递推账本与真实边度数账本必须分开。**
 递推需要控制的是每个“投影状态—真实边”对的出现重数；把义务兑现到顶点度数时，还需要独立的真实边容量/Hall 账本。两者不能混为一谈。
 
 ---
@@ -96,36 +98,107 @@ V(H)=B_1\sqcup\cdots\sqcup B_m,\qquad |B_i|=b,
 
 ---
 
-## 3. 为什么稳定状态必须是“有指针的”
+## 3. 零误差共同预置 pivot 已被反例否定
 
-若投影状态只记录一个无指针的独立部分横截 \(T\)，则对所有可能 pivot 求和通常只能得到
+若投影状态只记录一个无指针的独立部分横截 \(T\)，事后对所有可能 pivot 求和通常只能得到
 
 \[
 \sum_{p\in T}d_H(p)\le |T|\Delta(H),
 \]
 
-而不是所需的 \(\Delta(H)\)。
+而不是所需的单个 \(\Delta(H)\) 因子。这个观察仍然正确；错误之处是把它直接升级为“每个源稳定记录必须预置一个共同唯一 pivot”。
 
-因此，为得到
+### 命题 3.1：Q-0014 的字面零误差命题为假
+
+令四个块为
 
 \[
-|\mathcal B_k|\lesssim \Delta(H)|\mathcal S_{k-2}|,
+B_i=\{i_0,i_1\},\qquad i=0,1,2,3,
 \]
 
-每个投影状态必须预先带有一个唯一的真实 pivot。该 pivot 不是失败后临时选择的自由参数；它必须在相关两步窗口开始前已经固定。
-
-这是一项必要的定义修正。
-
----
-
-## 4. 稳定执行记录与压缩稳定状态
-
-### 定义 4.1：稳定执行记录
-
-深度 \(k\ge1\) 的稳定执行记录写为
+并令 \(H_\square\) 的边为
 
 \[
-\widetilde S=(\mathbf C,T,p,N,h,w),
+\begin{aligned}
+&\{0_0,1_0,2_0\},\quad \{0_0,1_1,3_0\},\quad
+  \{0_0,2_1,3_1\},\quad \{0_1,1_0,3_1\},\\
+&\{0_1,1_1,2_1\},\quad \{0_1,2_0,3_0\},\quad
+  \{1_0,2_1,3_0\},\quad \{1_1,2_0,3_1\}.
+\end{aligned}
+\tag{3.1}
+\]
+
+该超图具有以下性质。
+
+1. 每个完整横截恰好包含一条边；因此 \(H_\square\) 无 IT，且无竞争认证。
+2. 删除任意边后出现 IT，删除任意完整块后也出现 IT。
+3. 由唯一阻断边遗漏的坐标得到的 \(Q_4\) 完美匹配是正常模板：每个二维面恰见三个方向。
+4. 在真实执行根迹
+   \[
+   R=\{0_0,1_0\}
+   \]
+   上，加入旧端点 \(r=2_1\) 成功。
+5. 随后尝试 \(x_0=3_0\) 时，唯一第一阻断边为
+   \[
+   \{1_0,2_1,3_0\},
+   \]
+   释放 \(r\) 后 \(R\cup\{3_0\}\) 独立，因此该失败强制 pivot 为 \(1_0\)。
+6. 随后尝试 \(x_1=3_1\) 时，唯一第一阻断边为
+   \[
+   \{0_0,2_1,3_1\},
+   \]
+   释放 \(r\) 后 \(R\cup\{3_1\}\) 独立，因此该失败强制 pivot 为 \(0_0\)。
+
+于是同一成功后继的两个干净失败分别要求两个不同 pivot，不存在能在两步窗口开始前预置并同时解释二者的共同 pivot。故
+
+\[
+\boxed{\text{零误差共同预置 pivot 命题不成立。}}
+\tag{3.2}
+\]
+
+该反例没有使用 multi-defect、竞争、边界或释放后不独立；失败签名是
+
+```text
+normal Q4 square with individually orientable failures
+but no common preassigned pivot
+```
+
+它也说明：唯一 pivot 不能作为源稳定状态的定义公理。
+
+### 3.2 反例没有否定什么
+
+该模型满足 \(b=2\) 且 \(\Delta(H_\square)=3\)，因此它不是
+\(\Delta<(1/4-\varepsilon)b^2\) 的低度反例，也没有否定“在真实低度、块极小执行中，大部分质量可被近无损配置流吸收”的渐近稳定化命题。
+
+反例否定的是源层共同 pivot，而不是每个失败分别存在单缺陷配置：上述两个失败单独看都具有唯一合法配置。
+
+### 3.3 配置优先的修正入口
+
+因此本版本采用两阶段入口：
+
+1. **源稳定记录不带 pivot；**
+2. 每个失败先生成一个带完整真实身份的义务，并枚举全部合法根配置；
+3. 只有获得正配置流的分支才生成带唯一 pivot 的缺陷记录；
+4. 单个 \(\Delta(H)\) 因子由配置预算与投影—根边槽位容量共同保证，而不是由源状态定义强行保证。
+
+唯一 pivot 模型仍可作为配置预算
+
+\[
+\lambda_{\widehat S}(p_0)=1,
+\qquad
+\lambda_{\widehat S}(p)=0\quad(p\ne p_0)
+\]
+
+的特殊情形，但不再是普遍公理。是否存在近无损配置预算，是需要证明或由真实 Hall 最小割反驳的主接口。
+
+## 4. 源稳定执行记录与配置化根分支
+
+### 定义 4.1：源稳定执行记录
+
+深度 \(k\ge0\) 的源稳定执行记录写为
+
+\[
+\widehat S=(\mathbf C,T,N,h,w),
 \]
 
 满足：
@@ -135,29 +208,42 @@ V(H)=B_1\sqcup\cdots\sqcup B_m,\qquad |B_i|=b,
    \[
    |T|=k,\qquad \operatorname{blk}(T)=\{C_1,\ldots,C_k\};
    \]
-3. \(p\in T\) 是唯一活动 pivot；
-4. \(N\notin\operatorname{blk}(T)\) 是下一待尝试的真实块；
-5. \(h\) 是由真实父记录组成的审计 genealogy；
-6. \(w=w(\widetilde S)>0\) 是记录携带的质量。
+3. \(N\notin\operatorname{blk}(T)\) 是下一待尝试的真实块；
+4. \(h\) 是由真实父记录组成的审计 genealogy；
+5. \(w=w(\widehat S)>0\) 是记录携带的质量。
 
-深度 \(0\) 的根记录允许 \(p=\bot\)。
+源稳定记录不含 pivot。成功扩张仍产生源稳定子记录；pivot 只在某个失败义务被分配到合法根配置后出现。
 
-### 定义 4.2：压缩稳定状态
+### 定义 4.2：压缩源稳定状态
 
-稳定记录的压缩签名为
+源稳定记录的压缩签名为
 
 \[
-S=\kappa_S(\widetilde S)=(T,p,N).
+\widehat S^{\rm cmp}=\kappa_{\widehat S}(\widehat S)=(T,N).
 \]
 
-记所有深度 \(k\) 的压缩稳定状态为 \(\mathcal S_k\)。
+记所有深度 \(k\) 的源稳定执行记录为 \(\widehat{\mathcal S}_k\)。同一个压缩签名可以由多个执行记录产生；这些记录不能在未审计 genealogy 的情况下直接合并。若合并，只能把质量相加，不能重置配置槽位或真实边账本。
 
-同一个压缩签名可以由多个执行记录产生；这些记录不能在未审计 genealogy 的情况下直接合并。若合并，只能把质量相加，不能重置任何真实边账本。
+### 定义 4.3：配置化根分支
 
-### 定义 4.3：稳定总质量
+设 \(\widehat S_0\in\widehat{\mathcal S}_{k-2}\)。一个配置化根分支是二元组
 
 \[
-A_k=\sum_{\widetilde S\in\widetilde{\mathcal S}_k}w(\widetilde S).
+(\widehat S_0,p),\qquad p\in T(\widehat S_0),
+\]
+
+以及分配给该分支的预算质量
+
+\[
+\lambda_{\widehat S_0}(p)w(\widehat S_0).
+\]
+
+它不是新的独立搜索状态，也不能制造额外父质量；它只是配置提取后用于生成带 pivot 缺陷记录的容量分支。唯一 pivot 模型对应某个 \(p\) 的预算为一，其余为零。
+
+### 定义 4.4：稳定总质量
+
+\[
+A_k=\sum_{\widehat S\in\widehat{\mathcal S}_k}w(\widehat S).
 \]
 
 最终 \(A_m>0\) 意味着存在至少一个覆盖全部真实块的独立横截执行记录，因此存在 IT。
@@ -166,10 +252,10 @@ A_k=\sum_{\widetilde S\in\widetilde{\mathcal S}_k}w(\widetilde S).
 
 ## 5. 下一块尝试与第一阻断边
 
-固定稳定记录
+固定源稳定记录
 
 \[
-\widetilde S=(\mathbf C,T,p,N,h,w)
+\widehat S=(\mathbf C,T,N,h,w)
 \]
 
 及 \(x\in N\)。
@@ -202,50 +288,58 @@ A_k=\sum_{\widetilde S\in\widetilde{\mathcal S}_k}w(\widetilde S).
 
 ### 定义 5.3：成功与失败尝试
 
-- 若 \(\operatorname{Blk}(T,x)=\varnothing\)，称 \((\widetilde S,x)\) 为成功尝试；
+- 若 \(\operatorname{Blk}(T,x)=\varnothing\)，称 \((\widehat S,x)\) 为成功尝试；
 - 否则称为失败尝试，并记录第一阻断边 \(e_0=\beta(T,x)\)。
 
-每个候选 \(x\in N\) 携带质量 \(w(\widetilde S)\)。因此稳定记录产生的总尝试质量为 \(b\,w(\widetilde S)\)。
+每个候选 \(x\in N\) 携带质量 \(w(\widehat S)\)。因此源稳定记录产生的总尝试质量为 \(b\,w(\widehat S)\)。
 
 ---
 
-## 6. 两步单缺陷因子化
+## 6. 失败义务与合法根单缺陷配置
 
-单缺陷递推不是对任意失败边直接成立。一个失败必须能够解释为：
+单缺陷递推不是对任意失败边直接成立。一个失败必须先被视为义务，再枚举其全部真实两步配置。配置可以有零个、一个或多个；“恰有一个”不是定义要求。
 
-1. 从深度 \(k-2\) 的有指针状态加入旧端点 \(r\)；
-2. pivot \(p\) 在该成功步骤中保持；
-3. 再尝试新端点 \(x\)；
-4. 第一阻断边恰为 \(\{p,r,x\}\)；
-5. 只释放 \(r\) 后重新得到一个独立、只缺一个块的状态。
-
-### 定义 6.1：pivot-persistent 成功步骤
+### 定义 6.1：真实两步前驱
 
 设
 
 \[
-\widetilde S_0=(\mathbf C_0,R,p,M,h_0,w_0)
-\in\widetilde{\mathcal S}_{k-2},
+\widehat S_0=(\mathbf C_0,R,M,h_0,w_0)
+\in\widehat{\mathcal S}_{k-2},
 \qquad r\in M.
 \]
 
-若 \(R\cup\{r\}\) 独立，并且搜索规则产生稳定子记录
+若 \(R\cup\{r\}\) 独立，并且搜索规则实际产生源稳定子记录
 
 \[
-\widetilde S_1
+\widehat S_1
 =
-\operatorname{Succ}(\widetilde S_0,r)
+\operatorname{Succ}(\widehat S_0,r)
 =
-(\mathbf C_0M,\ R\cup\{r\},\ p,\ N,\ h_1,\ w_0),
+(\mathbf C_0M,\ R\cup\{r\},\ N,\ h_1,\ w_0),
 \]
 
-则称该步骤 pivot-persistent。注意 pivot 仍为同一个真实顶点 \(p\)。
+则称 \((\widehat S_0,r)\) 是 \(\widehat S_1\) 的真实两步前驱。该定义只承认实际访问的父子记录，不允许事后删除任意端点制造前驱。
 
-### 定义 6.2：根单缺陷因子化
+### 定义 6.2：失败义务
 
-设从 \(\widetilde S_1\) 尝试 \(x\in N\) 失败，第一阻断边为 \(e_0\)。
+若从 \(\widehat S_1\) 尝试 \(x\in N\) 失败，第一阻断边为 \(e_0=\beta(T(\widehat S_1),x)\)，则定义失败义务
 
-称该失败具有根单缺陷因子化，若存在 \(\widetilde S_0,r\) 如上，使：
+\[
+a=(\widehat S_1,x,e_0,w_0).
+\]
+
+每个失败候选产生完整质量 \(w_0\) 的义务。第一阻断规则只使义务类别互斥，不预先选择 pivot 或释放端点。
+
+### 定义 6.3：合法根单缺陷配置
+
+失败义务 \(a\) 的一个合法根单缺陷配置写为
+
+\[
+c=(\widehat S_0,r,p,e_0,U),
+\]
+
+其中 \((\widehat S_0,r)\) 是定义 6.1 的真实两步前驱，\(p\in R\)，并且
 
 \[
 e_0=\{p,r,x\},
@@ -255,21 +349,32 @@ e_0=\{p,r,x\},
 且
 
 \[
-U=(R\cup\{r\}\setminus\{r\})\cup\{x\}
-=R\cup\{x\}
+U=R\cup\{x\}
 \tag{6.2}
 \]
 
-是独立部分横截。
+是独立部分横截。记全部合法配置集合为 \(\mathcal C(a)\)。
 
-此时：
+配置保存真实根投影、旧端点、pivot、第一阻断边和释放后的独立迹。若 \(\mathcal C(a)=\varnothing\)，该义务进入 `no-configuration` 异常或相应最小割；若 \(|\mathcal C(a)|>1\)，不得事后任意选一个并删除其余解释。
 
-- 活动块集合增加了 \(M,N\)；
-- \(U\) 覆盖 \(N\)，但缺失 \(M\)；
-- 只释放阻断边中的旧端点 \(r\)；
-- pivot \(p\) 被保留。
+### 定义 6.4：配置流
 
-### 6.3 为什么独立性条件不可省略
+对每个义务 \(a\) 和 \(c\in\mathcal C(a)\)，引入
+
+\[
+q(a,c)\ge0.
+\]
+
+普通配置质量必须满足
+
+\[
+\sum_{c\in\mathcal C(a)}q(a,c)=w(a)
+\tag{6.3}
+\]
+
+或明确把未分配部分计入异常质量。只有 \(q(a,c)>0\) 的配置才生成带 pivot 的根缺陷分支，其质量为 \(q(a,c)\)。
+
+### 6.5 为什么独立性条件不可省略
 
 可能有多条阻断边：
 
@@ -279,14 +384,15 @@ U=(R\cup\{r\}\setminus\{r\})\cup\{x\}
 
 删除第一阻断边的一个旧端点后，第二条边可能仍完整存在。此时所得集合不是独立部分横截，不能被称为“一个缺失块的单缺陷状态”。
 
-因此下列情况必须进入异常账本：
+因此下列情况必须进入异常账本或配置最小割：
 
 1. 第一阻断边的两个旧端点都不能单独释放；
-2. 两种释放都可行但无法规范定向；
-3. 可行释放与预先固定 pivot 不相容；
-4. 释放后仍有其他完整超边。
+2. 两种释放都可行但没有近无损配置预算；
+3. 所有可行配置集中在过少的 root-pivot-edge 槽位；
+4. 释放后仍有其他完整超边；
+5. 合法前驱不属于实际访问的深度 \(k-2\) 源稳定层。
 
-把这些情况静默忽略会把多缺陷系统误写成单缺陷系统。
+把这些情况静默忽略会把多缺陷系统或配置拥塞误写成单缺陷系统。
 
 ---
 
@@ -294,12 +400,12 @@ U=(R\cup\{r\}\setminus\{r\})\cup\{x\}
 
 ### 定义 7.1：根缺陷执行记录
 
-具有根单缺陷因子化的失败产生记录
+获得正配置流的合法配置产生记录
 
 \[
 \widetilde D
 =
-(\mathbf C_0MN,\ U,\ p,\ M,\ e_0,\ \widetilde S_0,\ h_D,\ w_0).
+(\mathbf C_0MN,\ U,\ p,\ M,\ e_0,\ \widehat S_0,\ h_D,\ q(a,c)).
 \]
 
 其中：
@@ -308,9 +414,9 @@ U=(R\cup\{r\}\setminus\{r\})\cup\{x\}
 - \(p\in U\)；
 - \(M\) 是唯一缺失块；
 - \(e_0=\{p,r,x\}\) 是根第一阻断边；
-- \(\widetilde S_0\) 是根投影记录；
+- \(\widehat S_0\) 是实际访问的源根投影记录；
 - \(h_D\) 保存真实 pivot genealogy；
-- 缺陷质量为 \(w_0\)。
+- 缺陷质量为 \(q(a,c)\)，同一义务的全部配置分支质量之和由 (6.3) 控制。
 
 ### 定义 7.2：压缩缺陷签名
 
@@ -333,7 +439,7 @@ D=\kappa_D(\widetilde D)=(U,p,M,e),
 
 **证明。** 三个端点位于不同块；\(r\notin U\)、\(x,p\in U\)，且 \(M=B(r)\)。 \(\square\)
 
-注意：压缩签名一般不能恢复完整 genealogy；这正是需要单独记录投影重数的原因。
+注意：压缩签名一般不能恢复完整 genealogy；这正是需要单独记录配置投影与槽位占用的原因。
 
 ---
 
@@ -342,7 +448,7 @@ D=\kappa_D(\widetilde D)=(U,p,M,e),
 固定活动缺陷记录
 
 \[
-\widetilde D=(\mathbf C,U,p,M,e,\widetilde S_0,h_D,w),
+\widetilde D=(\mathbf C,U,p,M,e,\widehat S_0,h_D,w),
 \]
 
 其中 \(U\) 是独立部分横截，恰缺块 \(M\)。
@@ -351,7 +457,7 @@ D=\kappa_D(\widetilde D)=(U,p,M,e),
 
 ### 8.1 增广出口
 
-若 \(U\cup\{y\}\) 独立，则缺陷被修复，产生覆盖当前全部活动块的稳定状态。这称为增广出口。
+若 \(U\cup\{y\}\) 独立，则缺陷被修复，产生覆盖当前全部活动块的源稳定状态。这称为增广出口。
 
 ### 8.2 单 pivot 继续
 
@@ -382,7 +488,7 @@ U'=(U\setminus\{z\})\cup\{y\}
 \[
 \widetilde D'
 =
-(\mathbf C,\ U',\ p,\ B(z),\ f,\ \widetilde S_0,\ h_D',\ w).
+(\mathbf C,\ U',\ p,\ B(z),\ f,\ \widehat S_0,\ h_D',\ w).
 \]
 
 因此：
@@ -390,7 +496,7 @@ U'=(U\setminus\{z\})\cup\{y\}
 - pivot \(p\) 继承；
 - 缺失块从 \(M\) 移到 \(B(z)\)；
 - 新第一阻断边为 \(f\)；
-- 根投影 \(\widetilde S_0\) 不变；
+- 根投影 \(\widehat S_0\) 不变；
 - 质量守恒。
 
 ### 8.3 link 图解释
@@ -466,22 +572,22 @@ D=(U,p,M,e).
 
 ---
 
-## 10. 投影与 genealogy
+## 10. 配置投影、pivot 预算与槽位容量
 
 ### 定义 10.1：执行投影
 
-每个缺陷执行记录继承根投影：
+每个缺陷执行记录继承其合法配置中的源根投影：
 
 \[
-\pi_{\rm exec}(\widetilde D)=\widetilde S_0
-\in\widetilde{\mathcal S}_{k-2}.
+\pi_{\rm exec}(\widetilde D)=\widehat S_0
+\in\widehat{\mathcal S}_{k-2}.
 \]
 
 该投影沿所有单 pivot 缺陷移动保持不变。
 
 ### 定义 10.2：根收费边
 
-根收费边为根失败的第一阻断边：
+根收费边为配置中的根失败第一阻断边：
 
 \[
 e_{\rm root}(\widetilde D)=\{p,r,x\}.
@@ -489,40 +595,65 @@ e_{\rm root}(\widetilde D)=\{p,r,x\}.
 
 后续缺陷移动使用的边只作为 transition edge 记录；除非另有明确分配，不能把每条 transition edge 再次当作同一根失败的独立收费。
 
-### 定义 10.3：投影—边重数
+### 定义 10.3：源 root-pivot 预算
 
-对稳定执行记录 \(\widetilde S\) 和真实边 \(e\ni p(\widetilde S)\)，定义
+对每个源根投影 \(\widehat S\) 和 \(p\in T(\widehat S)\)，配置提取器给出
 
 \[
-\operatorname{mult}_k(\widetilde S,e)
-=
-\frac{
-\sum\limits_{\substack{\widetilde D\ {\rm root}\\
-\pi_{\rm exec}(\widetilde D)=\widetilde S\\
-e_{\rm root}(\widetilde D)=e}}
-w(\widetilde D)
-}{
-w(\widetilde S)
-}.
+\lambda_{\widehat S}(p)\ge0.
+\]
+
+目标预算为
+
+\[
+\sum_{p\in T(\widehat S)}\lambda_{\widehat S}(p)
+\le 1+\eta.
 \tag{10.1}
 \]
 
-目标是
+唯一 pivot 是 \(\eta=0\) 且预算集中在一个顶点的特例。局部正常窗口可能迫使 \(\eta>0\)；这种缺口必须由全局低度、真实可达性或异常账本控制，不能从定义中删除。
+
+### 定义 10.4：投影—pivot—根边槽位容量
+
+对源稳定执行记录 \(\widehat S\)、pivot \(p\) 和真实边 \(e\ni p\)，要求
 
 \[
-\operatorname{mult}_k(\widetilde S,e)\le1+\gamma.
+\sum_{\substack{\widetilde D\ {\rm root}\\
+\pi_{\rm exec}(\widetilde D)=\widehat S\\
+p(\widetilde D)=p\\
+e_{\rm root}(\widetilde D)=e}}
+w(\widetilde D)
+\le
+(1+\gamma)\lambda_{\widehat S}(p)w(\widehat S).
 \tag{10.2}
 \]
 
-在完全不压缩、两步执行记录唯一且每个候选质量等于父质量的理想模型中，给定 \((\widetilde S,e)\) 后，两个非 pivot 端点的块次序决定 \(r,x\)，故重数应为 \(1\)。任何超过 \(1\) 的质量都必须来自：
+当右侧非零时，可把左、右之比定义为槽位重数。任何超过预算的质量必须来自：
 
 - 多个 genealogy 被压缩；
-- pivot/块次序存在多种合法解释；
+- 多个义务只能使用同一合法配置槽位；
 - 缺陷在闭路后被重新投影；
 - 同一真实测试被复制；
 - 质量在分裂—汇合中未正确守恒。
 
-这就是 Q-0002 中应被证明的“投影重数”，而不是抽象状态数。
+式 (10.1)–(10.2) 是新的配置入口接口。旧的“每个稳定状态预置唯一 pivot、每个投影—边重数至多 \(1+\gamma\)”是其特殊情形。
+
+### 定义 10.5：配置 Hall 缺口
+
+固定 \(\widehat S\)，将投影到它的失败义务与合法槽位 \((p,e)\) 组成二部容量网络。满足全部需求所需的最小预算膨胀记为
+
+\[
+\eta_{\rm cfg}^{(\gamma)}(\widehat S)
+=
+\max\left\{0,
+\inf\left\{
+\sum_p\lambda_{\widehat S}(p)-1:
+\text{在固定 }\gamma\text{ 下，(6.3) 与 (10.2) 可行}
+\right\}
+\right\}.
+\]
+
+若不可行，最大流最小割必须输出具体义务子集及其合法配置邻域。该最小割是待分类的真实接口障碍；不能只输出抽象相位缺口。
 
 ---
 
@@ -530,7 +661,7 @@ w(\widetilde S)
 
 ### 定义 11.1：根失败质量
 
-令第 \(k\) 步根失败总质量为
+令第 \(k\) 步获得配置流的根失败总质量为
 
 \[
 \mathcal B_k
@@ -538,45 +669,43 @@ w(\widetilde S)
 \sum_{\widetilde D\ {\rm root}}w(\widetilde D).
 \]
 
-### 定理 11.2：投影重数推出失败质量界
+未获得普通配置流的质量必须进入单独误差项 \(E_k^{\rm cfg}\)，不能从尝试总质量中消失。
 
-若每个根缺陷满足两步单缺陷因子化，且 (10.2) 对所有 \(\widetilde S,e\) 成立，则
+### 定理 11.2：配置预算与槽位容量推出失败质量界
+
+若每个普通根缺陷来自定义 6.3 的合法配置，并且 (10.1)–(10.2) 对所有 \(\widehat S,p,e\) 成立，则
 
 \[
 \mathcal B_k
 \le
-(1+\gamma)\Delta(H)A_{k-2}.
+(1+\eta)(1+\gamma)\Delta(H)A_{k-2}.
 \tag{11.1}
 \]
 
-**证明。** 对固定 \(\widetilde S\)，所有根收费边都含其唯一 pivot \(p(\widetilde S)\)。因此
+**证明。** 对固定 \(\widehat S\)，按配置分支的 pivot 和根边求和：
 
 \[
 \begin{aligned}
-\sum_{\pi_{\rm exec}(\widetilde D)=\widetilde S}
+\sum_{\pi_{\rm exec}(\widetilde D)=\widehat S}
 w(\widetilde D)
-&=
-\sum_{e\ni p(\widetilde S)}
-\sum_{\substack{\pi_{\rm exec}(\widetilde D)=\widetilde S\\
-e_{\rm root}(\widetilde D)=e}}
-w(\widetilde D)\\
 &\le
-(1+\gamma)d_H(p(\widetilde S))w(\widetilde S)\\
+(1+\gamma)w(\widehat S)
+\sum_{p}\lambda_{\widehat S}(p)d_H(p)\\
 &\le
-(1+\gamma)\Delta(H)w(\widetilde S).
+(1+\gamma)(1+\eta)\Delta(H)w(\widehat S).
 \end{aligned}
 \]
 
-对所有深度 \(k-2\) 的稳定执行记录求和即得。 \(\square\)
+对所有深度 \(k-2\) 的源稳定执行记录求和即得。\(\square\)
 
 ### 定理 11.3：质量递推
 
 若：
 
-1. 每个深度 \(k-1\) 稳定记录对下一块的 \(b\) 个顶点各产生质量 \(w(\widetilde S)\) 的尝试；
-2. 所有尝试被无遗漏地分成成功和根失败；
-3. 成功质量完整进入深度 \(k\) 稳定记录；
-4. 所有异常质量已包含在 \(\mathcal B_k\) 或单独加入误差项 \(E_k\)；
+1. 每个深度 \(k-1\) 源稳定记录对下一块的 \(b\) 个顶点各产生质量 \(w(\widehat S)\) 的尝试；
+2. 所有尝试被无遗漏地分成成功、获得配置流的根失败和异常；
+3. 成功质量完整进入深度 \(k\) 源稳定记录；
+4. 配置未分配质量、multi-defect、boundary、reuse 等全部进入误差项 \(E_k\)；
 
 则
 
@@ -587,72 +716,78 @@ bA_{k-1}-\mathcal B_k-E_k.
 \tag{11.2}
 \]
 
-若 \(E_k=0\)，结合 (11.1)：
+结合 (11.1)：
 
 \[
 A_k
 \ge
 bA_{k-1}
 -
-(1+\gamma)\Delta(H)A_{k-2}.
+(1+\eta)(1+\gamma)\Delta(H)A_{k-2}
+-E_k.
 \tag{11.3}
 \]
 
-若
+若 \(E_k=0\) 且
 
 \[
-(1+\gamma)\frac{\Delta(H)}{b^2}<\frac14,
+(1+\eta)(1+\gamma)\frac{\Delta(H)}{b^2}<\frac14,
 \]
 
 则标准正根归纳给出所有 \(A_k>0\)，最终存在 IT。
 
-这部分是条件证明；未证内容全部集中在搜索方案存在、异常控制和 (10.2)。
+这部分仍是条件证明；未证内容集中在配置提取、源预算、槽位容量、异常控制和后续 defect closure。
 
 ---
 
-## 12. 两种容量账本必须区分
+## 12. 三种账本必须区分
 
-### 12.1 递推出现账本
+### 12.1 义务—配置账本
 
-式 (10.1) 控制的是：
+式 (6.3) 控制每个失败义务的质量是否被完整分配到真实合法配置。其对偶是义务集合与配置槽位之间的加权 Hall 最小割。这个账本回答“失败能否进入单缺陷状态空间”，不直接回答真实边是否有全局单位容量。
+
+### 12.2 递推槽位账本
+
+式 (10.1)–(10.2) 控制
 
 \[
-(\text{投影执行记录},\ \text{根真实边})
+(\text{源根投影},\ \text{pivot},\ \text{根真实边})
 \]
 
-这一对出现多少质量。它允许同一真实边与不同投影状态配对；这是递推中乘上 \(A_{k-2}\) 的来源。
+这一槽位出现多少质量。它允许同一真实边与不同源根投影配对；这是递推中乘上 \(A_{k-2}\) 的来源。
 
-### 12.2 全局真实边账本
+### 12.3 全局真实边账本
 
 若要把义务质量兑现为真实顶点度数，必须另设分数分配
 
 \[
-q(a,e)\ge0
+q_{\rm edge}(a,e)\ge0
 \]
 
 满足
 
 \[
-\sum_e q(a,e)=w(a),
+\sum_e q_{\rm edge}(a,e)=w(a),
 \qquad
-\sum_a q(a,e)\le c(e).
+\sum_a q_{\rm edge}(a,e)\le c(e).
 \tag{12.1}
 \]
 
 通常 \(c(e)\le1\)。存在这种分配等价于相应的加权 Hall 条件。
 
-### 12.3 重要警告
+### 12.4 重要警告
 
-“选择了确定的第一阻断边”只说明证书唯一，不说明 (12.1) 自动成立。  
-“每个投影—边对重数至多一”也不说明同一真实边在不同投影间没有被重复兑现。
+“存在合法配置”只说明某个义务可以进入单缺陷分支，不说明配置预算或 (12.1) 自动成立。
+“源配置 Hall 缺口为正”也不说明真实边配置 overflow 为正；义务可能通过其他真实前驱或真实边分散支付。
+“每个投影—pivot—根边槽位重数至多一”不说明同一真实边在不同投影间没有被重复兑现。
 
-因此一个完整证明必须明确说明：
+因此一个完整证明必须明确说明当前使用的是：
 
-- 当前是在使用递推出现账本；
-- 还是在使用全局真实边容量；
-- 若两者同时使用，归一化和容量分割如何兼容。
+- 义务—配置完整性；
+- 递推槽位容量；
+- 还是全局真实边容量。
 
-不得在两种账本之间无说明切换。
+若同时使用，必须给出三者之间的归一化、质量分裂和容量兼容证明，不得无说明切换。
 
 ---
 
@@ -696,23 +831,23 @@ q(a,e)\ge0
 
 ---
 
-## 14. 零误差 terminal defect graph
+## 14. 配置化零误差 terminal defect graph
 
 零误差模型先假设：
 
-- **Z1** 每个失败都有唯一两步单缺陷因子化；
-- **Z2** 每次缺陷继续都保留同一真实 pivot；
+- **Z1** 每个普通失败义务被配置流完整分配到合法根单缺陷配置；
+- **Z2** 每个获得正流的配置分支有唯一真实 pivot，且每次缺陷继续保留该 pivot；
 - **Z3** 删除一个旧端点后所得部分横截始终独立；
 - **Z4** 无竞争第一认证、无边界、无不相容配置；
 - **Z5** 所有四块交换方块均为八个正常模板之一；
 - **Z6** 执行 genealogy 和真实边身份完整保留；
-- **Z7** 投影—边重数恰为 \(1\)；
+- **Z7** 配置预算与槽位容量零损失：\(\eta=\gamma=0\)；
 - **Z8** terminal pivot link 在相关两块上为精确完全二部图；
 - **Z9** 块极小性只对完整真实块系统使用。
 
 ### 候选零误差定理
 
-设 \(\mathscr K\) 是满足 Z1–Z9 的有限 terminal defect SCC。则至少有一项：
+设配置提取已经完成，且 \(\mathscr K\) 是满足 Z1–Z9 的有限 terminal defect SCC。则至少有一项：
 
 1. **增广叶：** 执行展开中存在可修复到稳定状态的叶；
 2. **完整真子核心：** 某组完整真实块诱导无 IT 子实例；
@@ -742,6 +877,7 @@ q(a,e)\ge0
 | Orientation ambiguity | 两个旧端点都可释放且无规范唯一方向 | 任意选一个并忘记另一解释 | 投影重数/相位粘合 |
 | Projection failure | 无深度 \(k-2\) 的两步真实因子化 | 直接删去两个任意旧端点 | 搜索策略失败 |
 | Competition | 同一尝试存在多种不相容第一认证配置 | 只保留字典序证书并忽略其余 | Config/Hall |
+| Configuration Hall cut | 某组失败义务的合法配置邻域容量不足 | 把源 pivot 缺口直接当真实边 overflow | 输出最小割；区分源预算、槽位拥塞和真实边复用 |
 | Reuse | 多个义务兑现到同一真实边容量 | 把历史次数当不同边 | 加权 Hall |
 | Boundary | 缺陷移动离开当前真实活动块域 | 在抽象相位图中继续 | 边界误差 |
 | Non-normal square | 四块窗口不是八个正常模板 | 假设局部唯一 | 九面共同锚证书 |
@@ -784,30 +920,32 @@ U'=(U-z)+y
 ### 结构公理
 
 - **SD1 — 真实执行性：** 所有记录只使用真实块、顶点和边。
-- **SD2 — 稳定独立性：** 每个稳定迹和缺陷迹都是独立部分横截。
-- **SD3 — 唯一下一块：** 每个稳定记录有一个预先确定的下一块。
-- **SD4 — 唯一 pivot：** 每个深度至少一的稳定/缺陷记录有唯一真实 pivot。
-- **SD5 — 两步因子化：** 每个非异常失败具有定义 6.2 的因子化。
-- **SD6 — 单端点释放：** 释放后所得迹独立。
+- **SD2 — 稳定独立性：** 每个源稳定迹和缺陷迹都是独立部分横截。
+- **SD3 — 唯一下一块：** 每个源稳定记录有一个预先确定的下一块。
+- **SD4 — pivot 后置：** 源稳定记录不带 pivot；每个获得正配置流的缺陷分支带唯一真实 pivot。
+- **SD5 — 配置完备枚举：** 每个失败义务的全部合法两步配置按定义 6.3 枚举。
+- **SD6 — 单端点释放：** 每个合法配置释放后所得迹独立。
 - **SD7 — defect closure：** 每次非增广继续满足定义 8.2。
 - **SD8 — genealogy 守恒：** root projection 沿 defect 组件不变。
 
 ### 质量与容量公理
 
 - **MC1 — 尝试质量：** 每个候选继承父记录质量。
-- **MC2 — 完备分割：** 成功、普通缺陷和异常无遗漏且互斥。
+- **MC2 — 完备分割：** 成功、普通配置质量和异常无遗漏且互斥。
 - **MC3 — 汇合守恒：** 合并只相加质量，不复制质量。
-- **MC4 — 投影重数：** 式 (10.2)。
-- **MC5 — 真实边 Hall：** 若使用全局度数账本，明确证明 (12.1)。
+- **MC4 — 配置完整性：** 式 (6.3)，或未分配质量显式进入误差项。
+- **MC5 — root-pivot 预算：** 式 (10.1)。
+- **MC6 — 配置槽位容量：** 式 (10.2)。
+- **MC7 — 真实边 Hall：** 若使用全局度数账本，明确证明 (12.1)。
 
 ### 局部与终局公理
 
 - **LG1 — 正常方块：** 除受控异常外，四块交换属于正常模板。
 - **LG2 — 协变一致：** 正常刷新按真实端点运输比较。
-- **LG3 — terminal 分类：** 每个 terminal SCC 有增广、link 乘积或完整真子核心。
-- **LG4 — 稳定化：** 全部异常总质量进入 \(\gamma(\varepsilon)\)，且
+- **LG3 — terminal 分类：** 只对配置提取后得到的真实 defect graph，证明每个 terminal SCC 有增广、link 乘积或完整真子核心。
+- **LG4 — 稳定化：** 全部配置损失与异常总质量进入 \(\eta(\varepsilon),\gamma(\varepsilon)\) 和 \(E_k\)，且
   \[
-  (1+\gamma(\varepsilon))(1/4-\varepsilon)<1/4.
+  (1+\eta(\varepsilon))(1+\gamma(\varepsilon))(1/4-\varepsilon)<1/4.
   \]
 
 ---
@@ -816,18 +954,42 @@ U'=(U-z)+y
 
 建议计算程序直接保存下列字段。
 
-### StableRecord
+### StableSourceRecord
 
 ```text
 stable_id
 depth
 block_word              # 真实块 ID 的有序列表
 trace                    # [(block_id, vertex_id), ...]
-pivot_vertex
 next_block
 weight
 parent_stable_id
 inserted_vertex
+```
+
+### FailureObligation
+
+```text
+obligation_id
+source_stable_id
+attempted_vertex
+first_blocker           # 三个真实 vertex_id
+weight
+exception_type          # 若无普通配置或未获完整配置流
+```
+
+### RootConfiguration
+
+```text
+configuration_id
+obligation_id
+root_projection_id      # 实际访问的深度 k-2 StableSourceRecord
+old_endpoint
+pivot_vertex
+root_first_blocker
+released_trace
+flow_mass
+root_pivot_budget
 ```
 
 ### DefectRecord
@@ -842,6 +1004,7 @@ missing_block
 current_first_blocker   # 三个真实 vertex_id
 root_first_blocker
 root_projection_id
+root_configuration_id
 weight
 predecessor_defect_id
 inserted_vertex
@@ -865,20 +1028,33 @@ t4_phase_id
 exception_type
 ```
 
+### ConfigurationCutCertificate
+
+```text
+cut_id
+obligation_ids
+legal_configuration_ids
+required_mass
+available_root_pivot_edge_capacity
+cut_type                # no-configuration / root-budget / slot-congestion / reuse
+```
+
 ### 必须自动检查的断言
 
 1. 每个 trace 是真实部分横截；
 2. 每个 stable/defect trace 独立；
-3. 每个 blocker 是原超图真实边；
-4. 每个 blocker 含插入顶点；
-5. 普通 defect transition 的 blocker 含 pivot；
-6. 只释放一个真实旧端点；
-7. root projection 的两步重构正确；
-8. 同一执行记录的质量守恒；
-9. 每个 \((\widetilde S,e)\) 的投影重数；
+3. 每个 blocker 是原超图真实边并含插入顶点；
+4. 每个失败义务的合法配置集合完整；
+5. 每个正流配置满足 \(e_0=\{p,r,x\}\) 且释放后独立；
+6. root projection 是实际访问的深度 \(k-2\) 源稳定记录；
+7. 每个义务的配置流守恒，未分配质量进入异常；
+8. 每个源记录的 root-pivot 预算；
+9. 每个 \((\widehat S,p,e)\) 的槽位占用；
 10. 每条真实边的 Hall/容量占用；
-11. SCC 的所有出口；
-12. 子核心是否由完整真实块组成。
+11. 同一执行记录的质量守恒；
+12. SCC 的所有出口；
+13. 子核心是否由完整真实块组成；
+14. 不可行配置流的最大流/最小割证书可独立复算。
 
 ---
 
@@ -888,37 +1064,53 @@ exception_type
 INPUT:
     block-minimal no-IT hypergraph H
     total orders on blocks, vertices, edges
-    deterministic next-block and pivot policy
+    deterministic next-block policy
 
-INITIALIZE stable execution records
+INITIALIZE source stable execution records
 
 FOR depth k = 1,...,m:
-    FOR each stable record S at depth k-1:
+    obligations = []
+
+    FOR each source stable record S at depth k-1:
         N = next_block(S)
 
         FOR x in N:
             IF trace(S) + x is independent:
-                send full attempt mass to a stable child
+                send full attempt mass to a source stable child
             ELSE:
                 e0 = first real blocker
+                create failure obligation a=(S,x,e0,w(S))
 
-                FIND all two-step single-defect factorizations
-                    S0 --insert r, preserve pivot p--> S
+                ENUMERATE all legal root configurations c:
+                    S0 is an actually visited depth-(k-2) source record
+                    S0 --insert r--> S
+                    choose p in trace(S0)
                     e0 = {p,r,x}
                     U = trace(S0) + x is independent
 
-                IF exactly one factorization:
-                    create root defect D=(U,p,B(r),e0)
-                    inherit root projection S0
-                ELSE:
-                    send mass to a named exception ledger
+                store C(a), including the empty or multiple-config cases
+                append a to obligations
+
+    SOLVE the obligation-to-configuration flow:
+        full demand for each ordinary obligation
+        root-pivot budgets lambda[S0,p]
+        per-(S0,p,e) slot capacities
+
+    IF the flow is infeasible:
+        output an exact weighted Hall minimum cut
+        classify it as no-configuration, root-budget, slot-congestion, or reuse
+
+    FOR each configuration c with positive flow q(a,c):
+        create root defect D=(U,p,B(r),e0)
+        inherit root projection S0
+        set defect mass to q(a,c)
 
     PROCESS every root defect:
         WHILE not terminal:
             choose/scan y in missing block
 
             IF U+y is independent:
-                output stable augmentation
+                output source stable augmentation
             ELSE:
                 f = first real blocker of U+y
 
@@ -929,8 +1121,9 @@ FOR depth k = 1,...,m:
                     stop this branch
 
     AUDIT:
-        mass conservation
-        projection-edge multiplicity
+        attempt and configuration-flow conservation
+        root-pivot budgets
+        projection-pivot-edge slot capacity
         real-edge Hall capacity
         T4 square labels
         terminal SCC exits
@@ -938,80 +1131,74 @@ FOR depth k = 1,...,m:
 
 ---
 
-## 20. 当前真正需要证明的五条命题
+## 20. 当前真正需要证明的六条命题
 
-### O1. 两步定向引理
+### O1. 合法配置枚举与完备性（共同预置 pivot 已排除）
 
-除 \(o(1)\) 或 \(O_\varepsilon(\delta)\) 质量外，每个失败尝试都能被唯一写成
-
-\[
-\widetilde S_0
-\xrightarrow{\,r\,}
-\widetilde S_1
-\xrightarrow[\text{fail}]{\,x\,},
-\qquad
-e_0=\{p,r,x\},
-\]
-
-且释放 \(r\) 后所得 \(R+x\) 独立。
-
-这是“单缺陷降秩”的严格版本。
+对每个失败义务，定义 6.3 枚举的 \(\mathcal C(a)\) 必须恰好包含全部真实两步单缺陷解释；无配置、多配置和释放后不独立均被显式记录，不能由字典序选择隐藏。
 
 ### O2. 投影闭包引理
 
-上述 \(\widetilde S_0\) 必须属于实际搜索的深度 \(k-2\) 稳定记录，而不是事后构造的未访问部分横截。
+每个合法配置中的 \(\widehat S_0\) 必须属于实际搜索的深度 \(k-2\) 源稳定层，而不是事后构造的未访问部分横截。
 
-### O3. 投影重数引理
+### O3. 近无损配置流或对偶障碍
 
-对所有 \(\widetilde S,e\)：
+除受控异常质量外，证明存在满足 (6.3)、(10.1) 和 (10.2) 的配置流，其中
 
 \[
-\operatorname{mult}_k(\widetilde S,e)\le1+\gamma.
+\eta,\gamma=o_\varepsilon(1),
 \]
 
-这需要正常 \(\mathcal T_4\) 方块的全局 pivot 粘合，并必须保留真实 genealogy。
+或输出可独立复算的加权 Hall 最小割。最小割必须保留真实义务、真实两步前驱、pivot、根边和 genealogy，不能只给相位级缺口。
 
-### O4. 零误差 terminal SCC 定理
+### O4. 配置化 defect closure
 
-在 Z1–Z9 下证明增广、完整子核心、\(1/4\) link 乘积三者之一；或给出满足全部公理的真实反模型。
+对每个获得正配置流的根缺陷，证明后续非增广步骤保持同一真实 pivot、同一源根投影和一个缺失块；否则相应质量进入命名异常账本。
 
-### O5. 固定 \(\varepsilon\) 稳定化
+### O5. 零误差 terminal SCC 定理
 
-仅在 O4 成功后，把 multi-defect、off-pivot、non-normal、boundary、reuse 和 projection collision 的总质量控制为 \(\gamma(\varepsilon)\)。
+仅在 Z1–Z9 和配置提取已经成立时，证明增广、完整子核心、\(1/4\) link 乘积三者之一；或给出满足全部公理的真实反模型。
+
+### O6. 固定 \(\varepsilon\) 稳定化
+
+仅在 O1–O5 的零误差接口明确后，把配置 Hall 缺口、multi-defect、off-pivot、non-normal、boundary、reuse 和 projection collision 的总质量控制为 \(\eta(\varepsilon),\gamma(\varepsilon)\) 与 \(E_k\)，并验证递推阈值。
 
 ---
 
 ## 21. 建议的下一项具体工作
 
-最小而高价值的下一项不是直接枚举 terminal SCC，而是先验证 O1 的零误差版本：
+最小而高价值的下一项不是再次枚举正常 \(Q_4\) 或直接枚举 terminal SCC，而是实现并验证：
 
-> **零误差两步定向命题。**  
-> 在一个所有相关四块交换均正常、无竞争认证、无边界的执行组件中，能否为每个稳定记录预先指定唯一 pivot，并为每次成功扩张指定 pivot-persistent 后继，使每个随后的失败第一阻断边都包含该 pivot 与刚加入的旧端点，且释放该旧端点后恢复独立性？
+> **义务—真实配置最大流审计器。**
+> 对一个给定真实超图和确定性下一块策略，生成全部实际源稳定记录、失败义务及合法根配置；求解 (6.3)、(10.1)、(10.2) 的配置流。若不可行，输出精确加权 Hall 最小割，并区分无配置、root-pivot 预算、投影槽位拥塞和跨投影真实边复用。
 
-若此命题为假，最小反模型会直接展示：
+第一组回归测试必须同时重现：
 
-- 一个不可避免的 multi-defect；
-- 一个不可全局定向的正常相位方块；
-- 或一个需要投影重数 \(>1\) 的真实闭路。
+- 命题 3.1 的八边正常四块反例及其两个互斥 pivot 义务；
+- 四块正常模板中的 persistent 源 pivot 缺口；
+- 允许全部真实配置后，源缺口不必等于真实边 overflow；
+- 九边覆盖中源缺口可由额外认证消失；
+- 压缩 genealogy 时人为产生的槽位重数 \(>1\)。
 
-这比在尚未定义清楚的 terminal SCC 上继续做相位枚举更有诊断价值。
+该审计器完成后，下一理论问题才是对其真实最小割分类。若最小割集中在高度重用的真实边上，应进一步输出有限深度未来区分证书，而不是预先假设可 quotient。只有配置提取、投影闭包和槽位容量完成后，才恢复 terminal defect SCC 的研究。
 
 ---
 
 ## 22. 验收标准
 
-本框架可视为“完成 Q-0002 的定义阶段”，只有当下列项目均有独立证明或检查器时：
+本框架可视为“完成 Q-0002 的配置入口定义阶段”，只有当下列项目均有独立证明或检查器时：
 
-- [ ] 稳定记录、缺陷记录和执行词定义冻结；
-- [ ] 每个失败被完备地分类；
-- [ ] 普通失败具有唯一两步单缺陷因子化；
-- [ ] 释放一个端点后独立性被逐次验证；
-- [ ] root projection 属于实际稳定层；
-- [ ] 质量在分裂、移动、汇合中严格守恒；
-- [ ] 投影—边重数定义和计算无歧义；
-- [ ] 递推账本与全局真实边账本分离；
+- [x] 零误差共同预置 pivot 命题由命题 3.1 的真实反例否定；
+- [ ] 源稳定记录、失败义务、根配置、缺陷记录和执行词定义冻结；
+- [ ] 每个失败义务的合法配置集合被完备枚举；
+- [ ] 每个正流配置的单端点释放独立性被逐次验证；
+- [ ] root projection 属于实际源稳定层；
+- [ ] 配置流满足需求守恒，或输出可复算的 Hall 最小割；
+- [ ] root-pivot 预算与投影—pivot—根边槽位容量定义无歧义；
+- [ ] 质量在尝试、配置分裂、缺陷移动和汇合中严格守恒；
+- [ ] 义务—配置、递推槽位与全局真实边三个账本分离；
 - [ ] 每条真实边容量通过 Hall 或显式注入验证；
-- [ ] terminal defect graph 保存真实 pivot genealogy；
-- [ ] 零误差 SCC 定理被证明或被真实反模型否定。
+- [ ] terminal defect graph 只由获得正配置流的真实分支生成，并保存 pivot genealogy；
+- [ ] 零误差 SCC 定理被证明或被满足全部配置公理的真实反模型否定。
 
 在此之前，`SINGLE_DEFECT_FRAMEWORK.md` 应被视为一份候选基础设施，而不是 \(1/4\) 证明。

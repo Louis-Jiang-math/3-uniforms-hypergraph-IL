@@ -15,27 +15,32 @@
 - **Answer criterion:** 给出统一常数 \(C\) 的完整证明，且所有费用使用真实边身份、单位容量和完整块边界。
 - **Last updated:** 2026-07-24
 
-## Q-0002 — 单缺陷搜索方案是否存在
+## Q-0002 — 配置优先的单缺陷搜索方案是否存在
 
-- **Question:** 对每个固定 \(\varepsilon>0\)，能否从任意块极小无 IT 实例构造满足真实执行性、质量守恒、唯一两步单缺陷因子化、投影闭包和投影重数 \(1+\gamma\) 的搜索方案？
+- **Question:** 对每个固定 \(\varepsilon>0\)，能否从任意块极小无 IT 实例构造满足真实执行性、质量守恒、合法根配置完备性、投影闭包、配置流预算和槽位重数 \(1+\gamma\) 的搜索方案？
 - **Status:** open
-- **Why it matters:** 由 F-0022，这一方案直接给出 \((1/4-\varepsilon)b^2\) 以下存在 IT。
-- **Known so far:** `SINGLE_DEFECT_FRAMEWORK.md` 已给出候选稳定执行记录、压缩稳定状态、活动缺陷状态、root projection、缺陷移动和两类容量账本；条件递推已严格化（F-0005, F-0022, F-0027, F-0028）。
-- **Missing:** 证明以下三个接口对实际搜索同时成立：
-  1. O1：除受控异常外，每个失败有唯一两步定向；
-  2. O2：root projection 属于实际访问的深度 \(k-2\) 稳定层；
-  3. O3：每个 \((\widetilde S,e)\) 的投影重数至多 \(1+\gamma\)。
-- **Related:** F-0022, F-0027, F-0028, Q-0003, Q-0004, Q-0005, Q-0014
+- **Why it matters:** 由修订后的 F-0022，这一方案若满足
+  \[
+  (1+\eta)(1+\gamma)(1/4-\varepsilon)<1/4
+  \]
+  并控制全部异常质量，就直接给出 \((1/4-\varepsilon)b^2\) 以下存在 IT。
+- **Known so far:** Q-0014 的共同预置 pivot 命题已被 F-0029 的真实正常四块反例否定。`SINGLE_DEFECT_FRAMEWORK.md` v0.3 改用无 pivot 源稳定记录、失败义务、合法根配置和配置流；条件递推已保留（F-0005, F-0022, F-0027–F-0029）。
+- **Missing:** 证明以下接口对实际搜索同时成立：
+  1. O1：每个失败义务的全部真实两步单缺陷配置被完备枚举；
+  2. O2：每个合法配置的 root projection 属于实际访问的深度 \(k-2\) 源稳定层；
+  3. O3：除受控异常外，存在近无损配置流并满足 root-pivot 预算及投影—pivot—根边槽位容量；
+  4. O4：获得正流的分支在后续缺陷移动中保持真实 pivot、root projection 与一个缺失块。
+- **Related:** F-0022, F-0027, F-0028, F-0029, Q-0003, Q-0004, Q-0005, Q-0014, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 827–951 行及第 1103–1121 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 4–12、17、20 节
-- **Suggested next action:** 先解决 Q-0014 的零误差两步定向；在此之前不要把任意失败直接送入 terminal defect graph。
-- **Answer criterion:** 对所有步 \(k\) 完整验证 SD1–SD8、MC1–MC5，并证明
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3–11、17、20–22 节
+- **Suggested next action:** 先完成 Q-0015 的义务—真实配置最大流审计器；在配置提取、投影闭包和槽位容量完成前，不生成或分类 terminal defect SCC。
+- **Answer criterion:** 对所有步 \(k\) 完整验证修订后的 SD1–SD8、MC1–MC5，并证明
   \[
-  \mathcal B_k\le(1+\gamma)\Delta(H)A_{k-2}
+  \mathcal B_k\le(1+\eta)(1+\gamma)\Delta(H)A_{k-2},
   \]
-  且所有异常进入显式误差账本。
-- **Last updated:** 2026-07-25
+  且所有未分配配置质量和其他异常进入显式误差账本。
+- **Last updated:** 2026-07-27
 
 ## Q-0003 — critical link 稳定性
 
@@ -56,20 +61,20 @@
 - **Answer criterion:** 对每个 \(\varepsilon\) 给出 \(\delta(\varepsilon)>0\) 和完整三分证明，并逐项说明真实边容量来源。
 - **Last updated:** 2026-07-25
 
-## Q-0004 — pivot 相位的全局粘合
+## Q-0004 — 配置分支的正常相位全局粘合
 
-- **Question:** 剥离少量异常后，正常交换方块的八相位能否在保留真实 root projection 和 pivot genealogy 的执行图上全局定向，使每个 \((\widetilde S,e)\) 的平均投影重数至多 \(1+O(\delta)\)？
+- **Question:** 在配置提取之后，正常交换方块产生的带 pivot 分支能否在保留真实 root projection、配置来源和 pivot genealogy 的执行图上全局运输，使每个 \((\widehat S,p,e)\) 槽位的平均重数至多 \(1+O(\delta)\)？
 - **Status:** open
-- **Why it matters:** 局部 \(\mathcal T_4\) 分类只有在控制真实身份、协变端点运输和投影 genealogy 后才能用于 F-0022。
-- **Known so far:** F-0008–F-0013；纯 monodromy 收费和纯相位乘积化均失败（A-0001, A-0002）；原始端点变化不能直接收费（A-0006）。
-- **Missing:** 跨图表的真实边身份守恒、闭路 root projection 重数定理，以及“执行记录可合并”的精确判据。
-- **Related:** F-0013, F-0022, A-0001, A-0005, A-0006
+- **Why it matters:** F-0029 已否定“先为源状态选择共同 pivot”的局部版本；正常 \(\mathcal T_4\) 分类只有在配置分支层控制真实身份、协变端点运输和 genealogy 后才能用于 F-0022。
+- **Known so far:** F-0008–F-0013；纯 monodromy 收费和纯相位乘积化均失败（A-0001, A-0002）；原始端点变化不能直接收费（A-0006）；共同预置 pivot 被 F-0029/A-0022 否定。
+- **Missing:** 跨图表的真实边身份守恒、配置分支闭路重数定理，以及高度复用配置何时可按未来等价合法合并的精确判据。
+- **Related:** F-0013, F-0022, F-0029, A-0001, A-0005, A-0006, A-0022, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 993–1010 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 9–10、13 节
-- **Suggested next action:** 对精确执行缺陷图的每条边保存插入顶点、释放顶点、第一真实阻断边、root projection 和正常方块编号；先分类哪些压缩汇合可保持可恢复性。
-- **Answer criterion:** 构造全局定向并证明投影重数界；若还需要全局真实边注入，另行证明加权 Hall，不能只给 cocycle 分类。
-- **Last updated:** 2026-07-25
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3、9–10、13、20–21 节
+- **Suggested next action:** 对 Q-0015 输出的真实 Hall 最小割保存插入顶点、释放顶点、根边、root projection 和配置来源；先分类哪些高重叠分支可以保持未来行为地合并。
+- **Answer criterion:** 构造配置分支的全局运输并证明槽位重数界；若还需要全局真实边注入，另行证明加权 Hall，不能只给 cocycle 分类。
+- **Last updated:** 2026-07-27
 
 ## Q-0005 — 二进制强迫森林终局
 
@@ -82,50 +87,50 @@
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 1012–1047 行及第 1257–1290 行，发言者 `unknown`
   - `SINGLE_DEFECT_FRAMEWORK.md`，第 9、14 节
-- **Suggested next action:** 只在 Q-0014 和 Q-0002 的投影闭包完成后研究执行 terminal SCC；失败时输出真实块、顶点、边、pivot、缺失块和每一步阻断边。
+- **Suggested next action:** 只在 Q-0015 的配置流、Q-0002 的投影闭包与配置化 defect closure 完成后研究执行 terminal SCC；失败时输出真实块、顶点、边、配置来源、pivot、缺失块和每一步阻断边。
 - **Answer criterion:** 对每个 terminal 组件证明增广叶、真实 \(1/4\) link 乘积、完整真子核心之一；子核心必须由完整真实块组成。
 - **Last updated:** 2026-07-25
 
-## Q-0006 — 零误差 terminal SCC 分类
+## Q-0006 — 配置化零误差 terminal SCC 分类
 
 - **Question:** 在满足下列零误差公理的有限执行缺陷图中，terminal SCC 是否必产生增广叶、完整真实块子核心或精确 \(1/4\) link 乘积？
-  - 每个失败具有唯一两步单缺陷因子化；
-  - pivot 在缺陷移动中保持；
+  - 每个普通失败义务被完整分配到合法真实根配置；
+  - 每个获得正流的配置分支带唯一 pivot，且 pivot 在缺陷移动中保持；
   - 单端点释放后迹仍独立；
-  - 无竞争认证、无边界、无不相容配置；
+  - 无竞争认证、无边界、无不相容未记账配置；
   - 所有四块交换方块正常；
-  - 真实 genealogy 与边身份完整保留；
-  - 投影—边重数为一；
+  - 真实 genealogy、root projection 与边身份完整保留；
+  - 配置槽位重数为一；
   - terminal pivot link 为精确平衡完全二部图。
 - **Status:** blocked
-- **Why it matters:** 这是误差最少的核心终局，但它只有在零误差两步定向和执行图确实存在后才有定义。
-- **Known so far:** 局部模板已完全枚举（F-0009–F-0012）；候选框架给出了 Z1–Z9 和可编程数据格式。
-- **Missing:** Q-0014、Q-0002 的零误差存在性，以及不依赖进一步 atlas 细分的全局图论分类。
-- **Related:** Q-0002, Q-0005, Q-0007, Q-0014
+- **Why it matters:** 这是误差最少的核心终局，但它只有在配置提取、投影闭包和配置化执行图确实存在后才有定义。
+- **Known so far:** Q-0014 的共同预置 pivot 版本已被 F-0029 否定；局部模板已完全枚举（F-0009–F-0012）；候选框架 v0.3 给出了配置化 Z1–Z9 和可编程数据格式。
+- **Missing:** Q-0015、Q-0002 的零误差配置流与执行闭包，以及不依赖进一步 atlas 细分的全局图论分类。
+- **Related:** Q-0002, Q-0005, Q-0007, Q-0014, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 1148–1168 行及第 1253–1290 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 14、18 节
-- **Suggested next action:** 在 Q-0014 通过后，对最小真实执行模型进行证明或穷举；枚举器必须检查每条阻断边和每个 root projection 的真实身份。
-- **Answer criterion:** 给出严格三出口分类；若为假，给出满足全部零误差公理的真实反模型，而不是仅给相位商图。
-- **Last updated:** 2026-07-25
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 14、18、20 节
+- **Suggested next action:** 在 Q-0015 与配置化 defect closure 通过后，对最小真实执行模型进行证明或穷举；枚举器必须检查每条阻断边、每个 root projection 和每份配置流的真实身份。
+- **Answer criterion:** 给出严格三出口分类；若为假，给出满足全部配置化零误差公理的真实反模型，而不是仅给相位商图。
+- **Last updated:** 2026-07-27
 
-## Q-0007 — 固定 \(\varepsilon\) 的稳定化
+## Q-0007 — 固定 \(\varepsilon\) 的配置化稳定化
 
-- **Question:** 零误差分类成立后，能否把 multi-defect、off-pivot、orientation ambiguity、projection failure、competition、reuse、boundary 和 non-normal square 的总质量控制为 \(\gamma(\varepsilon)\)，并满足
+- **Question:** 配置化零误差分类成立后，能否把配置 Hall 缺口、multi-defect、off-pivot、orientation ambiguity、projection failure、competition、reuse、boundary 和 non-normal square 的总质量控制为 \(\eta(\varepsilon),\gamma(\varepsilon)\)，并满足
   \[
-  (1+\gamma(\varepsilon))(1/4-\varepsilon)<1/4?
+  (1+\eta(\varepsilon))(1+\gamma(\varepsilon))(1/4-\varepsilon)<1/4?
   \]
 - **Status:** blocked
-- **Why it matters:** 它把精确分类升级为实际的 \(1/4-\varepsilon\) 证明。
-- **Known so far:** 非正常窗口有九面证书，真实边容量与 link 边数可提供预算（F-0005, F-0011）；候选框架已给出异常类型及其不得混用的账本。
-- **Missing:** Q-0006 的零误差定理，以及每一类异常的独立定量稳定性和汇总方式。
-- **Related:** Q-0003, Q-0004, Q-0006
+- **Why it matters:** 它把配置化精确分类升级为实际的 \(1/4-\varepsilon\) 证明。
+- **Known so far:** 非正常窗口有九面证书，真实边容量与 link 边数可提供预算（F-0005, F-0011）；F-0029 说明共同预置 pivot 失败必须进入配置入口，而不能作为小异常默默删除。
+- **Missing:** Q-0015、Q-0006，以及每一类异常的独立定量稳定性和汇总方式。
+- **Related:** Q-0002, Q-0003, Q-0004, Q-0006, Q-0015
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 1170–1194 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 15、17、20 节
-- **Suggested next action:** 在 Q-0006 完成后，逐类定义异常质量；禁止把 root failure、transition edge 和全局真实边容量记在同一份未归一化账本中。
-- **Answer criterion:** 显式给出 \(\delta(\varepsilon)\)、\(\gamma(\varepsilon)\)、全部异常账本和最终递推。
-- **Last updated:** 2026-07-25
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 15、17、20 节
+- **Suggested next action:** 在 Q-0006 完成后，逐类定义异常质量；禁止把义务需求、配置槽位、transition edge 和全局真实边容量记在同一份未归一化账本中。
+- **Answer criterion:** 显式给出 \(\delta(\varepsilon)\)、\(\eta(\varepsilon)\)、\(\gamma(\varepsilon)\)、全部异常账本和最终递推。
+- **Last updated:** 2026-07-27
 
 ## Q-0008 — 重纤维的覆盖保持二点选择
 
@@ -213,23 +218,50 @@
 - **Answer criterion:** 在当前知识库中加入一条带完整证明来源的 `confirmed` 锐性事实。
 - **Last updated:** 2026-07-24
 
-## Q-0014 — 零误差两步单缺陷定向
+## Q-0014 — 零误差共同预置 pivot 定向
 
-- **Question:** 在所有相关四块交换均正常、无竞争认证、无边界的执行组件中，能否预先为每个稳定记录指定唯一真实 pivot，并使每个普通失败唯一写成
+- **Question:** 在所有相关四块交换均正常、无竞争认证、无边界的执行组件中，能否预先为每个稳定记录指定一个共同唯一真实 pivot，并使同一成功后继的每个普通失败都写成
   \[
   \widetilde S_0\xrightarrow{\,r\,}\widetilde S_1
   \xrightarrow[\mathrm{fail}]{\,x\,},
   \qquad
   e_0=\{p,r,x\},
   \]
-  其中第一步保持 pivot，且释放 \(r\) 后 \(T(\widetilde S_0)\cup\{x\}\) 独立？
-- **Status:** open
-- **Why it matters:** 这是 terminal defect graph 存在的前置命题；若失败，单缺陷路线在 SCC 分类之前就需要增加 multi-defect 或多 pivot 状态。
-- **Known so far:** 当前框架给出精确定义；预置 pivot 对 F-0022 的单个 \(\Delta(H)\) 因子是必要接口（F-0027），释放后独立性不能省略（F-0028）。
-- **Missing:** 从正常 \(\mathcal T_4\) 方块与块极小实例中推出全局一致定向，或构造满足局部正常性但无法定向的真实反模型。
-- **Related:** F-0027, F-0028, Q-0002, Q-0004, Q-0006
+  其中第一步保持该共同 pivot，且释放 \(r\) 后 \(T(\widetilde S_0)\cup\{x\}\) 独立？
+- **Status:** answered — negative
+- **Answer:** 否。F-0029 给出四个二元块上的八边真实反例。它无 IT、边极小、块极小、无竞争认证，且对应正常 \(Q_4\) 模板。对真实根迹
+  \[
+  R=\{0_0,1_0\}
+  \]
+  成功加入 \(r=2_1\) 后，尝试 \(3_0\) 的唯一阻断边为
+  \[
+  \{1_0,2_1,3_0\},
+  \]
+  强制 pivot 为 \(1_0\)；尝试 \(3_1\) 的唯一阻断边为
+  \[
+  \{0_0,2_1,3_1\},
+  \]
+  强制 pivot 为 \(0_0\)。两次释放后都恢复独立，但不存在共同预置 pivot。
+- **Why it matters:** 共同唯一 pivot 不能继续作为源稳定状态或 terminal defect graph 的前置公理。
+- **Known so far:** 该反例否定字面零误差命题，但因 \(b=2,\Delta=3\)，不否定低度渐近条件下“绝大部分义务可由近无损配置流吸收”的稳定化命题。
+- **Related:** F-0027, F-0028, F-0029, A-0021, A-0022, Q-0002, Q-0004, Q-0006, Q-0015
 - **Sources:**
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 6、17、20–21 节
-- **Suggested next action:** 先搜索最小反模型，检查三种失败签名：不可避免的 multi-defect、正常相位方块不可全局定向、同一真实闭路迫使投影重数大于一。
-- **Answer criterion:** 给出对所有普通失败的唯一两步因子化证明；若为假，反模型必须列出完整真实块、顶点、边、执行词、pivot 和每一步第一阻断边。
-- **Last updated:** 2026-07-25
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3 节
+  - `FACTS.md`，F-0029
+- **Suggested next action:** 不再重试共同预置 pivot；把该反例作为配置流审计器的强制回归测试，并转向 Q-0015。
+- **Answer criterion:** 已满足：真实块、顶点、边、执行根迹、成功旧端点、两个失败、第一阻断边和释放后独立性均已列出。
+- **Last updated:** 2026-07-27
+
+## Q-0015 — 义务—真实配置流与 Hall 最小割
+
+- **Question:** 对实际搜索产生的失败义务集合，能否完备枚举全部合法真实两步配置，并构造满足需求守恒、root-pivot 总预算和投影—pivot—根边槽位容量的近无损配置流；若不能，Hall 最小割是否必有可分类的真实结构？
+- **Status:** open
+- **Why it matters:** Q-0014 已证明共同预置 pivot 过强；Q-0015 是失败义务进入单缺陷状态空间并仍保住单个 \(\Delta(H)\) 因子的最早合法接口。
+- **Known so far:** `SINGLE_DEFECT_FRAMEWORK.md` v0.3 给出 `FailureObligation`、`RootConfiguration`、配置流 \(q(a,c)\)、预算 \(\lambda_{\widehat S}(p)\) 和槽位容量。F-0029 的反例要求至少允许同一源记录分裂到不同 pivot 配置。
+- **Missing:** 对真实执行的完备配置枚举器、最大流/最小割证书、投影闭包，以及对无配置、槽位拥塞、高真实边复用和 genealogy 碰撞的结构分类。
+- **Related:** F-0005, F-0022, F-0027, F-0028, F-0029, Q-0002, Q-0004, Q-0006
+- **Sources:**
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 6、10、17、20–21 节
+- **Suggested next action:** 实现真实执行审计器；对每个不可行实例输出可独立复算的义务子集、合法配置邻域、槽位容量和最小割，而不是只输出相位级缺口。
+- **Answer criterion:** 对所有深度和所有源记录证明近无损配置流，或给出满足低度、块极小、真实可达条件的 Hall 最小割反模型。
+- **Last updated:** 2026-07-27

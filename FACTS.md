@@ -332,38 +332,61 @@
 - **Caveats:** 信息损失公式不自动把可恢复循环转换为真实边费用。
 - **Last updated:** 2026-07-24
 
-## F-0022 — 单缺陷递推的条件闭合
+## F-0022 — 配置预算下单缺陷递推的条件闭合
 
 - **Status:** partially_proved
-- **Statement:** 设深度 \(k\) 的稳定执行记录总质量为 \(A_k\)，根失败质量为 \(\mathcal B_k\)。若每个普通失败具有两步单缺陷因子化，并且对每个深度 \(k-2\) 的有指针稳定记录 \(\widetilde S\) 与每条含其 pivot 的真实边 \(e\)，有
-  \[
-  \operatorname{mult}_k(\widetilde S,e)\le1+\gamma,
-  \]
+- **Statement:** 设深度 \(k\) 的源稳定执行记录总质量为 \(A_k\)，获得合法配置流的根失败质量为 \(\mathcal B_k\)。若：
+  1. 每个普通根缺陷来自真实合法两步配置；
+  2. 对每个源根投影 \(\widehat S\) 存在 root-pivot 预算
+     \[
+     \lambda_{\widehat S}(p)\ge0,\qquad
+     \sum_p\lambda_{\widehat S}(p)\le1+\eta;
+     \]
+  3. 对每个 \((\widehat S,p,e)\) 有投影—pivot—根边槽位容量
+     \[
+     \sum_{\substack{\widetilde D\ {\rm root}\\
+     \pi_{\rm exec}(\widetilde D)=\widehat S\\
+     p(\widetilde D)=p\\
+     e_{\rm root}(\widetilde D)=e}}
+     w(\widetilde D)
+     \le
+     (1+\gamma)\lambda_{\widehat S}(p)w(\widehat S);
+     \]
+  4. 所有未分配配置质量和其他异常进入显式误差项 \(E_k\)；
   则
   \[
-  \mathcal B_k\le(1+\gamma)\Delta(H)A_{k-2},
-  \qquad
-  A_k\ge bA_{k-1}-(1+\gamma)\Delta(H)A_{k-2}-E_k,
+  \mathcal B_k\le(1+\eta)(1+\gamma)\Delta(H)A_{k-2},
   \]
-  其中 \(E_k\) 是明确分离的异常质量。若 \(E_k=0\) 且
+  且
   \[
-  (1+\gamma)(1/4-\varepsilon)<1/4,
+  A_k\ge
+  bA_{k-1}
+  -(1+\eta)(1+\gamma)\Delta(H)A_{k-2}
+  -E_k.
+  \]
+  若 \(E_k=0\) 且
+  \[
+  (1+\eta)(1+\gamma)(1/4-\varepsilon)<1/4,
   \]
   则 \(\Delta(H)\le(1/4-\varepsilon)b^2\) 推出存在 IT。
-- **Scope:** 条件于实际搜索记录的质量守恒、每个普通失败的唯一两步因子化、root projection 属于实际稳定层，以及异常质量没有被静默丢弃。全局真实边 Hall 容量是另一账本，不能由上述投影重数自动推出。
-- **Evidence:** 对固定 \(\widetilde S\)，所有根收费边均含预先固定的唯一 pivot \(p(\widetilde S)\)，故总根失败质量至多
+- **Scope:** 条件于实际搜索的质量守恒、合法配置完备性、root projection 属于实际源稳定层、配置流需求守恒以及异常质量没有被静默丢弃。全局真实边 Hall 容量是第三份账本，不能由槽位容量自动推出。
+- **Evidence:** 对固定 \(\widehat S\)，按 pivot 和根边求和：
   \[
-  (1+\gamma)d_H(p(\widetilde S))w(\widetilde S)
-  \le(1+\gamma)\Delta(H)w(\widetilde S).
+  \sum_{\pi_{\rm exec}(\widetilde D)=\widehat S}w(\widetilde D)
+  \le
+  (1+\gamma)w(\widehat S)
+  \sum_p\lambda_{\widehat S}(p)d_H(p)
+  \le
+  (1+\eta)(1+\gamma)\Delta(H)w(\widehat S).
   \]
-  求和后得到失败质量界，再用二阶递推的正根归纳。
+  再对全部源根投影求和并应用二阶递推。
 - **Sources:**
   - `handoff_toward_one_quarter.md`，第 827–951 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 10–12 节
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 6、10–12 节
 - **Dependencies:** F-0005
-- **Related:** F-0027, F-0028, Q-0002, Q-0003, Q-0004, Q-0005, Q-0014
-- **Caveats:** 搜索方案存在性、两步定向、投影闭包和投影重数仍开放，故不能据此声称 \(1/4\) 已证。
-- **Last updated:** 2026-07-25
+- **Related:** F-0027, F-0028, F-0029, Q-0002, Q-0003, Q-0004, Q-0005, Q-0015
+- **Caveats:** 配置搜索方案存在性、投影闭包、槽位重数和全局真实边容量仍开放，故不能据此声称 \(1/4\) 已证。
+- **Last updated:** 2026-07-27
 
 ## F-0023 — 固定轻锚可局部关闭 residual
 
@@ -421,22 +444,26 @@
 - **Caveats:** handoff 明确说明未重新运行全部求解；不能升级为渐近事实。
 - **Last updated:** 2026-07-24
 
-## F-0027 — 当前递推需要预置唯一 pivot 的稳定状态
+## F-0027 — 单个 \(\Delta\) 因子的正确接口是配置预算
 
 - **Status:** derived
-- **Statement:** 在 F-0022 的逐状态收费证明中，深度 \(k-2\) 的稳定状态必须在两步窗口开始前带有唯一真实 pivot \(p\)，或提供等价的总质量为一的分数 pivot 分配。若状态只记录无指针部分横截 \(T\)，并在失败后从 \(T\) 中自由选择收费顶点，则直接估计一般只有
+- **Statement:** 若源状态只记录无指针部分横截 \(T\)，并在失败后自由选择收费顶点，则直接估计一般只有
   \[
-  \sum_{v\in T}d_H(v)\le |T|\Delta(H),
+  \sum_{v\in T}d_H(v)\le |T|\Delta(H).
   \]
-  不能得到所需的单个 \(\Delta(H)\) 因子。
-- **Scope:** 这是当前单缺陷二阶递推账本的必要接口；不排除存在另一套带分数 pivot 或不同势函数的证明。
-- **Evidence:** F-0022 的逐投影求和必须把所有根收费边限制在同一个预先指定的 pivot 星中。
+  因此要在配置优先的单缺陷递推中保住单个 \(\Delta(H)\) 因子，必须提供总预算
+  \[
+  \sum_p\lambda_{\widehat S}(p)\le1+\eta
+  \]
+  和逐 \((\widehat S,p,e)\) 槽位容量；源状态预置共同唯一 pivot 只是 \(\eta=0\) 的特殊情形，并非普遍可行。
+- **Scope:** 这是当前配置化二阶递推账本的必要接口；不排除不同势函数或完全不同证明方法。
+- **Evidence:** F-0022 的逐源投影求和按配置分支的 pivot 星展开。F-0029 进一步证明，正常、无竞争的真实四块组件也可能不存在共同预置 pivot。
 - **Sources:**
-  - `SINGLE_DEFECT_FRAMEWORK.md`，第 3–4 节及定理 11.2
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3–4、10–11 节
 - **Dependencies:** F-0022
-- **Related:** A-0021, Q-0002, Q-0014
-- **Caveats:** “唯一 pivot”是对当前账本的要求，不应被误述为所有可能证明方法的绝对必要条件。
-- **Last updated:** 2026-07-25
+- **Related:** A-0021, A-0022, F-0029, Q-0002, Q-0014, Q-0015
+- **Caveats:** 配置预算仍需由真实最大流/Hall 证明；不能把源层任意分数 pivot 当作已获得的容量。
+- **Last updated:** 2026-07-27
 
 ## F-0028 — 单端点释放后必须重新验证独立性
 
@@ -454,3 +481,41 @@
 - **Related:** A-0020, Q-0002, Q-0014
 - **Caveats:** 第一阻断边的确定性只选择证书，不排除同时存在其他阻断边。
 - **Last updated:** 2026-07-25
+
+## F-0029 — 零误差共同预置 pivot 命题的真实正常四块反例
+
+- **Status:** confirmed
+- **Statement:** 存在一个四块、每块两个顶点的三一致分块超图，满足：
+  1. 无 IT，且每个完整横截恰含一条边；
+  2. 边极小、块极小、无竞争认证；
+  3. 对应的 \(Q_4\) 坐标完美匹配正常；
+  4. 存在真实可达的两步窗口，其中同一成功后继的两个普通失败分别强制两个不同 pivot，且两次释放旧端点后都恢复独立。
+  因而不能为该源稳定记录预先指定一个共同唯一 pivot。
+- **Explicit model:** 四个块
+  \[
+  B_i=\{i_0,i_1\},\qquad i=0,1,2,3,
+  \]
+  边集
+  \[
+  \begin{aligned}
+  &\{0_0,1_0,2_0\},\{0_0,1_1,3_0\},
+    \{0_0,2_1,3_1\},\{0_1,1_0,3_1\},\\
+  &\{0_1,1_1,2_1\},\{0_1,2_0,3_0\},
+    \{1_0,2_1,3_0\},\{1_1,2_0,3_1\}.
+  \end{aligned}
+  \]
+  对根迹 \(R=\{0_0,1_0\}\) 成功加入 \(r=2_1\) 后：
+  \[
+  x=3_0\Rightarrow e_0=\{1_0,2_1,3_0\},\ p=1_0,
+  \]
+  \[
+  x=3_1\Rightarrow e_0=\{0_0,2_1,3_1\},\ p=0_0.
+  \]
+- **Scope:** 否定 Q-0014 的字面零误差共同 pivot 命题，以及把共同 pivot 写入源稳定状态定义的做法。
+- **Evidence:** 八条边分别覆盖两个完整横截并恰好分割全部 \(16\) 个横截；两个失败各有唯一阻断边，释放 \(r\) 后的三点迹均不在边集中。方向表逐二维面检查为正常模板。
+- **Sources:**
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3 节
+- **Dependencies:** F-0008, F-0010, F-0028
+- **Related:** A-0022, Q-0002, Q-0004, Q-0014, Q-0015
+- **Caveats:** 该模型有 \(b=2,\Delta=3\)，不是 \(1/4\) 低度反例；它不否定低度渐近条件下近无损配置流的可能性。
+- **Last updated:** 2026-07-27

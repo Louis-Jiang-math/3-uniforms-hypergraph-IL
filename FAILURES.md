@@ -373,14 +373,43 @@
   \[
   \sum_{p\in T}d_H(p)\le |T|\Delta(H).
   \]
-- **Why it failed:** 当前二阶递推需要所有投影到同一状态的根收费边落在一个预先固定的真实 pivot 星中。
+- **Why it failed:** 无指针状态本身没有逐 pivot 容量。进一步把修复定义为“预先固定一个共同 pivot”也不成立；F-0029/A-0022 给出正常四块反例。
 - **Failure signature:** `unpointed stable state loses a factor equal to state depth`
 - **Evidence:**
   - F-0027
   - `SINGLE_DEFECT_FRAMEWORK.md`，第 3–4、10–11 节
 - **Related:** F-0022, F-0027, Q-0002, Q-0014
-- **Retry conditions:** 在两步窗口开始前固定唯一 pivot，或证明一个总质量为一且与 genealogy 相容的分数 pivot 分配。
+- **Retry conditions:** 不再要求源状态预置共同 pivot。先枚举全部真实两步配置，再证明义务—配置流、root-pivot 总预算及投影—pivot—根边槽位容量；任何未分配质量必须进入显式异常或 Hall 最小割。
 - **Do not repeat:** 事后选择度数最大的、最小的或最早出现的顶点仍不能自动恢复逐状态单位预算。
 - **Status:** failed
 - **Last updated:** 2026-07-25
 
+## A-0022 — 用正常性推出同一成功后继的共同预置 pivot
+
+- **Goal:** 在零误差正常执行组件中，为每个源稳定记录预先指定一个 pivot，使该记录的全部后续普通失败均由同一 pivot 解释。
+- **Approach:** 假设正常 \(\mathcal T_4\) 方块、无竞争认证、无边界和单端点释放独立性足以全局粘合 pivot。
+- **Failure type:** structural
+- **Failure point:** 四个二元块上的八边超图
+  \[
+  \begin{aligned}
+  &\{0_0,1_0,2_0\},\{0_0,1_1,3_0\},
+    \{0_0,2_1,3_1\},\{0_1,1_0,3_1\},\\
+  &\{0_1,1_1,2_1\},\{0_1,2_0,3_0\},
+    \{1_0,2_1,3_0\},\{1_1,2_0,3_1\}
+  \end{aligned}
+  \]
+  是正常、无竞争、边极小和块极小的无 IT 实例。在根迹
+  \[
+  R=\{0_0,1_0\}
+  \]
+  成功加入 \(r=2_1\) 后，失败 \(x=3_0\) 只接受 pivot \(1_0\)，失败 \(x=3_1\) 只接受 pivot \(0_0\)；两次释放后均独立。
+- **Why it failed:** 正常性保证的是有限四块相位结构，不保证同一成功后继的全部第一阻断边共享一个旧端点。
+- **Failure signature:** `normal Q4 square with individually orientable failures but no common preassigned pivot`
+- **Evidence:**
+  - F-0029
+  - `SINGLE_DEFECT_FRAMEWORK.md` v0.3，第 3 节
+- **Related:** F-0027, F-0028, F-0029, Q-0002, Q-0004, Q-0014, Q-0015
+- **Retry conditions:** 只有加入额外的低度渐近稳定性并证明坏窗口总质量可控，或改用配置优先入口，才可继续；不能把正常性本身当作共同 pivot 定理。
+- **Do not repeat:** 不要通过更换字典序、块顺序或事后选择 pivot 来声称解决；同一执行组件必须同时处理两个失败。
+- **Status:** failed
+- **Last updated:** 2026-07-27
