@@ -524,7 +524,7 @@
 ## F-0030 — Q-0015 首轮真实执行审计基线
 - **Status:** confirmed_computational
 - **Statement:** 对 F-0029 八边模型的全部 24 个块顺序，审计器生成 144 个带失败义务的实际 root group：48 个零误差 root-pivot 预算可行、48 个正 root-budget 缺口、48 个含 `no-configuration` 义务。指定窗口满足 \(t_{\min}=2,\eta=1\)，固定半预算槽位流为 \(1/2\) 总需求，而独立真实边流为 \(2/2\)。
-- **Evidence:** `enumerate/q0015_first_execution_results.json` 与 `enumerate/q0015_first_execution_report.md`。
+- **Evidence:** `evidence/experiments/q0015/historical/q0015_first_execution_results.json` 与 `evidence/experiments/q0015/reports/q0015_first_execution_report.md`。
 - **Related:** F-0027–F-0029, Q-0015
 - **Caveats:** 这是计算证书，不是一般低度配置定理。
 - **Last updated:** 2026-07-27
@@ -533,7 +533,7 @@
 - **Status:** confirmed
 - **Statement:** 每块大小 3、块数 14、最大度至多 2 的三一致分块超图必有独立横截。
 - **Evidence:** 若随机横截含边数为 \(Z\)，无 IT 给出 \(Z\ge1\)，而总度预算给出 \(|E|\in\{27,28\}\)。\(|E|=27\) 时所有边对必须不相容，但 14 个块至多认证 168 对，而共有 351 对。\(|E|=28\) 时至少 210 对相容，故 \(\mathbb E\binom Z2\ge70/243\)；另一方面 \(Z\le9\) 且 \(\mathbb E(Z-1)=1/27\)，故 \(\mathbb E\binom Z2\le1/6\)，矛盾。
-- **Sources:** `enumerate/q0015_hall_cut_structural_analysis.md`
+- **Sources:** `evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.md`
 - **Related:** Q-0015
 - **Caveats:** 这是单个有限参数点，不给出渐近 \(1/4\) 定理。
 - **Last updated:** 2026-07-27
@@ -579,3 +579,15 @@
 - **Related:** A-0024, Q-0016
 - **Caveats:** 对角分散 switch 模型表明，incidence 增殖不自动给出完整子核心或 \(1/4\) link 乘积。
 - **Last updated:** 2026-07-27
+
+## F-0036 — Q-0015 实根障碍的未来完备提升二分
+- **Status:** confirmed_formal
+- **Kind:** formal lift / specification theorem
+- **Statement:** 对已经给定两两不交实际根 cylinder、真实 root projection、完整 genealogy 与三份容量账本的 Q-0015 实根障碍，逐未来 tuple 作忠实展开并按最短前缀分类，则要么某个正质量分支进入有限命名 E 出口，要么得到质量与账本无损、对忠实 continuation 闭合的 future-complete 执行森林；在块极小无 IT 且无 E 时，至少存在一个真实 persistent-blocker 分支。
+- **Scope:** 输入已经是 Q-0015 实根障碍；本条不构造该入口，也不控制 E 出口质量。
+- **Evidence:** `docs/framework/FW-40_FUTURE_COMPLETE_LIFT.md`；`sources/raw/conversations/chatgpt-export_深度二分析执行.txt` 的最终纠错后论证。
+- **Dependencies:** F-0030, F-0032, F-0033
+- **Related:** Q-0015, Q-0016, Q-0017, A-0025, A-0026
+- **Caveats:** 不推出 \(11/27\) 正常形、因果 incidence 集中、完整子核心必然出现或 \(1/4\) 定理。
+- **DAG role:** G1b supporting input to active G1c
+- **Last updated:** 2026-07-28

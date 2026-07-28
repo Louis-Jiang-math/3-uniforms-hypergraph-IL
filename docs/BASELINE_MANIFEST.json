@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source_repository": "Louis-Jiang-math/3-uniforms-hypergraph-IL",
+  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
+  "source_date": "2026-07-28",
+  "delivery_kind": "complete working tree without .git object database",
+  "canonical_entrypoints": [
+    "README.md",
+    "docs/QUICKSTART_10_MINUTES.md",
+    "HANDOFF_CURRENT.md",
+    "docs/PROOF_DAG.md",
+    "agent.md",
+    "docs/PROJECT_STATE.yaml"
+  ],
+  "replaced_or_added_code": [
+    "src/hypergraph_il/",
+    "enumerate/q0015_configuration_auditor.py",
+    "enumerate/schemas/e_exit.schema.json",
+    "tests/",
+    "tools/check_repository.py",
+    ".github/workflows/enumerate-smoke.yml"
+  ],
+  "known_archive_omission": "One very large non-normative mathcal T_4 conversation export was not byte-for-byte copied; canonical ledgers retain its verified net content.",
+  "main_theorem_status": "open",
+  "active_node": "G1c/Q-0015",
+  "source_short_commit": "cfadd24",
+  "restructured_layout": {
+    "canonical_knowledge": "knowledge/",
+    "evidence": "evidence/",
+    "raw_sources": "sources/raw/",
+    "history": "history/"
+  },
+  "original_source_files": [
+    "FACTS.md",
+    "FAILURES.md",
+    "QUESTIONS.md",
+    "SINGLE_DEFECT_FRAMEWORK.md",
+    "PIVOT_SWITCH_ESCAPE_FRAMEWORK.md",
+    "enumerate/q0015_first_execution_report.md",
+    "enumerate/q0015_hall_cut_structural_analysis.md",
+    "enumerate/q0015_hall_cut_structural_analysis.json"
+  ]
+}

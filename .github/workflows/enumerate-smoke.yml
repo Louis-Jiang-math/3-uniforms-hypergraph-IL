@@ -1,27 +1,23 @@
-name: enumerate-smoke
+name: repository-audit
 
 on:
   push:
-    paths:
-      - "enumerate/**"
-      - "requirements.txt"
-      - ".github/workflows/enumerate-smoke.yml"
   pull_request:
-    paths:
-      - "enumerate/**"
-      - "requirements.txt"
-      - ".github/workflows/enumerate-smoke.yml"
 
 jobs:
-  smoke:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+          cache: pip
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -r requirements.txt
-      - run: python -m py_compile enumerate/q0015_configuration_auditor.py
-      - run: python enumerate/q0015_configuration_auditor.py --help
+      - run: python -m pip install -e . --no-build-isolation
+      - run: python -m compileall -q src enumerate tools tests
+      - run: python -m pytest -q
+      - run: python tools/check_repository.py
+      - run: python tools/check_generated_artifacts.py
+      - run: python enumerate/q0015_configuration_auditor.py --regressions-only --generated-at 2026-07-28T00:00:00Z --output-dir artifacts/runs/q0015

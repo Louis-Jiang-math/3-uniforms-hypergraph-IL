@@ -1,0 +1,30 @@
+{
+  "classification": {
+    "zero-error-budget-feasible": 48,
+    "positive-root-budget-gap": 48,
+    "no-configuration": 48
+  },
+  "positive_root_budget_signature_counts": {"(2, 2, 2, 2, 2, 2.0)": 48},
+  "positive_root_edge_multiplicity": {
+    "{1_0,2_1,3_0}": 12,
+    "{0_0,2_1,3_1}": 12,
+    "{0_1,2_0,3_0}": 12,
+    "{1_1,2_0,3_1}": 12,
+    "{0_0,1_1,3_0}": 12,
+    "{0_1,1_0,3_1}": 12,
+    "{0_0,1_0,2_0}": 12,
+    "{0_1,1_1,2_1}": 12
+  },
+  "no_configuration_groups_with_future_distinguished_predecessors": 48,
+  "b3_m14_D2_exclusion": {
+    "edge_count_range_if_no_IT": [27, 28],
+    "max_incompatible_edge_pairs": 168,
+    "case_27_total_pairs": 351,
+    "case_27_contradiction": true,
+    "case_28_compatible_pairs_lower_bound": 210,
+    "case_28_second_factorial_moment_lower_bound": 0.2880658436213992,
+    "case_28_Z_max": 9,
+    "case_28_second_factorial_moment_upper_bound": 0.1666666666666664,
+    "case_28_contradiction": true
+  }
+}

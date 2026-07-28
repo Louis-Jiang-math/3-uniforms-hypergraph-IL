@@ -1,5 +1,9 @@
 # Pivot-switch 与逃逸收费框架
 
+> **规范状态：** `proved-formal / proved-conditional`。详细结果由 `docs/framework/FW-30_PIVOT_SWITCH_ESCAPE.md` 路由；本文件不证明近无损配置入口、费用集中、Q-0016、Q-0017 或 \(1/4\)。
+>
+> **类型约束：** switch 必须区分组合方块与实际 reroot lift；escape 满流只使用全局真实边账本，不能重置 root-budget 或 slot 预算。
+
 > **状态：** 组合定义与可审计性引理已证明；逃逸收费 Hall 定理已证明；因果 incidence 集中仍开放。
 > **依赖：** `SINGLE_DEFECT_FRAMEWORK.md` v0.5、真实第一阻断边、实际执行 genealogy、全局真实边单位容量。
 

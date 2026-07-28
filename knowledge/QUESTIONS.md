@@ -247,7 +247,7 @@
 - **Related:** F-0027, F-0028, F-0029, A-0021, A-0022, Q-0002, Q-0004, Q-0006, Q-0015
 - **Sources:**
   - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 3 节
-  - `FACTS.md`，F-0029
+  - `knowledge/FACTS.md`，F-0029
 - **Suggested next action:** 不再重试共同预置 pivot；继续把该反例作为配置流、genealogy 和 escape-charge 审计的强制回归测试。
 - **Answer criterion:** 已满足：真实块、顶点、边、执行根迹、成功旧端点、两个失败、第一阻断边和释放后独立性均已列出。
 - **Last updated:** 2026-07-27
@@ -262,8 +262,8 @@
 - **Related:** F-0005, F-0022, F-0027–F-0035, Q-0002, Q-0004, Q-0006, Q-0016, Q-0017
 - **Sources:**
   - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 6、10、20、23–24 节
-  - `enumerate/q0015_first_execution_report.md`
-  - `enumerate/q0015_hall_cut_structural_analysis.md`
+  - `evidence/experiments/q0015/reports/q0015_first_execution_report.md`
+  - `evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.md`
 - **Suggested next action:** 把审计器接到低度候选生成器，加入 escape-charge 和跨投影联合账本；每个失败实例输出机器可读最小割、未来区分或完整块支持证书。
 - **Answer criterion:** 对所有深度和源记录证明近无损配置/escape 流，或给出满足低度、块极小、无 IT、真实可达条件的 Hall/closure 反模型。
 - **Last updated:** 2026-07-27
@@ -290,3 +290,11 @@
 - **Suggested next action:** 在 `enumerate/` 审计器中加入深度二 ordinary/switch/multi-defect 展开，搜索违反 \(11/27\) 正常形的最小真实反例。
 - **Answer criterion:** 给出统一误差 \(o_\varepsilon(1)\) 的正常形定理，或满足低度、块极小、无 IT、真实可达的反模型。
 - **Last updated:** 2026-07-27
+
+## 2026-07-28 状态补充 — Q-0015/Q-0016/Q-0017 的逻辑顺序
+- **Canonical active node:** Q-0015 的命名 E 出口定量控制；见 `HANDOFF_CURRENT.md` 与 `docs/PROOF_DAG.md`。
+- **Q-0015 progress:** F-0036 已给出实根障碍的形式未来完备提升，但 E 出口质量与一般近无损入口仍开放，因此 Q-0015 不关闭。
+- **Q-0017 status:** open。F-0034 仍是条件森林摊还；A-0026 排除了把 ordinary transition capping 当作一般正常形证明。
+- **Q-0016 status:** open。深度二有限枚举和 AMCG 条件计算不提供一般因果集中定理。
+- **Research/application order:** 可先研究下游条件模块，但主定理应用必须按 Q-0015/Q-0002 → Q-0017 → Q-0016 → terminal counting。
+- **Last updated:** 2026-07-28

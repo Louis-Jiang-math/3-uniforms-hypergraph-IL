@@ -447,3 +447,17 @@
 - **Do not repeat:** 不得把该开放命题改名为 terminal classification 后当作引理使用。
 - **Status:** open-obstruction
 - **Last updated:** 2026-07-27
+
+## A-0026 — 用 ordinary transition 截帽自动制造 \(11/27\) 正常形
+- **Goal:** 将每个节点超过 \(11/27\) 的 ordinary continuation 拆成 transition-charge，并用实际 transition edge 的 Hall 网络支付，从而直接关闭 Q-0017/Q-0016。
+- **Approach:** 在 AMCG 质量接口中人为保留至多 \(11/27\) 的 ordinary child mass，把其余质量绑定到该 move 的 transition edge。
+- **Failure type:** circular-capacity-assumption
+- **Failure point:** AMCG 的可分数细化只保证质量不复制；它不证明每份超额 ordinary mass 天然拥有一份独立、未消费且允许支付的全局真实边容量权。若把这项权利放进 obligation 定义，再由 Hall 二分支付或输出 cut，就已把待证出口写入接口。
+- **Why it failed:** transition edge 属于执行因果链不等于可作为额外收费资源；还必须排除它已被 root、slot、此前 transition 或 escape 账本使用，并证明收费不循环。
+- **Failure signature:** `desired contraction enforced by defining excess continuation as an already-entitled edge charge`
+- **Evidence:** `sources/raw/conversations/chatgpt-export_深度二分析执行.txt` 的最终逻辑顺序审计；`docs/framework/FW-50_PERSISTENT_BLOCKER.md`。
+- **Related:** F-0034, F-0036, Q-0015, Q-0016, Q-0017
+- **Retry conditions:** 先从目标超图和 Q-0015 真实入口证明 ordinary transition 的非循环收费权、剩余容量和三账本兼容；或改用不创造容量的单调量/结构割。
+- **Do not repeat:** 不得把 AMCG 定义、统一标度或无原子细化当作收费合法性证明。
+- **Status:** failed
+- **Last updated:** 2026-07-28

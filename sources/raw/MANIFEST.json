@@ -1,0 +1,87 @@
+{
+  "schema_version": "raw-source-manifest-v1",
+  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
+  "files": [
+    {
+      "path": "sources/raw/conversations/chatgpt-export_1_4定理证明下一步.txt",
+      "bytes": 147305,
+      "sha256": "5bde53a8ab33016bd0a3b52836eb057f996cd3d563c1777c160f6b22d329404f",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_1_4定理证明步骤.txt",
+      "bytes": 197577,
+      "sha256": "da61d55729a793092b21fb12aa9a66397eb23ea3b25d1845315fccd557ff1557",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export__(_sqrt{6}_) 路线评估.txt",
+      "bytes": 106654,
+      "sha256": "008357e3accb18793df96a0201349def2aba9b2fff611c52094e3537d17863e0",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_基准真实边集合证明.txt",
+      "bytes": 320211,
+      "sha256": "d58b9dab783557a4e2352e444cc4b455ce6bf5b1c89a169137e023f3bf6e9dd5",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_文章核心问题分析(1).txt",
+      "bytes": 875397,
+      "sha256": "326759998066b7fb857ba8362ebf5902cc514928596777ebeb648b9db1246501",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_深度二分析执行.txt",
+      "bytes": 107946,
+      "sha256": "e2b25b44013a3672a6661a259306450f742be6014c88c4b9e9eba34b4bace303",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_第一阶段解析骨架.txt",
+      "bytes": 310257,
+      "sha256": "097c904d9b7441a675c8340e90a55ee8dd79131839c32285e29d11fac14888ca",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/chatgpt-export_证明主线与障碍.txt",
+      "bytes": 402740,
+      "sha256": "205243c3e37b005bf469fddd3b425b62d9870eb120b144f1dd2715b07b5ea227",
+      "status": "immutable historical source"
+    },
+    {
+      "path": "sources/raw/conversations/handoff_toward_one_quarter.md",
+      "bytes": 35091,
+      "sha256": "87e3a13db2f9aa4fccc35da8d2da0522d1f7fbff0c5c1de41d1b6b7d8a96ba0b",
+      "status": "immutable historical source"
+    }
+  ],
+  "canonical_status_sources": [
+    "knowledge/FACTS.md",
+    "knowledge/FAILURES.md",
+    "knowledge/QUESTIONS.md",
+    "docs/PROOF_DAG.md",
+    "docs/PROJECT_STATE.yaml",
+    "HANDOFF_CURRENT.md"
+  ],
+  "unavailable_upstream_items": [
+    {
+      "path": "old/chatgpt-export_数学语言描述_mathcal T_4图册(2).txt",
+      "included": false,
+      "reason": "non-normative 424245-byte raw transcript could not be transferred through the current artifact channel",
+      "raw_url": "https://raw.githubusercontent.com/Louis-Jiang-math/3-uniforms-hypergraph-IL/cfadd24b52546d4d5800c4a3c5a75a2add86f928/old/chatgpt-export_%E6%95%B0%E5%AD%A6%E8%AF%AD%E8%A8%80%E6%8F%8F%E8%BF%B0_mathcal%20T_4%E5%9B%BE%E5%86%8C%282%29.txt",
+      "status": "optional historical transcript; verified net content is in canonical ledgers"
+    }
+  ],
+  "historical_compatibility_items": [
+    {
+      "path": "enumerate/q0015_first_execution_results.json",
+      "included": true,
+      "byte_for_byte_upstream_copy": false,
+      "status": "report-derived compatibility summary; current reproducible baseline is enumerate/baselines/q0015_audit_results.json",
+      "delivered_path": "evidence/experiments/q0015/historical/q0015_first_execution_results.json",
+      "current_reproducible_baseline": "evidence/experiments/q0015/baselines/q0015_audit_results.json"
+    }
+  ]
+}

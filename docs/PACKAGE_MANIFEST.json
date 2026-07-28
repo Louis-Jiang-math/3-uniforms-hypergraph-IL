@@ -1,0 +1,20 @@
+{
+  "package": "3-uniforms-hypergraph-IL-direct-unzip",
+  "purpose": "Unzip directly into a repository root to establish a ten-minute research onboarding and canonical proof-document architecture.",
+  "entrypoints": [
+    "README.md",
+    "docs/QUICKSTART_10_MINUTES.md",
+    "HANDOFF_CURRENT.md",
+    "docs/PROOF_DAG.md",
+    "agent.md",
+    "docs/PROJECT_STATE.yaml"
+  ],
+  "overwrites": true,
+  "creates_backups": false,
+  "modifies_source_code": false,
+  "preserves_existing_ledgers": [
+    "FACTS.md",
+    "FAILURES.md",
+    "QUESTIONS.md"
+  ]
+}

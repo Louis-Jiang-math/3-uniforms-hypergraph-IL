@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "q0015-e-exit-v1",
+  "title": "Q-0015 named E-exit certificate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "exit_type",
+    "mass",
+    "root_record_id",
+    "root_projection_id",
+    "genealogy",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "q0015-e-exit-v1"},
+    "certificate_id": {"type": "string", "minLength": 1},
+    "exit_type": {
+      "enum": [
+        "no-configuration",
+        "execution-boundary",
+        "root-projection-failure",
+        "root-budget-cut",
+        "slot-cut",
+        "real-edge-hall-cut",
+        "switch-no-reroot-lift",
+        "multi-defect",
+        "external-old-anchor-blocker",
+        "exact-future-quotient",
+        "augmentation",
+        "survivor",
+        "unclassified"
+      ]
+    },
+    "mass": {"type": "number", "minimum": 0},
+    "root_record_id": {"type": "string", "minLength": 1},
+    "root_projection_id": {"type": "string", "minLength": 1},
+    "genealogy": {"type": "array", "items": {"type": "string"}},
+    "attempted_vertex": {"type": ["string", "null"]},
+    "first_real_edge": {"type": ["string", "null"]},
+    "ledger": {"enum": [null, "root-budget", "slot", "global-real-edge"]},
+    "payload": {"type": "object"},
+    "status": {"enum": ["observed", "certified", "unresolved", "counterexample"]}
+  },
+  "additionalProperties": false
+}

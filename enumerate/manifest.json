@@ -1,41 +1,25 @@
 {
-  "schema_version": "enumerate-manifest-v1",
+  "schema_version": "enumerate-manifest-v3",
+  "source_baseline": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
   "question": "Q-0015",
-  "framework": "v0.5-switch-audited",
-  "artifacts": {
-    "q0015_configuration_auditor.py": {
-      "role": "reproducible_auditor",
-      "status": "active",
-      "default_output_directory": "enumerate/run"
-    },
-    "q0015_first_execution_results.json": {
-      "role": "historical_raw_run",
-      "status_at_run_time": "iteration-limit-reached-with-IT-certificates",
-      "search_was_exhaustive": false,
-      "interpretation": "The 100-round outer search was non-exhaustive at run time."
-    },
-    "q0015_first_execution_report.md": {
-      "role": "human_readable_run_report",
-      "status": "historical_with_later_mathematical_upgrade"
-    },
-    "q0015_hall_cut_structural_analysis.json": {
-      "role": "machine_readable_structural_summary",
-      "status": "active"
-    },
-    "q0015_hall_cut_structural_analysis.md": {
-      "role": "mathematical_analysis",
-      "status": "active",
-      "superseding_conclusion": {
-        "parameter_point": {"b": 3, "m": 14, "maximum_degree": 2},
-        "status": "exactly_impossible_no_IT_instance",
-        "proof_type": "counting_and_moment_argument"
-      }
-    }
+  "active_code": {
+    "q0015_configuration_auditor.py": "compatibility CLI wrapper",
+    "../src/hypergraph_il/cli.py": "canonical CLI implementation",
+    "../src/hypergraph_il/q0015.py": "mathematical computation",
+    "../src/hypergraph_il/artifacts.py": "atomic artifact metadata and hash support"
+  },
+  "schemas": {
+    "schemas/e_exit.schema.json": "named E-exit certificate schema"
+  },
+  "evidence": {
+    "../evidence/experiments/q0015/baselines/q0015_audit_results.json": "reproducible exhaustive regression baseline",
+    "../evidence/experiments/q0015/reports/": "human and machine-readable reports",
+    "../evidence/experiments/q0015/historical/": "noncanonical historical outputs"
   },
   "open_scope": [
-    "general near-lossless configuration flow",
-    "cross-projection budget",
-    "persistent-blocker critical normal form",
-    "causal incidence regeneration and concentration"
+    "quantitative E-exit control",
+    "general near-lossless entrance",
+    "Q-0017",
+    "Q-0016"
   ]
 }

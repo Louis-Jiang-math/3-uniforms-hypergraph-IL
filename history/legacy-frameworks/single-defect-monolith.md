@@ -1,5 +1,9 @@
 # SINGLE_DEFECT_FRAMEWORK
 
+> **规范状态：** `superseded-as-monolith`。本文件保留详细定义、证明来源与历史版本；当前状态、依赖与非结论以 `docs/PROOF_DAG.md`、`docs/framework/FW-10_CONFIGURATION_ENTRY.md`、`FW-20_DEFECT_GENEALOGY.md` 和 `FW-50_PERSISTENT_BLOCKER.md` 为准。不得仅凭本文件关闭 Q-0015/Q-0016/Q-0017。
+>
+> **当前有效范围：** Q-0015 审计基础设施、pivot-switch/escape 的已证形式接口以及条件森林摊还。一般近无损入口、ordinary transition 额外收费权、persistent 正常形和因果集中仍开放。
+
 > **版本：** v0.5-switch-audited
 > **日期：** 2026-07-27
 > **状态：** 研究草稿；Q-0015 审计器与结果已归档到 `enumerate/`；组合 pivot-switch、真实 reroot lift、逃逸收费 Hall 网络和条件临界分裂器森林摊还已经形式化；一般低度近无损配置定理、因果 incidence 集中、persistent-blocker 正常形与 terminal SCC 分类仍开放。

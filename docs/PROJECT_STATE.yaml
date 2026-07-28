@@ -1,0 +1,84 @@
+schema_version: 1
+updated: 2026-07-28
+source_baseline:
+  repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
+  commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
+  short_commit: cfadd24
+  date: 2026-07-28
+theorem:
+  id: M0
+  statement: "Delta(H) < (1/4-o(1)) b^2 implies an independent transversal"
+  status: open
+
+active_node:
+  id: G1c
+  question: Q-0015
+  title: "Quantitative control of named E exits"
+  status: active
+  exact_goal: >
+    For actual reachable Q-0015 root obstacles, bound or pay the mass of
+    shortest named E certificates using the correct separate ledgers, or output
+    a reproducible structural cut, leaving a near-lossless future-complete
+    persistent-blocker remainder.
+
+nodes:
+  G1a:
+    title: "Configuration auditor infrastructure"
+    status: proved-formal
+    references: ["F-0030", "Q-0015"]
+  G1b:
+    title: "Future-complete lift dichotomy"
+    status: proved-formal
+    references: ["FW-40"]
+    nonclaims:
+      - "Does not construct the Q-0015 entrance from every target hypergraph"
+      - "Does not bound E-exit mass"
+      - "Does not prove Q-0017 or Q-0016"
+  G1c:
+    title: "Named-exit quantitative control"
+    status: active
+    depends_on: ["G1a", "G1b"]
+  G1d:
+    title: "Near-lossless cross-projection configuration flow"
+    status: open
+    depends_on: ["G1c"]
+  G2:
+    title: "Persistent-blocker critical normal form"
+    question: Q-0017
+    status: open
+    depends_on: ["G1d"]
+  G3:
+    title: "Causal incidence regeneration/concentration"
+    question: Q-0016
+    status: open
+    depends_on: ["G2"]
+  G4:
+    title: "Terminal structure and epsilon stability"
+    status: blocked
+    depends_on: ["G1d", "G2", "G3"]
+  M0:
+    title: "One-quarter theorem"
+    status: blocked
+    depends_on: ["G4"]
+
+accepted_latest_progress:
+  - id: R-FCL-01
+    status: proved-formal
+    statement: >
+      A Q-0015 actual root obstacle either produces a finite named exit or has a
+      mass- and ledger-preserving future-complete lift containing a genuine
+      persistent-blocker branch.
+  - id: R-AMCG-01
+    status: definition
+    statement: >
+      AMCG is an auditable fractional mass-conserving genealogy specification.
+      It is not known to arise near-losslessly from every target instance.
+
+rejected_latest_claims:
+  - id: X-TRCAP-01
+    status: unsupported
+    statement: >
+      Ordinary transition capping alone proves the 11/27 normal form.
+    reason: >
+      The construction assumes an additional non-circular real-edge charging
+      right for ordinary transition mass, which has not been derived.

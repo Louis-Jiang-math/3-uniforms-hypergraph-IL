@@ -1,0 +1,19 @@
+{
+  "schema_version": "q0015-evidence-manifest-v1",
+  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
+  "canonical_baseline": {
+    "path": "evidence/experiments/q0015/baselines/q0015_audit_results.json",
+    "generator": "tools/regenerate_baseline.py",
+    "result_type": "exhaustive-regression",
+    "scope": "F-0029 public regression family over all 24 block orders"
+  },
+  "reports": [
+    "evidence/experiments/q0015/reports/q0015_first_execution_report.md",
+    "evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.md",
+    "evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.json"
+  ],
+  "historical_noncanonical": [
+    "evidence/experiments/q0015/historical/q0015_first_execution_results.json",
+    "evidence/experiments/q0015/historical/q0015_audit_results.pre-envelope.json"
+  ]
+}
