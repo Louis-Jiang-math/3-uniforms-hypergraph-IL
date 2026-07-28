@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hypergraph-il-audit"
+version = "0.3.0"
+description = "Auditable proof-engineering tools for partitioned hypergraph independent transversals"
+requires-python = ">=3.12"
+dependencies = [
+  "networkx==3.6.1",
+  "numpy==2.3.5",
+  "scipy==1.17.0",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest==8.4.2",
+]
+
+[project.scripts]
+q0015-audit = "hypergraph_il.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

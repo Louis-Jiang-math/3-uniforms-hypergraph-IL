@@ -13,3 +13,11 @@
 - introduced importable `src/hypergraph_il/` package;
 - separated capacity ledger types;
 - added Q-0015 regression tests, certificate schema, CI, and repository checks.
+
+## 2026-07-28 — Acceptance fix
+
+- shortened `agent.md` and moved details to `WORKFLOW.md`;
+- added Python packaging metadata and repaired CI installation;
+- repaired Markdown escape corruption and restored compatibility pointers;
+- added machine checks for protocol length, control characters, packaging, and CI configuration;
+- no canonical mathematical status was promoted.

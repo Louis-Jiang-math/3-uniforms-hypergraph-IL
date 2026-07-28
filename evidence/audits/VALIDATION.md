@@ -1,43 +1,41 @@
 # Validation record
 
-## Baseline
+## Scope
 
-- Source commit: `cfadd24b52546d4d5800c4a3c5a75a2add86f928`
-- Validation date: 2026-07-28
-- Canonical status promotion: none
+This record describes validation of the acceptance-fix patch in a clean local
+worktree. It does not claim that GitHub Actions has passed before the patch is
+merged. The remote workflow must be green on the resulting commit.
 
-## Commands and results
+## Source baseline
+
+- Source material baseline: `cfadd24b52546d4d5800c4a3c5a75a2add86f928`
+- Patch validation date: 2026-07-28
+- Canonical mathematical status promotion: none
+
+## Commands
 
 ```text
+python -m pip install -e ".[test]" --no-build-isolation
 python -m compileall -q src enumerate tools tests
-result: passed
-
 python -m pytest -q
-result: 14 passed
-
 python tools/check_repository.py
-result: repository consistency checks passed
-
 python tools/check_generated_artifacts.py
-result: generated artifact checks passed
-
 python enumerate/q0015_configuration_auditor.py \
   --regressions-only \
   --generated-at 2026-07-28T00:00:00Z \
-  --output-dir /tmp/v3_run
-result: passed
+  --output-dir artifacts/runs/q0015
 ```
 
-## Regression summary
+## Acceptance requirements
 
-- root groups with failures: 144;
-- zero-error budget feasible: 48;
-- positive root-budget gap: 48;
-- no-configuration: 48;
-- specified `t_min`: 2.0;
-- forbidden genealogy merge `eta`: 1.0;
-- payload SHA-256: `ef02bf6446618026052c1a107913e4d015e3c8f3b48a59441a72afa09429a8ad`.
+- editable installation succeeds from `pyproject.toml`;
+- all tests pass;
+- repository consistency checks pass;
+- generated artifact checks pass;
+- the deterministic Q-0015 regression payload remains unchanged;
+- the GitHub Actions workflow is green after merge.
 
-## Limitations
+## Mathematical scope
 
-The validation establishes repository consistency and reproducibility of the committed finite regression baseline. It does not prove any currently open mathematical question.
+These checks establish repository consistency and finite-baseline reproducibility.
+They do not prove any open mathematical question.

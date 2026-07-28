@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -19,10 +20,12 @@ def require(path: str) -> Path:
 
 required = [
     "README.md", "AGENTS.md", "agent.md", "WORKFLOW.md", "HANDOFF_CURRENT.md",
+    "pyproject.toml", ".github/workflows/enumerate-smoke.yml",
+    "FACTS.md", "FAILURES.md", "QUESTIONS.md",
+    "PIVOT_SWITCH_ESCAPE_FRAMEWORK.md", "SINGLE_DEFECT_FRAMEWORK.md",
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md",
     "knowledge/DECISIONS.md", "knowledge/DEFINITIONS.md",
     "docs/PROJECT_STATE.yaml", "docs/PROOF_DAG.md", "docs/QUICKSTART_10_MINUTES.md",
-    "docs/changes/2026-07-28-general-workflow-restructure.md",
     "evidence/audits/REPOSITORY_AUDIT.md",
     "evidence/experiments/q0015/baselines/q0015_audit_results.json",
     "evidence/experiments/q0015/MANIFEST.json",
@@ -34,13 +37,21 @@ for item in required:
     require(item)
 
 
-# Generic protocol must not contain project-specific status.
-agent_text = require("agent.md").read_text(encoding="utf-8")
+agent_path = require("agent.md")
+agent_text = agent_path.read_text(encoding="utf-8")
+agent_lines = len(agent_text.splitlines())
+if agent_lines > 260:
+    ERRORS.append(f"agent.md is too long: {agent_lines} lines (maximum 260)")
+if "WORKFLOW.md" not in agent_text:
+    ERRORS.append("agent.md must link the detailed WORKFLOW.md")
 for token in ["Q-0015", "Q-0016", "Q-0017", "one-quarter theorem", "genealogy"]:
     if token in agent_text:
         ERRORS.append(f"generic agent.md contains project-specific token: {token}")
 
-# Compatibility files must remain pointers, not duplicate authorities.
+workflow_lines = len(require("WORKFLOW.md").read_text(encoding="utf-8").splitlines())
+if workflow_lines > 500:
+    ERRORS.append(f"WORKFLOW.md is too long: {workflow_lines} lines (maximum 500)")
+
 for pointer, canonical in [
     ("FACTS.md", "knowledge/FACTS.md"),
     ("FAILURES.md", "knowledge/FAILURES.md"),
@@ -49,6 +60,44 @@ for pointer, canonical in [
     text = require(pointer).read_text(encoding="utf-8")
     if canonical not in text or len(text.splitlines()) > 8:
         ERRORS.append(f"{pointer} is not a short compatibility pointer")
+
+for pointer in ["PIVOT_SWITCH_ESCAPE_FRAMEWORK.md", "SINGLE_DEFECT_FRAMEWORK.md"]:
+    if len(require(pointer).read_text(encoding="utf-8").splitlines()) > 10:
+        ERRORS.append(f"{pointer} is not a short compatibility pointer")
+
+# Canonical Markdown must not contain hidden control characters introduced by
+# incorrectly escaped generator strings.
+canonical_paths = [
+    ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "agent.md", ROOT / "WORKFLOW.md",
+    ROOT / "HANDOFF_CURRENT.md",
+    *sorted((ROOT / "knowledge").glob("*.md")),
+    *sorted((ROOT / "docs").rglob("*.md")),
+    *sorted((ROOT / "evidence").rglob("*.md")),
+]
+for path in canonical_paths:
+    text = path.read_text(encoding="utf-8")
+    bad = [(index, ord(char)) for index, char in enumerate(text)
+           if ord(char) < 32 and char not in "\n"]
+    if bad:
+        ERRORS.append(
+            f"control character in {path.relative_to(ROOT)}: "
+            + ", ".join(f"offset {index}=0x{code:02x}" for index, code in bad[:5])
+        )
+
+readme_text = require("README.md").read_text(encoding="utf-8")
+for expected in [r"\frac14", r"\right", r"\text{", r"\to"]:
+    if expected not in readme_text:
+        ERRORS.append(f"README.md missing intact LaTeX token: {expected}")
+
+ci_text = require(".github/workflows/enumerate-smoke.yml").read_text(encoding="utf-8")
+for expected in ['actions/checkout@v7', 'actions/setup-python@v7', 'pip install -e ".[test]"']:
+    if expected not in ci_text:
+        ERRORS.append(f"CI workflow missing: {expected}")
+
+pyproject_text = require("pyproject.toml").read_text(encoding="utf-8")
+for expected in ["[build-system]", "[project]", "[project.optional-dependencies]", "[tool.setuptools.packages.find]"]:
+    if expected not in pyproject_text:
+        ERRORS.append(f"pyproject.toml missing section: {expected}")
 
 state_text = require("docs/PROJECT_STATE.yaml").read_text(encoding="utf-8")
 for expected in [
@@ -68,7 +117,6 @@ if re.search(r"Q-0017.{0,50}(closed|已证明|已关闭)", handoff, re.I):
 if re.search(r"^## .*update", handoff, re.I | re.M):
     ERRORS.append("handoff contains append-only update sections")
 
-# Stable IDs must remain.
 registries = "\n".join(require(path).read_text(encoding="utf-8") for path in [
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md"
 ])
@@ -76,7 +124,6 @@ for token in ["F-0035", "F-0036", "A-0025", "A-0026", "Q-0015", "Q-0016", "Q-001
     if token not in registries:
         ERRORS.append(f"stable registry ID disappeared: {token}")
 
-# Raw source files are represented in the manifest.
 source_manifest = json.loads(require("sources/raw/MANIFEST.json").read_text(encoding="utf-8"))
 manifested_entries = {entry["path"]: entry for entry in source_manifest.get("files", [])}
 for path in (ROOT / "sources/raw/conversations").glob("*"):
@@ -87,27 +134,20 @@ for path in (ROOT / "sources/raw/conversations").glob("*"):
     if entry is None:
         ERRORS.append(f"raw source missing from manifest: {path.relative_to(ROOT)}")
         continue
-    import hashlib
     actual = hashlib.sha256(path.read_bytes()).hexdigest()
     if entry.get("sha256") != actual or entry.get("bytes") != path.stat().st_size:
         ERRORS.append(f"raw source manifest mismatch: {path.relative_to(ROOT)}")
 
-# Generated baseline must use the artifact envelope.
-baseline = json.loads(require("evidence/experiments/q0015/baselines/q0015_audit_results.json").read_text(encoding="utf-8"))
+baseline = json.loads(
+    require("evidence/experiments/q0015/baselines/q0015_audit_results.json")
+    .read_text(encoding="utf-8")
+)
 if baseline.get("metadata", {}).get("schema_version") != "research-artifact-v1":
     ERRORS.append("baseline does not use research-artifact-v1")
 if baseline.get("metadata", {}).get("result_type") != "exhaustive-regression":
     ERRORS.append("baseline result type is not exhaustive-regression")
 
-# Local Markdown links in current/canonical documents.
 link_pattern = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
-canonical_paths = [
-    ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "agent.md", ROOT / "WORKFLOW.md",
-    ROOT / "HANDOFF_CURRENT.md",
-    *sorted((ROOT / "knowledge").glob("*.md")),
-    *sorted((ROOT / "docs").rglob("*.md")),
-    *sorted((ROOT / "evidence").rglob("*.md")),
-]
 for path in canonical_paths:
     text = path.read_text(encoding="utf-8")
     for raw_target in link_pattern.findall(text):

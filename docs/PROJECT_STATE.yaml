@@ -5,6 +5,11 @@ source_baseline:
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
   short_commit: cfadd24
   date: 2026-07-28
+repository_restructure:
+  generation: v3.1
+  local_patch_validation: passed
+  github_actions_requirement: must-pass-after-merge
+  canonical_mathematical_status_promoted: false
 theorem:
   id: M0
   statement: "Delta(H) < (1/4-o(1)) b^2 implies an independent transversal"
