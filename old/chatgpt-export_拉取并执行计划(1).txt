@@ -1,0 +1,6642 @@
+拉取并执行计划
+=======
+
+【提问 轮数1】
+请你拉取https://github.com/Louis-Jiang-math/3-uniforms-hypergraph-IL，按照其中read.me指示确认并执行下一步计划。
+
+【回答内容 轮数1】
+我会先核对仓库的 README 和当前目录结构，再按其中写明的“下一步”逐项执行；如果涉及可运行脚本，我也会直接跑一遍并检查输出是否符合预期。
+
+【回答内容 轮数1】
+README 已确认：当前唯一主证明节点是 **G1c / Q-0015（对具名 E-exit 的定量控制）**，而且明确要求不要直接跳到后续 Q-0017/Q-0016。下一步不是“继续泛化证明”，而是先选定一种 E-exit 类，给出可检验的定量命题，并先配机器证书与失败回归。
+
+【回答内容 轮数1】
+我还确认了一个关键约束：仓库把 **root/configuration budget、slot capacity、global real-edge capacity** 明确分成三份独立账本，禁止把“某个 root 内可收费”误当作“全局仍有新鲜容量”。现有 8-edge 回归正好暴露了这种跨 genealogy 重复收费风险。
+
+【回答内容 轮数1】
+已按 README/HANDOFF 的要求确认并推进了下一步。当前主线仍是 **G1c / Q-0015：定量控制 named E exits**；仓库要求先选一个 E-exit 类，明确 input/ledger/output/counterexample，再配机器证书和失败回归，最后才考虑更新 canonical status。turn180980view2turn118442view1
+
+我选择了 **`no-configuration`**。得到一个精确的局部归约 **NC-1**：
+
+$$
+
+\mathrm{configs}(a)=\varnothing
+\quad\Longleftrightarrow\quad
+\exists f\in E(H),\ f\subseteq U\cup\{x\},
+
+$$
+
+其中 $U$ 是实际可达的独立 root trace，$r$ 是已成功插入、随后释放的顶点，$x$ 是失败尝试。因为 $U$ 独立，存活边 $f$ 必须含 $x$；因为 $r$ 已释放，$f$ 不含 $r$。所以每个 `no-configuration` 义务都能**一对一、同质量、零账本收费**地重标为已有的 `external-old-anchor-blocker` E-exit。这个结论正好遵守仓库要求的三账本分离，没有把 root budget、slot capacity 和 global real-edge capacity 混在一起。当前执行代码对释放后的完整 independence check，以及证书类型定义，都支持这个归约。turn252906view0turn118442view0
+
+我还做了一个专门的失败回归：原始 first blocker 是 `{0_0,2_0,3_0}`，它包含待释放的 `2_0`；释放后真正存活的是另一条边 `{0_0,1_0,3_0}`。这验证了一个很重要的细节——**不能直接拿 `obligation.first_edge` 当 old-anchor 证书，必须重新检查释放后的真实阻断边**。在公开 8-edge 回归的全部 24 个块顺序上，我按当前执行合同复算出 **96 个具体 no-configuration 义务**，全部能够这样重标；仓库原分析对应的是 48 个 no-configuration root groups，每组有两个这样的义务。
+
+这一步**没有关闭 Q-0015，也没有提升任何 canonical status**。它只是消除了 `no-configuration` 作为一个独立的定量子问题：下一项现在更集中，即控制 **`external-old-anchor-blocker` 的总质量**——证明它可由正确的全局真实边/度数容量支付、为 $o_\varepsilon(1)$，或迫使一个可复算的结构 cut。FW-40 本来就把 external old-anchor blocker 列为 named E exit，因此这个归约与当前 DAG 完全一致。turn713580view2
+
+有一个执行环境限制需要明确：我尝试直接 `git clone`，但执行容器无法解析 `github.com`，所以没能得到真正的本地 Git working tree，也因此**没有声称跑过仓库完整的 `pytest / check_repository / check_generated_artifacts` acceptance suite**。我改为通过 GitHub/raw 读取权威文件，并在独立 sandbox 中复现相关执行逻辑、验证上述回归。补丁因此属于可应用的最小实现补丁，而不是已提交/已推送修改。
+
+产物如下：
+
+[下载最小实现补丁](sandbox:/mnt/data/q0015_no_configuration_reduction.patch)
+
+[下载机器可读证书](sandbox:/mnt/data/q0015_no_configuration_certificate.json)
+
+[下载本轮执行报告](sandbox:/mnt/data/q0015_no_configuration_execution_report.md)
+
+证书的 payload SHA-256 已自校验通过；补丁只涉及 `src/`、`tests/`、`evidence/`，没有修改 Proof DAG、knowledge registry 或 handoff。
+
+
+【提问 轮数2】
+在我们的对话中可以无视仓库操作部分，直到我给出指令之后再考虑制作仓库更新补丁。现在请你继续尝试控制external-old-anchor-blocker 的总质量。
+
+【回答内容 轮数2】
+可以。我先把仓库操作完全搁置，只做数学与可验证实验。接下来我会围绕 `external-old-anchor-blocker` 做两件事：先从现有定义中找出可用的“全局容量”或双计数结构，再用公开的 8-edge 回归和小规模枚举去测试候选不等式，尽量把它压成一个明确的可证明命题或精确反例。
+
+【回答内容 轮数2】
+已经出现一个很有价值的结构：`external-old-anchor-blocker` 并不是一个全新的异常，它恰好落在现有 `multi-defect` escape 的第二阻断边机制里。因此已有的 real-edge Hall 二分可以直接接上；真正要解决的是更尖锐的一层——**同一旧锚边会被多少个成功插入 $r$ 重复放大**。这正是 8-edge 回归里“一条旧边跨 genealogy 重用”的本质。
+
+【回答内容 轮数2】
+这里我把问题压成了一个非常具体的公式。对深度 $k-2$ 的根 $R$，令
+$$
+
+g_M(R)=|\{r\in M:R+r\text{ independent}\}|,\qquad
+d_N(R)=|\{x\in N:R+x\text{ blocked}\}|.
+
+$$
+那么从 $R$ 经成功块 $M$ 再尝试 $N$ 时，`external-old-anchor`（也就是刚才的 no-configuration 部分）**恰好**有
+$$
+
+E_{\rm old}(R;M,N)=w(R)\,g_M(R)\,d_N(R)
+
+$$
+的质量。原因是：$x$ 若在释放 $r$ 后仍被阻断，阻断早在 $R+x$ 就已经存在；反过来也成立。这个等式把“重复收费”完全显式化了。当前框架的每个候选尝试确实携带父记录的完整质量，所以这个乘法因子不能靠概率归一化偷偷消掉。
+
+
+【提问 轮数3】
+[User is quoting/referring to: "当前框架的每个候选尝试确实携带父记录的完整质量，所以这个乘法因子不能靠概率归一化偷偷消掉。"]
+
+请你继续输出
+
+【回答内容 轮数3】
+继续。现在最关键的不是再找一个局部证书，而是把这个乘法因子 $g_M(R)$ 和旧锚阻断数 $d_N(R)$ 放进同一个双计数里；如果能证明“大 $g$ 与大 $d$ 不能同时普遍发生”，就能得到总质量控制，反之就会逼出结构 cut。
+
+【回答内容 轮数3】
+先把最朴素的界写出来会很有帮助：因为每个被旧锚阻断的 $x$ 至少对应一条 $e=\{u,v,x\}$（$u,v\in R$），所以
+$$
+
+d_N(R)\le \sum_{\{u,v\}\subset R} d_N(u,v),
+
+$$
+从而
+$$
+
+E_{\rm old}(R;M,N)\le w(R)\,g_M(R)\sum_{\{u,v\}\subset R} d_N(u,v).
+
+$$
+但这还差关键一步：$g_M(R)$ 最高可到 $b$，而且同一真实边可在许多 $R$ 上反复出现，所以直接乘 $b$ 再用 $\Delta(H)$ 会损失一个整数量级。我们必须利用“成功插入 $r$”本身对 $R$ 的限制，而不是把 $g_M\le b$ 粗暴代掉。
+
+【回答内容 轮数3】
+我现在看到一个更精确、而且能直接推进的方向：对固定 $R,M,N$，所有 $r$ 复制出来的 old-anchor 义务拥有**完全相同的 blocker 邻域**。因此这里的 Hall 网络其实能降维——不需要把 $g_M(R)$ 个 genealogy 副本分别看待，而可以把它们压成“每个 $x$ 的需求被放大 $g_M(R)$ 倍”的加权旧锚网络。这个降维是合法的，因为它只压缩候选邻域，不合并 genealogy 的容量。
+
+
+【提问 轮数4】
+[User is quoting/referring to: "因此这里的 Hall 网络其实能降维——不需要把 gM(R)g\_M(R)gM​(R) 个 genealogy 副本分别看待，而可以把它们压成“每个 xxx 的需求被放大 gM(R)g\_M(R)gM​(R) 倍”的加权旧锚网络。这个降维是合法的，因为它只压缩候选邻域，不合并 genealogy 的容量。"]
+
+请你继续输出
+
+【回答内容 轮数4】
+可以继续，而且现在已经能把 `external-old-anchor-blocker` 压缩成一个相当清晰的“**精确公式 + Hall 局部化 + 近 $1/4$ 稳定性 + star/regeneration 二分**”。
+
+先说最重要的推进：我认为这里真正出现了一个与 $1/4$ 常数直接对齐的结构，而不只是又一个粗糙的 degree bound。
+
+设 $R$ 是深度 $k-2$ 的独立 root trace，$M,N$ 是两个不同的后续块。定义
+
+$$
+
+G_M(R)=\{r\in M:R+r\ \text{独立}\},
+\qquad
+g_M(R)=|G_M(R)|.
+
+$$
+
+再定义
+
+$$
+
+D_N(R)=\{x\in N:R+x\ \text{不独立}\},
+\qquad
+d_N(R)=|D_N(R)|.
+
+$$
+
+由于“old-anchor”恰好意味着释放刚插入的 $r$ 后 $R+x$ 仍然不独立，所以这里其实有一个完全精确的恒等式
+
+$$
+
+d_N(R)=b-g_N(R).
+
+$$
+
+而从 $R$ 先成功插入 $r\in M$，再尝试 $x\in N$ 所形成的 old-anchor 总质量就是
+
+$$
+
+\boxed{
+E_{\rm old}(R;M,N)
+=
+w(R)\,g_M(R)\bigl(b-g_N(R)\bigr).
+}
+\tag{OA1}
+
+$$
+
+这里没有概率近似，也没有 Hall 放松；这是当前“每个候选继承父质量”的执行约定直接给出的。框架确实明确规定每个候选尝试携带完整父质量，因此这个 $g_M$ 乘数是真实的，不能归一掉。turn567601view2
+
+### 1. old-anchor Hall 网络实际上完全局部化到单个 $x$
+
+固定 $R,M,x$，令
+
+$$
+
+\mathcal B_R(x)
+=
+\{e\in E(H):e\subseteq R\cup\{x\}\}.
+
+$$
+
+因为 $R$ 独立，所以每条 $e\in\mathcal B_R(x)$ 必然包含 $x$，并且另外两个端点都来自 $R$。
+
+对每个 $r\in G_M(R)$，我们都有一个质量 $w(R)$ 的 old-anchor obligation；而这 $g_M(R)$ 个 genealogy 副本面对的是**同一个真实边邻域**
+
+$$
+
+\mathcal B_R(x).
+
+$$
+
+于是把这些副本压成一个加权左节点以后，其需求是
+
+$$
+
+g_M(R)w(R).
+
+$$
+
+若 $c_{\rm res}(e)$ 是真实边剩余容量，则定义
+
+$$
+
+C_R(x)=
+\sum_{e\in\mathcal B_R(x)}c_{\rm res}(e).
+
+$$
+
+那么这一整个 fiber 能否由旧锚边支付，充要条件就是
+
+$$
+
+\boxed{
+g_M(R)w(R)\le C_R(x).
+}
+\tag{OA2}
+
+$$
+
+更妙的是，不同 $x,x'\in N$ 的 $\mathcal B_R(x)$ 与 $\mathcal B_R(x')$ 是不交的：一条包含在 $R+x$ 中的三边必须包含 $x$，所以不能同时也是 $x'$ 的 blocker。因此这里甚至不需要一个复杂的 Hall 子集搜索——Hall 缺口可以逐 $x$ 分解：
+
+$$
+
+\boxed{
+\delta_R(M,x)
+=
+\bigl[g_M(R)w(R)-C_R(x)\bigr]_+.
+}
+\tag{OA3}
+
+$$
+
+所以 old-anchor 的全局“reuse”障碍至少在单 root fiber 内已经变成了一个非常明确的量：**同一 $x$ 上的 genealogy amplification 超过了该 $x$ 的真实旧边剩余容量。**
+
+这与现有 escape Hall 定理完全兼容：escape 质量要么进入真实边单位容量，要么输出真实边 Hall/reuse cut；这里只是利用 old-anchor 的特殊结构把那个 cut 局部化了。
+
+---
+
+### 2. 一个很漂亮的 $1/4$ 恒等式出现了
+
+现在令剩余可选块共有 $n$ 个，并写
+
+$$
+
+a_M=\frac{g_M(R)}b\in[0,1].
+
+$$
+
+把所有有序不同块对 $M\ne N$ 平均。由 (OA1)，
+
+$$
+
+\frac1{n(n-1)}
+\sum_{M\ne N}
+\frac{E_{\rm old}(R;M,N)}{w(R)b^2}
+=
+\frac1{n(n-1)}
+\sum_{M\ne N}a_M(1-a_N).
+
+$$
+
+令
+
+$$
+
+A=\sum_Ma_M,\qquad Q=\sum_Ma_M^2.
+
+$$
+
+直接展开：
+
+$$
+
+\sum_{M\ne N}a_M(1-a_N)
+=
+(n-1)A-A^2+Q.
+
+$$
+
+而
+
+$$
+
+(n-1)A-A^2+Q
+=
+A(n-A)-\sum_Ma_M(1-a_M).
+
+$$
+
+因此得到
+
+$$
+
+\boxed{
+\frac1{n(n-1)}
+\sum_{M\ne N}
+\frac{E_{\rm old}(R;M,N)}{w(R)b^2}
+=
+\frac{n}{n-1}\bar a(1-\bar a)
+-
+\frac1{n(n-1)}
+\sum_Ma_M(1-a_M),
+}
+\tag{OA4}
+
+$$
+
+其中 $\bar a=A/n$。
+
+于是立即有
+
+$$
+
+\boxed{
+\frac1{n(n-1)}
+\sum_{M\ne N}E_{\rm old}(R;M,N)
+\le
+\frac{n}{4(n-1)}\,b^2w(R).
+}
+\tag{OA5}
+
+$$
+
+这不是我们最终想要的 $o(b^2)$ error bound——单独拿它还不够——但是这里有一个非常重要的现象：
+
+**$1/4$ 正好从 old-anchor amplification 自己的极值问题里出现了。**
+
+而且它还有精确的稳定性余项：
+
+$$
+
+\boxed{
+\frac{n}{4(n-1)}
+-
+\frac1{n(n-1)}
+\sum_{M\ne N}a_M(1-a_N)
+=
+\frac n{n-1}
+\left(\bar a-\frac12\right)^2
++
+\frac1{n(n-1)}
+\sum_Ma_M(1-a_M).
+}
+\tag{OA6}
+
+$$
+
+这条式子非常值得重视。
+
+如果 old-anchor 平均质量接近其临界最大值 $b^2/4$，那么同时必须发生：
+
+$$
+
+\bar a\approx\frac12
+
+$$
+
+以及
+
+$$
+
+\sum_Ma_M(1-a_M)=o(n).
+
+$$
+
+第二条意味着绝大部分块满足
+
+$$
+
+a_M\approx0
+\quad\text{或}\quad
+a_M\approx1.
+
+$$
+
+也就是说：
+
+> **old-anchor 若真的大到威胁 $1/4$ 阈值，它不能来自一堆“中等阻塞”的块；它必然迫使剩余块发生近二值极化：约一半块对 $R$ 几乎全部可扩展，约一半块对 $R$ 几乎全部被旧锚阻断。**
+
+这是我认为目前最有价值的新结构。
+
+例如固定 $0<\tau<1/2$。如果
+
+$$
+
+\sum_Ma_M(1-a_M)\le\eta n,
+
+$$
+
+那么所有满足
+
+$$
+
+\tau\le a_M\le1-\tau
+
+$$
+
+的“混合块”数量至多
+
+$$
+
+\boxed{
+\frac{\eta n}{\tau(1-\tau)}.
+}
+
+$$
+
+所以 near-critical old-anchor 质量自动给出一个真正的 block-level structural cut，而不是仅仅一个 incidence 数量。
+
+这和当前 handoff 所要求的“不要从总 incidence 直接声称集中，而要从两层未来结构强迫 fresh / old-anchor concentration / subcore / augmentation”其实非常吻合。当前文档也明确指出，仅有 incidence 增殖本身不足以推出 $1/4$ 或子核心。turn567601view1
+
+---
+
+### 3. 再看单个 $x$：old blockers 是一个普通图
+
+固定 $R,x$，定义 $x$ 在 $R$ 上的 old-anchor link graph：
+
+$$
+
+L_x(R)
+=
+\bigl\{
+uv:\{u,v,x\}\in E(H),\ u,v\in R
+\bigr\}.
+
+$$
+
+也就是
+
+$$
+
+E(L_x(R))\longleftrightarrow\mathcal B_R(x).
+
+$$
+
+现在考虑 $r\in G_M(R)$。当前状态是
+
+$$
+
+U=R\cup\{r\},
+
+$$
+
+再尝试 $x$。
+
+这里可以得到第二个非常干净的结构二分。
+
+#### Star 情形
+
+假设 $L_x(R)$ 是以某个 $z\in R$ 为中心的星：
+
+$$
+
+E(L_x(R))
+=
+\{zu:u\in A\}.
+
+$$
+
+考察释放 $z$ 以后
+
+$$
+
+T_r=(R-z)\cup\{r,x\}.
+
+$$
+
+因为 $R+r$ 本身独立，所以 $T_r$ 中任何新 blocker 都必须含 $x$。
+
+又因为所有纯 old-anchor 边都经过 $z$，而 $z$ 已被删除，所以：
+
+- 若 $T_r$ 独立，则这是合法的组合 pivot-switch 方向；
+- 若 $T_r$ 不独立，则任何存活 blocker 必须包含 $r$。
+
+因此第二种情况下必有
+
+$$
+
+h_r=\{r,u_r,x\}
+
+$$
+
+某个 $u_r\in R-z$。
+
+而不同 $r$ 给出的 $h_r$ 自动不同。
+
+所以我们得到一个严格的局部再生引理：
+
+$$
+
+\boxed{
+G_M(R)=S_x\sqcup Q_x,
+}
+
+$$
+
+其中
+
+- $r\in S_x$：释放星心 $z$ 后独立，产生 switch；
+- $r\in Q_x$：产生一条新的 $r$-dependent blocker
+  $$
+
+  h_r=\{r,u_r,x\}.
+
+$$
+
+并且
+
+$$
+
+\boxed{
+|\{h_r:r\in Q_x\}|=|Q_x|.
+}
+\tag{OA7}
+
+$$
+
+这些 $h_r$ 与原 old-anchor 边也是不同的，因为它们含 $r$，而 old-anchor 边不含 $r$。
+
+这已经把 genealogy amplification 拆开了：
+
+> **在 star fiber 中，重复的 $g_M$ 倍 old-anchor 质量不可能全部继续重复使用同一批旧边；除去真正 switchable 的那些副本，其余每一个副本都会强迫一条不同的新真实边。**
+
+这是一个真正的“regeneration”。
+
+现有框架中 switch 与 multi-defect 的分类正是：释放候选端点若独立则进入 switch；若两个释放方向都失败，则必有第二条真实边。静态 switch 若要继续成为执行状态，还必须有实际 reroot lift，这个 genealogy 条件仍然不能省略。
+
+---
+
+### 4. 这给出一个更强的局部容量结论
+
+设
+
+$$
+
+\ell_x=|E(L_x(R))|
+
+$$
+
+是旧锚边数，并令
+
+$$
+
+s_x=|S_x|,
+\qquad
+q_x=|Q_x|,
+\qquad
+g_M=s_x+q_x.
+
+$$
+
+在 star 情形：
+
+- $q_x$ 个 non-switch 副本可以分别付给 $q_x$ 条不同的新边 $h_r$；
+- 旧锚集合还有 $\ell_x$ 条真实边容量可用于 switch 副本。
+
+所以忽略跨其他 root 的旧占用时，这个 fiber 内真正仍无法由不同真实边支付的质量至多来自
+
+$$
+
+\boxed{
+(s_x-\ell_x)_+.
+}
+\tag{OA8}
+
+$$
+
+换句话说，原来的缺口看起来是
+
+$$
+
+(g_M-\ell_x)_+,
+
+$$
+
+但经过第二层 regeneration 以后，变成
+
+$$
+
+(s_x-\ell_x)_+.
+
+$$
+
+所有 non-switch genealogy multiplicity 都被真正的新边吃掉了。
+
+这已经是明显的进步：**困难部分不再是所有 old-anchor 副本，而只剩“释放公共旧锚后立即变成独立”的那些 switchable 副本。**
+
+---
+
+### 5. 非 star 情形反而更刚性
+
+如果 $L_x(R)$ 不是星，那么不存在单个 $z\in R$ 覆盖全部 old blockers。
+
+因此从第一阻断边
+
+$$
+
+e=\{u,v,x\}
+
+$$
+
+出发：
+
+- 释放 $u$，仍有一条不经过 $u$ 的 old-anchor 边存活；
+- 释放 $v$，同样仍有 old-anchor 边存活。
+
+所以无论 $r$ 是哪个成功后继，
+
+$$
+
+\Omega(U,x,e)=\varnothing
+
+$$
+
+已经由 old-link 本身强迫，而不需要 $r$-dependent blocker。
+
+也就是说：
+
+$$
+
+\boxed{
+L_x(R)\text{ 非 star}
+\Longrightarrow
+\text{真正的 persistent old--old multi-defect kernel}.
+}
+\tag{OA9}
+
+$$
+
+这里 genealogy amplification 的原因也变得非常明确：不是不同 $r$ 创造了新的 obstruction；相反，是**同一个不依赖 $r$ 的二维旧锚结构一直活着**。
+
+这正是应该送入“两层 closure / old-anchor concentration / subcore”分析的对象，而不是继续尝试逐 genealogy 收费。
+
+---
+
+## 现在整个 old-anchor 问题可以压成三类
+
+我会把目前真正值得继续证明的 statement 写成：
+
+$$
+
+\boxed{
+\textbf{Old-anchor trichotomy}
+}
+
+$$
+
+对 near-critical old-anchor mass，逐 $(R,M,N,x)$ fiber：
+
+1. **capacity-rich**：
+   $$
+
+   C_R(x)\ge g_M(R)w(R),
+
+$$
+   直接由不同真实 old edges 支付；
+
+2. **star regeneration**：old link 是星。除 switchable 部分外，重复 genealogy 强迫不同的新 $r$-dependent 真实边，因此真正剩余的容量问题只在 switchable mass；
+
+3. **persistent non-star kernel**：old link 非星。单端点释放必然留下另一条 old edge，因此得到与 $r$ 无关的 persistent two-anchor obstruction。
+
+而在宏观层面，若 old-anchor 总质量本身接近 $b^2/4$，(OA6) 又迫使 block success ratios $a_M$ 接近一个 **0/1 两相分裂**。
+
+所以我现在认为最有希望的下一步，不是试图证明
+
+$$
+
+E_{\rm old}=o(b^2)
+
+$$
+
+这种其实大概率过强的命题；而应该证明下面这个更贴近 $1/4$ 的版本：
+
+$$
+
+\boxed{
+\begin{aligned}
+E_{\rm old}
+&\le
+\left(\frac14-\delta\right)b^2w(R)
+\\
+&\qquad+
+\text{fresh/reuse charge}
++
+\text{switch-reroute mass}
++
+\text{persistent polarized-core mass}.
+\end{aligned}}
+
+$$
+
+如果第一行没有固定的 $\delta>0$，那么 (OA6) 会自动告诉我们为什么：系统必须非常接近
+
+$$
+
+a_M\in\{0,1\},
+\qquad
+\#\{a_M\approx1\}\approx
+\#\{a_M\approx0\}.
+
+$$
+
+于是“近等号”本身已经给出了下一层要研究的结构，而不是留下一个任意异常项。
+
+我认为这比直接从 degree 或 global Hall 上硬压 `external-old-anchor-blocker` 更接近真正的 $1/4$ 证明。下一步我会优先尝试证明：**在上述 0/1 极化区间里，连续两层若都保持 near-critical，则 star fibers 必须大量 regeneration/switch，或者 non-star kernels 对一个有限旧锚集合闭合；后者再尝试推出完整块支持的 cut。**这正好是目前 handoff 所描述的 depth-two splitter–regeneration 缺口。
+
+
+【提问 轮数5】
+[User is quoting/referring to: "近等号”本身已经给出了下一层要研究的结构"]
+
+你觉得这是一种类似稳定性的结论吗？
+
+【回答内容 轮数5】
+是的，而且我觉得这里**相当标准地属于“稳定性（stability）型结论”**。
+
+更准确地说，它不是“极值达到时结构唯一”的纯 extremal statement，而是：
+
+> **如果某个量接近它的极值，那么系统必然接近某个极值结构。**
+
+你这里的 (OA6) 正好就是这种形式。我们有
+
+$$
+
+\frac n{4(n-1)}
+-
+\frac1{n(n-1)}
+\sum_{M\ne N}a_M(1-a_N)
+=
+\frac n{n-1}\left(\bar a-\frac12\right)^2
++
+\frac1{n(n-1)}\sum_M a_M(1-a_M).
+
+$$
+
+右边是两个非负“缺陷项”。所以如果左边只有 $o(1)$，也就是 old-anchor 质量接近最大可能的 $1/4$，那么自动得到
+
+$$
+
+\bar a=\frac12+o(1)
+
+$$
+
+以及
+
+$$
+
+\frac1n\sum_M a_M(1-a_M)=o(1).
+
+$$
+
+第二条尤其典型。因为函数
+
+$$
+
+t(1-t)
+
+$$
+
+在 $t=0,1$ 时为零，而离 $\{0,1\}$ 有固定距离时就有固定正下界，所以它告诉我们：
+
+$$
+
+a_M
+
+$$
+
+对绝大多数块都必须非常接近 $0$ 或 $1$。
+
+比如对任意固定 $\tau\in(0,\tfrac12)$，若
+
+$$
+
+\frac1n\sum_Ma_M(1-a_M)\le\eta,
+
+$$
+
+则满足
+
+$$
+
+\tau\le a_M\le1-\tau
+
+$$
+
+的“非极化块”比例至多
+
+$$
+
+\frac{\eta}{\tau(1-\tau)}.
+
+$$
+
+因此 near-extremizer 必须在编辑距离意义上接近一种二相结构：
+
+$$
+
+a_M\approx
+\begin{cases}
+1,&M\in\mathcal G,\\
+0,&M\in\mathcal B,
+\end{cases}
+\qquad
+|\mathcal G|\approx|\mathcal B|\approx \frac n2.
+
+$$
+
+这就是非常典型的稳定性结论。
+
+不过我会再细分一下术语：
+
+- **弱稳定性**：接近 $1/4$ ⇒ 大多数 $a_M$ 接近 $0/1$，且两类大约各占一半。
+- **强稳定性**：进一步证明这些 $a_M\approx0/1$ 的块不仅数值极化，而且对应到超图中一个统一的真实几何结构，例如共同 old-anchor 核、近完整 bipartition、固定 subcore 等。
+- **超稳定性 / rigidity**：如果误差足够小，甚至能通过少量修改把整个对象变成某个精确 extremal configuration。
+
+我们现在实际上已经有了第一层，而且是很干净的**定量稳定性恒等式**，不是仅仅定性猜测。
+
+真正还缺的是第二层：把
+
+$$
+
+a_M\approx0\ \text{或}\ 1
+
+$$
+
+这种“数值稳定性”提升成超图内部的“结构稳定性”。
+
+这也是为什么我前面觉得这一步很有希望：一旦进入 near-$1/4$ 区域，我们不再面对任意复杂的状态空间，而是只需研究一种很特殊的近极值情形——**大约一半块几乎完全可扩展，另一半几乎完全被旧锚阻断**。接下来 star-regeneration / non-star-kernel 二分就可以专门针对这个极化结构工作。
+
+
+【提问 轮数6】
+[文件不支持导出]
+请你参考我在这篇文章中对平面图圈数稳定性的处理，注意适当参考引用的文献，来说明有没有类似地通过罚函数来将数值稳定提升回超图结构稳定的可能。
+
+【回答内容 轮数6】
+我会直接从你上传的 TeX 里抓出“稳定性—罚函数—结构恢复”这条论证链，以及你实际引用的对应文献；然后把它和我们这里的 $a_M\in[0,1]$ 极化、old-anchor link/star/non-star 结构逐项对齐。重点不是机械类比，而是判断能否构造一个**在超图结构层面有几何意义的 penalty functional**，使“小罚值”真正强迫接近某个可描述的 extremal template。
+
+【回答内容 轮数6】
+你文中的方法有一个特别值得照搬的“骨架”：罚函数本身并不直接证明结构稳定；它先把任意 near-maximizer **推到一个很近的近似临界点**，获得近似 KKT，然后再沿原极值证明中的每一道不等式追踪“近等号”，最终识别唯一/有限的极值支撑；最后利用 reduction 的 Lipschitz 性把加权结构抬回原图。Cox–Martin 的工作本来就把平面图计数降到加权图优化，而 Lv–Győri–He–Salia–Tompkins–Zhu 给出了相应 even-cycle 加权极值问题的 sharp optimizer，这正是你文中这条路线能工作的外部基础。
+
+
+【提问 轮数7】
+[User is quoting/referring to: "你文中的方法有一个特别值得照搬的“骨架”：罚函数本身并不直接证明结构稳定；它先把任意 near-maximizer **推到一个很近的近似临界点**，获得近似 KKT，然后再沿原极值证明中的每一道不等式追踪“近等号”，最终识别唯一/有限的极值支撑；最后利用 reduction 的 Lipschitz 性把加权结构抬回原图。Cox–Martin 的工作本来就把平面图计数降到加权图优化，而 Lv–Győri–He–Salia–Tompkins–Zhu 给出了相应 even-cycle 加权极值问题的 sharp optimizer，这正是你文中这条路线能工作的外部基础。"]
+
+请你继续输出
+
+【回答内容 轮数7】
+我把你文稿里相关几段重新对齐后，结论比“可以类比”更具体：**可以，而且最像你文章的方法不是直接给“非星结构”加罚，而是先对一个保留 genealogy/真实边账本的加权执行空间做 $\ell_1$ 近邻罚，制造 approximate KKT；随后把 $1/4$ 近等号、Hall 对偶近互补松弛、以及父子 root 的单调性一起做 equality tracing。** 这和你从 Cox–Martin 的加权归约出发，再借 Lv–Győri–He–Salia–Tompkins–Zhu 的 sharp optimizer/equality case 去追近等号的逻辑非常接近。
+
+【回答内容 轮数7】
+我认为**有，而且这条路线和你文章里的证明架构相当吻合**。但有一个关键区别：在这里，罚函数最好不要直接“惩罚非星结构”，而应像你文章中那样，主要用来把一个 near-extremizer 替换成一个**很近的 approximate stationary representative**；真正把“数值稳定”升级成“超图结构稳定”的，仍然应当是后续的 **near-equality tracing**。
+
+你文章里的逻辑链其实非常清楚。Cox–Martin 把平面图中的计数问题降到有限加权图上的优化问题；他们的方法本身就是把原组合对象压缩成一个仍保留足够结构信息的 weighted auxiliary graph。turn570668academia47 Lv–Győri–He–Salia–Tompkins–Zhu 随后解决了对应的 even-cycle 极值问题；你在稿件里进一步利用其证明中的路径分解和等号结构，而不是只调用数值上界。turn570668academia48
+
+你稿件中最值得复制的四步是
+
+$$
+
+\text{near maximizer}
+\longrightarrow
+\text{penalized approximate KKT}
+\longrightarrow
+\text{trace every near equality}
+\longrightarrow
+\text{close to exact optimizer}.
+
+$$
+
+你取
+
+$$
+
+\Phi(z)=\beta(z,C_k)-\lambda\|z-w\|_1,
+\qquad
+\lambda=\sqrt\varepsilon,
+
+$$
+
+得到
+
+$$
+
+\|\widetilde w-w\|_1\le\sqrt\varepsilon
+
+$$
+
+以及
+
+$$
+
+\partial_f\beta(\widetilde w)
+\le
+\partial_e\beta(\widetilde w)+O(\sqrt\varepsilon)
+
+$$
+
+这种 approximate KKT。概念上这与 Ekeland variational principle 的精神很接近：用很小的度量扰动把一个近极值点换成一个更强的近临界点。
+
+而我们现在的 old-anchor 问题，我觉得恰好可以搭一个非常类似的框架。
+
+## 1. 我不建议直接给 $a_M$ 加新的“结构罚项”
+
+我们已经有
+
+$$
+
+f_R(a)
+=
+\frac1{n(n-1)}
+\sum_{M\ne N}a_M(1-a_N),
+
+$$
+
+以及精确恒等式
+
+$$
+
+\frac n{4(n-1)}-f_R(a)
+=
+\frac n{n-1}
+\left(\bar a-\frac12\right)^2
++
+\frac1{n(n-1)}
+\sum_Ma_M(1-a_M).
+\tag{1}
+
+$$
+
+所以数值稳定事实上已经比你文章中的 weighted-cycle stability 起点还干净。
+
+如果
+
+$$
+
+f_R(a)\ge\frac14-o(1),
+
+$$
+
+那么
+
+$$
+
+\bar a=\frac12+o(1),
+\qquad
+\sum_Ma_M(1-a_M)=o(n).
+
+$$
+
+也就是说，除了 $o(n)$ 个块，
+
+$$
+
+a_M\approx0\quad\text{或}\quad a_M\approx1,
+
+$$
+
+且两类各约占一半。
+
+但是任何只依赖 $a=(a_M)$ 的 penalty 都不可能知道：
+
+$$
+
+L_x(R)=
+\{uv:\{u,v,x\}\in E(H),\ u,v\in R\}
+
+$$
+
+到底是一颗星、两个不相交 blocker、还是一个复杂 old-anchor kernel。
+
+所以如果只在 $[0,1]^n$ 上做
+
+$$
+
+f_R(a)-\lambda\|a-a^0\|_1,
+
+$$
+
+最多能再次证明 block polarization，**不可能恢复超图结构**。
+
+这和你文章有一个根本区别：你的 weighted variables $w(e)$ 本身就是最终结构——“权重集中在哪些边”直接告诉你 support 接近一条 $C_k$。而这里的 $a_M$ 已经把 blocker identity 全部投影掉了。
+
+因此真正要罚的空间必须更丰富。
+
+---
+
+## 2. 正确的 analogue 应该是“带标签的执行流空间”
+
+我会把一个局部状态写成
+
+$$
+
+Z=
+(\text{root/genealogy masses},
+\text{block profiles},
+\text{blocker flows},
+\text{edge loads},
+\text{switch/reroot flows}).
+
+$$
+
+尤其对于每个 old-blocked $x$，不要只记录 $x$ 被阻断，而保留
+
+$$
+
+\theta_{R,x,e}\ge0,
+\qquad
+e\in\mathcal B_R(x)
+=
+\{e\subseteq R\cup\{x\}:e\in E(H)\}.
+
+$$
+
+如果做 fractional blocker assignment，则要求
+
+$$
+
+\sum_{e\in\mathcal B_R(x)}
+\theta_{R,x,e}
+=
+\text{该 obligation 的质量}.
+
+$$
+
+同时仍保留真实边负载
+
+$$
+
+\ell_e
+=
+\sum_{R,x}
+\theta_{R,x,e},
+
+$$
+
+以及
+
+$$
+
+\ell_e\le c_e.
+
+$$
+
+最重要的是：不同 root projection、genealogy 仍是不同坐标，只共享同一个真实边容量坐标 $\ell_e$。
+
+这完全符合当前框架已经明确要求的账本分离：root/slot/global-real-edge 三种容量不能混合；Hall 可支付也不能被误解成 incidence 集中。turn465263view0
+
+实际上这一点使罚函数路线变得很自然，因为当前已有的 Hall LP 及其 dual，本来就是一个 KKT 系统。
+
+---
+
+## 3. 最接近你文章的做法：先切掉 easy exits，再罚“距离”
+
+我反而不建议定义
+
+$$
+
+f_R-\kappa_1(\text{edge charge})
+-\kappa_2(\text{switch charge})
+-\cdots
+
+$$
+
+这种把三份资源混进一个势函数的东西。
+
+更干净的是：
+
+先用现有 Hall/switch machinery 精确移除已经可支付的部分；如果 Hall 不满，就固定一个真实的最小 cut，把 source-side 的未支付部分作为 **hard remainder**。框架已经保证有限 escape obligations 要么有 real-edge full flow，要么有可复算的 Hall/reuse cut。
+
+然后只在这个 hard-remainder polytope
+
+$$
+
+\mathcal X_{\rm hard}
+
+$$
+
+上优化 old-anchor score。
+
+若原状态是 $Z_0$，其 deficit 为
+
+$$
+
+\varepsilon
+=
+\frac14-\mathcal F(Z_0),
+
+$$
+
+就照你的文章定义
+
+$$
+
+\boxed{
+\Phi(Z)
+=
+\mathcal F(Z)
+-
+\lambda d_{\rm exec}(Z,Z_0),
+\qquad
+\lambda=\sqrt\varepsilon.
+}
+\tag{2}
+
+$$
+
+这里 $d_{\rm exec}$ 最自然的是所有**带 genealogy 标签的质量坐标**上的 $\ell_1$ 距离，加上 blocker-flow/edge-load 坐标的 $\ell_1$ 距离。
+
+只要
+
+$$
+
+\mathcal F(Z)\le\frac14,
+
+$$
+
+同你的证明一模一样：
+
+$$
+
+\lambda d_{\rm exec}(\widetilde Z,Z_0)
+\le
+\frac14-\mathcal F(Z_0)
+=
+\varepsilon,
+
+$$
+
+所以
+
+$$
+
+\boxed{
+d_{\rm exec}(\widetilde Z,Z_0)\le\sqrt\varepsilon.
+}
+\tag{3}
+
+$$
+
+而对任何 admissible infinitesimal transfer $h$，最大性给出
+
+$$
+
+\boxed{
+D\mathcal F(\widetilde Z)[h]
+\le
+O(\sqrt\varepsilon)\|h\|_1.
+}
+\tag{4}
+
+$$
+
+如果 $\mathcal X_{\rm hard}$ 是分片线性的 flow polytope，那么这里用 subgradient / approximate complementary slackness 即可，不一定需要经典光滑 KKT。
+
+这就是你 `penalized-representative` lemma 的几乎逐字对应物。
+
+---
+
+# 4. 然后真正有意思的是 equality tracing
+
+我现在尤其看好其中一个此前没有充分强调的结构：**父子 root 的 block profile 有单调性。**
+
+如果
+
+$$
+
+R'=R\cup\{r\}
+
+$$
+
+是一次真正的成功延伸，那么对任何尚未消费的块 $N$，
+
+$$
+
+G_N(R')
+\subseteq G_N(R),
+
+$$
+
+因此
+
+$$
+
+\boxed{
+a_N(R')\le a_N(R).
+}
+\tag{5}
+
+$$
+
+因为加入一个新顶点只可能制造新的 blocker，不可能使原本被阻断的 $x$ 重新独立。
+
+现在假设父子两层都 near-critical。由 (1)，
+
+$$
+
+\bar a_R=\frac12+o(1),
+\qquad
+\bar a_{R'}=\frac12+o(1).
+
+$$
+
+而 (5) 是逐坐标单调的，因此
+
+$$
+
+\sum_N
+|a_N(R)-a_N(R')|
+=
+\sum_N
+(a_N(R)-a_N(R'))
+=
+o(n).
+\tag{6}
+
+$$
+
+这非常强。
+
+定义，比如
+
+$$
+
+\mathcal G_R=
+\{N:a_N(R)\ge1-\tau\},
+\qquad
+\mathcal B_R=
+\{N:a_N(R)\le\tau\}.
+
+$$
+
+由数值稳定，中间块只有 $o(n)$ 个；而由 (6)，
+
+$$
+
+\boxed{
+|\mathcal B_{R'}\triangle\mathcal B_R|
+=o(n),
+\qquad
+|\mathcal G_{R'}\triangle\mathcal G_R|
+=o(n).
+}
+\tag{7}
+
+$$
+
+严格说 badness 还是单向增长的，所以这里比一般 symmetric-difference stability 更强：
+
+> **只要连续两层都接近 $1/4$，那条约半数 good / 半数 bad 的块分割就几乎不能移动。**
+
+这已经是从“数值稳定”到**真实 block-level structure stability** 的第一次提升。
+
+而且它不像“共同 pivot”那样是假设进去的；它来自一个完全真实的超图单调性。
+
+---
+
+## 5. 更关键的是：profile drift 本身可以成为结构罚函数
+
+(6) 还有另一种解释。
+
+若 $N$ 在父 root $R$ 是 good，即 $a_N(R)\approx1$，而加入 $r$ 后大量 $x\in N$ 新变成 blocked，那么必然出现许多新的
+
+$$
+
+\{r,u,x\},
+\qquad
+u\in R
+
+$$
+
+类型 blocker。
+
+而这些正是我们之前 star-regeneration 分析中的 $r$-dependent new edges。
+
+换句话说，
+
+$$
+
+a_N(R)-a_N(R+r)
+
+$$
+
+实际上定量测量了“加入 $r$ 后新产生了多少 blocker”。
+
+因此可以把
+
+$$
+
+\boxed{
+\operatorname{Drift}(R,r)
+=
+\sum_N
+\bigl(a_N(R)-a_N(R+r)\bigr)
+}
+\tag{8}
+
+$$
+
+看成一个天然的**再生罚函数**。
+
+如果它大，那么产生大量新的 $r$-dependent real-edge incidence，可以尝试收费。
+
+如果它小，而 bad blocks 本来就约占一半，那么这些 bad blocks 的 blocker 必须主要是**加入 $r$ 之前已经存在的 old anchors**。
+
+因此 near equality forces
+
+$$
+
+\text{small drift}
+\quad\Longrightarrow\quad
+\text{persistent old-anchor structure}.
+
+$$
+
+这一点和你文章里的 path-stability 很像：
+
+你那里
+
+$$
+
+p_F(r,x,y)
+\le
+a
+\left(\frac{W'}{r-2}\right)^{r-2}
+\le
+\left(\frac{W}{r-1}\right)^{r-1}
+
+$$
+
+接近等号，迫使 AM–GM 的质量分配接近唯一比例，再递归迫使权重集中到一条路径。
+
+我们这里可能出现：
+
+$$
+
+\text{OA mass}\le\frac14
+
+$$
+
+接近等号
+
+$$
+
+\Longrightarrow
+\text{block polarization}
+
+$$
+
+再加连续层接近等号
+
+$$
+
+\Longrightarrow
+\text{profile drift}=o(n)
+
+$$
+
+再加 old-anchor/star/non-star 二分
+
+$$
+
+\Longrightarrow
+\text{persistent blocker support}.
+
+$$
+
+它在逻辑上确实非常接近你文章的 equality tracing。
+
+---
+
+# 6. Hall dual 在这里可能扮演你文章中“导数”的角色
+
+我觉得这是罚函数路线最吸引人的地方。
+
+在你的文章里，approximate KKT 告诉你所有正权边的
+
+$$
+
+\partial_e\beta
+
+$$
+
+几乎一样，然后你拿最大权边，追 Lv–Győri–He–Salia–Tompkins–Zhu 证明中的每个不等式，最终得到一条几乎承载全部质量的 $k$-cycle。
+
+在这里，blocker-flow 部分本身就是 LP。
+
+它的 KKT / complementary slackness 给出的“边际导数”就是：
+
+$$
+
+\text{real-edge shadow price},
+\quad
+\text{cut potential},
+\quad
+\text{slot/root dual price}.
+
+$$
+
+因此 penalized representative 后我们有希望得到这样的结论：
+
+如果某条 blocker edge 承载正质量，那么它对应的 dual reduced cost 必须是
+
+$$
+
+o(1)
+
+$$
+
+级别；否则把少量 blocker flow 转移到更便宜的可行边，就会使 $\Phi$ 增加。
+
+于是大部分 near-critical old-anchor mass 必须落在
+
+$$
+
+\boxed{\text{nearly tight real edges / nearly tight Hall cuts}}
+
+$$
+
+上。
+
+这比单纯的 incidence proliferation 强得多，因为现在有一个**统一 dual certificate**在组织这些边。
+
+当前框架已经明确知道“Hall 满流只说明可支付，不说明集中”，以及“incidence 增殖不自动推出完整子核心”。turn243806view0
+
+罚函数 + approximate complementary slackness 有希望补的恰恰就是中间这一层：
+
+$$
+
+\text{many incidences}
+\quad\leadsto\quad
+\text{many incidences near the same tight dual face}.
+
+$$
+
+这是我认为最值得尝试的点。
+
+---
+
+# 7. 对 star / non-star link，也能定义一个很自然的“结构距离”
+
+固定 $R,x$，给 old-link 上真实边某个 blocker-flow 权重 $\omega_x(e)$。
+
+可以定义
+
+$$
+
+\operatorname{StarDef}_R(x)
+=
+\min_{z\in R}
+\sum_{\substack{e\in\mathcal B_R(x)\\z\notin e}}
+\omega_x(e).
+\tag{9}
+
+$$
+
+它有很直接的意义：
+
+$$
+
+\operatorname{StarDef}_R(x)=0
+
+$$
+
+当且仅当全部正 blocker mass 都在某个 $z$-star 上。
+
+若
+
+$$
+
+\operatorname{StarDef}_R(x)=o(1),
+
+$$
+
+则 blocker-flow 在 $\ell_1$ 意义下离某颗星只有 $o(1)$。
+
+而若它有固定正下界，则有固定质量无法被任何单点覆盖——这正是 persistent non-star kernel 应该吸收的质量。
+
+所以结构模板不必唯一。可以定义
+
+$$
+
+\mathcal T
+=
+\mathcal T_{\rm star/persistent}
+\cup
+\mathcal T_{\rm nonstar/core}.
+
+$$
+
+再定义
+
+$$
+
+\Delta_{\rm hyp}(Z)
+=
+\inf_{T\in\mathcal T}
+d_{\rm exec}(Z,T).
+\tag{10}
+
+$$
+
+和你文章中的
+
+$$
+
+\Delta_k(H,w)
+
+$$
+
+一样，只要 $d_{\rm exec}$ 是 $\ell_1$-型的，
+
+$$
+
+\Delta_{\rm hyp}
+
+$$
+
+自动是 1-Lipschitz：
+
+$$
+
+|\Delta_{\rm hyp}(Z)-\Delta_{\rm hyp}(Z')|
+\le
+d_{\rm exec}(Z,Z').
+\tag{11}
+
+$$
+
+这意味着你文章里最后那一步可以原样出现：
+
+$$
+
+\Delta_{\rm hyp}(Z_0)
+\le
+\Delta_{\rm hyp}(\widetilde Z)
++
+d_{\rm exec}(Z_0,\widetilde Z).
+
+$$
+
+所以只要 equality tracing 能证明
+
+$$
+
+\Delta_{\rm hyp}(\widetilde Z)\to0,
+
+$$
+
+再用 (3)，立刻得到
+
+$$
+
+\Delta_{\rm hyp}(Z_0)\to0.
+
+$$
+
+---
+
+# 8. 因而，我认为最值得瞄准的是你文章中 `Uniform gap away from the optimizers` 的超图版本
+
+它可以长成：
+
+$$
+
+\boxed{
+\begin{minipage}{0.83\linewidth}
+对每个 $\rho>0$，存在 $\gamma>0$，使得任何 hard old-anchor
+执行状态 $Z$，若
+\[
+\Delta_{\rm hyp}(Z)\ge\rho,
+
+$$
+则
+$$
+
+\mathcal F_{\rm OA}(Z)
+\le
+\frac14-\gamma,
+
+$$
+除非产生至少 $\gamma$ 的 payable / switch / regeneration
+质量或一个显式 tight structural cut。
+\end{minipage}}
+\tag{HS}
+\]
+
+这几乎就是你文章 weighted-gap lemma 的语法。
+
+而证明方法也可以照你的文章用反证：
+
+$$
+
+\Delta_{\rm hyp}(Z_j)\ge\rho,
+\qquad
+\mathcal F_{\rm OA}(Z_j)\to\frac14.
+
+$$
+
+对每个 $Z_j$ 做 penalized representative：
+
+$$
+
+\Phi_j(Z)
+=
+\mathcal F_{\rm OA}(Z)
+-
+\sqrt{\varepsilon_j}\,
+d_{\rm exec}(Z,Z_j).
+
+$$
+
+得到
+
+$$
+
+d_{\rm exec}(\widetilde Z_j,Z_j)
+\to0
+
+$$
+
+和 approximate KKT。
+
+然后证明一个超图 analogue 的
+
+$$
+
+\boxed{\text{Near-critical equality tracing lemma}}
+
+$$
+
+说：
+
+$$
+
+\mathcal F_{\rm OA}(\widetilde Z_j)\to\frac14
++
+\text{approximate KKT}
++
+\text{hard remainder}
+
+$$
+
+必推出
+
+$$
+
+\Delta_{\rm hyp}(\widetilde Z_j)\to0.
+
+$$
+
+最后由 1-Lipschitz 性得到
+
+$$
+
+\Delta_{\rm hyp}(Z_j)\to0,
+
+$$
+
+矛盾。
+
+这和你稿件从 `penalized-representative` → `near-critical-tracing` → `weighted-gap` → `weighted-stability` 的结构几乎完全平行。
+
+---
+
+## 现在真正缺的是什么
+
+所以我的判断不是“罚函数也许能帮一点”，而是：
+
+**它很可能是合适的证明组织方式。**
+
+不过它不会凭空解决目前最难的一步。我们现在已经拥有 equality tracing 的前半段：
+
+$$
+
+1/4\text{ near equality}
+\Rightarrow
+\text{balanced }0/1\text{ block polarization},
+
+$$
+
+并且我认为还能比较直接地补上
+
+$$
+
+\text{parent/child both near critical}
+\Rightarrow
+\text{small profile drift}
+\Rightarrow
+\text{persistent good/bad block partition}.
+
+$$
+
+真正对应你文章中 Lv-et-al path-stability 那个“刚性核心”的，是下一条：
+
+$$
+
+\boxed{
+\text{small profile drift}
++
+\text{approximate Hall/KKT tightness}
+\Longrightarrow
+\text{old-anchor links near一个统一的 star/core template}.
+}
+\tag{12}
+
+$$
+
+这就是目前还没有的 hypergraph equality-tracing lemma。
+
+而这恰好也解释了为什么仓库此前提醒“incidence proliferation 不足以推出 concentration”：我们缺的不是更多 incidence，而是一个类似你文章中“所有 near-equalities 必须同时近等号”的机制。turn465263view0
+
+我觉得罚函数最可能提供的正是这个机制：它把“也许能换一种分配”变成 approximate KKT，把“为什么这些 blockers 必须对齐”转化成**若不对齐，就存在一个一阶改进方向**。
+
+下一步如果继续做，我会直接尝试写出这个 `Near-critical equality tracing` 的超图候选引理，并先证明其中比较确定的部分：
+
+$$
+
+\boxed{
+\text{两层 near-}1/4
+\Longrightarrow
+\text{good/bad block partition 的 }o(n)\text{-漂移}
+}
+
+$$
+
+然后把“漂移量”精确分解成 **new $r$-dependent blockers + switchable mass + persistent old-anchor mass**。我觉得这会是判断罚函数路线是否真的能落地的第一个非常有分量的测试。
+
+
+【提问 轮数8】
+[User is quoting/referring to: "因此 near equality forces
+
+\\text{small"]
+
+请你由此断点开始，继续输出
+
+【回答内容 轮数8】
+从这个断点继续，关键句应当是：
+
+$$
+
+\text{near equality forces small drift}
+\quad\Longrightarrow\quad
+\text{绝大多数“好/坏块”标签沿真实成功延伸几乎不变。}
+
+$$
+
+而且这里其实还能再加强一步：**drift 不只是一个抽象罚项，它几乎可以逐个顶点解释成新生成的 $r$-dependent 真实边。** 这给我们一个很具体的“要么付费、要么结构冻结”的二分。
+
+【回答内容 轮数8】
+因此 near equality forces
+
+$$
+
+\boxed{\operatorname{Drift}(R,r)=o(n)}
+
+$$
+
+——除非我们愿意把这部分 drift 直接当成新生成真实边的可收费质量。这里可以把这句话做成一个很精确的引理。
+
+设 $R$ 独立，且 $R+r$ 是一次真实成功延伸。对任何尚未使用的块 $N$，记
+
+$$
+
+G_N(R)=\{x\in N:R+x\text{ independent}\}.
+
+$$
+
+由于增加顶点只可能破坏独立性，
+
+$$
+
+G_N(R+r)\subseteq G_N(R).
+
+$$
+
+令
+
+$$
+
+L_N(R,r):=G_N(R)\setminus G_N(R+r).
+
+$$
+
+那么每一个
+
+$$
+
+x\in L_N(R,r)
+
+$$
+
+都满足
+
+$$
+
+R+x\ \text{independent},\qquad
+R+r\ \text{independent},\qquad
+R+r+x\ \text{dependent}.
+
+$$
+
+因为是 3-uniform，$R+r+x$ 中出现的新边既不能完全包含在 $R+x$，也不能完全包含在 $R+r$。所以这条边必定形如
+
+$$
+
+\boxed{e_x=\{r,u_x,x\}}
+\qquad(u_x\in R).
+\tag{13}
+
+$$
+
+而不同的 $x$ 给出不同真实边，因为 $x\in e_x$。
+
+因此，在一个固定父子延伸 $R\to R+r$ 上，
+
+$$
+
+\boxed{
+\sum_N |L_N(R,r)|
+\le
+\#\{e\in E(H):r\in e,\ |e\cap R|=1\}.
+}
+\tag{14}
+
+$$
+
+若
+
+$$
+
+a_N(R)=\frac{|G_N(R)|}{b},
+
+$$
+
+则
+
+$$
+
+b\sum_N\bigl(a_N(R)-a_N(R+r)\bigr)
+=
+\sum_N|L_N(R,r)|.
+
+$$
+
+所以定义
+
+$$
+
+\operatorname{Drift}(R,r)
+:=
+\sum_N\bigl(a_N(R)-a_N(R+r)\bigr),
+
+$$
+
+便得到
+
+$$
+
+\boxed{
+b\,\operatorname{Drift}(R,r)
+\le d_H(r).
+}
+\tag{15}
+
+$$
+
+更准确地说，左边有一个逐 $x$ 的真实边注入，而不仅是 degree counting。
+
+这件事对我们非常重要，因为它把一个本来只是“数值 profile 变化量”的东西变成了**具体超图结构的生成量**。
+
+---
+
+### 于是父子两层 near-$1/4$ 会产生一种很强的冻结现象
+
+在共同剩余块集合上，
+
+$$
+
+\operatorname{Drift}(R,r)
+=
+\sum_Na_N(R)-\sum_Na_N(R+r).
+
+$$
+
+若父、子两层都接近 old-anchor 的 $1/4$ 极值，那么由前面的稳定性恒等式，两边平均 success ratio 都是
+
+$$
+
+\frac12+o(1).
+
+$$
+
+因此
+
+$$
+
+\boxed{
+\operatorname{Drift}(R,r)=o(n).
+}
+\tag{16}
+
+$$
+
+这里最漂亮的是：因为每个坐标差都非负，
+
+$$
+
+a_N(R)-a_N(R+r)\ge0,
+
+$$
+
+所以“平均值几乎没变”立即意味着**总坐标移动量很小**。没有 cancellation。
+
+若定义
+
+$$
+
+\mathcal G_R(\tau)
+=
+\{N:a_N(R)\ge1-\tau\},
+
+$$
+
+$$
+
+\mathcal B_R(\tau)
+=
+\{N:a_N(R)\le\tau\},
+
+$$
+
+而由单层稳定性知道中间区
+
+$$
+
+\tau<a_N(R)<1-\tau
+
+$$
+
+只有 $o(n)$ 个块，那么 (16) 给出
+
+$$
+
+|\mathcal G_R(\tau)\setminus
+\mathcal G_{R+r}(2\tau)|
+=o(n),
+
+$$
+
+相应地
+
+$$
+
+|\mathcal B_{R+r}(\tau)\setminus
+\mathcal B_R(2\tau)|
+=o(n).
+\tag{17}
+
+$$
+
+也就是说：
+
+> 连续两层若都近临界，约一半 good / 一半 bad 的分割几乎被冻结；成功加入 $r$ 只能使 $o(n)$ 个块发生宏观状态改变。
+
+这已经不再只是 $a_M$ 的“数值稳定性”，而是一个真实的 **block partition stability**。
+
+---
+
+## 接下来可以更进一步：persistent badness 自带 persistent witness
+
+这里还有一个对 3-uniform 情形特别有利的单调性。
+
+若
+
+$$
+
+x\in D_N(R),
+
+$$
+
+即 $R+x$ 已经不独立，那么存在
+
+$$
+
+e=\{u,v,x\},
+\qquad u,v\in R.
+\tag{18}
+
+$$
+
+只要后面的执行路径继续保留 $u,v$，这条边就永远存在于后继 trace 加 $x$ 中。
+
+换句话说，old-anchor badness 一旦出现，本身具有一个**历史持久 witness**。
+
+因此如果我们沿着一条近临界成功链
+
+$$
+
+R_0\subset R_1\subset\cdots\subset R_t
+
+$$
+
+发现 good/bad partition 几乎不漂移，那么对于绝大多数一直处于 bad 相的 $x$，阻断它们的机制不需要由新的 $r_i$ 不断重新生成；它们可以追溯到较早层已经存在的 anchor pair。
+
+所以“small drift”的结构解释其实是：
+
+$$
+
+\boxed{
+\text{少量 new }r\text{-dependent blockers}
+\quad+\quad
+\text{大量 persistent old-anchor blockers}.
+}
+\tag{19}
+
+$$
+
+而后者正是我们真正想压成 star/core template 的对象。
+
+---
+
+# 这时候罚函数才真正开始发挥你文章里那种作用
+
+你文章中的 penalization 本身并没有告诉你最优图必须是一条圈；它做的是把 near optimizer 换成一个附近的 weighting，使所有正权边的导数几乎相同：
+
+$$
+
+\partial_f\beta
+\le
+\partial_e\beta+o(1).
+
+$$
+
+然后你利用 sharp extremal proof 中的一连串 inequality 来证明每一步都必须 near equality；最终由 AM–GM stability 和 path stability 恢复 $C_k$ 支撑。
+
+Cox–Martin 的工作提供了把原平面图问题降为加权图优化的框架，而 Lv–Győri–He–Salia–Tompkins–Zhu 给出的 even-cycle sharp optimization/equality structure正是这种追踪能够落地的核心输入。
+
+在这里，对应的“导数相等”我认为应该换成：
+
+$$
+
+\boxed{
+\text{所有仍承载 hard old-anchor mass 的可行局部重路由方向，
+一阶收益都只能是 }o(1).
+}
+\tag{20}
+
+$$
+
+也就是 approximate complementary slackness / approximate KKT。
+
+---
+
+## 一个具体的候选 penalty functional
+
+假设我们已经把可直接付款的 escape 质量剥掉，只留下 hard old-anchor flow $Z_0$。
+
+定义
+
+$$
+
+\mathcal F(Z)
+=
+\text{归一化后的 old-anchor objective}
+
+$$
+
+并有 sharp bound
+
+$$
+
+\mathcal F(Z)\le\frac14.
+
+$$
+
+若
+
+$$
+
+\varepsilon
+=
+\frac14-\mathcal F(Z_0),
+
+$$
+
+取
+
+$$
+
+\lambda=\sqrt\varepsilon
+
+$$
+
+并定义
+
+$$
+
+\boxed{
+\Phi(Z)
+=
+\mathcal F(Z)
+-
+\lambda\,
+d_{\rm exec}(Z,Z_0).
+}
+\tag{21}
+
+$$
+
+其中 $d_{\rm exec}$ 不能只看 $a_N$，而至少应记录：
+
+$$
+
+Z=
+(\mu_R,\theta_{R,x,e},
+\ell_e,
+\sigma_{R,x,z},
+\dots),
+
+$$
+
+分别表示：
+
+- root/genealogy mass；
+- old-anchor obligation 分到真实边 $e$ 的 flow；
+- 每条真实边的全局 load；
+- switch/reroot flow；
+- 必要时还有 Hall-cut slack。
+
+这点非常重要：如果我们只罚
+
+$$
+
+\|a-a_0\|_1,
+
+$$
+
+就只能恢复 $0/1$ 极化，永远看不到到底是哪个 anchor pair 在阻断。
+
+---
+
+最大化 (21) 得到 $\widetilde Z$。和你文章里的证明完全一样，只要 $\mathcal F\le1/4$，就有
+
+$$
+
+\lambda
+d_{\rm exec}(\widetilde Z,Z_0)
+\le\varepsilon,
+
+$$
+
+因而
+
+$$
+
+\boxed{
+d_{\rm exec}(\widetilde Z,Z_0)
+\le\sqrt\varepsilon.
+}
+\tag{22}
+
+$$
+
+同时，对于任何允许的微小 flow transfer $h$，
+
+$$
+
+D\mathcal F(\widetilde Z)[h]
+\le
+O(\sqrt\varepsilon)\|h\|_1.
+\tag{23}
+
+$$
+
+如果 flow polytope 非光滑，就写成 subgradient/KKT 条件；实质不变。
+
+---
+
+# 现在我们应该追踪哪些“近等号”？
+
+我认为顺序大概是下面四层。
+
+### 第一层：$1/4$ 极值近等号
+
+已经有精确恒等式：
+
+$$
+
+\frac n{4(n-1)}-\mathcal F_R
+=
+\frac n{n-1}
+\left(\bar a-\frac12\right)^2
++
+\frac1{n(n-1)}
+\sum_Na_N(1-a_N).
+
+$$
+
+所以 near equality 强迫
+
+$$
+
+\bar a=\frac12+o(1)
+
+$$
+
+以及
+
+$$
+
+a_N\in\{o(1),1-o(1)\}
+
+$$
+
+除 $o(n)$ 个例外。
+
+这是第一层 equality tracing。
+
+---
+
+### 第二层：父子单调性近等号
+
+有
+
+$$
+
+a_N(R+r)\le a_N(R).
+
+$$
+
+若父子都 near critical，则
+
+$$
+
+\sum_N
+\bigl(a_N(R)-a_N(R+r)\bigr)=o(n).
+
+$$
+
+于是几乎所有块的相位不变。
+
+这是第二层 equality tracing。
+
+---
+
+### 第三层：drift-to-new-edge 近等号/缺口
+
+每个真正下降的候选 $x$ 都生成
+
+$$
+
+\{r,u,x\}.
+
+$$
+
+所以要么这些下降产生大量 fresh real-edge capacity，可以收费；
+
+要么 drift 很小，于是结构被冻结。
+
+这是非常类似你文章里某一道 inequality 的“若离等号远，就已经损失固定量；若 near equality，就获得结构”的作用。
+
+---
+
+### 第四层：old-anchor support 的 KKT 近等号
+
+这是目前真正的新难点。
+
+固定 $R,x$，令
+
+$$
+
+\omega_{R,x}(uv)
+
+$$
+
+表示 blocker flow 放在
+
+$$
+
+\{u,v,x\}
+
+$$
+
+上的质量。
+
+如果这些权重散布在许多彼此不相容的 anchor pair 上，却没有形成我们希望的 core，那么理论上应该存在一个局部交换：
+
+$$
+
+\omega_{R,x}(uv)
+\mapsto
+\omega_{R,x}(uv)-t,
+
+$$
+
+$$
+
+\omega_{R,x}(u'v')
+\mapsto
+\omega_{R,x}(u'v')+t
+
+$$
+
+或者把部分流送往 switch/regenerated edge，使得：
+
+- old-anchor score 不下降；
+- 某个全局容量 slack 改善；
+- 或下一层可扩展率上升。
+
+若这样的方向有固定正的一阶收益，就和 approximate KKT (23) 矛盾。
+
+于是 near-critical penalized representative 中，正质量 blocker 必须集中在**几乎零 reduced-cost** 的方向上。
+
+这就可能产生一个有限的 tight support。
+
+---
+
+# 一个非常自然的结构罚量是 weighted vertex-cover defect
+
+前面我们用了二元判别：“$L_x(R)$ 是 star 还是 non-star”。
+
+为了做稳定性，更自然的是给它一个连续版本。
+
+令
+
+$$
+
+W_{R,x}
+=
+\sum_{uv}\omega_{R,x}(uv).
+
+$$
+
+定义
+
+$$
+
+\boxed{
+\operatorname{StarDef}(R,x)
+=
+W_{R,x}
+-
+\max_{z\in R}
+\sum_{u:\,zu\in L_x(R)}
+\omega_{R,x}(zu).
+}
+\tag{24}
+
+$$
+
+也就是：
+
+> 至少删掉多少 blocker flow，才能使剩余 blocker flow 全部经过一个共同 anchor $z$。
+
+显然
+
+$$
+
+\operatorname{StarDef}(R,x)=0
+
+$$
+
+当且仅当正质量 support 是一颗星。
+
+若
+
+$$
+
+\operatorname{StarDef}(R,x)\le\eta W_{R,x},
+
+$$
+
+那么存在 $z=z(R,x)$，使至少
+
+$$
+
+(1-\eta)W_{R,x}
+
+$$
+
+的 blocker mass 经过 $z$。
+
+这就是一个非常干净的 weighted structural stability metric。
+
+---
+
+## 为什么它可能和罚函数发生真正的互动？
+
+假设 $\operatorname{StarDef}(R,x)$ 不小。
+
+那么对任意候选 anchor $z$，都有固定正质量的 blocker 不经过 $z$。
+
+因此释放任意一个端点时，都还有相当的 old-anchor obstruction 存活。
+
+换句话说，它不是“接近 switchable star”的状态，而是 robust non-star。
+
+如果这种 robust non-star mass 很大，那么我们应该尝试从这些不共点的 blocker pairs 中选择：
+
+$$
+
+\{u_1,v_1,x\},
+\qquad
+\{u_2,v_2,x\},
+
+$$
+
+使其 anchor pairs 不被同一个顶点覆盖。
+
+这已经形成一个真正的二阶 old-anchor kernel。
+
+若它在很多 $x$、很多 bad blocks 上持续出现，而 profile 又冻结，那么非常有可能进一步双计数出：
+
+$$
+
+\text{固定小 anchor set}
+\times
+\text{线性多 bad blocks}
+
+$$
+
+的 concentrated core。
+
+因此有希望证明一种二分：
+
+$$
+
+\boxed{
+\sum_{R,x}
+\operatorname{StarDef}(R,x)
+\le o(1)
+}
+
+$$
+
+或者
+
+$$
+
+\boxed{
+\text{出现一个 persistent non-star structural core}.
+}
+\tag{25}
+
+$$
+
+前一种意味着几乎所有 hard old-anchor fibers 都接近星。
+
+---
+
+# 如果几乎都是星，罚函数又会逼出“星心一致性”
+
+这是更有趣的下一步。
+
+即使每个 $x$ 都接近一颗星，我们还有一个问题：
+
+$$
+
+z(R,x)
+
+$$
+
+可能随 $x$ 完全乱跳。
+
+这还不是一个真正的超图 core。
+
+于是可以再定义
+
+$$
+
+m_R(z)
+=
+\sum_x
+\sum_{u}
+\omega_{R,x}(zu),
+
+$$
+
+即 root vertex $z$ 吸收了多少 old-anchor blocker mass。
+
+如果每个 fiber 都 star-like，但星心分散在很多 $z$，则 $(m_R(z))_{z\in R}$ 很平。
+
+这里很可能存在第二种类似 AM–GM stability 的现象：
+
+- 星心高度分散时，很多 $r$-release directions 可用；
+- 为维持 near-critical hard mass，这些释放方向必须同时被新的 $r$-dependent edges 封住；
+- 但这会产生大量 drift；
+- near-critical parent-child stability 又要求 drift 很小。
+
+因此：
+
+$$
+
+\boxed{
+\text{small drift}
++
+\text{star-like fibers}
+\Longrightarrow
+\text{star centers must concentrate}.
+}
+\tag{26}
+
+$$
+
+这一步如果能证明，就是数值稳定升级成真正超图结构稳定的核心。
+
+直觉上，它与您文章里的 weighted AM–GM stability 非常像：
+
+你的路径证明里，不同位置的质量若没有按照唯一最优比例分配，就会损失一个固定量；
+
+这里则可能是：
+
+不同 $x$ 的 anchor center 若没有集中到少量公共 $z$，则沿很多 $r$ 会产生固定量 regeneration/drift，从而无法连续保持 $1/4$ 近等号。
+
+---
+
+# 因此可以设想一个真正对应你 `Near-critical equality tracing` 的引理
+
+我会尝试把目标写成下面这样。
+
+**候选 Near-critical old-anchor tracing lemma.**
+设 $Z_j$ 是一列 hard old-anchor 执行状态，并假定
+
+$$
+
+\mathcal F_{\rm OA}(Z_j)\to\frac14,
+
+$$
+
+且 $Z_j$ 满足误差 $\eta_j\to0$ 的 approximate KKT。
+
+那么经过丢弃 $o(1)$ 质量以后，存在：
+
+- 一个平衡块分割
+  $$
+
+  \mathcal G_j\sqcup\mathcal B_j,
+  \qquad
+  |\mathcal G_j|,|\mathcal B_j|
+  =\left(\frac12+o(1)\right)n;
+
+$$
+- 一个沿 near-critical genealogy 基本不变的该分割；
+- 一个大小受控的 anchor/core 集合 $A_j\subseteq R_j$；
+
+使得几乎所有 hard old-anchor blocker 都满足
+
+$$
+
+e\cap R_j\subseteq A_j
+
+$$
+
+或者进入一个显式 non-star core certificate。
+
+换句话说，
+
+$$
+
+\boxed{
+\Delta_{\rm hyp}(Z_j)\to0.
+}
+\tag{27}
+
+$$
+
+然后就可以完全复制你文章的 compactness/penalty 逻辑：
+
+若存在 $\rho>0$，以及
+
+$$
+
+\Delta_{\rm hyp}(Z_j)\ge\rho,
+\qquad
+\mathcal F_{\rm OA}(Z_j)\to\frac14,
+
+$$
+
+先 penalize 得到
+
+$$
+
+d_{\rm exec}(Z_j,\widetilde Z_j)\to0,
+
+$$
+
+再由 tracing lemma 得到
+
+$$
+
+\Delta_{\rm hyp}(\widetilde Z_j)\to0.
+
+$$
+
+若 $\Delta_{\rm hyp}$ 对 $d_{\rm exec}$ 是 Lipschitz 的，则
+
+$$
+
+\Delta_{\rm hyp}(Z_j)
+\le
+\Delta_{\rm hyp}(\widetilde Z_j)
++
+d_{\rm exec}(Z_j,\widetilde Z_j)
+\to0,
+
+$$
+
+矛盾。
+
+这就是你文章里 `Uniform gap away from the weighted optimizers` 的几乎精确超图 analogue。
+
+---
+
+我现在觉得，**最值得先证明的不是整个 (27)，而是其中一个中间“星心集中引理”**：
+
+$$
+
+\boxed{
+\begin{array}{c}
+\text{block profile near }0/1,\quad
+\text{parent-child drift }=o(n),\\[2mm]
+\text{绝大多数 }(R,x)\text{ old-link 是 }o(1)\text{-star-like}
+\end{array}
+}
+
+$$
+
+是否能够推出存在一个小集合 $A\subseteq R$，使
+
+$$
+
+1-o(1)
+
+$$
+
+的 old-anchor blocker mass 都经过 $A$。
+
+如果答案是肯定的，我们就真正完成了从
+
+$$
+
+\text{数值稳定}
+
+$$
+
+到
+
+$$
+
+\text{超图结构稳定}
+
+$$
+
+的关键升级；如果是否定的，反例本身也会非常有信息量，因为它必须同时满足“星心高度分散”与“几乎没有 profile drift”，这会告诉我们还缺哪一种 regeneration mechanism。
+
+
+【提问 轮数9】
+[User is quoting/referring to: "星心集中引理"]
+
+有什么方法可以做数值上的验证吗？
+
+【回答内容 轮数9】
+有，而且我建议先做一个“反例导向”的数值验证：不是一上来拟合支持集中，而是把“近 $1/4$、小 drift、每个 fiber 近 star”当硬约束，**最大化星心分散程度**。如果小规模最优值仍然很大，就说明我们当前的星心集中引理缺条件；如果它随误差一起塌缩，才值得继续证明。
+
+【回答内容 轮数9】
+我先做了一个很小但很关键的 sanity check，结果反而帮我们排除了一个过强猜想：仅凭“近 $1/4$ + drift 很小 + 每个 old-link 都是 star-like”，**星心集中并不成立**。我能构造一个局部实例同时达到有限维的 old-anchor 极值、drift 恰为 0、每个 fiber 都是精确星，但星心几乎均匀散在整个 root 上。这个反例非常适合作为后续数值程序的第一条回归。
+
+【回答内容 轮数9】
+可以，而且我刚才做的第一个小规模数值 sanity check 已经给出了一个非常有价值的结果：
+
+> **我们刚才提出的“星心集中引理”，按目前那三个假设，其实是假的。**
+
+这反而很好，因为它告诉我们数值实验应该验证什么，而不是在一个过强命题上继续证明。
+
+我构造并检查了下面这个局部实例。取 $b=10$，root $R$ 有 40 个已选顶点，剩余 8 个块，其中 4 个 completely good、4 个 completely bad。于是
+
+$$
+
+a=(1,1,1,1,0,0,0,0).
+
+$$
+
+对每个 bad-block 顶点 $x$，选一个星心 $z_x\in R$，再选两个不同的辅助锚 $u_x^1,u_x^2$，只放两条边
+
+$$
+
+\{z_x,u_x^1,x\},\qquad
+\{z_x,u_x^2,x\}.
+
+$$
+
+我把 40 个 $x$ 的 $z_x$ **均匀分散在 40 个 root vertices 上**。
+
+得到：
+
+| quantity | value |
+|---|---:|
+| $b$ | 10 |
+| remaining blocks | 8 |
+| good / bad | 4 / 4 |
+| old-anchor edges | 80 |
+| $\max_v d(v)$ | 4 |
+| $b^2/4$ | 25 |
+| StarDef of every fiber | 0 |
+| parent-child drift after adding a good $r$ | 0 |
+| largest star-center share | $1/40=2.5\%$ |
+| normalized OA score | $2/7$ |
+| finite-dimensional maximum | $2/7$ |
+
+所以它同时满足
+
+$$
+
+\text{exact numerical extremality},
+\qquad
+\text{exact star structure},
+\qquad
+\text{zero drift},
+
+$$
+
+但完全没有 star-center concentration。
+
+而且它甚至可以保持
+
+$$
+
+\Delta(H)=4<25=b^2/4.
+
+$$
+
+这当然**不是原独立横截问题的反例**，也不是一个完整 execution obstruction；它只证明了我们刚才想写的那个**局部结构稳定引理缺少条件**。原项目的目标仍是 $\Delta(H)<(\frac14-o(1))b^2$ 下的全局 independent transversal 问题。
+
+---
+
+真正有意思的是，这个反例同时告诉我们应该改测什么。
+
+它的缺陷在于：虽然星心可以永远分散，而且 drift 可以是零，但它**无法长时间保持 near-$1/4$**。
+
+假设一开始有
+
+$$
+
+k\text{ good blocks},\qquad k\text{ bad blocks}.
+
+$$
+
+old-anchor score 是
+
+$$
+
+F_0
+=
+\frac{k^2}{(2k)(2k-1)}.
+
+$$
+
+这正是二值 profile 的有限维极值。
+
+现在每发生一次真正成功延伸，我们必然消费一个 good block。若什么都不 regeneration、bad blocks 也保持 bad，那么 $t$ 步之后
+
+$$
+
+G_t=k-t,\qquad B_t=k.
+
+$$
+
+于是
+
+$$
+
+F_t
+=
+\frac{k(k-t)}
+{(2k-t)(2k-t-1)}.
+
+$$
+
+定义 imbalance
+
+$$
+
+d_t=B_t-G_t=t.
+
+$$
+
+一般对二值 profile，
+
+$$
+
+G+B=n,\qquad B-G=d,
+
+$$
+
+有精确公式
+
+$$
+
+GB=\frac{n^2-d^2}{4},
+
+$$
+
+因此
+
+$$
+
+\boxed{
+F
+=
+\frac{n}{4(n-1)}
+-
+\frac{d^2}{4n(n-1)}.
+}
+\tag{N1}
+
+$$
+
+这一下就漂亮了。
+
+每成功一步而没有补偿机制，
+
+$$
+
+d\mapsto d+1.
+
+$$
+
+所以保持在极值的 $\varepsilon$-邻域内要求大致
+
+$$
+
+\frac{d^2}{4n^2}\lesssim\varepsilon,
+
+$$
+
+也就是
+
+$$
+
+\boxed{
+d=O(\sqrt\varepsilon\,n).
+}
+\tag{N2}
+
+$$
+
+换言之：
+
+$$
+
+\boxed{
+\text{纯粹 persistent、零 drift 的 near-critical phase
+最多只能持续 }O(\sqrt\varepsilon\,n)\text{ 步。}
+}
+\tag{N3}
+
+$$
+
+我也简单算了一组 $k=50$ 的数据：
+
+| successful steps $t$ | good / bad | OA score | finite optimum | gap |
+|---:|---:|---:|---:|---:|
+| 0 | 50 / 50 | 0.252525 | 0.252525 | 0 |
+| 1 | 49 / 50 | 0.252525 | 0.252525 | 0 |
+| 2 | 48 / 50 | 0.252472 | 0.252577 | 0.000105 |
+| 5 | 45 / 50 | 0.251960 | 0.252632 | 0.000672 |
+| 10 | 40 / 50 | 0.249688 | 0.252809 | 0.003121 |
+| 20 | 30 / 50 | 0.237342 | 0.253165 | 0.015823 |
+
+gap 很明显呈二次增长。
+
+**所以，我现在会把数值验证对象从“空间上的星心集中”改成“时间上的近极值持续性”。**
+
+这可能比原来的集中引理更接近真正需要的东西。
+
+---
+
+我们可以分四层做数值实验：
+
+1. **抽象 profile 优化。** 变量只保留 $a_N^{(t)}$，加入
+   $$
+
+   a_N^{(t+1)}\le a_N^{(t)}
+
+$$
+   和“第 $t$ 步消费一个成功块”的约束，要求每层
+   $$
+
+   F_t\ge F_{\max}(n_t)-\varepsilon.
+
+$$
+   然后最大化可持续长度 $T$。最值得看的就是
+   $$
+
+   T/(\sqrt\varepsilon\,n).
+
+$$
+   如果它稳定有界，就支持 (N3) 的鲁棒版本。
+
+2. **加入真实 blocker variables。** 用二进制变量表示
+   $$
+
+   e_{rux}\in E(H),
+
+$$
+   并把 profile下降精确绑定到
+   $$
+
+   \{r,u,x\}
+
+$$
+   新边。然后把新边分成 fresh、already-used、Hall-tight 等类别。这样可以数值测试更强的二分：
+   $$
+
+   \text{长 near-critical run}
+   \Rightarrow
+   \text{大量 regeneration/reuse}.
+
+$$
+
+3. **直接测试 penalty-gap。** 对一个候选结构距离
+   $$
+
+   \Delta_{\rm dyn}(Z)
+
+$$
+   固定
+   $$
+
+   \Delta_{\rm dyn}(Z)\ge\rho
+
+$$
+   后最大化 OA objective。如果数值上总有
+   $$
+
+   F_{\rm OA}\le\frac14-\gamma(\rho),
+
+$$
+   就是在直接寻找你文章那种
+   `uniform gap away from optimizers`。尤其可以画
+   $$
+
+   \gamma(\rho)
+
+$$
+   看它是否像 $c\rho^2$；如果是，这和我们目前所有平方型 stability defect 非常协调。
+
+4. **最后才做 actual small hypergraph search。** 不需要枚举所有三边，只保留当前证明可能出现的两类：
+   $$
+
+   \{u,v,x\}
+   \quad\text{old anchors},
+
+$$
+   $$
+
+   \{r,u,x\}
+   \quad\text{regenerated blockers}.
+
+$$
+   再加入
+   $$
+
+   d_H(v)\le\Delta
+
+$$
+   和真实 execution constraints，用 MILP/CP-SAT 搜索“离所有预期结构很远但仍长期 near-critical”的实例。若找到，就是非常好的反例回归；找不到，再逐步放大参数。
+
+我尤其建议把**“最大 near-critical 生存时间”**当作第一项 numerical observable，而不是 star-center entropy。
+
+因为现在我们已经知道：空间上星心完全可以分散；但成功执行会持续消费 good phase，而 monotonicity 又禁止 bad 变回 good。因此一个 balanced $1/2$-$1/2$ extremizer 天生存在一个**方向性的耗散**。
+
+这让我觉得可能存在一个比“星心集中”更强、也更容易证明的势函数。令
+
+$$
+
+A_t=\sum_Na_N^{(t)},\qquad
+n_t=\#\{\text{remaining blocks}\},
+
+$$
+
+定义
+
+$$
+
+\boxed{
+Q_t=n_t-2A_t.
+}
+\tag{N4}
+
+$$
+
+它就是连续版的 bad-good imbalance。
+
+如果第 $t$ 步消费的成功块 $M_t$ 满足
+
+$$
+
+a_{M_t}^{(t)}\ge1-\tau,
+
+$$
+
+并记额外 profile drift 为
+
+$$
+
+D_t=
+\sum_{N\ne M_t}
+\left(
+a_N^{(t)}-a_N^{(t+1)}
+\right)\ge0,
+
+$$
+
+那么
+
+$$
+
+A_{t+1}
+=
+A_t-a_{M_t}^{(t)}-D_t,
+
+$$
+
+故
+
+$$
+
+\begin{aligned}
+Q_{t+1}-Q_t
+&=
+-1+2a_{M_t}^{(t)}+2D_t\\
+&\ge
+1-2\tau+2D_t.
+\end{aligned}
+
+$$
+
+也就是
+
+$$
+
+\boxed{
+Q_{t+1}
+\ge
+Q_t+1-2\tau+2D_t.
+}
+\tag{N5}
+
+$$
+
+这是非常强的单调势函数：
+
+- **没有 drift**，$Q$ 每步也约增加 1；
+- **有 drift**，$Q$ 增加得更快；
+- near-$1/4$ stability 却要求
+  $$
+
+  |Q_t|=O(\sqrt\varepsilon\,n_t).
+
+$$
+
+因此一个 long near-critical genealogy 根本不需要星心集中就会遇到矛盾，除非我们前面对“成功块通常属于 $a\approx1$ phase”的质量处理存在重要遗漏。
+
+这正是下一次数值实验最值得验证的地方。
+
+换句话说，数值程序现在可以回答一个非常锋利的问题：
+
+$$
+
+\boxed{
+\begin{gathered}
+F_t\ge F_{\max}-\varepsilon
+\text{ 对很多连续层成立}\\
+\text{是否可能，同时让绝大多数成功质量来自 }a_M\approx1
+\text{ 的块？}
+\end{gathered}}
+
+$$
+
+如果答案是否定的，那么剩下的大量成功只能来自那些
+
+$$
+
+a_M\approx0
+
+$$
+
+却仍有少数可选顶点的“bad blocks”；而那部分本身就是一个新的、可量化的 exceptional mass，可能正好是下一项应该收费的对象。
+
+我觉得这是目前比星心集中更值得数值攻击的方向：**先验证 temporal stability / imbalance potential；只有当它不足以关闭 old-anchor mass 时，再研究剩余的空间集中。**
+
+
+【提问 轮数10】
+[User is quoting/referring to: "先验证 temporal stability / imbalance potential"]
+
+请你构造程序，做数值验证
+
+【回答内容 轮数10】
+可以。我会把验证拆成两层：第一层用**精确二值模型**检查 $Q_t$ 与 near-$1/4$ 生存时间的平方根尺度；第二层用**连续对抗优化**允许每层 profile 任意单调下降，主动寻找能“打败”这个势函数的数值反例。这样程序既能确认公式，也能尽量攻击我们自己的猜想。
+
+
+【提问 轮数11】
+[User is quoting/referring to: "可以。我会把验证拆成两层：第一层用**精确二值模型**检查 QtQ\_tQt​ 与 near-1/41/41/4 生存时间的平方根尺度；第二层用**连续对抗优化**允许每层 profile 任意单调下降，主动寻找能“打败”这个势函数的数值反例。这样程序既能确认公式，也能尽量攻击我们自己的猜想。"]
+
+请你继续输出
+
+【回答内容 轮数11】
+我会把“near-critical”基准改成每个剩余块数 $n_t$ 的**精确有限维最大值**
+$$
+
+F_{\max}(n)=\frac{\lfloor n^2/4\rfloor}{n(n-1)},
+
+$$
+而不是统一用 $1/4$。这样不会把有限 $n$ 的 $O(1/n)$ 修正误当成稳定性缺口。连续对抗层则固定一个成功块删除顺序（利用目标的置换对称性），让所有幸存坐标可任意单调下降，再用非线性优化搜索最长可行轨道。
+
+【回答内容 轮数11】
+程序里我还会加入一个**无需优化器的严格势函数上界**作对照。由
+$$
+
+F_{\max}(n)-F_t\le\varepsilon
+
+$$
+可推出 $|Q_t|$ 的显式上界，而成功删除满足 $a_{M_t}\ge1-\tau$ 时
+$$
+
+Q_{t+1}\ge Q_t+1-2\tau.
+
+$$
+所以任何长度 $T$ 的 near-critical 轨道都必须满足一个可直接计算的必要条件。这样连续优化找到的轨道可以和严格下界互相校验，而不是只相信 SLSQP。
+
+【回答内容 轮数11】
+完成了。这个数值实验给出了一个相当清楚的信号：**temporal stability / imbalance potential 很值得继续推进，而且它比“星心集中”更稳健。**
+
+程序同时做了三种比较：
+
+1. **严格 $Q$-势函数下界**，无需优化器；
+2. **连续对抗优化**：允许 $a_M\in[0,1]$，允许幸存 profile 任意单调下降，主动寻找最能长期维持 near-$1/4$ 的轨道；
+3. **纯二值、无 drift 基准**。
+
+核心恒等式是
+
+$$
+
+\frac{n}{4(n-1)}-F(a)
+=
+\frac{Q^2}{4n(n-1)}
++
+\frac{\sum_i a_i(1-a_i)}{n(n-1)},
+\qquad
+Q=n-2\sum_i a_i.
+
+$$
+
+若每一步消费的成功块满足
+
+$$
+
+a_{M_t}\ge1-\tau,
+
+$$
+
+且幸存坐标只能下降，则严格有
+
+$$
+
+\boxed{
+Q_{t+1}\ge Q_t+1-2\tau.
+}
+
+$$
+
+因此，如果每一层都离精确有限维最大值至多 $\varepsilon$，两端的 $Q$ 又都必须保持在 $O(\sqrt{\varepsilon}\,n)$，从而自动得到
+
+$$
+
+T=O\!\left(
+\frac{\sqrt{\varepsilon}\,n}{1-2\tau}
+\right).
+
+$$
+
+### 数值结果
+
+在 $n_0=12,\tau=0$ 时：
+
+| $T$ | 严格 deficit 下界 | 连续对抗找到的最小 deficit | 二值无-drift |
+|---:|---:|---:|---:|
+| 1 | 0 | 0 | 0 |
+| 2 | 0.002273 | **0.004505** | 0.007576 |
+| 3 | 0.004289 | **0.005952** | 0.007576 |
+| 4 | 0.011113 | **0.013333** | 0.017857 |
+
+所以连续 adversary 确实比简单的 0/1 模型更聪明——例如 $T=4$ 时，它把 deficit 从 $0.017857$ 降到了 $0.013333$。这说明不能只证明二值模型。
+
+但是它仍然**无法接近或突破严格 $Q$-potential lower bound**。
+
+更有意思的是，找到的最优轨道几乎都满足
+
+$$
+
+\text{extra downward drift}=0
+
+$$
+
+到 $10^{-13}$ 左右的数值误差。
+
+例如 $T=4,\tau=0$：
+
+$$
+
+Q_0\approx-2.507,
+\qquad
+Q_4\approx1.493,
+
+$$
+
+刚好增长约 $4$。
+
+这非常支持我们的直觉：
+
+> **额外 profile drift 不是维持 near-criticality 的办法；它只会让 $Q$ 更快向坏方向漂移。**
+
+连续优化真正利用的是**fractional polarization**：它宁可在某些块上保持一个适当的分数值，也不愿制造额外 drift。
+
+当允许
+
+$$
+
+\tau=0.05
+
+$$
+
+时，每步强制增长从 $1$ 降为
+
+$$
+
+1-2\tau=0.9,
+
+$$
+
+数值 deficit 也确实相应下降。例如 $T=4$：
+
+$$
+
+0.013333
+\quad\longrightarrow\quad
+0.012356.
+
+$$
+
+这与势函数预测的 $1/(1-2\tau)$ 依赖方向完全一致。
+
+### 这对证明路线意味着什么
+
+目前最值得尝试证明的，不再只是模糊的“temporal stability”，而是一个非常具体的 lemma：
+
+$$
+
+\boxed{
+\begin{gathered}
+F_t\ge F_{\max}(n_t)-\varepsilon
+\quad(0\le t\le T),\\
+a_{M_t}^{(t)}\ge1-\tau
+\end{gathered}
+\quad\Longrightarrow\quad
+T\le C\,
+\frac{\sqrt\varepsilon\,n_0+O(1)}
+{1-2\tau}.
+}
+
+$$
+
+而且 **这一抽象 profile 版本实际上已经基本由 $Q$ 恒等式严格证明了**；数值实验主要是在攻击一个潜在漏洞：
+
+> fractional profiles + 任意 monotone drift 会不会显著绕过这个势函数？
+
+目前小规模结果说：**没有看到这种现象。**
+
+所以真正剩余的超图问题被进一步压缩为：
+
+> 一条真实 execution genealogy 中，有多少成功质量确实来自 $a_M\ge1-\tau$ 的 good blocks？
+
+如果大部分成功质量来自 good phase，那么上面的时间势函数直接起作用。
+
+如果有不可忽略的成功质量来自
+
+$$
+
+a_M<1-\tau,
+
+$$
+
+那么这些块已经不是“几乎完全 good”的 extremal phase；这部分本身应当形成一个可量化的 polarization defect / exceptional mass。
+
+这让我觉得下一步非常自然：把程序升级为
+
+$$
+
+\boxed{
+\text{good-block temporal potential}
++
+\text{non-good successful mass}
++
+\text{regenerated-edge capacity}
+}
+
+$$
+
+三者联合优化。
+
+也就是显式加入：
+
+$$
+
+s_t^{\rm bad}
+=
+\text{来自 }a_M<1-\tau\text{ 块的成功质量},
+
+$$
+
+并把每次 profile drop
+
+$$
+
+a_N(R)-a_N(R+r)
+
+$$
+
+绑定到具体 regenerated edge
+
+$$
+
+\{r,u,x\},
+
+$$
+
+随后施加
+
+$$
+
+d_H(v)<\left(\frac14-o(1)\right)b^2
+
+$$
+
+的真实容量限制。那将是第一次真正把这个数值 temporal model 接回原超图问题。
+
+产物都在这里：
+
+[下载可复跑 Python 程序](sandbox:/mnt/data/temporal_stability_verification.py)
+
+[下载数值结果 CSV](sandbox:/mnt/data/temporal_stability_results.csv)
+
+[查看 deficit 对比图](sandbox:/mnt/data/temporal_stability_gap.png)
+
+[下载实验报告](sandbox:/mnt/data/temporal_stability_report.md)
+
+需要特别区分的一点是：表中的 **rigorous lower bound 是严格数学结果**；`continuous_gap_found` 是多起点 SLSQP 找到的数值最优值，我没有声称它是全局最优。不过它主动允许 fractional profile 和 monotone drift，而仍然没有发现绕开 $Q$-势函数的轨道，这已经是一个很有价值的正面验证。
+
+
+【提问 轮数12】
+[User is quoting/referring to: "一个非常具体的 lemma"]
+
+暂时不继续数值计算，请你尝试证明我们现在提出的这个猜测的lemma
+
+【回答内容 轮数12】
+我会先把这个猜测写成一个完全抽象、与超图细节无关的 profile lemma，然后给出显式常数。证明核心只有两步：near-$1/4$ 控制每层的 $|Q_t|$，而一次消费 near-good block 会让 $Q_t$ 至少增加 $1-2\tau$；两端夹住即可。
+
+【回答内容 轮数12】
+可以，而且这个 lemma 在抽象 profile 模型中实际上能够**完整证明**，不需要再借助数值优化。更强的是，只要起点和终点 near-critical，就足以控制两者之间的成功步数；不必假设每个中间层都 near-critical。
+
+## Temporal stability lemma
+
+设
+
+$$
+
+I_0\supset I_1\supset\cdots\supset I_T,
+\qquad
+|I_t|=n_t=n_0-t,
+
+$$
+
+其中
+
+$$
+
+I_{t+1}=I_t\setminus\{M_t\}.
+
+$$
+
+在第 $t$ 层，对每个剩余块 $M\in I_t$，给定
+
+$$
+
+a_M^{(t)}\in[0,1].
+
+$$
+
+这里 $a_M^{(t)}$ 表示相对于当前 root，块 $M$ 中可成功扩展顶点的比例。
+
+假设满足：
+
+1. **单调性**
+   $$
+
+   a_M^{(t+1)}\le a_M^{(t)}
+   \qquad(M\in I_{t+1});
+   \tag{A1}
+
+$$
+
+2. 第 $t$ 步消费块 $M_t$，并记
+   $$
+
+   \alpha_t:=a_{M_t}^{(t)}.
+   \tag{A2}
+
+$$
+
+定义 old-anchor profile score
+
+$$
+
+F_t
+=
+\frac1{n_t(n_t-1)}
+\sum_{\substack{M,N\in I_t\\M\ne N}}
+a_M^{(t)}\bigl(1-a_N^{(t)}\bigr).
+\tag{A3}
+
+$$
+
+它在 $[0,1]^{n}$ 上的精确最大值为
+
+$$
+
+F_{\max}(n)
+=
+\frac{\lfloor n^2/4\rfloor}{n(n-1)}.
+\tag{A4}
+
+$$
+
+记 deficit
+
+$$
+
+\delta_t=F_{\max}(n_t)-F_t.
+
+$$
+
+再定义
+
+$$
+
+\chi(n)=
+\begin{cases}
+0,&n\text{ 为偶数},\\
+1,&n\text{ 为奇数},
+\end{cases}
+
+$$
+
+以及
+
+$$
+
+B(n,\delta)
+=
+\sqrt{4n(n-1)\delta+\chi(n)}.
+\tag{A5}
+
+$$
+
+那么对任意 $0\le s<u\le T$，有
+
+$$
+
+\boxed{
+\sum_{t=s}^{u-1}(2\alpha_t-1)
+\le
+B(n_s,\delta_s)+B(n_u,\delta_u).
+}
+\tag{TS}
+
+$$
+
+特别地，如果
+
+$$
+
+\alpha_t\ge1-\tau
+\qquad(s\le t<u),
+\qquad
+0\le\tau<\frac12,
+
+$$
+
+并且首尾两层满足
+
+$$
+
+\delta_s,\delta_u\le\varepsilon,
+
+$$
+
+那么
+
+$$
+
+\boxed{
+(u-s)(1-2\tau)
+\le
+B(n_s,\varepsilon)+B(n_u,\varepsilon).
+}
+\tag{TS1}
+
+$$
+
+对 $s=0,u=T$，进一步得到显式界
+
+$$
+
+\boxed{
+T
+\le
+\frac{4\sqrt\varepsilon\,n_0+2}
+{1-2\tau+2\sqrt\varepsilon}.
+}
+\tag{TS2}
+
+$$
+
+从而当然也有较简洁的
+
+$$
+
+\boxed{
+T
+\le
+\frac{4\sqrt\varepsilon\,n_0+2}
+{1-2\tau}.
+}
+\tag{TS3}
+
+$$
+
+因此，当 $\tau$ 固定且小于 $1/2$ 时，
+
+$$
+
+T=O(\sqrt\varepsilon\,n_0+1).
+
+$$
+
+---
+
+# 证明
+
+## 第一步：求 $F_{\max}(n)$
+
+暂时省略时间指标，令
+
+$$
+
+a=(a_1,\dots,a_n)\in[0,1]^n,
+\qquad
+A=\sum_{i=1}^n a_i,
+\qquad
+S_2=\sum_{i=1}^n a_i^2.
+
+$$
+
+有
+
+$$
+
+\begin{aligned}
+\sum_{i\ne j}a_i(1-a_j)
+&=
+(n-1)\sum_i a_i-\sum_{i\ne j}a_ia_j\\
+&=
+(n-1)A-(A^2-S_2).
+\end{aligned}
+
+$$
+
+所以
+
+$$
+
+F(a)
+=
+\frac{(n-1)A-A^2+S_2}{n(n-1)}.
+\tag{1}
+
+$$
+
+固定其余坐标时，$F$ 关于任意单个 $a_i$ 都是仿射函数。因此 $F$ 在立方体 $[0,1]^n$ 上必然在某个顶点取得最大值。
+
+所以只需要考虑
+
+$$
+
+a_i\in\{0,1\}.
+
+$$
+
+若恰有 $g$ 个坐标为 $1$，其余 $n-g$ 个为 $0$，则
+
+$$
+
+F(a)=\frac{g(n-g)}{n(n-1)}.
+
+$$
+
+而
+
+$$
+
+g(n-g)\le\left\lfloor\frac{n^2}{4}\right\rfloor.
+
+$$
+
+所以
+
+$$
+
+F_{\max}(n)
+=
+\frac{\lfloor n^2/4\rfloor}{n(n-1)}.
+
+$$
+
+这证明了 (A4)。
+
+---
+
+## 第二步：精确的稳定性恒等式
+
+定义 imbalance
+
+$$
+
+Q=n-2A
+\tag{2}
+
+$$
+
+和 polarization defect
+
+$$
+
+P=\sum_{i=1}^n a_i(1-a_i)
+=A-S_2.
+\tag{3}
+
+$$
+
+由 (1) 直接计算：
+
+$$
+
+\begin{aligned}
+\frac{n}{4(n-1)}-F(a)
+&=
+\frac{
+n^2/4-(n-1)A+A^2-S_2
+}{
+n(n-1)
+}\\
+&=
+\frac{
+(n-2A)^2/4+A-S_2
+}{
+n(n-1)
+}.
+\end{aligned}
+
+$$
+
+即
+
+$$
+
+\boxed{
+\frac{n}{4(n-1)}-F(a)
+=
+\frac{Q^2}{4n(n-1)}
++
+\frac{P}{n(n-1)}.
+}
+\tag{4}
+
+$$
+
+另一方面，
+
+$$
+
+\frac{n}{4(n-1)}-F_{\max}(n)
+=
+\begin{cases}
+0,&n\text{ 为偶数},\\[1mm]
+\dfrac1{4n(n-1)},&n\text{ 为奇数}.
+\end{cases}
+\tag{5}
+
+$$
+
+因此如果
+
+$$
+
+\delta=F_{\max}(n)-F(a),
+
+$$
+
+那么由 (4)–(5)，
+
+$$
+
+\frac{Q^2}{4n(n-1)}
++
+\frac{P}{n(n-1)}
+=
+\delta+\frac{\chi(n)}{4n(n-1)}.
+\tag{6}
+
+$$
+
+由于 $P\ge0$，立刻得到
+
+$$
+
+Q^2
+\le
+4n(n-1)\delta+\chi(n).
+
+$$
+
+也就是
+
+$$
+
+\boxed{
+|Q|
+\le
+B(n,\delta).
+}
+\tag{7}
+
+$$
+
+这就是 near-criticality 对 imbalance 的精确控制。
+
+顺便，(6) 还给出
+
+$$
+
+P
+\le
+n(n-1)\delta+\frac{\chi(n)}4,
+\tag{8}
+
+$$
+
+所以同一个 deficit 同时控制数值极化缺陷和 good/bad imbalance。
+
+---
+
+## 第三步：证明 $Q$ 沿成功执行单调增长
+
+记
+
+$$
+
+A_t=\sum_{M\in I_t}a_M^{(t)}
+
+$$
+
+以及
+
+$$
+
+Q_t=n_t-2A_t.
+
+$$
+
+定义幸存坐标的额外下降量
+
+$$
+
+D_t
+=
+\sum_{M\in I_{t+1}}
+\left(
+a_M^{(t)}-a_M^{(t+1)}
+\right).
+\tag{9}
+
+$$
+
+由单调性 (A1)，
+
+$$
+
+D_t\ge0.
+
+$$
+
+因为第 $t$ 步删除了块 $M_t$，其值为
+
+$$
+
+\alpha_t=a_{M_t}^{(t)},
+
+$$
+
+所以
+
+$$
+
+A_{t+1}=A_t-\alpha_t-D_t.
+\tag{10}
+
+$$
+
+又因为
+
+$$
+
+n_{t+1}=n_t-1,
+
+$$
+
+故
+
+$$
+
+\begin{aligned}
+Q_{t+1}
+&=
+n_{t+1}-2A_{t+1}\\
+&=
+n_t-1-2(A_t-\alpha_t-D_t)\\
+&=
+Q_t-1+2\alpha_t+2D_t.
+\end{aligned}
+
+$$
+
+也就是精确恒等式
+
+$$
+
+\boxed{
+Q_{t+1}-Q_t
+=
+2\alpha_t-1+2D_t.
+}
+\tag{11}
+
+$$
+
+由于 $D_t\ge0$，
+
+$$
+
+Q_{t+1}-Q_t\ge2\alpha_t-1.
+\tag{12}
+
+$$
+
+从 $s$ 到 $u$ 求和：
+
+$$
+
+Q_u-Q_s
+\ge
+\sum_{t=s}^{u-1}(2\alpha_t-1).
+\tag{13}
+
+$$
+
+另一方面，
+
+$$
+
+Q_u-Q_s
+\le |Q_u|+|Q_s|.
+
+$$
+
+结合 (7)，得到
+
+$$
+
+\sum_{t=s}^{u-1}(2\alpha_t-1)
+\le
+B(n_s,\delta_s)+B(n_u,\delta_u).
+
+$$
+
+这正是 (TS)。
+
+---
+
+## 第四步：near-good block 的时间界
+
+如果每一步
+
+$$
+
+\alpha_t\ge1-\tau,
+
+$$
+
+那么
+
+$$
+
+2\alpha_t-1\ge1-2\tau.
+
+$$
+
+由 (TS)，
+
+$$
+
+(u-s)(1-2\tau)
+\le
+B(n_s,\delta_s)+B(n_u,\delta_u).
+
+$$
+
+如果首尾 deficit 都不超过 $\varepsilon$，就得到 (TS1)。
+
+对 $s=0,u=T$，注意
+
+$$
+
+n_T=n_0-T.
+
+$$
+
+又因为
+
+$$
+
+\sqrt{x+y}\le\sqrt x+\sqrt y
+
+$$
+
+以及 $\chi(n)\le1$，有
+
+$$
+
+\begin{aligned}
+B(n,\varepsilon)
+&=
+\sqrt{4n(n-1)\varepsilon+\chi(n)}\\
+&\le
+2\sqrt\varepsilon\,n+1.
+\end{aligned}
+
+$$
+
+所以
+
+$$
+
+\begin{aligned}
+T(1-2\tau)
+&\le
+2\sqrt\varepsilon\,n_0
++
+2\sqrt\varepsilon\,n_T
++2\\
+&=
+2\sqrt\varepsilon\,(2n_0-T)+2.
+\end{aligned}
+
+$$
+
+将含 $T$ 的项移到左边：
+
+$$
+
+T(1-2\tau+2\sqrt\varepsilon)
+\le
+4\sqrt\varepsilon\,n_0+2.
+
+$$
+
+因此
+
+$$
+
+T
+\le
+\frac{4\sqrt\varepsilon\,n_0+2}
+{1-2\tau+2\sqrt\varepsilon}.
+
+$$
+
+证明完成。
+
+---
+
+# 一个更适合后续超图应用的版本
+
+其实最有用的并不是统一假设
+
+$$
+
+\alpha_t\ge1-\tau,
+
+$$
+
+而是原始的加权形式：
+
+$$
+
+\boxed{
+\sum_{t=s}^{u-1}(2\alpha_t-1)
+\le
+B(n_s,\delta_s)+B(n_u,\delta_u).
+}
+\tag{14}
+
+$$
+
+它说明：
+
+> 一条首尾都 near-critical 的 genealogy，能够累计消费的“goodness surplus”
+> $$
+
+> 2\alpha_t-1
+>
+$$
+> 总量只有 $O(\sqrt\varepsilon\,n)$。
+
+例如，把成功步分成
+
+$$
+
+\mathcal T_{\rm good}
+=
+\{t:\alpha_t\ge1-\tau\}
+
+$$
+
+和其余步，则
+
+$$
+
+(1-2\tau)|\mathcal T_{\rm good}|
++
+\sum_{t\notin\mathcal T_{\rm good}}(2\alpha_t-1)
+\le
+B(n_0,\delta_0)+B(n_T,\delta_T).
+\tag{15}
+
+$$
+
+如果非 good 步甚至满足 $\alpha_t\le\tfrac12$，它们的项不为正，不能直接由 (15) 排除；这正好揭示了后续超图论证必须处理的剩余对象：
+
+$$
+
+\boxed{
+\text{大量成功质量是否可能来自 }
+a_M\le\frac12
+\text{ 的块？}
+}
+
+$$
+
+若不能，则 temporal lemma 直接限制 near-critical 持续长度。
+
+若可以，那么这些成功发生在“多数候选被阻断、但仍选到了少数成功顶点”的块中；这类质量本身应当成为新的异常项，并可能由：
+
+$$
+
+\text{低成功比例}
+\quad+\quad
+\text{实际成功插入}
+
+$$
+
+之间的稀疏性、genealogy multiplicity 或真实边容量来控制。
+
+---
+
+# 这个界在抽象模型中基本是最优的
+
+当 $\tau=0$ 时，每一步删除一个 $a_M=1$ 的块，并令其余 profile 不发生 drift，则
+
+$$
+
+Q_{t+1}=Q_t+1.
+
+$$
+
+若初始时取
+
+$$
+
+Q_0\approx-2\sqrt\varepsilon\,n_0,
+
+$$
+
+经过约
+
+$$
+
+4\sqrt\varepsilon\,n_0
+
+$$
+
+步后达到
+
+$$
+
+Q_T\approx 2\sqrt\varepsilon\,n_0.
+
+$$
+
+在此期间 $Q_t$ 始终处于 near-critical 允许的区间内。通过近似平衡的二值 profile 可以渐近实现这一情形。
+
+所以在不加入额外超图结构的情况下，
+
+$$
+
+T\le(4+o(1))\sqrt\varepsilon\,n
+
+$$
+
+中的常数 $4$ 基本不能普遍改小。
+
+这也解释了数值实验为什么总表现为：最优 adversary 尽量从负 imbalance 开始，逐步穿过零，再在正 imbalance 边界结束；额外 drift 没有帮助，因为它在 (11) 中以
+
+$$
+
++2D_t
+
+$$
+
+出现，只会让 $Q$ 增长得更快。
+
+## 结论
+
+因此，我们提出的 temporal-stability 猜测，在抽象 profile 层面已经成为一个严格定理：
+
+$$
+
+\boxed{
+\text{连续消费 near-good blocks}
++
+\text{profile 单调性}
++
+\text{首尾 near-}\frac14
+\Longrightarrow
+T=O(\sqrt\varepsilon\,n).
+}
+
+$$
+
+而且证明完全是确定性的，也不需要罚函数或 approximate KKT。罚函数仍可能在下一层发挥作用：它要解决的不再是时间稳定性，而是如何把“来自非 good 块的成功质量”或 persistent old-anchor flow 提升成真实的超图结构稳定性。
+
+【回答内容 轮数12】
+可以，程序已经构造并实际跑完了。结果对 **temporal stability / imbalance potential** 很支持，而且也暴露了一个重要细节：**fractional profile 确实能比纯二值 profile 多撑几步，所以不能只验证 $0/1$ 模型。**
+
+核心程序在这里：
+
+[下载数值验证程序](sandbox:/mnt/data/temporal_stability_numerics.py)
+
+程序验证的是精确恒等式
+
+$$
+
+F(a)
+=
+\frac{n}{4(n-1)}
+-
+\frac{Q(a)^2/4+I(a)}{n(n-1)},
+
+$$
+
+其中
+
+$$
+
+Q(a)=n-2\sum_i a_i,\qquad
+I(a)=\sum_i a_i(1-a_i).
+
+$$
+
+随机 profile 上对这条恒等式做了数千次检查，最大数值误差为
+
+$$
+
+1.67\times 10^{-16},
+
+$$
+
+也就是机器精度。
+
+同时程序实现了动态约束
+
+$$
+
+a_i^{(t+1)}\le a_i^{(t)}
+
+$$
+
+以及每一步消费一个
+
+$$
+
+a_{M_t}^{(t)}\ge1-\tau
+
+$$
+
+的成功块。因此
+
+$$
+
+Q_{t+1}-Q_t
+\ge1-2\tau.
+
+$$
+
+在 $\tau=0$ 时就是
+
+$$
+
+Q_{t+1}\ge Q_t+1.
+
+$$
+
+由 near-critical 条件
+
+$$
+
+F_t\ge F_{\max}(n_t)-\varepsilon
+
+$$
+
+得到必要条件
+
+$$
+
+|Q_t|
+\le
+B(n_t,\varepsilon)
+:=
+\sqrt{(n_t\bmod2)+4\varepsilon n_t(n_t-1)}.
+
+$$
+
+所以任何 $T$-步 near-critical trajectory 必须满足
+
+$$
+
+\boxed{
+T
+\le
+B(n_0,\varepsilon)+B(n_0-T,\varepsilon)
+}
+\tag{TS}
+
+$$
+
+在小 $\varepsilon$、$T=o(n)$ 时就是
+
+$$
+
+T\lesssim4\sqrt\varepsilon\,n.
+
+$$
+
+---
+
+### 数值结果 1：二值模型几乎打满 $4\sqrt\varepsilon n$
+
+取
+
+$$
+
+n_0=10000.
+
+$$
+
+得到：
+
+| $\varepsilon$ | 最大二值 $T$ | $Q$-上界 | $T/(\sqrt\varepsilon n)$ |
+|---:|---:|---:|---:|
+| $10^{-5}$ | 124 | 125 | 3.921 |
+| $5\times10^{-5}$ | 277 | 278 | 3.917 |
+| $10^{-4}$ | 390 | 392 | 3.900 |
+| $5\times10^{-4}$ | 854 | 856 | 3.819 |
+| $10^{-3}$ | 1189 | 1189 | 3.760 |
+
+所以当 $\varepsilon\to0$ 时，数值明显朝
+
+$$
+
+\boxed{T_{\max}\sim4\sqrt\varepsilon\,n}
+
+$$
+
+靠近。
+
+而且程序不仅从精确 extremizer 开始，而是允许初始状态本身位于 near-critical 窗口最有利的一侧。
+
+例如 $\varepsilon=10^{-5}$ 时最优起点的 imbalance 是
+
+$$
+
+Q_0=-62,
+
+$$
+
+然后一路增长到正侧边界，总共走 124 步。
+
+这正解释了为什么常数是约 $4$，不是 $2$。
+
+---
+
+### 如果从真正的极值点开始，常数约为 2
+
+同一个 $n_0=10000$，强制初始
+
+$$
+
+Q_0=0
+
+$$
+
+时：
+
+| $\varepsilon$ | $T$ | $T/(\sqrt\varepsilon n)$ |
+|---:|---:|---:|
+| $10^{-5}$ | 62 | 1.961 |
+| $10^{-4}$ | 196 | 1.960 |
+| $10^{-3}$ | 594 | 1.878 |
+
+所以更精确地说：
+
+$$
+
+\boxed{
+T\sim2\sqrt\varepsilon\,n
+}
+
+$$
+
+描述“从 exact balanced extremizer 出发”的寿命；
+
+而
+
+$$
+
+\boxed{
+T\sim4\sqrt\varepsilon\,n
+}
+
+$$
+
+描述“允许初始状态在整个 $\varepsilon$-near-extremal window 中任选”的最大寿命。
+
+这个区别以后写稳定性引理时很重要。
+
+完整数据：
+
+[下载 binary sweep CSV](sandbox:/mnt/data/temporal_stability_run/temporal_binary_sweep.csv)
+
+[查看 survival scaling 图](sandbox:/mnt/data/temporal_stability_run/temporal_survival_scaling.png)
+
+---
+
+## 数值结果 2：fractional profile 确实能延寿
+
+这是我觉得非常值得记录的一点。
+
+我做了一个**精确离散动态规划**，允许
+
+$$
+
+a_i\in\{0,0.25,0.5,0.75,1\},
+
+$$
+
+并且在每一步之后允许所有幸存坐标任意单调下降。
+
+取
+
+$$
+
+n_0=10,\qquad\varepsilon=0.01.
+
+$$
+
+纯二值 profile 最多只能保持
+
+$$
+
+T=1.
+
+$$
+
+但允许 fractional profile 后，程序找到
+
+$$
+
+\boxed{T=2}.
+
+$$
+
+一个最优初始 profile 是
+
+$$
+
+(0,0,0,0,0.5,1,1,1,1,1).
+
+$$
+
+也就是说，中间的 $1/2$ 坐标确实起到了 parity / balance buffer 的作用。
+
+结果如下：
+
+| $\varepsilon$ | binary $T$ | grid-continuous $T$ | $Q$-upper |
+|---:|---:|---:|---:|
+| .005 | 1 | 1 | 2 |
+| .010 | 1 | **2** | 3 |
+| .020 | 3 | 3 | 4 |
+
+因此一个只研究
+
+$$
+
+a_i\in\{0,1\}
+
+$$
+
+的证明可能会漏掉真实 near-extremizer。
+
+这也进一步说明我们之前定义的 impurity penalty
+
+$$
+
+I(a)=\sum_i a_i(1-a_i)
+
+$$
+
+是必要的，而不是装饰项。
+
+[下载离散对抗搜索结果](sandbox:/mnt/data/temporal_stability_run/temporal_grid_attack.csv)
+
+---
+
+## 数值结果 3：真正连续的对抗优化也支持 $Q$-势函数
+
+我又做了一层更强的攻击。
+
+这里不再把 $a_i$ 限制在有限网格，而是让
+
+$$
+
+a_i^{(t)}\in[0,1]
+
+$$
+
+连续变化。
+
+对固定 $T$，程序让 SLSQP 对抗性地选择整个 trajectory
+
+$$
+
+a^{(0)},a^{(1)},\ldots,a^{(T)}
+
+$$
+
+满足：
+
+$$
+
+a_i^{(t+1)}\le a_i^{(t)},
+
+$$
+
+并且每一步被消费的坐标为 1，然后**最大化所有时间层中最差的 near-critical margin**。
+
+换言之，它直接数值求：
+
+> 想撑 $T$ 步，最少需要允许多大的 $\varepsilon$？
+
+对
+
+$$
+
+n_0=20
+
+$$
+
+结果为：
+
+| $T$ | 找到的最小所需 $\varepsilon$ |
+|---:|---:|
+| 1 | 0 |
+| 2 | 0.001458 |
+| 3 | 0.001938 |
+| 4 | 0.003636 |
+| 5 | 0.005755 |
+| 6 | **0.008897** |
+| 7 | **0.011688** |
+
+所以在
+
+$$
+
+\varepsilon=0.01
+
+$$
+
+时，连续优化器找到了
+
+$$
+
+T=6
+
+$$
+
+的 trajectory，但 $T=7$ 至少在这次全连续对抗搜索中需要约
+
+$$
+
+0.01169>0.01.
+
+$$
+
+而我们从 $Q$-势函数得到的必要上界恰好也是
+
+$$
+
+\boxed{T\le6}.
+
+$$
+
+也就是说，在这个参数上：
+
+$$
+
+\boxed{
+T_{\rm continuous}=6=T_{Q\text{-bound}}.
+}
+
+$$
+
+这非常鼓舞人。
+
+当然要严谨区分：
+
+- $Q$-bound 是解析的必要条件；
+- SLSQP 是非凸数值优化，它找到可行轨道能证明“至少可以做到这么好”；
+- SLSQP 没找到更好轨道本身不能证明不存在。
+
+但是这里上下界恰好接上，所以在 $n_0=20,\varepsilon=.01$ 这个实验上，我们已经数值确定了最优寿命为 6。
+
+[下载连续对抗优化结果](sandbox:/mnt/data/temporal_stability_run/temporal_continuous_attack.csv)
+
+[查看连续攻击图](sandbox:/mnt/data/temporal_stability_run/continuous_required_epsilon.png)
+
+---
+
+## 这对证明方向意味着什么
+
+目前数值证据相当明确地支持：
+
+$$
+
+\boxed{
+\text{long near-critical run}
+\quad\Rightarrow\quad
+T=O(\sqrt\varepsilon\,n).
+}
+
+$$
+
+而且这个结论似乎不需要 star-center concentration。
+
+更准确地说，真正基础的稳定量应当是
+
+$$
+
+Q_t=n_t-2A_t,
+\qquad
+A_t=\sum_Na_N^{(t)}.
+
+$$
+
+因为每次成功消费都有
+
+$$
+
+Q_{t+1}-Q_t
+=
+-1+2a_{M_t}^{(t)}+2D_t,
+
+$$
+
+其中
+
+$$
+
+D_t
+=
+\sum_{N\ne M_t}
+\left(a_N^{(t)}-a_N^{(t+1)}\right)
+\ge0.
+
+$$
+
+因此若成功块属于 good phase，
+
+$$
+
+a_{M_t}^{(t)}\ge1-\tau,
+
+$$
+
+则
+
+$$
+
+\boxed{
+Q_{t+1}-Q_t
+\ge1-2\tau+2D_t.
+}
+\tag{28}
+
+$$
+
+注意这里 **drift 不是帮助 near-criticality，而是让 $Q$ 更快向一个方向跑掉**。
+
+所以之前那个直觉可以加强成：
+
+> regeneration/drift 越多，数值 $1/4$-稳定反而耗散得越快。
+
+这和一般“需要控制 drift”稍有不同。真正需要补偿的不是把 bad block 变 good——这在单调性下做不到——而可能是**终止当前 genealogy、reroot/switch 到另一个 profile，使新的 $Q$ 被重新置中**。
+
+这一下就把 temporal stability 与现有 switch/reroot machinery 接起来了：
+
+$$
+
+\boxed{
+\begin{array}{c}
+\text{一条 genealogy 内不能长期 near-critical}\\[1mm]
+\Downarrow\\
+\text{若总 old-anchor mass 长期 near-critical}\\[1mm]
+\Downarrow\\
+\text{质量必须频繁地跨 genealogy reroot / switch，}\\
+\text{或者集中在少数短-lived persistent kernels 上。}
+\end{array}}
+
+$$
+
+我认为这比原先的“星心集中”更有希望成为真正的证明入口。
+
+下一层数值程序最值得加入的就是**真实 blocker edge 与 genealogy reset**：给每次 `switch/reroot` 一个新 profile $Q$，同时给 $\{r,u,x\}$ regeneration 真实边全局容量，然后最大化在 $\Delta(H)<(1/4-\delta)b^2$ 下能够维持的总 near-critical mass。这样就会从当前的纯 profile stability，正式进入 Q-0015 所需要的 global old-anchor mass control。
+
+【回答内容 轮数12】
+有，而且我认为这条路线值得认真发展。看完你上传的 TeX 后，我觉得可以非常明确地说：**你在平面图圈数稳定性里使用的“罚函数 → 近似 KKT → 近等号追踪 → 加权结构稳定 → 抬回原组合对象”的机制，在这里有高度类似的版本。**
+
+不过我同时发现了一个需要先纠正的重要点：**我们刚才仅从 $a_M$ 得到的“数值稳定性”，在块数趋于无穷时其实没有我前面说得那么强。** 这反而说明为什么你文章里的罚函数思路可能正是需要的工具。
+
+### 1. 你文章中的真正机制是什么
+
+你文中不是简单地说“目标值接近极值，所以权重接近极值点”。你做了更精细的四步。
+
+首先，Cox–Martin 把原来的平面图计数问题约化成一个总质量为 $1$ 的加权图优化问题；他们的方法的核心用途正是把平面图子图计数转化为有限加权图上的优化。turn655176academia44
+
+然后 Lv–Győri–He–Salia–Tompkins–Zhu 证明了那个加权问题的 sharp inequality，而且刻画了等号：$C_k$ 加权计数的最大值是 $1/k^k$，等号仅当全部正权恰好支撑在一个 $k$-圈上、各边权均为 $1/k$。他们的证明本身使用了正权边的一阶最优性，以及逐步 path decomposition + AM–GM。turn677126view1
+
+你随后没有假设原来的 near-maximizer 已经满足一阶条件，而是对
+
+$$
+
+\varepsilon=\frac1{k^k}-\beta(w,C_k)
+
+$$
+
+取
+
+$$
+
+\lambda=\sqrt{\varepsilon},
+
+$$
+
+最大化
+
+$$
+
+\Phi(z)
+=
+\beta(z,C_k)-\lambda\|z-w\|_1.
+
+$$
+
+于是得到一个 $\widetilde w$，满足
+
+$$
+
+\|\widetilde w-w\|_1\le\sqrt{\varepsilon},
+\qquad
+\beta(\widetilde w,C_k)\ge\beta(w,C_k),
+
+$$
+
+并且正权坐标之间满足近似 KKT：
+
+$$
+
+\partial_f\beta(\widetilde w)
+\le
+\partial_e\beta(\widetilde w)
++
+2\sqrt{\varepsilon}.
+
+$$
+
+接下来真正产生结构的是你的 **near-critical equality tracing**：把这个近似一阶最优性代回 Lv 等人的 extremal proof，逐层迫使最大边权接近 $1/k$、AM–GM 接近等号、固定端点 path bound 接近等号，最后整个权重几乎都落到一条均匀 $k$-圈上。
+
+也就是说：
+
+$$
+
+\boxed{
+\text{罚函数本身不产生结构；
+它产生“可以追踪等号”的近临界代表。}
+}
+
+$$
+
+最后你定义了类似
+
+$$
+
+\Delta_k(H,w)
+
+$$
+
+的“距 extremal template 的距离”，再用反证得到 uniform gap：
+
+$$
+
+\Delta_k(H,w)\ge\rho
+\quad\Longrightarrow\quad
+\beta(w,C_k)\le\frac1{k^k}-\gamma(\rho).
+
+$$
+
+这才是完整的 stability theorem。之后再通过 Cox–Martin reduction 把 $\ell_1$ 权重稳定性抬回实际平面图中的 cyclic core $u_1,\dots,u_k$ 与 $A_i$ 类。这个“先 fractional/weighted stability，再恢复组合结构”的总体哲学也与一般 extremal stability 方法一致；Pikhurko 从 graph-limit/edit-distance 角度给过一种系统的解析表述。turn553817academia27
+
+---
+
+## 2. 先纠正我们这里的一个尺度问题
+
+前面我们定义
+
+$$
+
+F_n(a)
+=
+\frac1{n(n-1)}
+\sum_{M\ne N}a_M(1-a_N),
+\qquad
+0\le a_M\le1.
+
+$$
+
+我之前根据
+
+$$
+
+\frac{n}{4(n-1)}-F_n(a)
+=
+\frac n{n-1}\left(\bar a-\frac12\right)^2
++
+\frac1{n(n-1)}
+\sum_Ma_M(1-a_M)
+\tag{1}
+
+$$
+
+说 near-$1/4$ 会迫使 $a_M$ 极化到 $0/1$。
+
+**如果 $n$ 也趋于无穷，这个推断是不成立的。**
+
+最简单的反例就是
+
+$$
+
+a_1=\cdots=a_n=\frac12.
+
+$$
+
+此时
+
+$$
+
+F_n(a)=\frac14
+
+$$
+
+完全精确；然而它离任何 $0/1$ 极化向量都非常远。
+
+另一方面，真正的有限 $n$ 最大值是
+
+$$
+
+F_n^\star
+=
+\frac{\lfloor n^2/4\rfloor}{n(n-1)}
+=
+\frac14+\Theta\!\left(\frac1n\right),
+
+$$
+
+由近乎一半 $0$、一半 $1$ 的向量取得。
+
+所以 uniform-$1/2$ profile 与真正 polarized optimizer 之间只有
+
+$$
+
+\Theta(1/n)
+
+$$
+
+的目标函数差距，却有常数量级的归一化 $\ell_1$ 距离。
+
+因此不存在维数无关的结论
+
+$$
+
+F_n(a)\ge\frac14-o(1)
+\quad\Longrightarrow\quad
+a\text{ 接近 }0/1\text{ 极化}.
+\tag{2}
+
+$$
+
+只有更精细到
+
+$$
+
+F_n^\star-F_n(a)=o(1/n)
+
+$$
+
+时，(1) 才会强迫
+
+$$
+
+\frac1n\sum_Ma_M(1-a_M)=o(1).
+
+$$
+
+这点非常重要，因为我们的最终 theorem 本身正是
+
+$$
+
+\Delta(H)
+<
+\left(\frac14-o(1)\right)b^2
+
+$$
+
+这种 $O(1)$ 尺度的 $1/4$ 阈值。
+
+所以，**单纯对 $a_M$ 做你文章里的罚函数是不够的。**
+
+这也解释了为什么必须把真实超图结构放进优化空间。
+
+---
+
+# 3. 我认为正确的类比不是只优化 $a_M$，而是优化一个“block–anchor profile”
+
+这是我目前最看好的版本。
+
+固定一个 root $R$。不要只记录
+
+$$
+
+a_M=\frac{|G_M(R)|}{b}.
+
+$$
+
+还要记录每个 blocked vertex $x$ 的 old-anchor witness。
+
+例如令
+
+$$
+
+q_{x,p}\ge0,
+\qquad
+p\in\binom R2,
+
+$$
+
+表示 $x$ 的 blocker 质量有多少放在真实边
+
+$$
+
+p\cup\{x\}\in E(H)
+
+$$
+
+上。
+
+如果 $x$ 被阻断，则
+
+$$
+
+\sum_{p\in\binom R2}q_{x,p}=1
+
+$$
+
+（或者等于相应 normalized mass）；如果 $x$ 成功，则为 $0$。
+
+与此同时还记录：
+
+- genealogy demand；
+- real-edge 剩余容量；
+- star-release 后产生的 $r$-dependent regenerated edges；
+- switchable mass；
+- 必要的话还有 root/slot ledger。
+
+这样得到一个加权 profile
+
+$$
+
+z=(s,q,h,\ldots)
+
+$$
+
+落在某个有限维紧致 polytope $\mathcal P_R$ 中。
+
+实际超图给我们其中一个整数点 $z^0$。
+
+这和你文里的 weighted graph $w$ 很像：
+
+$$
+
+\text{实际组合对象}
+\longrightarrow
+\text{一个 fractional weighted object}.
+
+$$
+
+Cox–Martin reduction 正是这种“先抽出有限 weighted skeleton”的典型例子。
+
+---
+
+# 4. 更关键的是：目标函数不应是 raw old-anchor mass，而应是“未支付 obstruction”
+
+这是我认为最可能成功的改动。
+
+定义
+
+$$
+
+D_R(z)
+=
+\text{old-anchor total demand}.
+
+$$
+
+然后在真实边、regenerated edges、合法 switch 等容量上做一个最大流：
+
+$$
+
+\operatorname{Pay}_R(z)
+=
+\text{最大可合法支付的 old-anchor mass}.
+
+$$
+
+于是定义真正的坏量
+
+$$
+
+\boxed{
+\mathcal U_R(z)
+=
+D_R(z)-\operatorname{Pay}_R(z).
+}
+\tag{3}
+
+$$
+
+也就是 **unpaid old-anchor obstruction**。
+
+这和现在 Q-0015 真正需要控制的东西比 raw $E_{\rm old}$ 更贴切，因为项目本身要求 E-exit 要么 negligible、要么由正确 ledger 支付、要么输出 structural cut，而不是简单要求所有 E-exit 自己很小。
+
+而这里还有一个漂亮之处：
+
+$$
+
+\operatorname{Pay}_R(z)
+
+$$
+
+是一个有限 flow/LP 的值。
+
+因此它同时有 primal 与 dual 描述：
+
+$$
+
+\operatorname{Pay}
+=
+\operatorname{maxflow}
+=
+\operatorname{mincut}.
+
+$$
+
+换言之，你平面图文章里的一阶导数
+
+$$
+
+\partial_e\beta
+
+$$
+
+在这里很可能应该由 **Hall-cut dual price** 来替代。
+
+这让我觉得罚函数路线尤其自然。
+
+---
+
+# 5. 可以几乎逐字仿照你的 penalized representative lemma
+
+假设我们最终找到一个 sharp upper bound
+
+$$
+
+\mathcal U_R(z)\le U_\star
+
+$$
+
+或一个相应 normalized obstruction functional $\mathcal J_R$。
+
+给定实际 profile $z^0$，令
+
+$$
+
+\varepsilon
+=
+U_\star-\mathcal U_R(z^0).
+
+$$
+
+取
+
+$$
+
+\lambda=\sqrt{\varepsilon}
+
+$$
+
+并最大化
+
+$$
+
+\boxed{
+\Phi(z)
+=
+\mathcal U_R(z)
+-
+\lambda\|z-z^0\|_1,
+\qquad
+z\in\mathcal P_R.
+}
+\tag{4}
+
+$$
+
+设最大点为 $\widetilde z$。
+
+和你文里完全一样，只利用
+
+$$
+
+\Phi(\widetilde z)\ge\Phi(z^0)
+
+$$
+
+以及
+
+$$
+
+\mathcal U_R(\widetilde z)\le U_\star
+
+$$
+
+就得到
+
+$$
+
+\boxed{
+\|\widetilde z-z^0\|_1
+\le\sqrt{\varepsilon},
+\qquad
+\mathcal U_R(\widetilde z)
+\ge
+\mathcal U_R(z^0).
+}
+\tag{5}
+
+$$
+
+然后对任何允许的局部质量转移 $d$，最大性给出
+
+$$
+
+D^+\mathcal U_R(\widetilde z;d)
+\le
+2\sqrt{\varepsilon}\,\|d\|_1.
+\tag{6}
+
+$$
+
+如果局部可微，这就是你文章里的
+
+$$
+
+\partial_f\beta
+\le
+\partial_e\beta+2\sqrt\varepsilon.
+
+$$
+
+如果因为 max-flow 导致不可微，也没有本质障碍：固定一个 active min-cut 后，它提供一个 subgradient / dual price。
+
+于是 (6) 会变成类似：
+
+$$
+
+\boxed{
+\text{所有真正承载 near-extremal obstruction 的坐标，
+其 Hall dual marginal prices 必须几乎相等。}
+}
+\tag{7}
+
+$$
+
+这就是超图版 approximate KKT。
+
+---
+
+# 6. 然后可以仿照你的 “near-critical equality tracing”
+
+这是整条路线最重要、也是最难的新 lemma。
+
+你文章里有：
+
+$$
+
+\text{approximate KKT}
++
+\beta\to1/k^k
+\Longrightarrow
+\Delta_k\to0.
+
+$$
+
+我们想要的是
+
+$$
+
+\boxed{
+\text{approximate Hall-KKT}
++
+\mathcal U_R\to U_\star
+\Longrightarrow
+\Delta_{\rm struct}(z)\to0.
+}
+\tag{8}
+
+$$
+
+但这里的 $\Delta_{\rm struct}$ 不能只是 $a_M$ 到 $0/1$ 的距离。
+
+它必须衡量真正的 old-anchor 几何结构。
+
+我建议它至少包含三类 defect。
+
+第一类是 block mixing：
+
+$$
+
+\operatorname{Mix}(z)
+=
+\frac1n\sum_Ma_M(1-a_M).
+\tag{9}
+
+$$
+
+第二类是 blocker incoherence。例如对 $x$ 的 link
+
+$$
+
+L_x(R)
+=
+\{uv:\{u,v,x\}\in E(H),\,u,v\in R\},
+
+$$
+
+可以定义其到 star 的距离
+
+$$
+
+\sigma_R(x)
+=
+1-
+\max_{v\in R}
+\frac{\text{blocker mass incident with }v}
+{\text{total blocker mass of }x}.
+\tag{10}
+
+$$
+
+$\sigma_R(x)=0$ 就表示所有 old blockers 共用一个 anchor。
+
+第三类是跨 $x$、跨 block 的 center/kernel 不一致：
+
+$$
+
+\operatorname{Inc}(z)
+=
+\text{阻断质量到一个共同有限 anchor kernel 的距离}.
+\tag{11}
+
+$$
+
+于是更合理的结构距离是
+
+$$
+
+\Delta_{\rm struct}
+=
+\inf_{T\in\mathfrak T}
+d(z,T),
+\tag{12}
+
+$$
+
+其中模板族 $\mathfrak T$ 可能不是单个 extremizer，而是几个 branch 的并：
+
+$$
+
+\mathfrak T
+=
+\mathfrak T_{\rm coherent\ star}
+\cup
+\mathfrak T_{\rm persistent\ kernel}.
+
+$$
+
+这点和你的平面图问题略有不同：那里 sharp optimizer 只有“一条均匀 $k$-圈”这一种模型；这里很可能首先得到一个**有限结构二分/三分**，然后再在下一层消掉其中部分分支。
+
+---
+
+# 7. star-regeneration 恰好可以扮演你文中 path-stability 的角色
+
+这是我尤其看好的对应关系。
+
+你文章里，near-KKT 首先迫使最大边的 derivative 接近临界值；然后 Lv 等人的 greedy path decomposition 把它写成一串乘积/路径计数；每一步如果离等号有固定距离，就损失固定量。最后所有环节近等号，得到一条几乎承载全部质量的 path，再加最大边形成一个 $C_k$。
+
+这里我们现在已经有一个类似的“局部 equality tracing mechanism”：
+
+对于固定 $R,M,x$，若 old link $L_x(R)$ 是 star，释放中心 $z$ 后，每个成功 $r$ 要么
+
+1. 成为真正可 switch 的方向；
+2. 要么产生不同的
+   $$
+
+   h_r=\{r,u_r,x\}
+
+$$
+   regenerated real edge。
+
+因此一个 genealogy amplification
+
+$$
+
+g_M(R)
+
+$$
+
+不能无条件继续压在同一旧边上。
+
+这非常像你的 path-stability 中：
+
+> 如果某一步仍保持 near equality，那么质量不能散到很多分支；否则那一步 inequality 会产生固定损失。
+
+这里相应的说法应当是：
+
+> 如果一个 star fiber 仍贡献 near-maximal **unpaid** obstruction，那么它不能产生大量 regeneration，也不能存在大量合法 switch；因此几乎所有 active mass 必须锁死在同一个 Hall bottleneck 上。
+
+而 non-star 情形已经直接给 persistent two-anchor kernel。
+
+所以 equality tracing 的终点很可能是：
+
+$$
+
+\boxed{
+\text{near-maximal unpaid mass}
+\Longrightarrow
+\text{大部分质量集中在一个 coherent persistent anchor kernel}.
+}
+\tag{13}
+
+$$
+
+这就是我们想要的“从数值回到超图结构”。
+
+---
+
+# 8. 这里甚至可能有一个比 variational penalty 更直接的“组合罚项”
+
+还有第二种“罚函数”意义，我觉得也非常值得尝试。
+
+前面的尺度反例告诉我们：raw
+
+$$
+
+F_n(a)
+
+$$
+
+对 mixed vector 的惩罚只有 $1/n$ 量级。
+
+如果我们能从真实超图中证明一个增强不等式
+
+$$
+
+\boxed{
+F_n(a)
++
+c\,\frac1n\sum_Ma_M(1-a_M)
+\le
+\frac14
++
+\operatorname{Payable}
++
+\operatorname{Kernel}
++
+o(1),
+}
+\tag{14}
+
+$$
+
+其中 $c>0$ 与 $n$ 无关，那就非常强。
+
+因为如果 payable 与 kernel 都很小，而
+
+$$
+
+F_n(a)=\frac14-o(1),
+
+$$
+
+马上推出
+
+$$
+
+\frac1n\sum_Ma_M(1-a_M)=o(1),
+
+$$
+
+于是得到真正维数无关的 $0/1$ 极化。
+
+所以这个
+
+$$
+
+\boxed{
+P_{\rm mix}(a)
+=
+\frac1n\sum_Ma_M(1-a_M)
+}
+\tag{15}
+
+$$
+
+就是一个非常自然的 **stability penalty**。
+
+关键是：它不能凭空加进去。
+
+必须证明每一份 mixing mass
+
+$$
+
+a_M(1-a_M)
+
+$$
+
+都对应真实的：
+
+- regenerated real-edge capacity，
+- switch opportunity，
+- 或 persistent old-anchor kernel。
+
+如果能做到，那么 (14) 就是一个“supersaturation/stability 型”的强化 inequality：离模板越远，就必须付一个正的目标函数代价。一般极值组合中 stability 的核心也正是“远离 extremal template 会产生 uniform gap”；经典 Erdős–Simonovits stability 以及后来的 analytic/edit-distance 版本都是这个哲学。turn553817academia22
+
+---
+
+# 9. 我尤其想尝试证明这个具体 lemma
+
+如果现在要选一个下一步，我不会先构造完整 $\Delta_{\rm struct}$。我会先尝试最小版本：
+
+> **Mixed-block penalty lemma（候选）**
+> 对一个 reachable root $R$，设
+> $$
+
+> a_M=g_M(R)/b.
+>
+$$
+> 则存在绝对常数 $c>0$，使
+> $$
+
+> c\,b^2\sum_M a_M(1-a_M)
+>
+$$
+> 的大部分可以一对一或有界拥塞地映到以下三者之一：
+> 1. 新的 $r$-dependent real edges；
+> 2. 可执行 switch/reroot 质量；
+> 3. 一个可复算的 persistent old-anchor kernel。
+>
+> 因而若前两者可由现有 ledger 支付，而第三者又没有宏观质量，则
+> $$
+
+> \frac1n\sum_Ma_M(1-a_M)=o(1).
+>
+$$
+
+如果这个 lemma 成立，我们就第一次真正解决了刚才的尺度缺陷。
+
+然后才把 near-$1/4$ 数值结果转成
+
+$$
+
+a_M\approx0\text{ or }1
+
+$$
+
+对绝大多数 $M$ 成立。
+
+之后再做第二层 penalty，控制这些 $0$-blocks 的 blocker links 是否拥有共同 star center / bounded kernel。
+
+---
+
+## 10. 所以我对这条路线的判断
+
+**是有很强可能性的，而且你文章里的技术框架比单纯引用一般“稳定性定理”更加贴合这里。**
+
+但我会做一个重要区分：
+
+$$
+
+\boxed{
+\text{不能对目前的 }a_M\text{ 向量直接复制罚函数证明。}
+}
+
+$$
+
+原因正是
+
+$$
+
+(1/2,\ldots,1/2)
+
+$$
+
+已经给出 $1/4$，却与 polarized structure 相距常数；也就是说 raw numerical relaxation 本身在我们需要的尺度上缺乏 uniform stability。
+
+真正可行的版本应当是：
+
+$$
+
+\boxed{
+\begin{array}{c}
+\text{actual hypergraph}\\
+\downarrow\\
+\text{enriched block--anchor weighted profile }z\\
+\downarrow\\
+\mathcal U(z)=
+\text{old demand}-\text{optimal legitimate payment}\\
+\downarrow\\
+\Phi(z)=\mathcal U(z)-\sqrt\varepsilon\|z-z^0\|_1\\
+\downarrow\\
+\text{approximate Hall/KKT dual-price equality}\\
+\downarrow\\
+\text{star regeneration / non-star kernel equality tracing}\\
+\downarrow\\
+\Delta_{\rm struct}(z)=o(1)\\
+\downarrow\\
+\text{actual coherent hypergraph obstruction}.
+\end{array}}
+
+$$
+
+这和你文章中的
+
+$$
+
+G\to(H,w)\to
+\Phi(w)\to
+\text{approx-KKT}\to
+\text{near-critical tracing}\to
+\Delta_k\to
+\text{cyclic core}
+
+$$
+
+在逻辑上几乎是一一对应的。
+
+而且这里还有一个额外优势：**你文章中的 KKT multiplier 是普通导数；我们这里最自然的 multiplier 很可能正是 Hall/max-flow 的 dual cut price。** 这会把目前已经存在的 finite Hall/cut machinery 和 stability 方法非常自然地接起来，而不是另起一套技术。当前仓库也明确已有 finite Hall/cut certificates，而缺失的恰好是“总质量可支付或形成结构 cut”的 theorem。
+
+如果沿这个方向继续，我认为下一步最值得做的是直接尝试证明上面的 **mixed-block penalty lemma**：看看 $a_M(1-a_M)$ 是否能通过 star-regeneration/non-star-kernel 得到一个**常数系数**的真实组合罚项。这个成败会很快告诉我们，罚函数路线能否真正跨过目前 $1/n$ 的稳定性尺度障碍。
+
+【回答内容 轮数12】
+继续。沿着刚才那个乘法因子往下推，我认为已经能得到一个比“直接用真实边 Hall 收费”更有用的局部控制。关键是**改变下一块的选择原则，而不是试图给每个 old-anchor 副本单独收费**。
+
+当前框架明确规定：每个候选顶点继承父记录的完整质量，所以成功插入 $r$ 后，同一个旧 blocker 确实会被每个成功后继复制；这就是 $g_M(R)$ 因子的来源。turn287363view3
+
+设 $R$ 是一个实际可达的独立 root，质量为 $w=w(R)$。对每个尚未处理的块 $B$，定义
+
+$$
+
+s_B(R):=\bigl|\{v\in B:R\cup\{v\}\text{ independent}\}\bigr|,
+
+$$
+
+也就是从 $R$ 对块 $B$ 的**直接成功数**。于是阻断数是
+
+$$
+
+d_B(R)=b-s_B(R).
+
+$$
+
+现在不要任意选择下一块，而取
+
+$$
+
+M\in\arg\min_B s_B(R),
+
+$$
+
+即选择当前**最受约束的块**。记
+
+$$
+
+g:=s_M(R).
+
+$$
+
+从 $M$ 成功插入某个 $r$ 后，不管搜索规则下一步选择哪个仍未使用的块 $N_r$，都有
+
+$$
+
+s_{N_r}(R)\ge g,
+
+$$
+
+因此
+
+$$
+
+d_{N_r}(R)\le b-g.
+
+$$
+
+而一个第二步尝试 $x\in N_r$ 是 `external-old-anchor`，恰好意味着它在插入 $r$ **以前就已经被 $R$ 阻断**。所以固定这个 $r$，old-anchor 个数就是 $d_{N_r}(R)$。对所有 $g$ 个成功的 $r$ 求和，得到
+
+$$
+
+\boxed{
+E_{\rm old}(R)
+=
+w\sum_{r\in S_M(R)}d_{N_r}(R)
+\le
+w\,g(b-g).
+}
+\tag{1}
+
+$$
+
+这是第一个真正有内容的定量控制。
+
+特别地，
+
+$$
+
+\boxed{
+E_{\rm old}(R)\le \frac{b^2}{4}w.
+}
+\tag{2}
+
+$$
+
+但我认为 (2) 本身不是最重要的；最重要的是 (1) 的形式，因为它允许把 old-anchor 损失**从 additive error 改写成 branching deficit**。
+
+---
+
+更关键的一步如下。
+
+从 $R$ 到 $M$ 有 $g$ 个成功子节点，每个子节点下一块有 $b$ 次尝试，所以第二步总尝试质量是
+
+$$
+
+bgw.
+
+$$
+
+扣掉 old-anchor 后，由 (1)
+
+$$
+
+bgw-E_{\rm old}(R)
+\ge
+bgw-g(b-g)w
+=
+g^2w.
+
+$$
+
+因此
+
+$$
+
+\boxed{
+\text{去掉全部 old-anchor 后，仍至少留下 }g^2w
+\text{ 的质量。}
+}
+\tag{3}
+
+$$
+
+而且这剩下的失败已经不再是 `no-configuration`。
+
+原因非常干净。设剩余尝试是 $x$，那么
+
+$$
+
+R+x\quad\text{independent},
+
+$$
+
+同时我们已知
+
+$$
+
+R+r\quad\text{independent}.
+
+$$
+
+如果 $R+r+x$ 失败，其中任意 blocker $e$：
+
+- 不能不含 $r$，否则 $e\subseteq R+x$；
+- 不能不含 $x$，否则 $e\subseteq R+r$。
+
+所以必然
+
+$$
+
+e=\{p,r,x\}
+\qquad(p\in R).
+
+$$
+
+释放 $r$ 后正好回到独立的 $R+x$。因此这是一个合法的真实 root configuration，而不是 external-old-anchor。
+
+也就是说我们实际上得到一个很漂亮的二分：
+
+$$
+
+\boxed{
+\text{第二步失败}
+=
+\text{persistent old blocker}
+\;\sqcup\;
+\text{真正的 } \{p,r,x\}\text{ fresh/configurable failure}.
+}
+\tag{4}
+
+$$
+
+这与当前配置定义完全吻合：合法根配置要求第一阻断边为 $\{p,r,x\}$，并且释放 $r$ 后的 $R+x$ 独立。
+
+---
+
+### 这对总质量有什么帮助？
+
+设一层有 root family $\mathcal R$，并且暂时只统计这些 root 的直接成功后继。记
+
+$$
+
+A^{\rm dir}_{k-1}
+=
+\sum_{R\in\mathcal R}w_Rg_R.
+
+$$
+
+由 (1)，
+
+$$
+
+E^{\rm old}_k
+\le
+\sum_R w_R g_R(b-g_R).
+
+$$
+
+因此
+
+$$
+
+bA^{\rm dir}_{k-1}-E^{\rm old}_k
+\ge
+\sum_Rw_Rg_R^2.
+\tag{5}
+
+$$
+
+再用加权 Cauchy，
+
+$$
+
+\sum_Rw_Rg_R^2
+\ge
+\frac{
+\left(\sum_Rw_Rg_R\right)^2
+}{
+\sum_Rw_R
+}.
+
+$$
+
+于是
+
+$$
+
+\boxed{
+bA^{\rm dir}_{k-1}-E^{\rm old}_k
+\ge
+\frac{(A^{\rm dir}_{k-1})^2}{A_{k-2}}.
+}
+\tag{6}
+
+$$
+
+这说明 external-old-anchor **不应该再被记成一个完全独立的 $E_k$**。它可以直接折进 branching term。
+
+换句话说，我们不应写成
+
+$$
+
+A_k\ge bA_{k-1}-\mathcal B_k-E^{\rm old}_k,
+
+$$
+
+然后单独痛苦地证明 $E^{\rm old}_k=o(b^2A_{k-2})$。
+
+更自然的是把前两项合并成
+
+$$
+
+bA_{k-1}-E^{\rm old}_k
+
+$$
+
+并用平方势
+
+$$
+
+\sum_Rw_Rg_R^2
+
+$$
+
+控制。
+
+这已经消除了先前最麻烦的那个“同一旧边被 $g$ 个 genealogy 重复收费”的问题：**我们根本不再把这 $g$ 份质量收费到那条旧边上。**
+
+---
+
+还有一个非常有意思的临界稳定性。
+
+由于
+
+$$
+
+g(b-g)\le\frac{b^2}{4},
+
+$$
+
+如果 old-anchor 真正接近最坏值，例如
+
+$$
+
+E_{\rm old}(R)
+\ge
+\left(\frac14-\delta\right)b^2w,
+
+$$
+
+那么必有
+
+$$
+
+g(b-g)
+\ge
+\left(\frac14-\delta\right)b^2.
+
+$$
+
+所以
+
+$$
+
+\left(\frac gb-\frac12\right)^2\le\delta,
+
+$$
+
+即
+
+$$
+
+\boxed{
+\left|g-\frac b2\right|
+\le
+\sqrt\delta\,b.
+}
+\tag{7}
+
+$$
+
+换句话说：
+
+> **大量 external-old-anchor 质量只能发生在一个近乎 $b/2$-$b/2$ 的临界 splitter 上。**
+
+而且还可以更强。因为
+
+$$
+
+g(b-g)w-E_{\rm old}(R)
+=
+w\sum_{r\in S_M(R)}
+\bigl(s_{N_r}(R)-g\bigr),
+\tag{8}
+
+$$
+
+如果 old-anchor 接近上界，那么不仅
+
+$$
+
+g\approx b/2,
+
+$$
+
+而且平均来说
+
+$$
+
+s_{N_r}(R)\approx g\approx b/2.
+
+$$
+
+所以 near-extremal old-anchor 不是任意混乱，而会自动产生：
+
+$$
+
+\boxed{
+\text{当前块成功数 }\approx b/2,
+\qquad
+\text{后继块成功数 }\approx b/2.
+}
+\tag{9}
+
+$$
+
+这和我们一直想找的“临界 splitter 正常形”非常接近。
+
+---
+
+现在把度数阈值放进来。
+
+假设
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2.
+
+$$
+
+去掉 old-anchor 后至少剩下 $g^2w$ 的 success/configurable 质量。如果配置预算理想地能把其中 fresh failures 用至多
+
+$$
+
+\Delta(H)w
+
+$$
+
+吸收，那么真正留下来的稳定质量至少是
+
+$$
+
+\boxed{
+\bigl(g^2-\Delta(H)\bigr)w.
+}
+\tag{10}
+
+$$
+
+因此只要
+
+$$
+
+g>\sqrt{\Delta(H)},
+
+$$
+
+这一 root 就一定产生正质量后继。
+
+而
+
+$$
+
+\sqrt{\Delta(H)}
+<
+\sqrt{\frac14-\varepsilon}\,b
+=
+\left(\frac12-\varepsilon+O(\varepsilon^2)\right)b.
+
+$$
+
+所以如果 old-anchor 非常接近它的最大值，(7) 强迫
+
+$$
+
+g\approx\frac b2,
+
+$$
+
+反而会使
+
+$$
+
+g^2>\Delta(H)
+
+$$
+
+带出一个正的 $\Theta(\varepsilon b^2)$ 裕量。
+
+例如取 $\delta\ll\varepsilon^2$，则
+
+$$
+
+g\ge
+\left(\frac12-\sqrt\delta\right)b
+
+$$
+
+从而
+
+$$
+
+g^2-\Delta
+\ge
+\left(
+\varepsilon-\sqrt\delta+\delta
+\right)b^2.
+\tag{11}
+
+$$
+
+所以出现一个有点反直觉、但很好的结论：
+
+$$
+
+\boxed{
+\textbf{最严重的 old-anchor 情形本身并不是危险情形。}
+}
+
+$$
+
+因为它迫使 $g$ 靠近 $b/2$，而 $b/2$ 正好位于 $\sqrt\Delta$ 之上，只要 $\Delta<(1/4-\varepsilon)b^2$。
+
+真正危险的是另一种情况：
+
+$$
+
+\boxed{
+g\le\sqrt{\Delta(H)}.
+}
+\tag{12}
+
+$$
+
+由于我们选择的是成功数最少的块，这意味着当前最受约束块至少有
+
+$$
+
+b-g
+\ge
+b-\sqrt\Delta
+=
+\left(\frac12+\varepsilon+O(\varepsilon^2)\right)b
+
+$$
+
+个顶点**在插入任何新 $r$ 之前就已经被旧锚阻断**。
+
+这就把问题从
+
+> “怎样给 external-old-anchor 的大量 genealogy 副本收费？”
+
+转化成了更强、更结构化的问题：
+
+> **为什么一个实际可达 root 会有一个完整真实块中超过约一半的顶点已经被旧 trace 阻断？这些 persistent blockers 是怎样沿 genealogy 产生的？**
+
+这已经不再是 Q-0015 式的容量问题，而非常接近 Q-0017 的 persistent-blocker normal form。当前 handoff 本来也把真正开放的下一层描述为：持续 blocker 必须进入 fresh/reuse/Hall/quotient/内部闭合，或者形成临界 splitter；并特别要求先做深度二版本。
+
+所以我现在的判断是：
+
+$$
+
+\boxed{
+\text{external-old-anchor 的“总质量直接收费”路线不应继续硬推。}
+}
+
+$$
+
+更有希望的路线是下面这个**深度二 dichotomy**：
+
+$$
+
+\boxed{
+\begin{array}{l}
+\text{对 root }R\text{ 选最受约束块 }M,\ g=s_M(R).\\[2mm]
+\text{若 }g>\sqrt\Delta,\text{ 则 old-anchor 折入 branching 后留下 }g^2-\Delta>0;\\[2mm]
+\text{若 }g\le\sqrt\Delta,\text{ 则 }M\text{ 中至少 }b-\sqrt\Delta>b/2
+\text{ 个顶点已有 persistent blocker。}
+\end{array}}
+\tag{13}
+
+$$
+
+第一支基本已经控制住了。
+
+**现在真正需要攻的是第二支**：证明一个“超过半块已被旧锚覆盖”的实际 root，要么产生大度数 / reuse Hall cut / 完整子核心，要么把 blocker genealogy 向前追一层后形成可控的二元 splitter。
+
+这比原来的 external-old-anchor 总质量问题窄了很多。我认为这是目前最值得继续推的点。当前框架也明确警告，一般 incidence 总量只能给“集中或增殖”，真正缺少的是结合无 IT、块极小和因果再生的结构结论。turn383525view2
+
+下一步我建议直接证明下面这个候选命题，而暂时不碰仓库：
+
+$$
+
+\boxed{
+d_M(R)>b-\sqrt\Delta
+\quad\Longrightarrow\quad
+\text{persistent blockers 在前一 genealogy 层产生 fresh/reuse/cut，
+或形成两层闭合 splitter。}
+}
+
+$$
+
+我可以接着就从这个“**半块以上 persistent blocker**”条件开始做双计数，看看能否真正推出一个 $(1/4-\varepsilon)b^2$ 度数下不可能的结构。
+
+【回答内容 轮数12】
+可以。按你的指令，这一轮我完全不考虑仓库更新，只推进数学本身。
+
+这次有了一个比较实质的推进：我认为 `external-old-anchor-blocker` 可以进一步压缩成一个 **“$1/4$ 定向界 + anchor-pair concentration 障碍”**。它还没有关闭这一类 E-exit，但已经把“为什么难”和“下一条真正该证的引理”都变得相当明确。
+
+### 1. 先得到一个精确恒等式
+
+设当前真实根为独立部分横截 $R$，质量为 $w(R)$。接下来考虑两个真实块 $M,N$。记
+
+$$
+
+d_B(R)
+=
+|\{z\in B:R\cup\{z\}\text{ 不独立}\}|,
+\qquad
+g_B(R)=b-d_B(R).
+
+$$
+
+先从 $M$ 成功插入 $r$，再尝试 $x\in N$。
+
+我们前一轮识别出的 `no-configuration → external-old-anchor` 情形恰好就是：
+
+$$
+
+R\cup\{x\}\text{ 已经不独立}.
+
+$$
+
+因此，无论插入的是哪个成功的 $r$，这个 $x$ 都会产生旧锚出口。于是未经归一化的总质量**精确等于**
+
+$$
+
+\boxed{
+E_{\rm old}(R;M,N)
+=
+w(R)\,g_M(R)d_N(R).
+}
+\tag{1}
+
+$$
+
+这也解释了为什么简单的 global-edge unit capacity 不够：同一条旧边可以被 $g_M(R)$ 个 sibling genealogy 同时看到。当前框架确实要求每个候选尝试继承完整父质量，而不能因为第一 blocker 相同就合并 genealogy。turn367974view3
+
+---
+
+### 2. 一个很干净的 $1/4$ 定向引理
+
+这里出现了一个与目标常数完全吻合的现象。
+
+对同一个根 $R$，我们可以比较两种合法次序：
+
+$$
+
+M\to N,\qquad N\to M.
+
+$$
+
+它们的旧锚质量分别是
+
+$$
+
+g_Md_N=(b-d_M)d_N,
+
+$$
+
+和
+
+$$
+
+g_Nd_M=(b-d_N)d_M.
+
+$$
+
+并且
+
+$$
+
+(b-d_M)d_N-(b-d_N)d_M
+=
+b(d_N-d_M).
+
+$$
+
+所以，为了最小化旧锚出口，只要把 **坏点更多的块先测试**。
+
+设
+
+$$
+
+d_1=\max(d_M,d_N),\qquad
+d_2=\min(d_M,d_N).
+
+$$
+
+那么最优次序的旧锚质量是
+
+$$
+
+E_{\rm old}^{\min}
+=
+w(R)(b-d_1)d_2.
+
+$$
+
+因为 $d_2\le d_1$，
+
+$$
+
+(b-d_1)d_2
+\le
+(b-d_2)d_2
+\le
+\frac{b^2}{4}.
+
+$$
+
+所以得到
+
+$$
+
+\boxed{
+E_{\rm old}^{\min}(R;M,N)
+\le
+\frac14 b^2w(R).
+}
+\tag{2}
+
+$$
+
+如果把两个未来坐标按均匀选择归一化，这就是
+
+$$
+
+\boxed{
+\Pr(\text{old-anchor exit})
+\le\frac14.
+}
+\tag{3}
+
+$$
+
+这不是巧合：**external-old-anchor 自己已经产生了精确的 $1/4$ 临界值。**
+
+而且有稳定性。若
+
+$$
+
+\frac{E_{\rm old}^{\min}}{b^2w(R)}
+>
+\frac14-\varepsilon,
+
+$$
+
+那么由
+
+$$
+
+(1-d_1/b)(d_2/b)
+\le
+(d_1/b)(1-d_1/b)
+=
+\frac14-\left(\frac{d_1}{b}-\frac12\right)^2
+
+$$
+
+立即得到
+
+$$
+
+\boxed{
+\left|\frac{d_1}{b}-\frac12\right|<\sqrt\varepsilon,
+\qquad
+\frac{d_2}{b}>\frac12-\sqrt\varepsilon.
+}
+\tag{4}
+
+$$
+
+也就是说：
+
+> **旧锚出口只有在两个候选块都近似“一半坏、一半好”时，才能接近 $1/4$。**
+
+这和项目里原来的 median/Ferrers 临界结构非常吻合：$b/2$ 再次作为等号结构自动出现，而不是人为塞进去。原 handoff 的中位源正是围绕 $h=\lfloor b/2\rfloor$ 建立的。
+
+---
+
+### 3. 但这里有一个必须正视的反例：局部最大度本身无法进一步改善 $1/4$
+
+我检查了一条很自然的路线：
+
+$$
+
+E_{\rm old}(R;M,N)
+\stackrel{?}{\lesssim}
+\Delta(H)\,w(R).
+
+$$
+
+这在**单个根层面是彻底错误的**，甚至 $\Delta=1$ 都可以失败得非常严重。
+
+构造如下。取 $2b$ 个旧块，每块指定一个顶点
+
+$$
+
+u_1,\ldots,u_{2b},
+
+$$
+
+令
+
+$$
+
+R=\{u_1,\ldots,u_{2b}\}.
+
+$$
+
+另取两个大小为 $b$ 的块
+
+$$
+
+M=\{r_1,\dots,r_b\},\qquad
+N=\{x_1,\dots,x_b\}.
+
+$$
+
+只放入 $b$ 条边
+
+$$
+
+e_j=\{u_{2j-1},u_{2j},x_j\},
+\qquad j=1,\dots,b.
+
+$$
+
+所有 $r_i$ 都是自由的。
+
+于是
+
+$$
+
+\Delta(H)=1,
+\qquad
+g_M(R)=b,
+\qquad
+d_N(R)=b,
+
+$$
+
+所以
+
+$$
+
+E_{\rm old}=b^2w(R).
+
+$$
+
+而这个 $R$ 是真实可达的独立根。
+
+这个例子当然**有 IT，也不是块极小无 IT 反例**，所以不损害最终定理；但它证明了一件重要的事：
+
+$$
+
+\boxed{
+\text{不能仅凭“单根实际可达 + 低 }\Delta\text{”控制 old-anchor mass。}
+}
+
+$$
+
+必须利用不同根 cylinder 之间的质量分布、块极小性，或者未来闭合。否则这条路没有希望。
+
+---
+
+### 4. 真正出现的新对象：anchor-pair congestion
+
+这之后我发现可以精确描述缺失的那一层。
+
+考虑一族互不相交的实际根 cylinder，质量为 $w_R$，总质量
+
+$$
+
+W=\sum_Rw_R.
+
+$$
+
+对两个旧顶点 $u,v$，定义它们的 root-pair 质量
+
+$$
+
+\Gamma(u,v)
+=
+\sum_{R:\,u,v\in R}w_R.
+
+$$
+
+定义归一化 pair congestion
+
+$$
+
+\boxed{
+\kappa_2
+=
+\frac{b^2}{W}
+\max_{u,v}\Gamma(u,v).
+}
+\tag{5}
+
+$$
+
+如果根的两个坐标像真正的均匀乘积分布一样，那么典型地
+
+$$
+
+\Gamma(u,v)\approx\frac{W}{b^2},
+
+$$
+
+也就是 $\kappa_2\approx1$。
+
+现在固定待测试块 $N$，并取均匀未来坐标。对于一条旧锚边
+
+$$
+
+e=\{u,v,x\},
+\qquad x\in N,
+
+$$
+
+只有包含 $u,v$ 的根，并且未来坐标恰取到 $x$，才会由它退出。因此该边对应的出口质量至多
+
+$$
+
+\frac{\Gamma(u,v)}{b}.
+
+$$
+
+于是对全部这种边求和：
+
+$$
+
+\begin{aligned}
+E_{\rm old}^{\rm norm}
+&\le
+\frac1b
+\sum_{\substack{e=\{u,v,x\}\\x\in N}}
+\Gamma(u,v)\\
+&\le
+\frac1b
+\cdot
+\frac{\kappa_2W}{b^2}
+\cdot
+|E_N|.
+\end{aligned}
+
+$$
+
+而
+
+$$
+
+|E_N|
+\le
+\sum_{x\in N}d_H(x)
+\le
+b\Delta(H).
+
+$$
+
+故
+
+$$
+
+\boxed{
+E_{\rm old}^{\rm norm}
+\le
+\kappa_2\,\frac{\Delta(H)}{b^2}\,W.
+}
+\tag{6}
+
+$$
+
+如果写
+
+$$
+
+q=\frac{\Delta(H)}{b^2},
+
+$$
+
+就是
+
+$$
+
+\boxed{
+E_{\rm old}^{\rm norm}\le\kappa_2 qW.
+}
+\tag{7}
+
+$$
+
+这比单纯说“genealogy reuse 很危险”要具体得多。
+
+**真正的危险参数不是 genealogy 的数量，而是实际根质量在真实旧顶点 pair 上的集中程度。**
+
+---
+
+### 5. 因此得到一个明确的“控制或结构割”二分
+
+式 (7) 直接给出：
+
+如果
+
+$$
+
+E_{\rm old}^{\rm norm}>(1+\eta)qW,
+
+$$
+
+那么必有某一对真实旧顶点 $u,v$ 满足
+
+$$
+
+\boxed{
+\Gamma(u,v)>
+(1+\eta)\frac{W}{b^2}.
+}
+\tag{8}
+
+$$
+
+也就是说，任何超过目标 $\Delta/b^2$ 比例的 old-anchor 质量，都强迫一个**可复算的 anchor-pair concentration certificate**。
+
+这已经很接近 Q-0015 对 E 类要求的形式：
+
+$$
+
+\text{controlled}
+\quad\vee\quad
+\text{explicit structural obstruction}.
+
+$$
+
+而且它不把 root budget、slot capacity 和 global real-edge capacity 混起来；$\Gamma(u,v)$ 是一个新的**源质量统计量/结构证书**，不是偷偷制造的真实边容量。这一点很重要，因为仓库明确禁止把 genealogy 重数解释成真实边容量。turn630407view2
+
+---
+
+### 6. 8-edge 回归对这个新量表现得很好
+
+我重新算了公开 8-edge 模型的固定顺序 $(0,1,2,3)$。
+
+在前两个块之后有四个根。它们在 $(B_0,B_1)$ 上正好是四个不同 pair，各质量 1，因此
+
+$$
+
+W=4,\qquad b=2,\qquad
+\Gamma(u,v)=1=\frac{W}{b^2}.
+
+$$
+
+所以
+
+$$
+
+\kappa_2=1.
+
+$$
+
+对于后面的旧锚出口，真正相关的旧边只有两条。均匀归一化以后，每条的负载为 $1/2$，总 old-anchor 质量正好是
+
+$$
+
+1.
+
+$$
+
+而上面的**细化边计数式**
+
+$$
+
+\frac1b\sum_e\Gamma(u_e,v_e)
+
+$$
+
+也正好给出
+
+$$
+
+\frac12(1+1)=1.
+
+$$
+
+也就是说，之前看起来很糟糕的
+
+> “同一旧边被两个 $r$-genealogy 重复使用”
+
+在 normalized future cylinder 中并没有真的复制质量；两个 $r$ 选择只是同一个未来概率空间中的两个坐标值。FW-40 的规范未来提升本来就允许选择均匀的全支撑未来测度，而且整个提升保持根总质量不变。
+
+这对我来说是这轮最值得继续追的发现。
+
+---
+
+### 7. 现在瓶颈已经非常具体
+
+我目前认为不应该继续尝试直接证明
+
+$$
+
+E_{\rm old}=o(W)
+
+$$
+
+或粗暴地把所有 old-anchor 义务塞进 global edge Hall；前者很可能过强，后者会重现 genealogy reuse。
+
+更合适的目标是证明下面这个“pair flattening”型命题：
+
+$$
+
+\boxed{
+\text{实际 Q-0015 根质量要么近似 pair-flat，
+要么产生一个可利用的重 pair 结构割。}
+}
+\tag{9}
+
+$$
+
+所谓 pair-flat，就是对绝大多数保留质量，
+
+$$
+
+\Gamma(u,v)
+\le
+(1+o_\varepsilon(1))\frac{W}{b^2}.
+
+$$
+
+若成立，则 (7) 直接给出
+
+$$
+
+E_{\rm old}^{\rm norm}
+\le
+(1+o_\varepsilon(1))
+\frac{\Delta}{b^2}W.
+
+$$
+
+若不成立，我们不应该简单宣布失败，而应该对重 pair
+
+$$
+
+(u,v)
+
+$$
+
+条件化。由于项目已有“保留 fiber 标签的条件化本身不造成信息损失”的事实，这一步在原则上是合法的；真正需要研究的是：**大量 root mass 被固定真实 pair $(u,v)$ 捕获以后，是否必然导致 pair-codegree 增殖、未来 quotient，或完整块 closure。** 项目已有的信息论事实也明确指出，保留标签的条件化不会凭空造成真实费用，所以这里必须继续保留 $(u,v)$ 的真实身份。
+
+所以，我现在会把 external-old-anchor 的剩余核心问题写成：
+
+$$
+
+\boxed{
+\textbf{Pair-concentration lemma:}
+\quad
+\kappa_2>1+\eta
+\Longrightarrow
+\text{fresh degree / future quotient / block closure}.
+}
+
+$$
+
+这比之前的“控制 old-anchor 总质量”已经缩小了一层：**旧锚本身的计数已经完成；现在只剩实际根测度为何不能长期集中在旧顶点 pair 上。**
+
+目前我还不能诚实地说这最后一步已经证明。但这条路线比直接做 real-edge Hall 更有希望，而且已经解释了公开 8-edge 的重复收费现象，同时给出了一个严格的 $1/4$ 等号稳定性结论。下一步我会继续攻这个 `pair-concentration → degree/closure` 引理，而不是回到更多局部枚举。
