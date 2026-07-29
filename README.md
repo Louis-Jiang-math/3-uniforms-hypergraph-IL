@@ -12,7 +12,7 @@ partitioned 3-uniform hypergraphs, with the target implication
 
 The one-quarter theorem is **open**. The only active main-proof node is:
 
-> **G1c / Q-0015 — quantitative control of named E exits.**
+> **G1c / Q-0015 — E-exit and aggregate heavy-excess control.**
 
 The current logical path is
 
@@ -27,6 +27,13 @@ The current logical path is
 A formal future-complete lift is available after an actual Q-0015 root obstacle
 has already been constructed, but it does not provide the general entrance or
 downstream concentration theorem.
+
+The local repository also has an aggregate supporting reduction: actual
+two-step failure mass is normalized without genealogy duplication, the
+pair-flat part is paid by one \(\Delta(H)\), and the exact unresolved quantity
+is the heavy-pair positive excess \(\mathfrak H_k\). Q-0015 remains open because
+that excess has not yet been dissipated or converted into a quantitative sound
+quotient.
 
 ## Ten-minute start
 

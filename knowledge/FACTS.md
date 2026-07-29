@@ -591,3 +591,123 @@
 - **Caveats:** 不推出 \(11/27\) 正常形、因果 incidence 集中、完整子核心必然出现或 \(1/4\) 定理。
 - **DAG role:** G1b supporting input to active G1c
 - **Last updated:** 2026-07-28
+
+## F-0037 — no-configuration 无损重标为 surviving old-anchor
+- **Status:** confirmed_formal
+- **Kind:** exact execution reduction
+- **Statement:** 在当前实际执行契约中，若释放成功插入顶点后某失败义务没有合法 configuration，则释放后的根加 attempted vertex 中存在一条真实 blocker；该边包含 attempted vertex、排除已释放顶点，故可将义务以原质量重标为 `external-old-anchor-blocker`。
+- **Ledger:** 重标本身不使用 root-budget、slot 或 global-real-edge capacity。
+- **Evidence:** `src/hypergraph_il/q0015.py::no_configuration_exit_certificate`；`tests/test_q0015_old_anchor.py`；`evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md`。
+- **Dependencies:** F-0028, F-0030
+- **Related:** Q-0015
+- **Caveats:** 只完成 exit 类型重标，不控制该类的总质量。
+- **Last updated:** 2026-07-29
+
+## F-0038 — old-anchor profile 的精确稳定恒等式与时间势
+- **Status:** confirmed_formal
+- **Kind:** exact stability / Lyapunov theorem
+- **Statement:** 对 \(a=(a_1,\ldots,a_n)\in[0,1]^n\)，令
+  \[
+  F(a)=\frac1{n(n-1)}\sum_{i\ne j}a_i(1-a_j),\quad
+  Q=n-2\sum_i a_i,\quad
+  P=\sum_i a_i(1-a_i).
+  \]
+  则
+  \[
+  \frac{n}{4(n-1)}-F(a)
+  =
+  \frac{Q^2}{4n(n-1)}+\frac{P}{n(n-1)}.
+  \]
+  对坐标单调不增、每步删除一块的轨道，
+  \[
+  Q_{t+1}-Q_t=2\alpha_t-1+2D_t,
+  \]
+  从而首尾 near-critical deficit 控制中间 near-good 删除步数；额外 drift 只加速耗散。
+- **Evidence:** `src/hypergraph_il/q0015.py::old_anchor_profile_summary` 与 `old_anchor_temporal_certificate`；`tests/test_q0015_old_anchor.py`；`evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md`。
+- **Dependencies:** F-0001
+- **Related:** Q-0015, F-0041
+- **Caveats:** 这是单 genealogy 内的 profile 势；reroot/reset 可重新置中 profile。
+- **Last updated:** 2026-07-29
+
+## F-0039 — 实际二步失败的规范 aggregate-cylinder 恒等式
+- **Status:** confirmed_formal
+- **Kind:** exact mass identity
+- **Statement:** 对实际根 \(R\) 的成功第一坐标 \(r\)，给扩展源 \(R+r\) 权重 \(w_R/b\)，并按实际第二块 \(N(R,r)\) 分组。若 \(W_N\) 是 cylinder 根质量、\(E_N\) 是再除以 \(b\) 的规范失败质量、\(\mathcal B\) 是未规范化全部二步失败质量，则
+  \[
+  \mathcal B=b^2\sum_NE_N,
+  \qquad
+  \sum_NW_N=\frac1b\sum_Rw_R|G_R|\le\sum_Rw_R.
+  \]
+- **Mechanism:** 成功 \(r\)-genealogy 是一个规范 future 坐标的不同取值，不复制源质量。
+- **Evidence:** `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`，Theorem 1。
+- **Dependencies:** F-0001
+- **Related:** Q-0015, F-0040
+- **Caveats:** 不控制 heavy-pair excess。
+- **Last updated:** 2026-07-29
+
+## F-0040 — 统一 old/fresh pair-cylinder 界与精确 heavy excess
+- **Status:** confirmed_formal
+- **Kind:** quantitative supporting theorem
+- **Statement:** 在每个规范 future cylinder \(N\) 上，以
+  \[
+  \Gamma_N(p)=\sum_{S:p\subseteq S}a_S
+  \]
+  同时归因 old-anchor pair 和 fresh/configurable pair。对任意 \(\eta\ge0\)，或者
+  \[
+  E_N\le(1+\eta)\frac{\Delta(H)}{b^2}W_N,
+  \]
+  或者存在真实边 \(p+x\) 及 coherent heavy root cylinder
+  \[
+  \Gamma_N(p)>(1+\eta)\frac{W_N}{b^2}.
+  \]
+  全部未控质量精确隔离为
+  \[
+  \mathfrak H=
+  b\sum_N\sum_{\substack{x\in N\\p+x\in E(H)}}
+  \left(\Gamma_N(p)-(1+\eta)\frac{W_N}{b^2}\right)_+,
+  \]
+  且
+  \[
+  \mathcal B\le(1+\eta)\Delta(H)W+\mathfrak H.
+  \]
+- **Evidence:** `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`，Theorem 2 与式 (10)–(11)。
+- **Dependencies:** F-0001, F-0039
+- **Related:** Q-0015, F-0042
+- **Caveats:** 单个 heavy pair 的存在不控制正部总量 \(\mathfrak H\)。
+- **Last updated:** 2026-07-29
+
+## F-0041 — future-compatible orientation budget 的 reset compensation
+- **Status:** confirmed_formal
+- **Kind:** finite-state Lyapunov theorem
+- **Statement:** 设 orientation token 等价保存当前输出、合法后继和资源增量，即为 transition congruence。沿执行轨道记录已见 blocker edges \(\mathcal E_t\)、carrier support \(\mathcal A_t\) 与尚未访问的兼容 token 数 \(U_t\)。则每一步要么产生新边，要么产生新支持，要么使 \(U_t\) 减一，要么重复一个 sound quotient token。因此在 quotient 前
+  \[
+  (|\mathcal E_t|,|\mathcal A_t|,-U_t)
+  \]
+  严格字典序增加。
+- **Evidence:** `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`，Theorem 3；`tests/test_q0015_reset_compensation.py`。
+- **Dependencies:** F-0032
+- **Related:** Q-0015, F-0038, A-0028
+- **Caveats:** exact token space 可能指数大；有限性本身不足以支付 heavy excess。
+- **Last updated:** 2026-07-29
+
+## F-0042 — Q-0015 aggregate 路线的充分关闭判据
+- **Status:** confirmed_conditional
+- **Kind:** exact reduction / sufficient criterion
+- **Statement:** 若
+  \[
+  \Delta(H)\le(1/4-\varepsilon)b^2
+  \]
+  且存在 \(\eta,\rho\ge0\) 满足
+  \[
+  (1+\eta)(1/4-\varepsilon)+\rho<1/4,
+  \]
+  并能在每层或合法 telescoping 区间证明
+  \[
+  \mathfrak H_k\le\rho b^2A_{k-2}
+  \]
+  除非出现 accepted structural exit，则 F-0005 的二阶递推系数严格小于 \(1/4\)，从而产生 IT。
+- **Evidence:** `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`，§4。
+- **Dependencies:** F-0005, F-0039, F-0040
+- **Related:** Q-0015
+- **Caveats:** 尚未证明 heavy-excess 界；本条不关闭 Q-0015。
+- **Last updated:** 2026-07-29

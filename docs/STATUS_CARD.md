@@ -3,7 +3,7 @@
 | 项目 | 当前状态 |
 |---|---|
 | \(1/4\) 主定理 | open |
-| 唯一 active 节点 | G1c / Q-0015 E-exit quantitative control |
+| 唯一 active 节点 | G1c / Q-0015 aggregate heavy-excess control |
 | 配置审计基础设施 | proved-formal |
 | Future-complete lift | proved-formal |
 | 一般近无损配置入口 | open |
@@ -32,4 +32,5 @@
 ## 当前禁止偏移
 
 在 G1c 关闭前，不再新增相位、图册、quotient、自动机或新的局部状态语言，
-除非它直接给出 E-exit 的定量定理或严格反例。
+除非它直接控制精确 heavy-excess 余项、给出 future-compatible quotient，
+或产生严格反例。

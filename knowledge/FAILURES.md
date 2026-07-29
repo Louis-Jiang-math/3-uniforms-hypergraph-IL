@@ -461,3 +461,31 @@
 - **Do not repeat:** 不得把 AMCG 定义、统一标度或无原子细化当作收费合法性证明。
 - **Status:** failed
 - **Last updated:** 2026-07-28
+
+## A-0027 — 用单个 named E 子类替代 Q-0015 的全部质量控制
+- **Goal:** 选择一个 named E-exit 子类，证明其可控或结构化后直接关闭 Q-0015。
+- **Approach:** 把 handoff 的即时行动“choose one E-exit class”误读为完整 answer criterion。
+- **Failure type:** scope / acceptance-criterion error
+- **Failure point:** 一个子类定理既不控制全部二步失败，也不产生统一的 \(c<1/4\) 递推；未处理质量不能静默移到下游。
+- **Why it failed:** 选择一个子类是获得可审计进展的工作顺序，不是最终证明的质量覆盖定理。
+- **Failure signature:** `one named-exit subcase promoted to full Q-0015 closure`
+- **Evidence:** F-0037–F-0042；`knowledge/QUESTIONS.md#Q-0015`。
+- **Related:** Q-0015
+- **Retry conditions:** 证明原近无损 configuration/escape flow，或证明 F-0042 的 aggregate heavy-excess 判据。
+- **Do not repeat:** 不得只命名一个 heavy pair 而不控制其正部总质量。
+- **Status:** failed
+- **Last updated:** 2026-07-29
+
+## A-0028 — 无新边、无新支持的第一次 reset 必立即闭合
+- **Goal:** 把每次不增加 blocker edge 与 carrier support 的 carrier reset 立即识别为 quotient repetition。
+- **Approach:** 只使用 \((|\mathcal E_t|,|\mathcal A_t|,Q_t)\) 势，忽略同一资源下不同 hole orientations。
+- **Failure type:** exact bounded counterexample
+- **Failure point:** 三个二元块与单边 \(\{0_0,1_0,2_0\}\) 有三个不同 hole orientations。第二次 reset 不增加边或支持，却进入新的完整带标签状态；再一步才重复。
+- **Why it failed:** 固定资源仍可支持多个 continuation-distinct orientation tokens。
+- **Failure signature:** `free reset enters a new orientation of an old edge`
+- **Evidence:** `enumerate/q0015_reset_compensation.py`；`tests/test_q0015_reset_compensation.py`；`evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md`。
+- **Related:** F-0041, Q-0015
+- **Retry conditions:** 使用 future-compatible orientation budget；只有 token 也不被消费时才推出 quotient。
+- **Do not repeat:** 不得按当前 trace、edge set 或 anchor support 单独合并 genealogy states。
+- **Status:** failed
+- **Last updated:** 2026-07-29

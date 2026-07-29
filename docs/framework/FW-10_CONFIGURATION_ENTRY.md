@@ -51,14 +51,32 @@ E\text{ 有限命名出口}
 
 详见 `FW-40_FUTURE_COMPLETE_LIFT.md`。
 
+G1c 还得到一条 aggregate supporting route：
+
+\[
+\mathcal B_k
+\le
+(1+\eta)\Delta(H)A_{k-2}
++
+\mathfrak H_k,
+\]
+
+其中 \(\mathfrak H_k\) 是真实 pair-cylinder 质量超过
+\((1+\eta)W_N/b^2\) 的正部总量。该归约同时包含 old-anchor 与
+fresh/configurable failures，并且不会复制 sibling genealogy 质量。
+
+详见 `FW-15_AGGREGATE_PAIR_CYLINDER.md`。
+
 ## 3. Active gap
 
-当前不是继续扩展抽象 genealogy，而是定量控制 E 类最短前缀：
+当前精确缺口是 quantitative heavy-pair dissipation：
 
-- 哪些是预算/slot/edge 可支付；
-- 哪些是 \(o_\varepsilon(1)\) 异常；
-- 哪些给出真实低度结构割；
-- 哪些留下无损 persistent blocker。
+- 把全部 \(\mathfrak H_k\) 无损分解到 carrier trajectories；
+- 以新真实边、新 anchor support 或可控 orientation token 支付；
+- 或把 sound token repetition 提升为 accepted exact-future quotient；
+- 达到 F-0042 所需的 \(c_\varepsilon<1/4\) 递推。
+
+原逐 source configuration-flow 路线仍是充分路线，但不是唯一可能接口。
 
 ## 4. Nonclaims
 

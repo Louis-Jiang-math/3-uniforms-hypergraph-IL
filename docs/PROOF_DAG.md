@@ -13,8 +13,8 @@ M0  One-quarter theorem
     ├── G3  Causal incidence regeneration (Q-0016)
     │   └── G2  Persistent-blocker normal form (Q-0017)
     │       └── G1d Near-lossless configuration entry (Q-0002/Q-0015)
-    │           ├── G1c Quantitative E-exit control          [ACTIVE]
-    │           ├── G1b Future-complete lift dichotomy       [PROVED-FORMAL]
+    │           ├── G1c E-exit / aggregate heavy-excess control [ACTIVE]
+    │           ├── G1b Future-complete lift dichotomy          [PROVED-FORMAL]
     │           └── G1a Configuration auditor infrastructure [PROVED-FORMAL]
     └── independent stability/link inputs (Q-0003–Q-0007)
 ```
@@ -40,13 +40,15 @@ Q-0016 与 Q-0017 的具体证明可能互相反馈，但二者都必须作用�
 - **Does not prove:** E 质量小、入口存在、\(11/27\)、集中或完整子核心。
 - **Normative text:** `framework/FW-40_FUTURE_COMPLETE_LIFT.md`。
 
-### G1c — Quantitative E-exit control
+### G1c — E-exit and aggregate heavy-excess control
 
 - **Status:** active
-- **Input:** G1b 的最短 E 证书。
-- **Required output:** E 质量近乎可支付/可忽略，或真实结构割/反模型。
-- **Acceptance criterion:** 所有支付使用正确的独立账本；剩余质量能无损进入 future-complete persistent blocker。
-- **Counterexample criterion:** 满足低度、块极小、无 IT、实际可达与全账本条件，但 E 质量不可控的真实模型。
+- **Input:** G1b 的最短 E 证书，或 F-0039 的实际二步 aggregate cylinders。
+- **Proved supporting output:** F-0040 给出 pair-flat \(\Delta(H)\)-支付与精确 heavy-excess 余项 \(\mathfrak H_k\)；F-0041 给出 future-compatible orientation-budget reset compensation。
+- **Required output:** 支付/忽略全部 \(\mathfrak H_k\)，或输出保存真实对象与账本的结构割/反模型；原逐 source E-flow 仍可作为另一充分路线。
+- **Acceptance criterion:** 原近无损 configuration/escape flow 成立，或 aggregate 路线产生统一 \(c_\varepsilon<1/4\) 递推；所有支付使用正确独立账本，所有 quotient 是 future-compatible。
+- **Counterexample criterion:** 满足低度、块极小、无 IT、实际可达与全账本条件，但原 flow 与 aggregate heavy-excess criterion 均失败的真实模型。
+- **Normative text:** `framework/FW-15_AGGREGATE_PAIR_CYLINDER.md`。
 
 ### G1d — Near-lossless configuration entry
 

@@ -11,10 +11,18 @@
     "evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md",
     "evidence/experiments/q0015/reports/q0015_first_execution_report.md",
     "evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.md",
-    "evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.json"
+    "evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.json",
+    "evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md"
   ],
   "historical_noncanonical": [
     "evidence/experiments/q0015/historical/q0015_first_execution_results.json",
     "evidence/experiments/q0015/historical/q0015_audit_results.pre-envelope.json"
+  ],
+  "reproducible_experiments": [
+    {
+      "path": "enumerate/q0015_reset_compensation.py",
+      "result_type": "exhaustive-bounded",
+      "scope": "all 256 transversal-edge subsets on three blocks of size two"
+    }
   ]
 }

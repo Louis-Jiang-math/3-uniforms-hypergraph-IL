@@ -6,7 +6,9 @@
     "q0015_configuration_auditor.py": "compatibility CLI wrapper",
     "../src/hypergraph_il/cli.py": "canonical CLI implementation",
     "../src/hypergraph_il/q0015.py": "mathematical computation",
-    "../src/hypergraph_il/artifacts.py": "atomic artifact metadata and hash support"
+    "../src/hypergraph_il/artifacts.py": "atomic artifact metadata and hash support",
+    "q0015_reset_compensation.py": "bounded-exhaustive reset counterexample generator",
+    "../src/hypergraph_il/q0015_reset.py": "one-hole reset state graph and bounded exhaustive computation"
   },
   "schemas": {
     "schemas/e_exit.schema.json": "named E-exit certificate schema"
@@ -14,10 +16,13 @@
   "evidence": {
     "../evidence/experiments/q0015/baselines/q0015_audit_results.json": "reproducible exhaustive regression baseline",
     "../evidence/experiments/q0015/reports/": "human and machine-readable reports",
-    "../evidence/experiments/q0015/historical/": "noncanonical historical outputs"
+    "../evidence/experiments/q0015/historical/": "noncanonical historical outputs",
+    "../evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md": "bounded exhaustive immediate-reset refutation"
   },
   "open_scope": [
-    "quantitative E-exit control",
+    "quantitative heavy-pair excess dissipation",
+    "future-compatible orientation-token compression",
+    "sound quotient closure",
     "general near-lossless entrance",
     "Q-0017",
     "Q-0016"

@@ -1,0 +1,4282 @@
+拉取GitHub项目
+==========
+
+【提问 轮数1】
+请你尝试完成Q-0015
+
+【回答内容 轮数1】
+我会先恢复 Q-0015 的精确定义、输入输出和允许使用的账本，然后把我们已经证明的局部分解、pair-congestion 界和 kernel 三分拼成一个完整候选证明；若某一步仍依赖尚未给出的全局假设，我会把它精确隔离出来，而不是含糊声称完成。
+
+【回答内容 轮数1】
+一个关键可能性已经出现：若 Q-0015 的“结构出口”允许直接输出可复算的重 pair concentration certificate，那么 pair-flat/heavy-pair 二分几乎已经关闭该节点；若结构出口必须是仓库既定的 quotient/closure 类型，则还需把重 pair 证书升级。接下来我会按这两种验收强度分别检验。
+
+【回答内容 轮数1】
+目前最强的可闭合路线不是继续消灭重 pair，而是把它正式化为一个两坐标根测度 quotient：轻 pair 部分获得严格 $1/4-\delta$ 界，重 pair 部分被逐项重标为可复算的 density-increment 结构出口。这样不需要借用 Q-0017，也不混淆任何容量账本。
+
+【回答内容 轮数1】
+可以。重新对齐 Q-0015 的职责后，我认为有一条比继续证明 `heavy pair → degree/closure` 更直接的闭合方式：
+
+> **Q-0015 只需把每份具名 E-exit 分成“定量受控”或“显式结构出口”；它不需要在本节点内消灭结构出口。**
+
+旧记录给出的验收语义正是：E-exit 要么由正确账本支付、要么可忽略、要么输出结构 cut；并严格禁止把 root、slot 与真实边容量混用。fileciteturn0file0L11-L33 fileciteturn0file0L4976-L5008
+
+在这个意义下，可以把剩余的 `external-old-anchor-blocker` 完整闭合为：
+
+$$
+
+\boxed{
+\text{严格低于 }1/4\text{ 的受控部分}
+\quad\sqcup\quad
+\text{pair-quotient 结构出口}.
+}
+
+$$
+
+---
+
+# 一、Q-0015 的准确局部输入
+
+设 $H$ 是 3-一致超图，块大小均为 $b$，并满足
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2,
+\qquad
+0<\varepsilon<\frac14.
+\tag{1}
+
+$$
+
+固定同一执行层的一族互不相交的实际 root cylinders
+
+$$
+
+\mathcal R,
+
+$$
+
+每个 $R\in\mathcal R$ 都是独立部分横截，质量为 $w_R\ge0$，总质量
+
+$$
+
+W=\sum_{R\in\mathcal R}w_R.
+\tag{2}
+
+$$
+
+先假设这些 roots 代表同一组旧块。若不是，只需按旧块支持分组；最后对各组相加即可。
+
+固定尚未使用的 future block $N$，$|N|=b$，使用 FW-40 允许的均匀、全支撑 future coordinate。因而每个二元组
+
+$$
+
+(R,x),\qquad x\in N,
+
+$$
+
+具有规范化质量
+
+$$
+
+\frac{w_R}{b}.
+
+$$
+
+这种规范提升保持根总质量，不把不同未来坐标误解释成不同份真实容量。fileciteturn0file0L6553-L6585
+
+定义 old-anchor obligations：
+
+$$
+
+\Omega_N
+=
+\left\{
+(R,x):
+R\cup\{x\}\text{ 不独立}
+\right\}.
+\tag{3}
+
+$$
+
+其规范化总质量为
+
+$$
+
+E_N
+=
+\frac1b
+\sum_{R\in\mathcal R}
+w_R
+\left|
+\left\{
+x\in N:R+x\text{ 不独立}
+\right\}
+\right|.
+\tag{4}
+
+$$
+
+---
+
+# 二、规范的真实边归因
+
+固定一个全局真实边序。对每个
+
+$$
+
+(R,x)\in\Omega_N
+
+$$
+
+选择最小的真实 blocker edge
+
+$$
+
+\alpha(R,x)=\{u,v,x\}\subseteq R\cup\{x\}.
+\tag{5}
+
+$$
+
+因为 $R$ 独立，任何 blocker 必须包含 $x$，故 $u,v\in R$。
+
+对旧顶点 pair
+
+$$
+
+p=\{u,v\},
+
+$$
+
+定义 root-pair cylinder mass
+
+$$
+
+\Gamma(p)
+=
+\sum_{\substack{R\in\mathcal R\\p\subseteq R}}w_R.
+\tag{6}
+
+$$
+
+定义该 pair 实际承接的归因质量
+
+$$
+
+L_N(p)
+=
+\frac1b
+\sum_{\substack{(R,x)\in\Omega_N\\
+\alpha(R,x)=p\cup\{x\}}}
+w_R.
+\tag{7}
+
+$$
+
+因为每个 obligation 恰归给一个 pair，
+
+$$
+
+\boxed{
+E_N=\sum_pL_N(p).
+}
+\tag{8}
+
+$$
+
+再定义 pair 在 $N$ 中的真实共度数
+
+$$
+
+d_N(p)
+=
+\left|
+\left\{
+x\in N:p\cup\{x\}\in E(H)
+\right\}
+\right|.
+\tag{9}
+
+$$
+
+若 $\alpha(R,x)=p+x$，则 $p\subseteq R$，所以逐 pair 有
+
+$$
+
+\boxed{
+L_N(p)\le\frac{d_N(p)}b\,\Gamma(p).
+}
+\tag{10}
+
+$$
+
+此外，每条相关真实边唯一对应一对 $(p,x)$，故
+
+$$
+
+\sum_pd_N(p)
+=
+\left|
+\left\{
+e\in E(H):|e\cap N|=1,\ e\setminus N
+\text{ 是旧锚 pair}
+\right\}
+\right|
+\le b\Delta(H).
+\tag{11}
+
+$$
+
+这正是先前 pair-congestion 计数的归因化版本。fileciteturn0file0L6343-L6473
+
+---
+
+# 三、轻 pair 与重 pair 的精确分解
+
+取阈值
+
+$$
+
+T_\varepsilon
+=
+(1+\varepsilon)\frac{W}{b^2}.
+\tag{12}
+
+$$
+
+称 $p$ 为轻 pair，若
+
+$$
+
+\Gamma(p)\le T_\varepsilon;
+
+$$
+
+称 $p$ 为重 pair，若
+
+$$
+
+\Gamma(p)>T_\varepsilon.
+
+$$
+
+记
+
+$$
+
+\mathcal L_\varepsilon
+=
+\left\{
+p:\Gamma(p)\le T_\varepsilon
+\right\},
+\qquad
+\mathcal H_\varepsilon
+=
+\left\{
+p:\Gamma(p)>T_\varepsilon
+\right\}.
+\tag{13}
+
+$$
+
+定义
+
+$$
+
+E_N^{\mathrm{light}}
+=
+\sum_{p\in\mathcal L_\varepsilon}L_N(p),
+\qquad
+E_N^{\mathrm{heavy}}
+=
+\sum_{p\in\mathcal H_\varepsilon}L_N(p).
+\tag{14}
+
+$$
+
+于是有精确恒等式
+
+$$
+
+\boxed{
+E_N
+=
+E_N^{\mathrm{light}}
++
+E_N^{\mathrm{heavy}}.
+}
+\tag{15}
+
+$$
+
+---
+
+# 四、轻 pair 部分有严格 $1/4$ 缺口
+
+由 (10)–(13)，
+
+$$
+
+\begin{aligned}
+E_N^{\mathrm{light}}
+&\le
+\sum_{p\in\mathcal L_\varepsilon}
+\frac{d_N(p)}b\Gamma(p)\\
+&\le
+\frac1b
+(1+\varepsilon)\frac{W}{b^2}
+\sum_pd_N(p)\\
+&\le
+(1+\varepsilon)
+\frac{\Delta(H)}{b^2}W.
+\end{aligned}
+\tag{16}
+
+$$
+
+再用 (1)：
+
+$$
+
+E_N^{\mathrm{light}}
+\le
+(1+\varepsilon)
+\left(\frac14-\varepsilon\right)W.
+
+$$
+
+计算
+
+$$
+
+(1+\varepsilon)
+\left(\frac14-\varepsilon\right)
+=
+\frac14-\frac34\varepsilon-\varepsilon^2.
+
+$$
+
+令
+
+$$
+
+\delta_\varepsilon
+=
+\frac34\varepsilon+\varepsilon^2>0,
+\tag{17}
+
+$$
+
+便得到
+
+$$
+
+\boxed{
+E_N^{\mathrm{light}}
+\le
+\left(
+\frac14-\delta_\varepsilon
+\right)W.
+}
+\tag{18}
+
+$$
+
+所以所有轻 pair obligations 已获得统一、维数无关、严格低于 $1/4$ 的控制。
+
+---
+
+# 五、重 pair 自然产生两坐标 quotient
+
+现在固定一个确实承载正质量的重 pair
+
+$$
+
+p=\{u,v\}\in\mathcal H_\varepsilon,
+\qquad
+L_N(p)>0.
+
+$$
+
+设 $u,v$ 分别属于旧块 $A,B$。由于 roots 是部分横截，
+
+$$
+
+A\ne B.
+
+$$
+
+定义根测度在这两个块上的自然投影
+
+$$
+
+\pi_{A,B}:\mathcal R\longrightarrow A\times B,
+\qquad
+\pi_{A,B}(R)=(R\cap A,R\cap B).
+\tag{19}
+
+$$
+
+令归一化根测度为
+
+$$
+
+\mu(R)=\frac{w_R}{W}.
+
+$$
+
+它的两坐标 pushforward 为
+
+$$
+
+\mu_{A,B}(a,b)
+=
+\sum_{\substack{R\in\mathcal R\\
+R\cap A=\{a\},\ R\cap B=\{b\}}}
+\mu(R).
+\tag{20}
+
+$$
+
+显然
+
+$$
+
+\sum_{a\in A,b\in B}\mu_{A,B}(a,b)=1.
+\tag{21}
+
+$$
+
+并且
+
+$$
+
+\mu_{A,B}(u,v)
+=
+\frac{\Gamma(u,v)}W.
+\tag{22}
+
+$$
+
+由于 $p$ 是重 pair，
+
+$$
+
+\boxed{
+\mu_{A,B}(u,v)
+>
+\frac{1+\varepsilon}{b^2}.
+}
+\tag{23}
+
+$$
+
+这不是为了适配证明而塞入定义的性质，而是现有根测度在两个真实块上的普通投影。均匀乘积分布的每个 atom 质量是 $1/b^2$，所以 (23) 是一个真实的两坐标 density increment。
+
+## Pair-quotient certificate
+
+把下面的数据称为一个 pair-quotient structural exit：
+
+$$
+
+\mathsf{PQ}
+=
+(A,B,u,v,N,\mathcal C_{uv},\Gamma(u,v),L_N(u,v)),
+\tag{24}
+
+$$
+
+其中
+
+$$
+
+\mathcal C_{uv}
+=
+\{R\in\mathcal R:u,v\in R\}.
+
+$$
+
+它满足：
+
+$$
+
+\sum_{R\in\mathcal C_{uv}}w_R
+=
+\Gamma(u,v)
+>
+(1+\varepsilon)\frac{W}{b^2},
+\tag{25}
+
+$$
+
+并且
+
+$$
+
+L_N(u,v)>0.
+\tag{26}
+
+$$
+
+由 (26)，至少存在 $R\in\mathcal C_{uv}$ 与 $x\in N$，使
+
+$$
+
+\alpha(R,x)=\{u,v,x\},
+
+$$
+
+所以
+
+$$
+
+\{u,v,x\}\in E(H).
+\tag{27}
+
+$$
+
+因此该证书同时保存：
+
+- 两个真实旧块 $A,B$；
+- 两个真实顶点 $u,v$；
+- 捕获的实际 root cylinder；
+- 超过均匀基准的定量因子；
+- 与 future block $N$ 的真实 blocker edge；
+- 被该 pair 承担的准确 E-exit 质量。
+
+它完全可由实际 root family 与真实边集复算，不使用任何虚构容量。
+
+---
+
+# 六、Q-0015 的剩余 E 类闭合定理
+
+## 定理 Q15-PQ
+
+在假设 (1) 下，对于每个规范化 future cylinder，`external-old-anchor-blocker` 义务可以不交地分为
+
+$$
+
+\Omega_N
+=
+\Omega_N^{\mathrm{ctl}}
+\sqcup
+\bigsqcup_{p\in\mathcal H_\varepsilon}
+\Omega_N(p),
+\tag{28}
+
+$$
+
+满足：
+
+1. 受控部分质量满足
+   $$
+
+   \boxed{
+   \operatorname{mass}
+   \bigl(\Omega_N^{\mathrm{ctl}}\bigr)
+   \le
+   \left(
+   \frac14-\delta_\varepsilon
+   \right)W;
+   }
+   \tag{29}
+
+$$
+
+2. 每个非空 $\Omega_N(p)$ 都附带一个可复算的 pair-quotient structural exit：
+   $$
+
+   \boxed{
+   b^2\mu_{A,B}(u,v)>1+\varepsilon.
+   }
+   \tag{30}
+
+$$
+
+### 证明
+
+令
+
+$$
+
+\Omega_N^{\mathrm{ctl}}
+=
+\{(R,x):\alpha(R,x)\in\mathcal L_\varepsilon\},
+
+$$
+
+并对每个重 pair $p$ 定义
+
+$$
+
+\Omega_N(p)
+=
+\{(R,x):\alpha(R,x)=p\cup\{x\}\}.
+
+$$
+
+由于 $\alpha$ 是单值映射，这些集合构成不交分解。受控部分的质量正是 $E_N^{\mathrm{light}}$，由 (18) 得 (29)。
+
+若 $\Omega_N(p)\ne\varnothing$，则 $L_N(p)>0$；又因 $p$ 重，由 (22)–(23) 得到 (30)，并由正归因质量得到真实边见证 (27)。证毕。
+
+---
+
+# 七、`no-configuration` 同时被关闭
+
+旧记录已经证明：
+
+$$
+
+\mathrm{configs}(a)=\varnothing
+
+$$
+
+时，释放刚插入顶点后必须重新检查实际存活边；每个这样的 obligation 都能一对一、同质量地重标为 `external-old-anchor-blocker`，并且不能错误沿用历史 `first_edge`。fileciteturn0file0L23-L33
+
+因此上述定理立即适用于 `no-configuration`：
+
+$$
+
+\boxed{
+\text{no-configuration}
+\Longrightarrow
+\text{严格受控}
+\ \vee\
+\text{pair-quotient structural exit}.
+}
+\tag{31}
+
+$$
+
+没有额外损失，也没有使用第二份账本。
+
+---
+
+# 八、对多个 future blocks 的版本
+
+若规范 future lift 先按概率 $\nu(N)$ 选择 future block，再在块内均匀选择顶点，则对每个 $N$ 应用定理，并按 $\nu(N)$ 加权。
+
+因为
+
+$$
+
+\sum_N\nu(N)=1,
+
+$$
+
+受控部分总质量仍满足
+
+$$
+
+\boxed{
+E_{\mathrm{ctl}}^{\nu}
+\le
+\left(
+\frac14-\delta_\varepsilon
+\right)W.
+}
+\tag{32}
+
+$$
+
+所有剩余质量均被附加到具名证书
+
+$$
+
+(N,A,B,u,v)
+
+$$
+
+上，不会作为匿名误差继续流入后续递推。
+
+---
+
+# 九、为什么不应在 Q-0015 内继续消灭重 pair
+
+旧记录给出了一个决定性的局部反例：单个实际可达 root、最大度仅为 $1$，仍可通过不同旧 pair 阻断整个 future block；因此仅凭“实际可达 root + 小最大度”不可能把 old-anchor mass 继续压小，必须利用根测度、块极小性或后续闭合。fileciteturn0file0L6280-L6335
+
+在该例中，根测度是确定性的，所以对 root 中的每个 pair，
+
+$$
+
+\Gamma(p)=W,
+
+$$
+
+从而
+
+$$
+
+b^2\frac{\Gamma(p)}W=b^2.
+
+$$
+
+也就是说，我们的定理不会错误宣布它“受控”；它会准确输出一个极重 pair quotient。
+
+因此：
+
+$$
+
+\text{heavy pair}
+\Longrightarrow
+\text{立即 degree saturation}
+
+$$
+
+在 Q-0015 的局部输入下是假的。重 pair 必须作为结构出口传递给使用块极小性、无 IT 和两层 genealogy 的后续节点。
+
+---
+
+# 十、Q-0015 的完成状态
+
+由现有职责划分：
+
+- 其它已具备正确 Hall、reuse、configuration 或真实边账本支付的 E-exits 保持原控制；
+- `no-configuration` 精确归约到 `external-old-anchor-blocker`；
+- `external-old-anchor-blocker` 由 Q15-PQ 分解为严格受控部分与 pair-quotient structural exits。
+
+所以在 Q-0015 所声明的
+
+$$
+
+\boxed{
+\text{controlled/paid}
+\quad\vee\quad
+\text{explicit structural obstruction}
+}
+
+$$
+
+验收语义下，可以得到：
+
+$$
+
+\boxed{
+\begin{aligned}
+\textbf{Q-0015：}\quad
+\text{每个具名 E-exit 要么由既有正确账本处理，}\\
+\text{要么贡献至多 }
+\left(\frac14-\delta_\varepsilon\right)
+\text{ 的规范化局部质量，}\\
+\text{要么输出可复算的 pair-quotient certificate。}
+\end{aligned}}
+\tag{33}
+
+$$
+
+其中
+
+$$
+
+\boxed{
+\delta_\varepsilon
+=
+\frac34\varepsilon+\varepsilon^2.
+}
+\tag{34}
+
+$$
+
+这在数学上完成了 Q-0015 的剩余 old-anchor 分类。
+
+尚未完成、也不应再归入 Q-0015 的是：
+
+$$
+
+\boxed{
+\text{pair-quotient certificate}
+\Longrightarrow
+\text{future quotient / internal closure / critical splitter}.
+}
+\tag{35}
+
+$$
+
+这正是 Q-0017 型 persistent-blocker normal form 应消费的输入，而不是 Q-0015 必须自行消灭的误差。旧记录本来也把 persistent blockers 进入 fresh/reuse/Hall/quotient/内部闭合或 splitter 描述为下一层任务。fileciteturn0file0L6010-L6045
+
+因此最诚实的结论是：
+
+$$
+
+\boxed{
+\text{Q-0015 可以在新增自然的 pair-quotient 结构出口后闭合；}\\
+\text{若正式验收只允许既有的 future-quotient/closure 类型，}\\
+\text{则差的只是把该证书注册为后续节点输入的接口，而非新的计数缺口。}
+}
+
+$$
+
+【回答内容 轮数1】
+我会先把 Q-0015 的精确目标、所有具名 E-exit，以及当前已证明的局部分解重新拼成一个闭合命题；然后逐项检查是否真的能完成，而不是只完成 external-old-anchor 的一个子类。
+
+【回答内容 轮数1】
+我认为现在可以**严格关闭 Q-0015 当前真正未决的 `external-old-anchor / no-configuration` 分支**。而且不必先完成 persistent-kernel 的全局闭合：Q-0015 的输出契约本来就是
+
+$$
+
+\text{可控}
+\quad\vee\quad
+\text{由正确账本支付}
+\quad\vee\quad
+\text{输出显式结构证书},
+
+$$
+
+而不是要求在 Q-0015 内把结构证书继续推成最终矛盾。旧记录也明确把 unpaid obstruction 作为真正要控制的对象。fileciteturn0file0L4976-L5006
+
+下面给出完整的 certificate-form 定理。
+
+---
+
+# Q-0015-OA 定理
+
+设 $H$ 是 3-一致超图，顶点被分成大小为 $b$ 的块，并且
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2,
+\qquad
+0<\varepsilon<\frac14.
+\tag{1}
+
+$$
+
+设 $\mathscr R$ 是一族实际可达独立根，根 $R$ 的质量为 $w_R\ge0$，总质量为
+
+$$
+
+W=\sum_{R\in\mathscr R}w_R.
+\tag{2}
+
+$$
+
+固定一个尚未使用的块 $N$，$|N|=b$。定义
+
+$$
+
+D_N(R)
+=
+\{x\in N:R\cup\{x\}\text{ 不独立}\}.
+\tag{3}
+
+$$
+
+定义规范化 external-old-anchor 质量
+
+$$
+
+O_N
+=
+\frac1b
+\sum_{R\in\mathscr R}w_R|D_N(R)|.
+\tag{4}
+
+$$
+
+对每个真实旧顶点对 $p=\{u,v\}$，定义 pair-cylinder 质量
+
+$$
+
+\Gamma(p)
+=
+\sum_{\substack{R\in\mathscr R\\p\subseteq R}}w_R.
+\tag{5}
+
+$$
+
+则至少发生以下二者之一。
+
+## A. 定量控制
+
+$$
+
+\boxed{
+O_N
+\le
+\left(
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+\right)W.
+}
+\tag{6}
+
+$$
+
+## B. 显式 pair-cylinder 结构证书
+
+存在真实旧顶点对
+
+$$
+
+p=\{u,v\}
+
+$$
+
+以及 $x\in N$，满足
+
+$$
+
+p\cup\{x\}\in E(H)
+\tag{7}
+
+$$
+
+和
+
+$$
+
+\boxed{
+\Gamma(p)>
+(1+\varepsilon)\frac{W}{b^2}.
+}
+\tag{8}
+
+$$
+
+特别地，令
+
+$$
+
+\mathscr R_p
+=
+\{R\in\mathscr R:p\subseteq R\},
+
+$$
+
+则
+
+$$
+
+\sum_{R\in\mathscr R_p}w_R
+>
+(1+\varepsilon)\frac{W}{b^2},
+\tag{9}
+
+$$
+
+并且对每个 $R\in\mathscr R_p$，
+
+$$
+
+p\cup\{x\}
+\subseteq
+R\cup\{x\},
+
+$$
+
+所以
+
+$$
+
+R\cup\{x\}
+\quad\text{不独立}.
+\tag{10}
+
+$$
+
+换言之，证书给出一个完全真实、保留标签的阻断矩形：
+
+$$
+
+\boxed{
+\mathscr R_p\times\{x\}
+\text{ 全部被同一条真实边 }p\cup\{x\}\text{ 阻断}.
+}
+\tag{11}
+
+$$
+
+---
+
+# 证明
+
+## 第一步：规范归因
+
+对每个
+
+$$
+
+(R,x),
+\qquad x\in D_N(R),
+
+$$
+
+由于 $R$ 独立而 $R+x$ 不独立，存在一条真实边
+
+$$
+
+e\subseteq R\cup\{x\}.
+
+$$
+
+因为 $R$ 独立，这条边必须包含 $x$，所以形如
+
+$$
+
+e=p\cup\{x\},
+\qquad p\subseteq R,\quad |p|=2.
+\tag{12}
+
+$$
+
+按任意固定的确定规则选择其中一条，记为
+
+$$
+
+\phi(R,x)=p(R,x)\cup\{x\}.
+\tag{13}
+
+$$
+
+设实际被选中的真实边集合为
+
+$$
+
+\mathcal E_\phi
+=
+\{\phi(R,x):R\in\mathscr R,\ x\in D_N(R)\}.
+
+$$
+
+对 $e=p\cup\{x\}\in\mathcal E_\phi$，定义负载
+
+$$
+
+L_e
+=
+\frac1b
+\sum_{\substack{R\in\mathscr R\\
+\phi(R,x)=e}}
+w_R.
+\tag{14}
+
+$$
+
+每个 old-anchor obligation 恰好归给一条边，所以
+
+$$
+
+\boxed{
+O_N=\sum_{e\in\mathcal E_\phi}L_e.
+}
+\tag{15}
+
+$$
+
+---
+
+## 第二步：逐边负载界
+
+固定
+
+$$
+
+e=p\cup\{x\},
+\qquad p=\{u,v\}.
+
+$$
+
+若
+
+$$
+
+\phi(R,x)=e,
+
+$$
+
+则必有
+
+$$
+
+p\subseteq R.
+
+$$
+
+因此
+
+$$
+
+\begin{aligned}
+L_e
+&=
+\frac1b
+\sum_{\substack{R\\\phi(R,x)=e}}w_R\\
+&\le
+\frac1b
+\sum_{\substack{R\\p\subseteq R}}w_R\\
+&=
+\frac{\Gamma(p)}b.
+\end{aligned}
+\tag{16}
+
+$$
+
+所以
+
+$$
+
+\boxed{
+L_{p\cup\{x\}}
+\le
+\frac{\Gamma(p)}b.
+}
+\tag{17}
+
+$$
+
+---
+
+## 第三步：反设不存在结构证书
+
+假设 B 不发生。那么对每个实际被使用的 pair $p$，
+
+$$
+
+\Gamma(p)
+\le
+(1+\varepsilon)\frac{W}{b^2}.
+\tag{18}
+
+$$
+
+由 (17)，
+
+$$
+
+L_e
+\le
+(1+\varepsilon)\frac{W}{b^3}
+\qquad
+\text{对所有 }e\in\mathcal E_\phi.
+\tag{19}
+
+$$
+
+另一方面，每条 $e\in\mathcal E_\phi$ 都包含某个 $x\in N$。于是
+
+$$
+
+|\mathcal E_\phi|
+\le
+\sum_{x\in N}d_H(x)
+\le
+b\Delta(H).
+\tag{20}
+
+$$
+
+结合 (15)、(19)、(20)：
+
+$$
+
+\begin{aligned}
+O_N
+&=
+\sum_{e\in\mathcal E_\phi}L_e\\
+&\le
+|\mathcal E_\phi|
+(1+\varepsilon)\frac{W}{b^3}\\
+&\le
+b\Delta(H)
+(1+\varepsilon)\frac{W}{b^3}\\
+&=
+(1+\varepsilon)
+\frac{\Delta(H)}{b^2}W.
+\end{aligned}
+\tag{21}
+
+$$
+
+再使用 (1)：
+
+$$
+
+O_N
+\le
+(1+\varepsilon)
+\left(\frac14-\varepsilon\right)W.
+\tag{22}
+
+$$
+
+展开右侧：
+
+$$
+
+(1+\varepsilon)
+\left(\frac14-\varepsilon\right)
+=
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2.
+\tag{23}
+
+$$
+
+故
+
+$$
+
+O_N
+\le
+\left(
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+\right)W,
+
+$$
+
+即 A 成立。定理得证。
+
+---
+
+# 为什么 B 确实是结构证书，而不只是“大参数”
+
+证书不只是说
+
+$$
+
+\Gamma(p)\text{ 大}.
+
+$$
+
+它同时提供：
+
+$$
+
+p=\{u,v\},
+\qquad
+x\in N,
+\qquad
+\{u,v,x\}\in E(H),
+
+$$
+
+以及明确的根 cylinder
+
+$$
+
+\mathscr R_p=\{R:u,v\in R\}.
+
+$$
+
+在整个 cylinder 上，同一条真实边工作：
+
+$$
+
+\forall R\in\mathscr R_p,
+\qquad
+\{u,v,x\}\subseteq R+x.
+
+$$
+
+所以它具有以下性质：
+
+1. **真实身份保留**：明确给出 $u,v,x$；
+2. **可复算**：只需检查根是否包含 $u,v$；
+3. **零虚构容量**：没有把 genealogy 重数当成新真实边；
+4. **完全相干**：所有证书质量由同一真实 blocker 支撑；
+5. **可向后续节点传递**：可以直接作为 persistent-pair cylinder 输入。
+
+这正是 Q-0015 所需的“controlled or explicit structural obstruction”形式，而不是把一个无法解释的误差项留给后续。旧记录也已经把超过目标比例时得到的 $\Gamma(u,v)$ 证书识别为接近 Q-0015 所需的输出形式。fileciteturn0file0L6460-L6520
+
+---
+
+# 吸收 `no-configuration`
+
+旧对话已经严格归约：
+
+$$
+
+\mathrm{configs}(a)=\varnothing
+\Longrightarrow
+\text{释放后存在实际 external-old-anchor blocker},
+
+$$
+
+并且这一重标保持质量、无需挪用其它账本。fileciteturn0file0L17-L33
+
+因此同一个二分立即适用于 `no-configuration` 质量：
+
+$$
+
+\boxed{
+\text{no-configuration mass}
+\le
+\left(
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+\right)W
+}
+
+$$
+
+或者输出同样的 pair-cylinder 证书。
+
+这里必须按照旧回归的教训，在释放后重新寻找实际存活边，而不能直接沿用历史 `first_edge`。fileciteturn0file0L29-L33
+
+---
+
+# 与 hole-move / kernel 接口的关系
+
+前面建立的
+
+$$
+
+\text{hole move}
+\ \vee\
+\text{fresh edge}
+\ \vee\
+\text{persistent kernel}
+
+$$
+
+并没有白费，但它属于**消费结构证书的下一层机制**。
+
+Q-0015 到这里已经输出了：
+
+$$
+
+(p,x,\mathscr R_p),
+
+$$
+
+即一个带真实 pair 与 future vertex 标签的 coherent cylinder。
+
+后续可以在 $\mathscr R_p$ 上条件化，再应用：
+
+$$
+
+\text{hole move}
+\ \vee\
+\text{fresh edge}
+\ \vee\
+\text{persistent kernel},
+
+$$
+
+然后把 persistent kernel 送入 degree–quotient–closure 定理。
+
+因此合理的职责分界是：
+
+$$
+
+\boxed{
+\begin{array}{ll}
+\textbf{Q-0015：}&
+\text{把 E-exit 控制在 }1/4-\delta
+\text{ 以下，或输出 coherent pair cylinder};\\[1mm]
+\textbf{后续节点：}&
+\text{消费该 cylinder，推出 reroot、fresh/reuse、}\\
+&\text{splitter、quotient 或内部闭合。}
+\end{array}}
+\tag{24}
+
+$$
+
+旧记录曾把“超过半块的 persistent blocker 如何沿 genealogy 产生”识别为接近 Q-0017 的 normal-form 问题，而不是继续硬塞回 Q-0015。fileciteturn0file0L5960-L6045
+
+---
+
+# 当前可声称的完成状态
+
+基于现有导出记录，可以严格声称：
+
+$$
+
+\boxed{
+\texttt{external-old-anchor-blocker}
+\text{ 与由其归约得到的 }
+\texttt{no-configuration}
+\text{ 已满足 Q-0015 的证书式要求。}
+}
+
+$$
+
+更精确的完成命题是
+
+$$
+
+\boxed{
+O_N
+\le
+\left(
+\frac14-\delta_\varepsilon
+\right)W
+\quad\vee\quad
+\exists(p,x):
+\begin{cases}
+p+x\in E(H),\\
+\Gamma(p)>(1+\varepsilon)W/b^2,
+\end{cases}
+}
+
+$$
+
+其中
+
+$$
+
+\delta_\varepsilon
+=
+\frac{3\varepsilon}{4}+\varepsilon^2>0.
+\tag{25}
+
+$$
+
+我还不能仅凭这份旧对话导出文本诚实地宣布**仓库中的整个 Q-0015 节点已正式关闭**，因为这里没有完整列出所有 named E-exit 的权威清单及各自当前状态。项目记录只明确告诉我们：主节点是 Q-0015，并且 `no-configuration` 已归约到此前未决的 `external-old-anchor-blocker`。fileciteturn0file0L9-L33
+
+但就这段对话一直推进的唯一实质缺口而言，数学核心现在已经闭合：不再需要假设 $\chi$ 小，也不需要先证明完整 kernel closure；pair congestion 过大本身就被输出为一个真实、相干、可继续利用的结构证书。
+
+
+【提问 轮数2】
+[User is quoting/referring to: "完整列出所有 named E-exit 的权威清单"]
+
+我们不是选择一个即可吗？
+
+【回答内容 轮数2】
+对，你说得对。**Q-0015 的任务不是同时控制所有 named E-exit，而是选定其中一种，完成其“定量控制或结构证书”二分。** 旧计划明确写的是“先选定一种 E-exit 类，给出可检验的定量命题”，并非穷尽全部类别。fileciteturn0file0L9-L17
+
+因此我上一条最后的保留过度谨慎了。只要满足下面两点，就可以把 Q-0015 视为完成：
+
+1. 所选类别确实是官方具名 E-exit；
+2. 对该类别证明
+   $$
+
+   \text{定量可控}
+   \quad\vee\quad
+   \text{可复算的结构证书}.
+
+$$
+
+`external-old-anchor-blocker` 确实被 FW-40 列为 named E-exit，而 `no-configuration` 又已经一对一、同质量地归约到它。fileciteturn0file0L17-L33
+
+我们刚得到的定理正好给出
+
+$$
+
+O_N
+\le
+\left(
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+\right)W
+
+$$
+
+或者存在真实 $p=\{u,v\}$ 与 $x\in N$，使
+
+$$
+
+p\cup\{x\}\in E(H),
+\qquad
+\Gamma(p)>
+(1+\varepsilon)\frac{W}{b^2}.
+
+$$
+
+后者是可复算、保留真实顶点身份的 coherent pair-cylinder certificate。因此按照 Q-0015 的选择式任务结构，应当得出：
+
+$$
+
+\boxed{
+\text{Q-0015 已由选择 }
+\texttt{external-old-anchor-blocker}
+\text{ 这一类别完成。}
+}
+
+$$
+
+更准确的证明链是
+
+$$
+
+\texttt{no-configuration}
+\longrightarrow
+\texttt{external-old-anchor-blocker}
+\longrightarrow
+\begin{cases}
+\text{严格低于 }1/4\text{ 的定量界},\\
+\text{或重 pair-cylinder 结构证书}.
+\end{cases}
+
+$$
+
+所以不需要再列出或处理所有其它 named E-exit；它们属于可选择的其他路线，而不是当前 Q-0015 的并列必做项。
+
+
+【提问 轮数3】
+请你按照仓库中的agent.md要求，更新仓库。包括闭合Q-0015，更新handout.md等框架文件，更新fact.md等历史文件。给出一个统一应用的补丁文件
+
+【回答内容 轮数3】
+我会先读取仓库当前的 `AGENTS.md`、README、Proof DAG、handoff/fact 等权威文件，确认分支与格式要求；随后只基于当前仓库内容制作一个可统一应用的补丁，并做基本一致性检查。
+
+【回答内容 轮数3】
+范围锁定如下：模式为 `status-promotion`；基线采用仓库当前 `main`（README 标注的公开基线为 `cfadd24…`，但我会以实际拉取到的 HEAD 为准）；允许修改证据、知识注册、Proof DAG/项目状态、README 与 handoff，禁止修改 `sources/raw/` 和既有历史归档内容。状态提升只有在仓库要求的检查全部通过后才写入。
+
+【回答内容 轮数3】
+权威文件显示了一个必须纠正的边界：**“选择一个 E-exit 类”是当前推进动作，不是 Q-0015 的原始关闭标准**。Q-0015 仍要求跨所有深度和源记录的近无损配置/escape 流，或真实反模型；因此我不会制作一个虚假闭合补丁。下面的补丁会登记并证明 `external-old-anchor` 子类的新定量定理，同时保持 Q-0015 为 active，并把“单类即闭合”的误读写入失败注册。
+
+【回答内容 轮数3】
+统一补丁已经生成，并通过了 Git 补丁语法解析：
+
+- `git apply --stat`：通过
+- `git apply --numstat`：通过
+- 共修改 8 个文件：247 行新增、12 行删除
+
+[下载统一补丁文件](sandbox:/mnt/data/q0015_external_old_anchor_supporting_update.patch)
+
+### 一个重要的状态纠正
+
+我没有在补丁中把 Q-0015 标为 closed。仓库当前的权威 `QUESTIONS.md` 要求：对所有深度和源记录建立近无损 configuration/escape flow，或者给出满足低度、块极小、无 IT、真实可达等全部条件的反模型；控制一个 named E-exit 子类并不满足这个关闭标准。`PROOF_DAG.md` 对 G1c 也保留了同样的全局验收要求。turn134160view4
+
+`AGENTS.md`/`agent.md` 同时要求，状态提升必须以原始验收标准和完整检查为准，不能仅凭局部进展改写 canonical status。turn532895view2
+
+补丁因此采用了 **supporting-progress update**：
+
+- 新增严格证明文件
+  `evidence/proofs/Q0015_EXTERNAL_OLD_ANCHOR_PAIR_CYLINDER.md`
+- 在 `knowledge/FACTS.md` 登记 F-0037
+- 在 `knowledge/FAILURES.md` 登记 A-0027，防止再次把“选择一个子类推进”误读为“整个节点已关闭”
+- 更新 `knowledge/QUESTIONS.md`
+- 更新 `docs/framework/FW-10_CONFIGURATION_ENTRY.md`
+- 更新 `docs/PROJECT_STATE.yaml`
+- 更新 `docs/PROOF_DAG.md`
+- 最后更新 `HANDOFF_CURRENT.md`
+
+F-0037 记录的严格结论是：
+
+$$
+
+O_N\le(1+\eta)\frac{\Delta(H)}{b^2}W,
+
+$$
+
+或者输出一个保留真实 $u,v,x$、真实边 $\{u,v,x\}$ 和根 cylinder 身份的 coherent pair-cylinder。这个输出符合 Q-0015 所需的“可控或显式结构证书”局部形式，但尚缺从实际最短 E 质量到规范 future cylinder 的无损桥梁。FW-40 本身也把 named exits 的定量控制留在 G1c，而没有宣称单个出口定理即可完成整个节点。
+
+### 应用方式
+
+补丁以仓库记录的公开基线
+
+```text
+cfadd24b52546d4d5800c4a3c5a75a2add86f928
+```
+
+为目标。turn532895view0
+
+```bash
+git checkout cfadd24b52546d4d5800c4a3c5a75a2add86f928
+git apply --check q0015_external_old_anchor_supporting_update.patch
+git apply q0015_external_old_anchor_supporting_update.patch
+```
+
+我未提交或推送任何修改。当前环境无法解析 `github.com`，所以没有取得可运行的本地仓库，也不能诚实声称执行过完整的 pytest、repository checker、generated-artifact checker 和 Q-0015 regression suite；这些检查仍须在真实仓库工作树中运行后才能合并或进行 canonical status promotion。
+
+
+【提问 轮数4】
+[User is quoting/referring to: "对所有深度和源记录建立近无损 configuration/escape flow"]
+
+请你考察这个全称要求是否必要，特别地，假令现在的闭合形式为基底，是否可能得到最终证明？
+
+【回答内容 轮数4】
+我会把这个问题分成两层：先判断“对所有深度和源记录”究竟是证明所必需，还是仓库为模块化审计设定的偏强接口；再检查目前的 pair-cylinder 闭合是否足以替代它，直接接到后续 persistent-blocker/quotient 机制。
+
+【回答内容 轮数4】
+目前出现了一个关键区别：全称接口并非逻辑上唯一的路线，但它承担了两个作用——保证递推覆盖全部失败质量，以及让下游正常形可以作用于真实近无损对象。若改用当前 pair-cylinder 闭合，必须分别补回这两个作用，而不能只把“重 pair”当作终点。
+
+【回答内容 轮数4】
+可以，而且这里确实需要把两个不同的全称量词拆开看。
+
+## 结论
+
+$$
+
+\boxed{
+\text{“对所有源记录逐个建立近无损流”不是最终定理的逻辑必要条件。}
+}
+
+$$
+
+但
+
+$$
+
+\boxed{
+\text{必须对证明实际覆盖到的全部质量，给出一个统一的跨深度控制。}
+}
+
+$$
+
+换言之：
+
+- **对每个 source record 分别可行**，是当前配置流路线的偏强、模块化接口；
+- **对每个深度的总失败质量不能静默丢失**，或一个等价的多步/停止时势函数控制，仍然必要。
+
+仓库当前把 G1d 定义为跨深度、跨 root projection 的近无损配置流，并要求下游 Q-0017/Q-0016 作用在真实、近无损、保留完整账本的对象上；这是现有 Proof DAG 的接口选择，而不是所有可能证明路线都必须采用的数学定理。turn830312view1
+
+---
+
+# 一、为什么“对所有源记录”过强
+
+当前要求的逻辑形式接近
+
+$$
+
+\forall k\quad
+\forall \widehat S\in\mathcal S_{k-2},
+\quad
+\exists\text{ 一份满足预算的配置流 }f_{\widehat S}.
+\tag{1}
+
+$$
+
+但最终递推真正使用的是求和后的总量：
+
+$$
+
+\mathcal B_k
+\le
+(1+\eta)(1+\gamma)\Delta(H)A_{k-2}.
+\tag{2}
+
+$$
+
+F-0022 的证明也是先对每个投影估计，再对全部投影求和；逐投影条件只是推出总量界的一种充分方式。最终存在 IT 真正依赖的是总递推
+
+$$
+
+A_k
+\ge
+bA_{k-1}
+-
+c\,b^2A_{k-2}
+-
+E_k,
+\qquad c<\frac14,
+\tag{3}
+
+$$
+
+而不是每个单独源记录都有一份漂亮的流。turn846396view1
+
+因此完全可以允许：
+
+- 某些 source record 没有配置流；
+- 某些 Hall cut 局部很坏；
+- 某些 genealogy 被条件化或重组；
+
+只要它们的**总质量**满足以下之一：
+
+$$
+
+\text{小误差}
+\quad\vee\quad
+\text{由正确资源支付}
+\quad\vee\quad
+\text{进入一个可以继续消费的结构分支}.
+
+$$
+
+所以自然的弱化应是
+
+$$
+
+\boxed{
+\forall k,\quad
+\exists\text{ 一族规范 aggregate cylinders，覆盖该层几乎全部相关质量。}
+}
+\tag{4}
+
+$$
+
+这里没有 $\forall\widehat S$。
+
+---
+
+# 二、深度上的全称不能完全消失
+
+若实例可以有任意多个块，仅在某一个深度证明局部二分显然不够。最终必须拥有以下某种统一时间控制：
+
+1. 每个深度 $k$ 的总量递推；
+2. 每个固定长度 $L$ 时间窗的多步递推；
+3. 一个停止时/势函数，使所有未终止质量产生可求和的势下降。
+
+所以
+
+$$
+
+\forall k
+
+$$
+
+可以被一个 $L$-步或 stopping-time 命题替代，但不能被“某处存在一个好 cylinder”替代。
+
+特别是只保留一个正质量分支通常不够：如果分支质量可以任意小，它既不能控制总失败质量，也不能提供最终计数递推。
+
+因此更准确的判断是：
+
+$$
+
+\boxed{
+\begin{array}{c}
+\forall\text{ source record：不必要};\\
+\forall\text{ depth 或等价的全局时间控制：必要}.
+\end{array}
+}
+\tag{5}
+
+$$
+
+---
+
+# 三、当前 pair-cylinder 闭合具有正确的数值强度
+
+现在的 external-old-anchor 定理给出：
+
+$$
+
+O_N
+\le
+(1+\varepsilon)
+\frac{\Delta(H)}{b^2}W,
+
+$$
+
+或者输出一个 coherent heavy pair-cylinder。
+
+在
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+下，受控分支变成
+
+$$
+
+O_N
+\le
+q_\varepsilon W,
+
+$$
+
+其中
+
+$$
+
+q_\varepsilon
+=
+(1+\varepsilon)
+\left(\frac14-\varepsilon\right)
+=
+\frac14-\delta_\varepsilon,
+
+$$
+
+并且
+
+$$
+
+\boxed{
+\delta_\varepsilon
+=
+\frac{3\varepsilon}{4}+\varepsilon^2>0.
+}
+\tag{6}
+
+$$
+
+这非常重要：它不仅给出 $\le1/4$，还留下了一个固定正裕量。这个裕量可以吸收其它失败类的总误差。
+
+---
+
+# 四、一个严格的替代充分条件
+
+下面给出一个不要求逐 source flow、但足以推出最终定理的接口。
+
+## Aggregate-cylinder entrance criterion
+
+对每个深度 $k$，设 $A_{k-2}$ 是实际源质量，总两步失败质量为 $\mathcal B_k$。假设或者已经出现最终结构出口，或者有分解
+
+$$
+
+\mathcal B_k
+=
+\mathcal B_k^{\mathrm{old}}
++
+\mathcal B_k^{\mathrm{rest}}.
+\tag{7}
+
+$$
+
+要求如下。
+
+### AC1：aggregate cylinder cover
+
+存在一族两两不重复收费的规范 future cylinders
+
+$$
+
+\{(\mathscr R_i,N_i,W_i)\}_{i\in I_k},
+
+$$
+
+使得
+
+$$
+
+\sum_{i\in I_k}W_i
+\le A_{k-2},
+\tag{8}
+
+$$
+
+且实际 raw old-anchor 失败质量满足
+
+$$
+
+\mathcal B_k^{\mathrm{old}}
+=
+b^2\sum_{i\in I_k}O_i.
+\tag{9}
+
+$$
+
+这里 $O_i$ 是对应 cylinder 的归一化 old-anchor mass。
+
+这就是 raw execution mass 到当前 pair-cylinder 定理的真正桥梁。
+
+### AC2：heavy cylinder 可消费
+
+对每个 cylinder，若出现
+
+$$
+
+\Gamma_i(p)>
+(1+\varepsilon)\frac{W_i}{b^2},
+\tag{10}
+
+$$
+
+则该 coherent pair-cylinder 必须产生以下之一：
+
+$$
+
+\text{高点度数}
+\vee
+\text{完整块 closure}
+\vee
+\text{exact quotient/归纳}
+\vee
+\text{有界拥塞 fresh-edge 收费}
+\vee
+\text{严格势下降}.
+\tag{11}
+
+$$
+
+在最小低度无 IT 反例中，这些分支都必须被排除或消费，不能只是把 heavy pair 作为一个停止标签。
+
+### AC3：其余失败总量小
+
+存在
+
+$$
+
+\rho_\varepsilon<\delta_\varepsilon
+
+$$
+
+使
+
+$$
+
+\mathcal B_k^{\mathrm{rest}}
+\le
+\rho_\varepsilon b^2A_{k-2}.
+\tag{12}
+
+$$
+
+这里是总量条件，不要求每个 source record 分别成立。
+
+---
+
+# 五、由这个弱接口推出最终递推
+
+在没有最终结构出口的最小反例中，AC2 排除了所有 heavy-pair 分支。
+
+于是当前 pair-cylinder 定理对每个 $i$ 给出
+
+$$
+
+O_i\le q_\varepsilon W_i.
+
+$$
+
+结合 (8)、(9)：
+
+$$
+
+\begin{aligned}
+\mathcal B_k^{\mathrm{old}}
+&=
+b^2\sum_iO_i\\
+&\le
+q_\varepsilon b^2\sum_iW_i\\
+&\le
+q_\varepsilon b^2A_{k-2}.
+\end{aligned}
+\tag{13}
+
+$$
+
+再加上 AC3：
+
+$$
+
+\mathcal B_k
+\le
+(q_\varepsilon+\rho_\varepsilon)
+b^2A_{k-2}.
+\tag{14}
+
+$$
+
+由于
+
+$$
+
+q_\varepsilon+\rho_\varepsilon
+<
+\frac14,
+
+$$
+
+令
+
+$$
+
+c_\varepsilon
+=
+q_\varepsilon+\rho_\varepsilon
+<
+\frac14.
+
+$$
+
+于是得到
+
+$$
+
+A_k
+\ge
+bA_{k-1}
+-
+c_\varepsilon b^2A_{k-2}.
+\tag{15}
+
+$$
+
+取
+
+$$
+
+\lambda
+=
+\frac b2
+\left(
+1+\sqrt{1-4c_\varepsilon}
+\right)>0.
+\tag{16}
+
+$$
+
+它满足
+
+$$
+
+\lambda
+=
+b-\frac{c_\varepsilon b^2}{\lambda}.
+
+$$
+
+初始时 $A_1=bA_0\ge\lambda A_0$。若
+
+$$
+
+A_{k-1}\ge\lambda A_{k-2},
+
+$$
+
+则由 (15)
+
+$$
+
+\begin{aligned}
+A_k
+&\ge
+bA_{k-1}
+-
+c_\varepsilon b^2A_{k-2}\\
+&\ge
+\left(
+b-\frac{c_\varepsilon b^2}{\lambda}
+\right)A_{k-1}\\
+&=
+\lambda A_{k-1}.
+\end{aligned}
+
+$$
+
+故归纳得到
+
+$$
+
+A_k>0
+
+$$
+
+直到最后一个块。这意味着存在完整独立横截，与“无 IT”矛盾。
+
+所以：
+
+$$
+
+\boxed{
+\text{AC1 + AC2 + AC3 已足以推出最终 }1/4-\varepsilon\text{ 定理。}
+}
+\tag{17}
+
+$$
+
+它明显弱于“对所有源记录建立配置流”。
+
+---
+
+# 六、当前闭合形式尚缺什么
+
+当前 pair-cylinder 闭合已经提供了 AC1–AC3 中最关键的数值部分，但还没有全部提供。
+
+## 1. 尚缺 raw-to-normalized aggregate bridge
+
+定理控制的是
+
+$$
+
+O_N=\frac1b\sum_Rw_R|D_N(R)|.
+
+$$
+
+实际执行中则有：
+
+- 第一 future block 的成功选择；
+- 第二 future block 的失败尝试；
+- genealogy sibling mass；
+- block ordering；
+- 最短 E 前缀。
+
+必须证明这些 raw obligations 能无复制地写成 (9)。
+
+FW-40 已经允许把真实根障碍均匀提升到完整 future tuple 空间，并保持质量与账本，但它明确没有证明 E 质量可控，也没有证明一般入口近乎无损。turn830312view4
+
+## 2. heavy pair 目前还不是最终出口
+
+现有证书是
+
+$$
+
+\Gamma(p)>(1+\varepsilon)\frac W{b^2}
+
+$$
+
+和一条边
+
+$$
+
+p\cup\{x\}\in E(H).
+
+$$
+
+它本身并不推出：
+
+- $p$ 对很多 future vertices 有大 codegree；
+- $p$ 在很多后续块持续；
+- 某端点度数接近 $b^2/4$；
+- 完整块 closure。
+
+尤其若 root measure 已经高度集中，甚至只有一个 root，那么其中每个 pair 都有
+
+$$
+
+\Gamma(p)=W,
+
+$$
+
+heavy-pair 分支会自动发生，完全不表示矛盾。
+
+因此 AC2 是真正的剩余核心：
+
+$$
+
+\boxed{
+\text{heavy pair 必须被证明“可消费”，而不只是“可命名”。}
+}
+
+$$
+
+这与我们前面的重-pair 容量三分正好吻合：
+
+$$
+
+\text{长期重 pair}
+\Longrightarrow
+\text{pair 频繁改变}
+\vee
+\text{锚点近饱和}
+\vee
+\text{支持扩张/闭合}.
+
+$$
+
+但还需要把这一三分做成加权、保质量、跨 future blocks 的版本。
+
+## 3. 尚缺 non-old-anchor residual
+
+若
+
+$$
+
+R+x\text{ 独立},
+\qquad
+R+r+x\text{ 不独立},
+
+$$
+
+则 blocker 形如
+
+$$
+
+\{p,r,x\}.
+
+$$
+
+这些是真正 fresh/configurable failures，不属于 external-old-anchor。当前 pair-cylinder 定理不控制它们。
+
+这部分正是原配置预算存在的原因：如果直接对 root 中所有可能 $p$ 求度数，容易得到
+
+$$
+
+|R|\Delta
+
+$$
+
+而不是单个 $\Delta$。仓库的 F-0027 也明确说，当前二阶递推中配置预算是保住单个 $\Delta(H)$ 因子的必要接口，但同时注明这并不排除完全不同的势函数或证明方法。
+
+所以若绕开逐 source 配置流，仍需证明 AC3，可能通过：
+
+- aggregate pivot measure；
+- one-hole 势函数；
+- first-hit fresh-edge 收费；
+- 多步 telescoping；
+- 或 pair-cylinder dynamics 与 fresh failures 的联合势。
+
+---
+
+# 七、建议的新证明 DAG
+
+如果采用当前闭合形式为基底，可以把原来的
+
+$$
+
+\text{G1d：对所有源记录近无损配置流}
+
+$$
+
+替换为较弱的：
+
+$$
+
+\boxed{
+\textbf{G1d}^{*}\textbf{：Canonical aggregate cylinder entry}.
+}
+
+$$
+
+其输入仍是任意块极小低度无 IT 实例，但输出只要求：
+
+1. 每个深度有一个规范 aggregate root measure；
+2. 该 measure 覆盖全部或 $1-o_\varepsilon(1)$ 的实际失败质量；
+3. external-old-anchor 进入当前 pair-cylinder 二分；
+4. heavy pair 进入可消费的 pair dynamics；
+5. 其余失败的总量小于 $\delta_\varepsilon b^2A_{k-2}$；
+6. 所有保留分支仍保存真实边、块、genealogy 和必要账本。
+
+下游 FW-50 当前要求输入保存 root projection、pivot、genealogy、三账本和完整 future tuple 支持；如果走新路线，只需在 **aggregate cylinders 的支持上**提供这些数据，不必对所有可能源记录提供。
+
+---
+
+# 最终判断
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{当前 Q-0015 的“所有深度、所有源记录”要求}\\
+&\text{是现有配置流架构的充分且便于审计的接口，}\\
+&\text{但不是 }1/4\text{ 定理的逻辑必要条件。}
+\end{aligned}}
+
+$$
+
+当前 pair-cylinder 闭合**有可能成为一条更短最终证明的基底**，因为它已经给出了严格低于 $1/4$ 的正确数值裕量。
+
+但它还需要三个桥梁：
+
+$$
+
+\boxed{
+\text{aggregate normalization}
++
+\text{heavy-pair consumption}
++
+\text{non-old-anchor residual control}.
+}
+
+$$
+
+一旦这三条成立，就可以直接得到总量递推，不再需要对每个 source record 分别构造近无损 configuration flow。届时应当先证明上面的 aggregate sufficiency theorem，再正式修改 Q-0015/G1d 的验收标准；不能只通过改写仓库中的全称要求来宣布闭合。
+
+
+【提问 轮数5】
+[User is quoting/referring to: "一旦这三条成立，就可以直接得到总量递推"]
+
+请你尝试证明
+
+【回答内容 轮数5】
+我会把三条桥梁分别做成可检验命题：先争取把 aggregate normalization 和 non-old-anchor residual 完全证明；对 heavy-pair consumption，则尝试给出一个跨层停止时定理，并明确指出还需要哪一项执行单调性。
+
+
+【提问 轮数6】
+[User is quoting/referring to: "我会把三条桥梁分别做成可检验命题：先争取把 aggregate normalization 和 non-old-anchor residual 完全证明；对 heavy-pair consumption，则尝试给出一个跨层停止时定理，并明确指出还需要哪一项执行单调性。"]
+
+请你继续输出
+
+【回答内容 轮数6】
+有一个很实质的推进：**aggregate normalization 与 non-old-anchor residual 可以合并成同一个定理，并且完全证明。** 真正无法从当前闭合形式推出的，只剩 heavy-pair consumption；而且可以严格证明，现有的“$\Gamma(p)$ 大”证书本身确实不足。
+
+---
+
+# 一、把全部二步失败统一规范化
+
+设 $\mathscr R$ 是当前深度的实际独立根族，根 $R$ 的质量为 $w_R$，总质量
+
+$$
+
+W=\sum_{R\in\mathscr R}w_R.
+
+$$
+
+对每个 $R$，选择第一后继块 $M_R$，令
+
+$$
+
+G_R=\{r\in M_R:R+r\text{ 独立}\},
+\qquad
+g_R=|G_R|.
+
+$$
+
+对每个成功选择 $r\in G_R$，允许执行规则指定一个可能依赖于 $(R,r)$ 的第二块
+
+$$
+
+N(R,r),
+\qquad |N(R,r)|=b.
+
+$$
+
+记扩展根
+
+$$
+
+S_{R,r}=R\cup\{r\}.
+
+$$
+
+它是独立的。定义其第二步失败集
+
+$$
+
+D(R,r)
+=
+\{x\in N(R,r):S_{R,r}+x\text{ 不独立}\}.
+
+$$
+
+实际未经归一化的二步失败质量是
+
+$$
+
+\mathcal B
+=
+\sum_Rw_R\sum_{r\in G_R}|D(R,r)|.
+\tag{1}
+
+$$
+
+注意，这里同时包括：
+
+- $R+x$ 已经不独立的 old-anchor failures；
+- $R+x$ 独立、但 $R+r+x$ 不独立的 fresh/configurable failures。
+
+后一种失败的 blocker 必须形如
+
+$$
+
+\{p,r,x\},
+\qquad p\in R,
+
+$$
+
+因为 blocker 既不能避开 $r$，也不能避开 $x$。旧对话已经严格证明了这一二分。fileciteturn20file0L89-L138
+
+---
+
+## 定理 1：精确 aggregate normalization
+
+对每个实际第二块 $N$，定义扩展源族
+
+$$
+
+\mathscr S_N
+=
+\{(R,r):r\in G_R,\ N(R,r)=N\}.
+
+$$
+
+赋予每个扩展源权重
+
+$$
+
+a_{R,r}
+=
+\frac{w_R}{b}.
+\tag{2}
+
+$$
+
+定义该 cylinder 的总质量
+
+$$
+
+W_N
+=
+\sum_{(R,r)\in\mathscr S_N}a_{R,r},
+\tag{3}
+
+$$
+
+以及规范化失败质量
+
+$$
+
+E_N
+=
+\frac1b
+\sum_{(R,r)\in\mathscr S_N}
+a_{R,r}|D(R,r)|.
+\tag{4}
+
+$$
+
+那么：
+
+$$
+
+\boxed{
+\mathcal B=b^2\sum_NE_N
+}
+\tag{5}
+
+$$
+
+并且
+
+$$
+
+\boxed{
+\sum_NW_N
+=
+\frac1b\sum_Rw_Rg_R
+\le W.
+}
+\tag{6}
+
+$$
+
+### 证明
+
+由定义，
+
+$$
+
+\begin{aligned}
+b^2\sum_NE_N
+&=
+b^2
+\sum_N
+\frac1b
+\sum_{(R,r)\in\mathscr S_N}
+\frac{w_R}{b}|D(R,r)|\\
+&=
+\sum_N
+\sum_{(R,r)\in\mathscr S_N}
+w_R|D(R,r)|\\
+&=
+\sum_Rw_R\sum_{r\in G_R}|D(R,r)|\\
+&=\mathcal B.
+\end{aligned}
+
+$$
+
+另一方面，
+
+$$
+
+\begin{aligned}
+\sum_NW_N
+&=
+\sum_N
+\sum_{(R,r)\in\mathscr S_N}\frac{w_R}{b}\\
+&=
+\frac1b\sum_Rw_Rg_R\\
+&\le
+\sum_Rw_R=W,
+\end{aligned}
+
+$$
+
+因为 $g_R\le b$。证毕。
+
+这正好形式化了旧对话中的观察：在规范 future cylinder 中，不同 $r$-genealogy 并没有复制根质量，它们只是同一个未来坐标空间中的不同取值。fileciteturn19file0L9-L15
+
+---
+
+# 二、fresh residual 不需要单独处理
+
+现在固定一个第二块 $N$。
+
+对每个两元素真实 pair $p$，定义扩展根上的 pair-cylinder mass
+
+$$
+
+\Gamma_N(p)
+=
+\sum_{\substack{(R,r)\in\mathscr S_N\\
+p\subseteq R\cup\{r\}}}
+a_{R,r}.
+\tag{7}
+
+$$
+
+这里的 $p$ 可以是：
+
+- $p=\{u,v\}\subseteq R$，对应 old-anchor；
+- $p=\{u,r\}$，其中 $u\in R$，对应 fresh/configurable failure。
+
+所以无需先拆成 old 与 fresh 两类。
+
+---
+
+## 定理 2：统一 pair-cylinder 二分
+
+对任意 $\eta\ge0$，固定 $N$ 后至少发生以下之一：
+
+### Flat branch
+
+$$
+
+\boxed{
+E_N
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}W_N.
+}
+\tag{8}
+
+$$
+
+### Heavy branch
+
+存在真实 pair $p$ 和 $x\in N$，满足
+
+$$
+
+p\cup\{x\}\in E(H)
+
+$$
+
+以及
+
+$$
+
+\boxed{
+\Gamma_N(p)>
+(1+\eta)\frac{W_N}{b^2}.
+}
+\tag{9}
+
+$$
+
+### 证明
+
+对于每个 $(R,r)\in\mathscr S_N$ 和每个 $x\in D(R,r)$，扩展根
+
+$$
+
+S=R+r
+
+$$
+
+独立，而 $S+x$ 不独立。因此存在真实边
+
+$$
+
+p+x\in E(H),
+\qquad p\subseteq S,\quad |p|=2.
+
+$$
+
+于是
+
+$$
+
+\mathbf 1_{\{x\in D(R,r)\}}
+\le
+\sum_{\substack{p\subseteq R+r\\p+x\in E(H)}}1.
+
+$$
+
+乘以 $a_{R,r}/b$，再求和：
+
+$$
+
+E_N
+\le
+\frac1b
+\sum_{\substack{x\in N\\p+x\in E(H)}}
+\Gamma_N(p).
+\tag{10}
+
+$$
+
+若 heavy branch 不发生，则每个出现在右侧的 $p$ 都满足
+
+$$
+
+\Gamma_N(p)
+\le
+(1+\eta)\frac{W_N}{b^2}.
+
+$$
+
+因此
+
+$$
+
+\begin{aligned}
+E_N
+&\le
+\frac1b
+\left|
+\{(p,x):x\in N,\ p+x\in E(H)\}
+\right|
+(1+\eta)\frac{W_N}{b^2}\\
+&\le
+\frac1b
+\left(\sum_{x\in N}d_H(x)\right)
+(1+\eta)\frac{W_N}{b^2}\\
+&\le
+(1+\eta)\frac{\Delta(H)}{b^2}W_N.
+\end{aligned}
+
+$$
+
+证毕。
+
+这就是此前 old-anchor pair bound 的完全统一版本；旧计算已经证明过同样的边计数核心：
+
+$$
+
+E_{\rm old}^{\rm norm}
+\le
+\kappa_2\frac{\Delta(H)}{b^2}W.
+
+$$
+
+fileciteturn20file2L407-L467
+
+---
+
+# 三、若所有 cylinders pair-flat，最终递推立即成立
+
+假设每个第二块 cylinder 都进入 flat branch。由定理 1 和定理 2：
+
+$$
+
+\begin{aligned}
+\mathcal B
+&=
+b^2\sum_NE_N\\
+&\le
+b^2\sum_N
+(1+\eta)\frac{\Delta(H)}{b^2}W_N\\
+&=
+(1+\eta)\Delta(H)\sum_NW_N\\
+&\le
+(1+\eta)\Delta(H)W.
+\end{aligned}
+\tag{11}
+
+$$
+
+因此：
+
+$$
+
+\boxed{
+\mathcal B
+\le
+(1+\eta)\Delta(H)A_{k-2},
+}
+\tag{12}
+
+$$
+
+其中 $W=A_{k-2}$。
+
+若二步递推为
+
+$$
+
+A_k
+=
+bA_{k-1}-\mathcal B_k,
+
+$$
+
+则
+
+$$
+
+\boxed{
+A_k
+\ge
+bA_{k-1}
+-
+(1+\eta)\Delta(H)A_{k-2}.
+}
+\tag{13}
+
+$$
+
+现在假设
+
+$$
+
+\Delta(H)
+\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+并取 $\eta=\varepsilon$。则
+
+$$
+
+(1+\varepsilon)\Delta(H)
+\le
+\left(
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+\right)b^2.
+
+$$
+
+令
+
+$$
+
+c_\varepsilon
+=
+\frac14-\frac{3\varepsilon}{4}-\varepsilon^2
+<
+\frac14.
+\tag{14}
+
+$$
+
+于是
+
+$$
+
+A_k
+\ge
+bA_{k-1}
+-
+c_\varepsilon b^2A_{k-2}.
+\tag{15}
+
+$$
+
+取特征根
+
+$$
+
+\lambda
+=
+\frac b2
+\left(
+1+\sqrt{1-4c_\varepsilon}
+\right)>0.
+\tag{16}
+
+$$
+
+它满足
+
+$$
+
+\lambda^2=b\lambda-c_\varepsilon b^2.
+
+$$
+
+若
+
+$$
+
+A_{k-1}\ge\lambda A_{k-2},
+
+$$
+
+则
+
+$$
+
+\begin{aligned}
+A_k
+&\ge
+bA_{k-1}
+-
+c_\varepsilon b^2A_{k-2}\\
+&\ge
+\left(
+b-\frac{c_\varepsilon b^2}{\lambda}
+\right)A_{k-1}\\
+&=
+\lambda A_{k-1}.
+\end{aligned}
+
+$$
+
+由初始条件归纳可得
+
+$$
+
+A_k>0
+
+$$
+
+直到最后深度，从而得到独立横截。
+
+因此：
+
+$$
+
+\boxed{
+\text{aggregate normalization 与 non-old residual 已全部解决；}\\
+\text{pair-flat 区域本身足以给出最终 }1/4-\varepsilon\text{ 递推。}
+}
+\tag{17}
+
+$$
+
+---
+
+# 四、为什么现有 heavy-pair certificate 还不能消费
+
+现在只剩：
+
+$$
+
+\Gamma_N(p)>
+(1+\eta)\frac{W_N}{b^2}.
+\tag{18}
+
+$$
+
+但这条信息单独来看非常弱。
+
+## 反例
+
+取一个单独的扩展根
+
+$$
+
+S
+
+$$
+
+和权重 $a>0$。令整个 cylinder 只包含该根，因此
+
+$$
+
+W_N=a.
+
+$$
+
+取任意 pair
+
+$$
+
+p\subseteq S
+
+$$
+
+以及任意 $x\in N$，加入唯一一条边
+
+$$
+
+p+x.
+
+$$
+
+那么
+
+$$
+
+\Gamma_N(p)=a=W_N,
+
+$$
+
+所以只要 $b\ge2$，
+
+$$
+
+\Gamma_N(p)>
+(1+\eta)\frac{W_N}{b^2}
+
+$$
+
+通常自动成立。
+
+但这个超图局部结构只有一条边：
+
+$$
+
+d_H(z)\le1,
+
+$$
+
+没有度数饱和，没有大 codegree，没有完整块 closure，也没有长期 persistent pair。
+
+所以严格地说：
+
+$$
+
+\boxed{
+\Gamma_N(p)\text{ heavy}
+\not\Longrightarrow
+\text{degree/quotient/closure}.
+}
+\tag{19}
+
+$$
+
+这说明当前 heavy branch 只能作为**命名证书**，不能直接作为最终证明的可消费出口。
+
+---
+
+# 五、需要保留的不只是 $\Gamma$，还要保留实际负载
+
+固定一个确定性的 blocker attribution
+
+$$
+
+\phi(S,x)=p,
+\qquad
+p+x\in E(H).
+
+$$
+
+定义 pair $p$ 在 cylinder $N$ 上的实际归因负载
+
+$$
+
+L_N(p)
+=
+\frac1b
+\sum_{S\in\mathscr S_N}
+a_S
+\left|
+\{x\in D_N(S):\phi(S,x)=p\}
+\right|.
+\tag{20}
+
+$$
+
+那么
+
+$$
+
+\boxed{
+E_N=\sum_pL_N(p).
+}
+\tag{21}
+
+$$
+
+并且若
+
+$$
+
+X_N(p)
+=
+\{x\in N:p+x\in E(H)\},
+\qquad
+h_N(p)=|X_N(p)|,
+
+$$
+
+则
+
+$$
+
+\boxed{
+L_N(p)
+\le
+\frac{h_N(p)}b\Gamma_N(p).
+}
+\tag{22}
+
+$$
+
+真正有动力学意义的 heavy certificate 应当是三元组
+
+$$
+
+\boxed{
+\bigl(p,\Gamma_N(p),L_N(p)\bigr),
+}
+\tag{23}
+
+$$
+
+而不能只保留 $\Gamma_N(p)$。
+
+因为：
+
+- $\Gamma_N(p)$ 衡量有多少源质量包含 pair；
+- $L_N(p)$ 衡量 pair 实际承担了多少失败；
+- $h_N(p)$ 衡量它在该 future block 中用了多少不同真实边。
+
+---
+
+# 六、可以严格证明的跨层停止时引理
+
+下面给出 heavy-pair consumption 中已经能严格证明的部分。
+
+## Persistent-carrier lifetime lemma
+
+沿一条固定 genealogy，设在一列互不相同的 future blocks
+
+$$
+
+N_1,\ldots,N_T
+
+$$
+
+中，canonical carrier pairs 为
+
+$$
+
+p_1,\ldots,p_T.
+
+$$
+
+在第 $t$ 层，pair $p_t$ 实际归因给一组不同 future vertices
+
+$$
+
+X_t\subseteq N_t,
+\qquad h_t=|X_t|.
+
+$$
+
+假设：
+
+1. 每条被归因的边
+   $$
+
+   p_t+x,\qquad x\in X_t,
+
+$$
+   是真实超边；
+2. 不同层的 future blocks 不同；
+3. attribution 使用 persistent carrier：只要当前 pair 的真实 carrier 仍存活，就不任意换 pair。
+
+定义总 incidence
+
+$$
+
+H=\sum_{t=1}^Th_t.
+\tag{24}
+
+$$
+
+定义 pair 改变次数
+
+$$
+
+C
+=
+|\{t\ge2:p_t\ne p_{t-1}\}|.
+\tag{25}
+
+$$
+
+定义全部 carrier endpoints 的支持
+
+$$
+
+A=\bigcup_{t=1}^Tp_t,
+\qquad s=|A|.
+\tag{26}
+
+$$
+
+则
+
+$$
+
+\boxed{
+H\le(C+1)\Delta(H)
+}
+\tag{27}
+
+$$
+
+以及
+
+$$
+
+\boxed{
+2H\le s\Delta(H).
+}
+\tag{28}
+
+$$
+
+### 证明
+
+把时间分成 $C+1$ 个 maximal constant-pair intervals。
+
+在一个固定 pair $p=\{u,v\}$ 的 interval 中，所有边均形如
+
+$$
+
+p+x.
+
+$$
+
+由于 future blocks 互不相同，所有 $x$ 不同，因此这些真实边不同。它们全部经过 $u$，故数量至多
+
+$$
+
+d_H(u)\le\Delta(H).
+
+$$
+
+对所有 intervals 求和得到 (27)。
+
+另一方面，对每个 endpoint $z\in A$，令
+
+$$
+
+\lambda_z
+=
+\sum_{\substack{t\\z\in p_t}}h_t.
+
+$$
+
+每个 incidence 对两个 endpoints 各贡献一次，因此
+
+$$
+
+\sum_{z\in A}\lambda_z=2H.
+
+$$
+
+而所有计入 $\lambda_z$ 的真实边互不相同并经过 $z$，所以
+
+$$
+
+\lambda_z\le d_H(z)\le\Delta(H).
+
+$$
+
+故
+
+$$
+
+2H
+\le
+s\Delta(H).
+
+$$
+
+证毕。
+
+因此，若每层
+
+$$
+
+h_t\ge h_0,
+
+$$
+
+则
+
+$$
+
+\boxed{
+C
+\ge
+\left\lceil\frac{h_0T}{\Delta(H)}\right\rceil-1,
+}
+\tag{29}
+
+$$
+
+并且
+
+$$
+
+\boxed{
+s
+\ge
+\left\lceil\frac{2h_0T}{\Delta(H)}\right\rceil.
+}
+\tag{30}
+
+$$
+
+这就是此前数值模型观察到的定量三分：
+
+$$
+
+\text{长期 pair load}
+\Longrightarrow
+\text{频繁 pair changes}
+\vee
+\text{大 endpoint support}
+\vee
+\text{degree saturation}.
+
+$$
+
+---
+
+# 七、加权版本
+
+把执行质量分解成不重组的 infinitesimal genealogy particles $\omega$，赋予测度 $\mu$。
+
+对每个 particle 定义
+
+$$
+
+H(\omega),\quad C(\omega),\quad s(\omega).
+
+$$
+
+逐 particle 应用上面的不等式并积分，得到
+
+$$
+
+\boxed{
+\int H(\omega)\,d\mu(\omega)
+\le
+\Delta(H)
+\int(C(\omega)+1)\,d\mu(\omega),
+}
+\tag{31}
+
+$$
+
+以及
+
+$$
+
+\boxed{
+2\int H(\omega)\,d\mu(\omega)
+\le
+\Delta(H)
+\int s(\omega)\,d\mu(\omega).
+}
+\tag{32}
+
+$$
+
+所以大量累计 heavy-pair 负载必然迫使：
+
+- 大量真实 carrier changes；
+- 或大量 endpoint support；
+- 或某些 particles 进入接近度数饱和的状态。
+
+---
+
+# 八、现在只缺一条执行单调性
+
+要把 (31)–(32) 变成最终的 heavy-pair 质量控制，需要证明：
+
+$$
+
+\boxed{
+\text{canonical carrier change}
+\Longrightarrow
+\text{单调消耗某项有限资源}
+\ \vee\
+\text{输出 quotient/closure}.
+}
+\tag{33}
+
+$$
+
+在新的 one-hole 定义中，carrier change 是由释放 pair endpoint 引起的 hole move。因此自然候选势函数是
+
+$$
+
+\Phi(\sigma)
+=
+\bigl(
+\text{已访问 hole blocks},
+\text{当前 carrier support},
+\text{已生成 first-hit edges}
+\bigr).
+
+$$
+
+需要的精确单调性可写成：
+
+> 若一次 hole move 没有增加新的真实 first-hit edge，也没有增加新的 anchor block support，那么它必须重复一个此前的带标签状态；该重复状态形成一个可复算的 quotient 或闭合循环。
+
+一旦这条成立，就有：
+
+$$
+
+C(\omega)
+\le
+\#\{\text{新 anchor blocks}\}
++
+\#\{\text{fresh first-hit edges}\}
++
+\#\{\text{quotient exits}\}.
+\tag{34}
+
+$$
+
+代入 (31)，heavy-pair 质量就会由：
+
+- global real-edge capacity；
+- support-expansion/quotient；
+- closure exit；
+
+三者支付。
+
+---
+
+# 九、最终状态
+
+目前已经严格完成：
+
+$$
+
+\boxed{
+\begin{array}{ll}
+\textbf{1. Aggregate normalization：}&\text{完全证明；}\\[1mm]
+\textbf{2. Non-old-anchor residual：}&
+\text{无需单独处理，已被统一 pair-cylinder 定理吸收；}\\[1mm]
+\textbf{3. Pair-flat region：}&
+\text{直接给出严格低于 }1/4\text{ 的最终递推；}\\[1mm]
+\textbf{4. Heavy-pair lifetime：}&
+\text{已证明 pointwise 与加权容量三分。}
+\end{array}}
+
+$$
+
+唯一尚未完成的是：
+
+$$
+
+\boxed{
+\text{hole-move carrier changes 的单调资源/循环闭合引理。}
+}
+\tag{35}
+
+$$
+
+而且当前的 $\Gamma(p)$-heavy certificate 必须升级为保留实际负载
+
+$$
+
+(p,\Gamma_N(p),L_N(p))
+
+$$
+
+的证书；否则存在单根单边反例，无法消费。
+
+因此，这轮已经把“三条桥梁”压缩为一个非常具体的最终缺口：
+
+$$
+
+\boxed{
+\textbf{Carrier monotonicity lemma:}\quad
+\text{每次 persistent-carrier 改变要么增加 first-hit 资源，}\\
+\text{要么扩大真实 block support，要么闭合成 quotient。}
+}
+
+$$
+
+证明这条后，aggregate route 就能真正取代“对所有源记录逐个建立近无损配置流”的原接口。
+
+【回答内容 轮数6】
+尝试之后，结论相当明确：
+
+$$
+
+\boxed{
+\text{aggregate normalization 可以严格证明；}
+\quad
+\text{另外两条按当前表述不能证明，而且存在局部反例。}
+}
+
+$$
+
+这不排除以当前闭合为基底得到最终证明，但说明必须强化“heavy-pair certificate”和“fresh residual control”的内容。
+
+---
+
+# 一、aggregate normalization 可以完全证明
+
+## 命题 1：无复制的 cylinder 分解
+
+设 $\mathscr R$ 是实际可达独立根族，根 $R$ 的质量为 $w_R$，总质量
+
+$$
+
+W=\sum_R w_R.
+
+$$
+
+设 $\mathscr S$ 是一族带标签的 future-cylinder records。每个
+
+$$
+
+s\in\mathscr S
+
+$$
+
+包含：
+
+$$
+
+R_s,\qquad N_s,\qquad a_s\ge0,
+
+$$
+
+其中 $R_s$ 是底层旧根，$N_s$ 是一个未使用块，且满足无复制条件
+
+$$
+
+\sum_{\substack{s\in\mathscr S\\R_s=R}}a_s\le w_R.
+\tag{1}
+
+$$
+
+定义
+
+$$
+
+D_{N_s}(R_s)
+=
+\{x\in N_s:R_s+x\text{ 不独立}\}.
+
+$$
+
+则 aggregate normalized old-anchor mass
+
+$$
+
+\mathcal O
+=
+\sum_{s\in\mathscr S}
+a_s\frac{|D_{N_s}(R_s)|}{b}
+\tag{2}
+
+$$
+
+满足如下二分：
+
+$$
+
+\boxed{
+\mathcal O
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}W
+}
+\tag{3}
+
+$$
+
+或者存在某个块 $N$、真实 pair $p=\{u,v\}$ 与 $x\in N$，使得
+
+$$
+
+p+x\in E(H)
+
+$$
+
+并且
+
+$$
+
+\boxed{
+\sum_{\substack{s:\,N_s=N\\p\subseteq R_s}}a_s
+>
+(1+\eta)\frac{W_N}{b^2},
+}
+\tag{4}
+
+$$
+
+其中
+
+$$
+
+W_N=\sum_{s:N_s=N}a_s.
+
+$$
+
+### 证明
+
+按 $N_s$ 对 $\mathscr S$ 分组。对固定 $N$，令
+
+$$
+
+\mathscr S_N=\{s:N_s=N\}.
+
+$$
+
+对这组带标签的根应用 pair-cylinder 定理。标签不影响证明，因为证明只使用：
+
+- 底层独立根 $R_s$；
+- 真实 pair $p\subseteq R_s$；
+- 权重 $a_s$。
+
+若任一组输出重 pair，就得到 (4)。
+
+否则每组都满足
+
+$$
+
+\sum_{s\in\mathscr S_N}
+a_s\frac{|D_N(R_s)|}{b}
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}W_N.
+
+$$
+
+对 $N$ 求和：
+
+$$
+
+\mathcal O
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}
+\sum_NW_N.
+
+$$
+
+由无复制条件 (1)，
+
+$$
+
+\sum_NW_N
+=
+\sum_sa_s
+\le
+\sum_Rw_R
+=
+W.
+
+$$
+
+故得到 (3)。证毕。
+
+---
+
+## 它怎样对应实际两步执行
+
+对一个两步记录
+
+$$
+
+(R,M,N,r)
+
+$$
+
+其中
+
+$$
+
+r\in M,\qquad R+r\text{ 独立},
+
+$$
+
+赋予质量
+
+$$
+
+a_{R,M,N,r}
+=
+\frac{w_R}{b}\,\pi_R(M,N),
+\tag{5}
+
+$$
+
+其中 $\pi_R$ 是对所选有序 future-block pair 的概率核。
+
+由于至多有 $b$ 个 $r$，
+
+$$
+
+\sum_{M,N,r}a_{R,M,N,r}
+\le
+w_R\sum_{M,N}\pi_R(M,N)
+=
+w_R.
+
+$$
+
+而该 record 上的 old-anchor 质量正好为
+
+$$
+
+a_{R,M,N,r}\frac{d_N(R)}b.
+
+$$
+
+所以实际两步 old-anchor 质量确实能够无损写成命题 1 的 cylinder 总和。旧对话已经注意到：在 normalized future cylinder 中，不同 $r$-genealogy 是同一未来概率坐标的不同取值，并不会复制根总质量。fileciteturn19file0L9-L15
+
+因此第一条桥梁已经成立：
+
+$$
+
+\boxed{\text{raw-to-normalized aggregate bridge 已证明。}}
+
+$$
+
+---
+
+# 二、fresh residual 有精确分类，但不能自动变小
+
+第二步失败有严格不交分解：
+
+$$
+
+\boxed{
+\text{第二步失败}
+=
+\text{old blocker}
+\sqcup
+\text{fresh/configurable failure}.
+}
+\tag{6}
+
+$$
+
+在 fresh 情形中，
+
+$$
+
+R+r,\qquad R+x
+
+$$
+
+都独立，但
+
+$$
+
+R+r+x
+
+$$
+
+不独立。任意 blocker 既必须包含 $r$，也必须包含 $x$，所以必形如
+
+$$
+
+\boxed{
+\{p,r,x\},
+\qquad p\in R.
+}
+\tag{7}
+
+$$
+
+这部分已经严格成立。fileciteturn20file0L89-L138
+
+但“fresh residual 总量很小”并不成立。
+
+## 反例 1：全部 $b^2$ 个 pair 都是 fresh failures
+
+固定
+
+$$
+
+0<\varepsilon<\frac14,
+
+$$
+
+并取足够大的 $b$，使
+
+$$
+
+b\le
+\left(\frac14-\varepsilon\right)b^2.
+
+$$
+
+构造：
+
+$$
+
+M=\{r_1,\ldots,r_b\},
+\qquad
+N=\{x_1,\ldots,x_b\}.
+
+$$
+
+对每个 $(i,j)\in[b]^2$，取一个不同旧顶点 $p_{ij}$，且这些顶点来自不同旧块。令
+
+$$
+
+R=\{p_{ij}:1\le i,j\le b\}.
+
+$$
+
+超边只取
+
+$$
+
+e_{ij}=\{p_{ij},r_i,x_j\}.
+\tag{8}
+
+$$
+
+那么：
+
+$$
+
+R\text{ 独立};
+
+$$
+
+对每个 $i$，
+
+$$
+
+R+r_i\text{ 独立};
+
+$$
+
+对每个 $j$，
+
+$$
+
+R+x_j\text{ 独立};
+
+$$
+
+但对每个 $(i,j)$，
+
+$$
+
+R+r_i+x_j
+
+$$
+
+因边 $e_{ij}$ 而不独立。
+
+因此全部 $b^2$ 个有序 pair 都是 fresh failures，而没有任何 old-anchor failure：
+
+$$
+
+F^{\mathrm{norm}}=1,
+\qquad
+O^{\mathrm{norm}}=0.
+\tag{9}
+
+$$
+
+同时最大度只有
+
+$$
+
+d(r_i)=b,\qquad
+d(x_j)=b,\qquad
+d(p_{ij})=1,
+
+$$
+
+所以
+
+$$
+
+\Delta(H)=b
+\le
+\left(\frac14-\varepsilon\right)b^2.
+\tag{10}
+
+$$
+
+这说明：
+
+$$
+
+\boxed{
+\text{仅从低最大度和当前 pair-cylinder 闭合，}
+\quad
+F^{\mathrm{norm}}=o(1)
+\text{ 是假的。}
+}
+
+$$
+
+这个局部 gadget 本身未必是块极小无 IT 全局实例；但它已经证明：若要在块极小无 IT 条件下排除它，必须使用一个新的全局结构引理。不能从当前 cylinder 定理或最大度直接推出。
+
+旧对话其实也保留了这个缺口：它写的是“**如果**配置预算理想地能把 fresh failures 用至多 $\Delta(H)w$ 吸收”，而不是已经证明了该结论。fileciteturn21file3L23-L39
+
+---
+
+# 三、可以证明一个 fresh-cylinder 二分
+
+虽然 fresh mass 不自动小，但它也有一个与 pair-cylinder 平行的集中二分。
+
+## 命题 2：fresh single-anchor cylinder
+
+固定两个未使用块 $M,N$。定义
+
+$$
+
+F_{M,N}
+=
+\frac1{b^2}
+\sum_Rw_R
+\left|
+\left\{
+(r,x)\in M\times N:
+\begin{array}{l}
+R+r,\ R+x\text{ 独立},\\
+R+r+x\text{ 不独立}
+\end{array}
+\right\}
+\right|.
+\tag{11}
+
+$$
+
+对旧顶点 $p$，定义单锚根质量
+
+$$
+
+\Lambda(p)
+=
+\sum_{R:p\in R}w_R.
+\tag{12}
+
+$$
+
+则对任意 $\eta\ge0$，或者
+
+$$
+
+\boxed{
+F_{M,N}
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}W,
+}
+\tag{13}
+
+$$
+
+或者存在真实边
+
+$$
+
+\{p,r,x\}\in E(H),
+\qquad
+r\in M,\quad x\in N,
+
+$$
+
+满足
+
+$$
+
+\boxed{
+\Lambda(p)>
+(1+\eta)\frac Wb.
+}
+\tag{14}
+
+$$
+
+### 证明
+
+对每个 fresh failure $(R,r,x)$，确定性地选择一条 blocker
+
+$$
+
+e(R,r,x)=\{p,r,x\},
+\qquad p\in R.
+
+$$
+
+固定真实边
+
+$$
+
+e=\{p,r,x\}.
+
+$$
+
+归给它的质量至多
+
+$$
+
+\frac1{b^2}
+\sum_{R:p\in R}w_R
+=
+\frac{\Lambda(p)}{b^2}.
+\tag{15}
+
+$$
+
+假设没有 (14)，则每条边的负载至多
+
+$$
+
+(1+\eta)\frac{W}{b^3}.
+
+$$
+
+另一方面，满足 $r\in M,x\in N$ 的相关真实边数至多
+
+$$
+
+\sum_{r\in M}d_H(r)
+\le
+b\Delta(H).
+\tag{16}
+
+$$
+
+因此
+
+$$
+
+F_{M,N}
+\le
+b\Delta(H)
+(1+\eta)\frac W{b^3}
+=
+(1+\eta)\frac{\Delta(H)}{b^2}W.
+
+$$
+
+证毕。
+
+所以 fresh residual 的正确结论不是“小”，而是
+
+$$
+
+\boxed{
+\text{controlled}
+\quad\vee\quad
+\text{heavy single-anchor cylinder}.
+}
+\tag{17}
+
+$$
+
+但这个受控界仍约为 $W/4$，不能直接塞进 pair-cylinder 已经使用的 $1/4$ 预算中。
+
+---
+
+# 四、当前 heavy-pair certificate 也不能自动消费
+
+当前结构分支只给出
+
+$$
+
+\Gamma(p)>
+(1+\eta)\frac W{b^2}
+\tag{18}
+
+$$
+
+和某一个
+
+$$
+
+x\in N,\qquad p+x\in E(H).
+
+$$
+
+这不足以推出大度数、closure 或 quotient。
+
+## 反例 2：一个孤立 blocker 就触发 heavy pair
+
+取一个根 $R$，质量 $W=1$，且
+
+$$
+
+u,v\in R.
+
+$$
+
+取 future block
+
+$$
+
+N=\{x_1,\ldots,x_b\},
+
+$$
+
+只放一条边
+
+$$
+
+\{u,v,x_1\}.
+\tag{19}
+
+$$
+
+则
+
+$$
+
+\Gamma(u,v)=1.
+
+$$
+
+只要
+
+$$
+
+b^2>1+\eta,
+
+$$
+
+就有
+
+$$
+
+\Gamma(u,v)>
+(1+\eta)\frac1{b^2}.
+
+$$
+
+因此当前定理输出 heavy pair。
+
+但
+
+$$
+
+d_H(u)=d_H(v)=d_H(x_1)=1,
+
+$$
+
+并且只有一个 future vertex 被阻断，没有：
+
+- degree saturation；
+- 多块 persistence；
+- block closure；
+- pair-codegree 增殖；
+- quotient expansion。
+
+所以
+
+$$
+
+\boxed{
+\text{heavy root-pair mass}
+\not\Longrightarrow
+\text{可消费的最终结构出口}.
+}
+\tag{20}
+
+$$
+
+旧对话已经识别出真正的瓶颈是“根质量为何不能长期集中在真实旧 pair 上”，而不是单次检测到 $\Gamma(p)$ 偏大。fileciteturn20file2L471-L513
+
+---
+
+# 五、什么样的 heavy-pair 版本可以被证明消费
+
+需要给 heavy certificate 加上 **future density 或时间 persistence**。
+
+## 命题 3：稠密固定 pair 的寿命界
+
+固定真实 pair
+
+$$
+
+p=\{u,v\}.
+
+$$
+
+设 $N_1,\ldots,N_T$ 是互不相同的 future blocks，定义
+
+$$
+
+X_t
+=
+\{x\in N_t:p+x\in E(H)\},
+\qquad
+h_t=|X_t|.
+
+$$
+
+则
+
+$$
+
+\boxed{
+\sum_{t=1}^T h_t
+\le d_H(u)
+\le\Delta(H).
+}
+\tag{21}
+
+$$
+
+### 证明
+
+不同 $t$ 的块 $N_t$ 不交，所以所有边
+
+$$
+
+p+x,
+\qquad x\in X_t,
+
+$$
+
+彼此不同，而且都经过 $u$。边数最多为 $d_H(u)$。证毕。
+
+特别地，若每层都满足
+
+$$
+
+h_t\ge\beta b,
+
+$$
+
+则
+
+$$
+
+\boxed{
+T\le
+\frac{\Delta(H)}{\beta b}.
+}
+\tag{22}
+
+$$
+
+在
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+且 $\beta>1/2$ 时，
+
+$$
+
+T<
+\left(\frac12-2\varepsilon\right)b
+
+$$
+
+量级。
+
+因此：
+
+$$
+
+\boxed{
+\text{一个在每个 future block 阻断线性多顶点的固定 pair，}
+\text{确实不能长期持续。}
+}
+
+$$
+
+但是当前 heavy-pair certificate 只有 $h_t\ge1$，没有 $h_t\ge\beta b$。反例 2 正好展示了这个差异。
+
+---
+
+# 六、原来的三条桥梁必须改写
+
+目前已经证明或否定的状态是：
+
+$$
+
+\begin{array}{c|c}
+\text{桥梁}&\text{状态}\\ \hline
+\text{aggregate normalization}&\text{严格成立}\\
+\text{单次 heavy pair 可消费}&\text{假的}\\
+\text{fresh residual 自动很小}&\text{假的}
+\end{array}
+
+$$
+
+正确的替代版本应当是：
+
+## H$^*$：重 pair episode，而非单次重 pair
+
+需要证明：
+
+$$
+
+\boxed{
+\begin{aligned}
+\text{大量 heavy-pair cylinder mass}
+\Longrightarrow{}&
+\text{某固定 pair 在许多块上有大 }d_N(p)\\
+&\vee\ \text{canonical pair 频繁改变}\\
+&\vee\ \text{小锚集合 block closure}.
+\end{aligned}}
+\tag{23}
+
+$$
+
+第一支由命题 3 消费；第二支再接 hole-move/fresh-edge/kernel 接口；第三支直接进入结构出口。
+
+## F$^*$：fresh exchange theorem，而非 fresh mass 小
+
+需要证明：
+
+$$
+
+\boxed{
+\begin{aligned}
+\text{大量 fresh failure mass}
+\Longrightarrow{}&
+\text{大量实际 hole moves 可继续执行}\\
+&\vee\ \text{heavy single-anchor episode}\\
+&\vee\ \text{Hall/splitter/closure certificate}.
+\end{aligned}}
+\tag{24}
+
+$$
+
+反例 1 表明，第三支不能删除：大量不同旧锚点完全可以用低度边覆盖整个 $M\times N$。
+
+---
+
+# 七、一个更合适的 aggregate 势函数目标
+
+要绕开“每个 source record 近无损流”，最有希望的形式不是逐层要求所有异常很小，而是寻找非负势函数 $\Phi_k$，使
+
+$$
+
+\boxed{
+C_k
+\le
+\rho_\varepsilon b^2A_{k-2}
++
+\Phi_k-\Phi_{k+1},
+}
+\tag{25}
+
+$$
+
+其中：
+
+- $C_k$ 是 heavy-pair、heavy-anchor 和 unresolved fresh-exchange 的总质量；
+- $\rho_\varepsilon<\delta_\varepsilon$；
+- $\Phi_k-\Phi_{k+1}$ 支付 pair 改变、锚支持扩张或 entropy/concentration 的耗散。
+
+对 $k$ 求和后势函数项望远镜消去：
+
+$$
+
+\sum_k C_k
+\le
+\rho_\varepsilon b^2\sum_kA_{k-2}
++
+\Phi_0.
+
+$$
+
+这才可能把当前 pair-cylinder 的
+
+$$
+
+\delta_\varepsilon
+=
+\frac{3\varepsilon}{4}+\varepsilon^2
+
+$$
+
+裕量真正转化成最终递推。
+
+---
+
+# 最终判断
+
+当前闭合形式确实提供了一个很有价值的基底，但**三条桥梁还不能全部证明**：
+
+$$
+
+\boxed{
+\text{第一条已经完成；后两条的原表述被明确反例否定。}
+}
+
+$$
+
+剩余核心不能再写成泛泛的
+
+$$
+
+\text{heavy pair 可消费}
+\quad\text{和}\quad
+\text{fresh residual 小},
+
+$$
+
+而必须具体化为
+
+$$
+
+\boxed{
+\text{重 pair 的跨块 episode 定理}
++
+\text{fresh exchange 的 aggregate Hall/势函数定理}.
+}
+
+$$
+
+这两条一旦成立，便确实可以绕开逐 source 的近无损 configuration flow，直接获得 aggregate 总量递推；但证明它们已经触及原 Q-0015/Q-0016 的真正数学核心，不能从当前 pair-cylinder 定理免费推出。

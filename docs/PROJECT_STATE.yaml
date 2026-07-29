@@ -1,5 +1,5 @@
 schema_version: 1
-updated: 2026-07-28
+updated: 2026-07-29
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -18,13 +18,13 @@ theorem:
 active_node:
   id: G1c
   question: Q-0015
-  title: "Quantitative control of named E exits"
+  title: "E-exit and aggregate heavy-excess control"
   status: active
   exact_goal: >
-    For actual reachable Q-0015 root obstacles, bound or pay the mass of
-    shortest named E certificates using the correct separate ledgers, or output
-    a reproducible structural cut, leaving a near-lossless future-complete
-    persistent-blocker remainder.
+    Either construct the original near-lossless configuration/escape flow, or
+    dissipate the exact aggregate heavy-pair excess using separate real
+    resources or a future-compatible structural quotient, obtaining a
+    second-order recurrence with coefficient strictly below one quarter.
 
 nodes:
   G1a:
@@ -40,9 +40,14 @@ nodes:
       - "Does not bound E-exit mass"
       - "Does not prove Q-0017 or Q-0016"
   G1c:
-    title: "Named-exit quantitative control"
+    title: "E-exit and aggregate heavy-excess control"
     status: active
     depends_on: ["G1a", "G1b"]
+    references: ["F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0042", "FW-15"]
+    remaining:
+      - "Mass-preserving trajectory decomposition of the full heavy excess"
+      - "Quantitative future-compatible orientation-token control"
+      - "Sound token repetition to an accepted structural exit"
   G1d:
     title: "Near-lossless cross-projection configuration flow"
     status: open
@@ -67,6 +72,19 @@ nodes:
     depends_on: ["G4"]
 
 accepted_latest_progress:
+  - id: R-Q0015-AGG-01
+    status: proved-formal
+    statement: >
+      Actual two-step failure mass has an exact normalized aggregate-cylinder
+      decomposition. Pair-flat mass is paid by one Delta(H); all remaining mass
+      is the explicit heavy-pair positive excess.
+    nonclaim: "The heavy-pair excess is not yet bounded."
+  - id: R-Q0015-RESET-01
+    status: proved-formal
+    statement: >
+      Under a future-compatible orientation congruence, every resource-free
+      reset consumes a new orientation token or repeats a sound quotient token.
+    nonclaim: "The exact token space may be too large for the final count."
   - id: R-FCL-01
     status: proved-formal
     statement: >
@@ -80,6 +98,15 @@ accepted_latest_progress:
       It is not known to arise near-losslessly from every target instance.
 
 rejected_latest_claims:
+  - id: X-RESET-01
+    status: refuted-bounded-exhaustive
+    statement: >
+      No new blocker edge and no new carrier support force immediate reset
+      closure.
+    reason: >
+      The single-edge three-block model has three distinct hole orientations;
+      255 of all 256 three-block binary transversal-edge sets contain an
+      immediate counterexample.
   - id: X-TRCAP-01
     status: unsupported
     statement: >

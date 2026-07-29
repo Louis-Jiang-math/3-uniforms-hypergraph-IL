@@ -252,21 +252,30 @@
 - **Answer criterion:** 已满足：真实块、顶点、边、执行根迹、成功旧端点、两个失败、第一阻断边和释放后独立性均已列出。
 - **Last updated:** 2026-07-27
 
-## Q-0015 — 义务—真实配置流与 Hall 最小割
+## Q-0015 — 义务—真实配置流、aggregate pair cylinder 与 Hall/quotient 出口
 
-- **Question:** 对实际搜索产生的失败义务集合，能否完备枚举全部合法真实两步配置，并构造满足需求守恒、root-pivot 总预算和投影—pivot—根边槽位容量的近无损配置流；若不能，Hall 最小割是否必有可分类的真实结构？
-- **Status:** partially answered — auditor infrastructure completed; general theorem open
-- **Why it matters:** Q-0014 已证明共同预置 pivot 过强；Q-0015 是失败义务进入单缺陷状态空间并仍保住单个 \(\Delta(H)\) 因子的最早合法接口。
-- **Known so far:** `enumerate/q0015_configuration_auditor.py` 已实现真实执行记录、合法配置枚举、root-pivot 预算原始/对偶 LP、固定预算槽位流和独立真实边 Hall 流。八边回归的 24 个块顺序产生 144 个 root group：48 个零误差预算可行、48 个正预算缺口、48 个含 no-configuration 义务；genealogy 错误合并可人为制造缺口。后续严格计数证明 \((b,m,\Delta)=(3,14,2)\) 不存在无 IT 实例。
-- **Missing:** 一般低度、块极小、真实可达执行中的近无损配置流；跨 root projection 联合预算；以及把 no-configuration、预算/槽位 cut、真实边 reuse 和 persistent blocker 分类为 fresh、合法未来 quotient、完整子核心或其他明确出口的结构定理。
-- **Related:** F-0005, F-0022, F-0027–F-0035, Q-0002, Q-0004, Q-0006, Q-0016, Q-0017
+- **Question:** 对实际搜索产生的失败义务集合，能否通过近无损真实配置流，或通过保质量的 aggregate future-cylinder 归约，保住单个 \(\Delta(H)\) 因子并把全部超额质量送入可复算的 Hall、quotient 或 closure 出口？
+- **Status:** partially answered — auditor、old-anchor stability 与 aggregate flat reduction completed；heavy-excess theorem open
+- **Why it matters:** Q-0014 已证明共同预置 pivot 过强。Q-0015 是实际失败质量进入单缺陷/aggregate 状态空间并产生 \(c<1/4\) 二阶递推的最早合法接口。
+- **Known so far:** 审计器已实现合法配置枚举、root-pivot LP、slot flow 与独立 real-edge Hall flow。F-0037 把 no-configuration 无损重标为 surviving old-anchor；F-0038 给出 exact profile/temporal Lyapunov。F-0039 给出全部实际二步失败的精确 aggregate normalization；F-0040 把 old-anchor 与 fresh/configurable failure 统一成真实 pair cylinder，并证明 pair-flat 部分由单个 \(\Delta(H)\) 支付。全部未控质量精确缩减为 heavy-pair 正部总量 \(\mathfrak H_k\)。F-0041 给出 future-compatible orientation-budget reset compensation；A-0028 以完整枚举否定“第一次免费 reset 立即闭合”。
+- **Missing:** 对全部 \(\mathfrak H_k\) 的无损加权 carrier-trajectory 分解；可定量控制的 future-compatible orientation token 空间或 token 费用；sound token repetition 到 exact-future quotient/完整块 closure 的结构提升；最终满足 F-0042 的 heavy-excess 界或跨深度 telescoping。
+- **Related:** F-0005, F-0022, F-0027–F-0042, A-0027, A-0028, Q-0002, Q-0004, Q-0006, Q-0016, Q-0017
 - **Sources:**
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 6、10、20、23–24 节
-  - `evidence/experiments/q0015/reports/q0015_first_execution_report.md`
-  - `evidence/experiments/q0015/reports/q0015_hall_cut_structural_analysis.md`
-- **Suggested next action:** 把审计器接到低度候选生成器，加入 escape-charge 和跨投影联合账本；每个失败实例输出机器可读最小割、未来区分或完整块支持证书。
-- **Answer criterion:** 对所有深度和源记录证明近无损配置/escape 流，或给出满足低度、块极小、无 IT、真实可达条件的 Hall/closure 反模型。
-- **Last updated:** 2026-07-27
+  - `docs/framework/FW-15_AGGREGATE_PAIR_CYLINDER.md`
+  - `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`
+  - `evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md`
+  - `evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md`
+- **Suggested next action:** 证明 quantitative heavy-pair dissipation：把 \(\mathfrak H_k\) 保质量分解到 carrier trajectories，并以新真实边、新 support、可控 orientation token 或 sound quotient 支付全部正部质量。
+- **Answer criterion:** 以下任一路线成立：
+  1. 对所有相关深度证明原近无损 configuration/escape flow，并满足独立 root、slot、real-edge 账本；或
+  2. 证明 aggregate 路线在每层或合法 telescoping 区间内满足
+     \[
+     \mathcal B_k\le c_\varepsilon b^2A_{k-2},
+     \qquad c_\varepsilon<1/4,
+     \]
+     除非出现保存真实对象、genealogy 和账本的 accepted structural exit。
+  满足低度、块极小、无 IT、真实可达和全账本条件的反模型也可回答本问题。
+- **Last updated:** 2026-07-29
 
 
 ## Q-0016 — 因果 incidence 再生与集中
@@ -291,10 +300,10 @@
 - **Answer criterion:** 给出统一误差 \(o_\varepsilon(1)\) 的正常形定理，或满足低度、块极小、无 IT、真实可达的反模型。
 - **Last updated:** 2026-07-27
 
-## 2026-07-28 状态补充 — Q-0015/Q-0016/Q-0017 的逻辑顺序
-- **Canonical active node:** Q-0015 的命名 E 出口定量控制；见 `HANDOFF_CURRENT.md` 与 `docs/PROOF_DAG.md`。
-- **Q-0015 progress:** F-0036 已给出实根障碍的形式未来完备提升，但 E 出口质量与一般近无损入口仍开放，因此 Q-0015 不关闭。
+## 2026-07-29 状态补充 — Q-0015/Q-0016/Q-0017 的逻辑顺序
+- **Canonical active node:** Q-0015 的失败质量定量控制；见 `HANDOFF_CURRENT.md` 与 `docs/PROOF_DAG.md`。
+- **Q-0015 progress:** F-0037–F-0042 已完成 no-configuration 重标、temporal Lyapunov、aggregate normalization、统一 pair-flat 界、精确 heavy-excess 余项与 sound reset orientation budget。未证明 \(\mathfrak H_k\) 的充分小界，故 Q-0015 不关闭。
 - **Q-0017 status:** open。F-0034 仍是条件森林摊还；A-0026 排除了把 ordinary transition capping 当作一般正常形证明。
-- **Q-0016 status:** open。深度二有限枚举和 AMCG 条件计算不提供一般因果集中定理。
-- **Research/application order:** 可先研究下游条件模块，但主定理应用必须按 Q-0015/Q-0002 → Q-0017 → Q-0016 → terminal counting。
-- **Last updated:** 2026-07-28
+- **Q-0016 status:** open。F-0041 的有限状态 Lyapunov 定理不替代因果集中；exact token space 可能过大。
+- **Research/application order:** 原 configuration-flow 路线仍按 Q-0015/Q-0002 → Q-0017 → Q-0016 → terminal counting；aggregate heavy-excess 路线若达到 F-0042，可直接提供相应 \(c<1/4\) 递推。
+- **Last updated:** 2026-07-29

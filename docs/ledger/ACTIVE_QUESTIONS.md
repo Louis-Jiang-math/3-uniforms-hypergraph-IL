@@ -2,9 +2,9 @@
 
 ## Critical
 
-### G1c / Q-0015 — E-exit quantitative control
+### G1c / Q-0015 — E-exit / aggregate heavy-excess control
 
-证明最短命名 E 证书的质量可由正确账本控制，或输出真实结构割。当前唯一 active 节点。
+原路线是证明最短命名 E 证书由正确账本控制。aggregate 路线已把全部未控质量精确缩减为 \(\mathfrak H_k\)；当前需支付、telescoping 或结构化该正部总量。当前唯一 active 节点。
 
 ### G1d / Q-0002, Q-0015 — Near-lossless entrance
 

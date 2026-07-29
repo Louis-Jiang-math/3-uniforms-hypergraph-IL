@@ -2,6 +2,36 @@
 
 只记录证明状态的净变化，不记录“新增文档行数”或一般探索。
 
+
+## 2026-07-29 — Q-0015 aggregate heavy-excess reduction
+
+### Proved-formal
+
+- no-configuration 义务无损重标为 surviving external-old-anchor blocker；
+- old-anchor profile 精确稳定恒等式与 genealogy 内 temporal Lyapunov；
+- 实际二步失败的 aggregate-cylinder 质量恒等式；
+- 统一 old/fresh pair-flat 界及精确 heavy-excess 余项 \(\mathfrak H_k\)；
+- future-compatible orientation-budget reset compensation。
+
+### Refuted-bounded-exhaustive
+
+- “无新 blocker edge、无新 carrier support 则第一次 reset 立即闭合”；
+- 三块二元的全部 \(2^8\) 模型中，255 个非空模型给出反例。
+
+### Conditional reduction
+
+若能以 \(\rho\) 支付或 telescoping 全部 \(\mathfrak H_k\)，且
+
+\[
+(1+\eta)(1/4-\varepsilon)+\rho<1/4,
+\]
+
+则直接得到 \(c_\varepsilon<1/4\) 的二阶递推。
+
+### Canonical status
+
+Q-0015/G1c 保持 active；Q-0016、Q-0017 和 one-quarter theorem 保持 open。
+
 ## 2026-07-28 — Documentation and latest-dialogue audit
 
 ### Proved-formal

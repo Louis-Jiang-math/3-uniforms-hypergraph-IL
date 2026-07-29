@@ -17,10 +17,16 @@
 
 ## 2. 当前唯一 active 的主链命题是什么？
 
-**G1c / Q-0015：命名 E 出口的定量控制。**
+**G1c / Q-0015：E-exit 与 aggregate heavy-excess 的定量控制。**
 
 已知一个 Q-0015 实根障碍要么在有限前缀产生命名 E 出口，要么可无损提升为
-future-complete persistent blocker。现在必须控制这些 E 出口的总质量：
+future-complete persistent blocker。另有 aggregate route 将实际二步失败写成
+
+\[
+\mathcal B_k\le(1+\eta)\Delta(H)A_{k-2}+\mathfrak H_k.
+\]
+
+现在必须控制最短 E 质量或等价地控制全部 heavy-pair 正部总量：
 
 - 证明它们是小误差；
 - 或用正确的 root-budget、slot、real-edge 账本支付；
@@ -44,10 +50,10 @@ future-complete persistent blocker。现在必须控制这些 E 出口的总质�
 
 需要给出一个一般定理，作用于低度、块极小、无 IT 的实际 Q-0015 根障碍，并且：
 
-1. 对每类最短 E 证书给出统一质量控制；
-2. 明确使用哪一份容量账本；
-3. 不重复真实边、slot 或根预算；
-4. 输出近无损 future-complete persistent-blocker 剩余；
+1. 原路线：对所有相关最短 E 证书给出统一质量控制；或
+2. aggregate 路线：证明 \(\mathcal B_k\le c_\varepsilon b^2A_{k-2}\)，其中 \(c_\varepsilon<1/4\)；
+3. 明确使用哪一份容量账本，不重复真实边、slot 或根预算；
+4. 所有 quotient 必须 future-compatible，并输出可接受结构出口；
 5. 或给出满足全部真实执行条件的严格反模型。
 
 只在新接口中定义 E 可支付，不算关闭。
@@ -75,7 +81,8 @@ future-complete persistent blocker。现在必须控制这些 E 出口的总质�
 - slot-flow auditor；
 - real-edge Hall-flow auditor；
 - F-0029 和 genealogy collision 回归；
-- depth-two splitter enumeration。
+- depth-two splitter enumeration；
+- reset-compensation 的三块二元完整枚举。
 
 计算结果必须保存参数、输入、输出、日志、随机种子和 SHA-256。
 “未找到反例”不是一般证明；unresolved state 也不是反例。
