@@ -10,41 +10,53 @@ partitioned 3-uniform hypergraphs, with the target implication
 
 ## Current status
 
-The one-quarter theorem is **open**. The only active main-proof node is:
+The one-quarter theorem is **open**. The active proof strategy is now:
 
-> **G1c / Q-0015 — E-exit and aggregate heavy-excess control.**
+> **Route B — critical stability.**
+
+The single active node is:
+
+> **S1 / Q-0018 — faithful global execution and natural defect decomposition.**
 
 The current logical path is
 
 \[
-\text{configuration entrance}
-\to \text{persistent-blocker normal form}
-\to \text{causal regeneration}
-\to \text{terminal counting}
-\to \frac14.
+\text{faithful execution object}
+\to \text{zero-defect global normal form}
+\to \text{reversible-core saturation}
+\to \text{terminal }1/4\text{ structure}
+\to \varepsilon\text{-stability}.
 \]
 
-A formal future-complete lift is available after an actual Q-0015 root obstacle
-has already been constructed, but it does not provide the general entrance or
-downstream concentration theorem.
+Route A—the near-lossless configuration/escape-flow and aggregate
+heavy-excess-dissipation program—is temporarily suspended as a main route.
+Its proved modules remain available as supporting tools:
 
-The local repository also has an aggregate supporting reduction: actual
-two-step failure mass is normalized without genealogy duplication, the
-pair-flat part is paid by one \(\Delta(H)\), and the exact unresolved quantity
-is the heavy-pair positive excess \(\mathfrak H_k\). Q-0015 remains open because
-that excess has not yet been dissipated or converted into a quantitative sound
-quotient.
+- future-complete lift;
+- no-configuration retyping;
+- old-anchor temporal Lyapunov;
+- aggregate pair-cylinder normalization;
+- pair-flat/heavy-excess orthogonalization;
+- future-compatible orientation accounting;
+- conditional recurrence criteria.
+
+The strategy change does **not** close Q-0015, Q-0016, Q-0017, or the
+one-quarter theorem. It changes what counts as main progress: the project now
+seeks an exact zero-defect structure theorem and a quantitative stability
+upgrade, rather than a unit-by-unit charging of all residual mass.
 
 ## Ten-minute start
 
 1. [`docs/QUICKSTART_10_MINUTES.md`](docs/QUICKSTART_10_MINUTES.md)
 2. [`HANDOFF_CURRENT.md`](HANDOFF_CURRENT.md)
 3. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
-4. [`AGENTS.md`](AGENTS.md)
-5. [`agent.md`](agent.md)
-6. [`knowledge/FACTS.md`](knowledge/FACTS.md)
-7. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
-8. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+4. [`docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`](docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md)
+5. [`AGENTS.md`](AGENTS.md)
+6. [`agent.md`](agent.md)
+7. [`knowledge/DECISIONS.md`](knowledge/DECISIONS.md)
+8. [`knowledge/FACTS.md`](knowledge/FACTS.md)
+9. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
+10. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
 
 ## Protocol split
 
@@ -78,6 +90,7 @@ python enumerate/q0015_configuration_auditor.py \
   --regressions-only \
   --generated-at 2026-07-28T00:00:00Z \
   --output-dir artifacts/runs/q0015
+python enumerate/q4_splice_pay_cylinder_validation.py
 ```
 
 ## Source baseline

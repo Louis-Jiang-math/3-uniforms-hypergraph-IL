@@ -489,3 +489,46 @@
 - **Do not repeat:** 不得按当前 trace、edge set 或 anchor support 单独合并 genealogy states。
 - **Status:** failed
 - **Last updated:** 2026-07-29
+
+## A-0029 — 可逆普通单缺陷轨迹自动补出 common-base diamond
+- **Goal:** 从零信息损失、正常局部交换、普通单缺陷和完整 genealogy 可恢复性推出两条轨迹可拉回同一个 actual base 并补出第四角点。
+- **Approach:** 把历史可恢复性解释成 actual-support 矩形闭包。
+- **Failure type:** bounded exhaustive counterexample
+- **Failure point:** 在全部正常 \(Q_4\) 模型的对应窗口中，缺失角点可在加入第二个 future coordinate 前被一条 internal old-anchor edge 阻断；F-0029 的八边模型给出最小显式实例。
+- **Why it failed:** reversibility 防止历史丢失，但不创造一个本来不独立的共同 base，也不保证 actual support 对坐标拼接闭合。
+- **Failure signature:** `invertible genealogy mistaken for common-base product closure`
+- **Evidence:** `enumerate/q4_splice_pay_cylinder_validation.py`；
+  `evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md`。
+- **Related:** F-0029, F-0045, Q-0016
+- **Retry conditions:** 把 internal old-anchor、unavoidable reuse 和 local same-pivot 作为实际分支，并在 actual support 上证明饱和或终局。
+- **Do not repeat:** 不得从 entropy zero、phase consistency 或完整接口可恢复直接推出 diamond。
+- **Status:** failed
+- **Last updated:** 2026-07-30
+
+## A-0030 — 反复免费 splice 后必剩正质量 single-pivot cylinder
+- **Goal:** 把 common-base/genealogy splice 当作无费用闭包操作，反复执行，直到正质量进入 same-pivot future-complete cylinder。
+- **Approach:** 只区分“可 splice”与“必须 reuse”，未记录一次 splice 实际使用的全部真实边。
+- **Failure type:** bounded exhaustive counterexample / missing budget
+- **Failure point:** 在正常 \(Q_4\) 的全部 384 个 edge-disjoint splice candidates 中，最小 splice 都使用全部 8 条真实边。一次 splice 后已无未使用的局部真实边可支持下一次免费操作。
+- **Why it failed:** splice 是实际重新布线，不是纯逻辑闭包；其资源消耗可能吸收全部质量，而不是留下正 cylinder mass。
+- **Failure signature:** `splice treated as a free idempotent closure`
+- **Evidence:** F-0046。
+- **Related:** Q-0016, F-0045, F-0046
+- **Retry conditions:** 证明一个独立的全局预算不足定理，或在 Route B 中把 splice 作为 exact-core 结构而非收费操作研究。
+- **Do not repeat:** 不得在不记录 actual edge set 的情况下迭代 splice。
+- **Status:** failed
+- **Last updated:** 2026-07-30
+
+## A-0031 — 把 \(1/4\) 稳定性等同于 \(100\%\) residual charging
+- **Goal:** 通过给每份 heavy/residual mass 分配独立 root、slot、edge、token 或 quotient 容量来解释整个 \(1/4\) 阈值。
+- **Approach:** 将当前二阶递推需要 \(o(1)\) 余项的充分条件误认为主定理的必要机制，并不断细分未收费余项。
+- **Failure type:** strategy mismatch / route drift
+- **Failure point:** 大 residual 可能是临界结构证据，而不是必须逐单位支付的债务。当前切割只产生更精确 obstruction，没有产生统一下降量或 terminal theorem。
+- **Why it failed:** charging theorem 的量词和容量唯一性极强；临界稳定性可以通过“远离极值有耗散、近极值有刚性”完成，而无需为临界部分逐单位收费。
+- **Failure signature:** `sufficient recurrence mechanism promoted to necessary one-quarter mechanism`
+- **Evidence:** `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`。
+- **Related:** D-0006, Q-0015, Q-0018
+- **Retry conditions:** 只有显式重新激活 Route A 时才恢复全部余项收费目标。
+- **Do not repeat:** 在 Route B 中不得把“全部 \(\mathfrak H_k\) 小”或“全部 residual 有收费权”写入 active-node acceptance criterion。
+- **Status:** suspended-strategy
+- **Last updated:** 2026-07-30

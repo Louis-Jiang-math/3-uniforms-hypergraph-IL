@@ -26,12 +26,17 @@ required = [
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md",
     "knowledge/DECISIONS.md", "knowledge/DEFINITIONS.md",
     "docs/PROJECT_STATE.yaml", "docs/PROOF_DAG.md", "docs/QUICKSTART_10_MINUTES.md",
+    "docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md",
     "evidence/audits/REPOSITORY_AUDIT.md",
+    "evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md",
+    "evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md",
     "evidence/experiments/q0015/baselines/q0015_audit_results.json",
     "evidence/experiments/q0015/MANIFEST.json",
     "sources/raw/MANIFEST.json", "history/legacy-frameworks/single-defect-monolith.md",
     "src/hypergraph_il/artifacts.py", "src/hypergraph_il/cli.py",
-    "enumerate/q0015_configuration_auditor.py", "tests/test_artifacts.py",
+    "enumerate/q0015_configuration_auditor.py",
+    "enumerate/q4_splice_pay_cylinder_validation.py",
+    "tests/test_artifacts.py",
 ]
 for item in required:
     require(item)
@@ -102,14 +107,23 @@ for expected in ["[build-system]", "[project]", "[project.optional-dependencies]
 state_text = require("docs/PROJECT_STATE.yaml").read_text(encoding="utf-8")
 for expected in [
     "commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928",
-    "status: open", "id: G1c", "question: Q-0015", "question: Q-0017", "question: Q-0016",
+    "commit: b56fe56d3fd7d4bf09c9b48113f50890d727aba7",
+    "status: open",
+    "primary: route_b_critical_stability",
+    "route_a_status: suspended",
+    "id: S1",
+    "question: Q-0018",
+    "question: Q-0017",
+    "question: Q-0016",
 ]:
     if expected not in state_text:
         ERRORS.append(f"PROJECT_STATE.yaml missing: {expected}")
 
 handoff = require("HANDOFF_CURRENT.md").read_text(encoding="utf-8")
-if "G1c / Q-0015" not in handoff:
-    ERRORS.append("handoff does not name the active node")
+if "S1 / Q-0018" not in handoff:
+    ERRORS.append("handoff does not name the Route-B active node")
+if "Route A status:" not in handoff or "suspended" not in handoff:
+    ERRORS.append("handoff does not explicitly suspend Route A")
 if re.search(r"Q-0016.{0,50}(closed|已证明|已关闭)", handoff, re.I):
     ERRORS.append("handoff overclaims Q-0016")
 if re.search(r"Q-0017.{0,50}(closed|已证明|已关闭)", handoff, re.I):
@@ -120,7 +134,11 @@ if re.search(r"^## .*update", handoff, re.I | re.M):
 registries = "\n".join(require(path).read_text(encoding="utf-8") for path in [
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md"
 ])
-for token in ["F-0035", "F-0036", "A-0025", "A-0026", "Q-0015", "Q-0016", "Q-0017"]:
+for token in [
+    "F-0035", "F-0036", "F-0043",
+    "A-0025", "A-0026", "A-0029",
+    "Q-0015", "Q-0016", "Q-0017", "Q-0018",
+]:
     if token not in registries:
         ERRORS.append(f"stable registry ID disappeared: {token}")
 

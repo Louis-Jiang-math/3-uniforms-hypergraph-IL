@@ -2,61 +2,118 @@
 
 ## Objective
 
-Prove the independent-transversal threshold at \(1/4-o(1)\). The theorem remains open.
+Prove the independent-transversal threshold at \(1/4-o(1)\). The theorem remains
+open.
 
-## Current state
+## Current strategy
 
-- **Active node:** `G1c / Q-0015` — E-exit and aggregate heavy-excess control.
-- **Formal local progress:** F-0037–F-0042 give no-configuration retyping, the old-anchor temporal Lyapunov theorem, exact aggregate normalization, a unified old/fresh pair-cylinder bound, the explicit heavy-pair excess \(\mathfrak H_k\), and future-compatible orientation-budget reset compensation.
-- **Current blocker:** no theorem yet dissipates all \(\mathfrak H_k\) with sufficient strength, or converts all repeated sound tokens into accepted exact-future quotients while preserving genealogy and the separate ledgers.
-- **Downstream status:** Q-0017 and Q-0016 remain open. The aggregate route may replace per-source flow only after it produces a uniform \(c_\varepsilon<1/4\) recurrence.
+- **Primary strategy:** Route B — critical stability.
+- **Active node:** `S1 / Q-0018` — faithful global execution and natural defect
+  decomposition.
+- **Route A status:** suspended as a main route. Do not resume the program of
+  dissipating all \(\mathfrak H_k\), constructing a near-lossless charging flow,
+  or forcing \(11/27\) contraction unless `knowledge/DECISIONS.md` is explicitly
+  changed.
+- **No status promotion:** Q-0015, Q-0016, Q-0017, and the one-quarter theorem
+  remain open.
 
-## Reliable inputs
+Route B does not interpret \(1/4\) as a \(100\%\) residual-conversion theorem.
+It seeks a dichotomy between genuine dissipation and a classifiable critical
+structure.
 
-- `knowledge/FACTS.md`: especially F-0029–F-0042;
-- `docs/framework/FW-10_CONFIGURATION_ENTRY.md`;
-- `docs/framework/FW-15_AGGREGATE_PAIR_CYLINDER.md`;
-- `docs/framework/FW-30_PIVOT_SWITCH_ESCAPE.md`;
-- `docs/framework/FW-40_FUTURE_COMPLETE_LIFT.md`;
-- `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`;
-- `evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md`;
-- `evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md`;
-- Q-0015 implementation and regression evidence under `src/`, `tests/`, `enumerate/`, and `evidence/experiments/q0015/`.
+## Retained formal modules
 
-## Do not repeat
+The following remain reliable inputs, but are supporting modules rather than the
+active proof contract:
 
-- Do not assume a common preassigned pivot.
-- Do not merge distinct projections or genealogies by current trace alone.
-- Do not replace root budget, slot capacity, and real-edge capacity by one resource.
-- Do not close Q-0015 after controlling only one named E subclass.
-- Do not treat the existence of one heavy pair as control of the full positive excess.
-- Do not infer immediate quotient closure from “no new edge and no new support”; A-0028 requires an orientation budget.
-- Do not use finiteness of the exact token space as a quantitative bound; it may be exponential.
+- F-0036: faithful future-complete lift after an actual root obstruction exists;
+- F-0037: lossless no-configuration retyping;
+- F-0038: exact old-anchor near-critical identity and single-genealogy Lyapunov;
+- F-0039–F-0040: aggregate normalization and pair-flat/heavy-excess
+  orthogonalization;
+- F-0041: future-compatible orientation progress;
+- F-0042 and F-0034: conditional sufficient criteria only;
+- F-0043–F-0044: local Hall orthogonalization and same-load exchange-flow
+  equivalence, retained as Route-A-compatible tools.
 
-## Open questions
+## New evidence from the route review
 
-1. **Q-0015:** prove quantitative heavy-pair dissipation for the full \(\mathfrak H_k\), or prove the original near-lossless configuration/escape flow.
-2. **Q-0017:** derive a persistent-blocker critical normal form from a real near-lossless entrance.
-3. **Q-0016:** prove causal regeneration or concentration without preinstalling a charging right.
+- Exhaustive bounded \(Q_4\) validation checks all 272 coordinate perfect
+  matchings and all 8 normal matchings.
+- Across 768 future-complete release policies in the normal models:
+  - 384 are edge-disjoint splice candidates;
+  - 192 have unavoidable real-edge reuse;
+  - 192 are local same-pivot cylinders.
+- Every edge-disjoint splice candidate uses all 8 real edges in the normal
+  \(Q_4\) model. Splice is therefore not a free repeatable closure operation.
+- The proposed common-base diamond lemma is false as stated: an internal
+  old-anchor edge can block the missing corner before the second future
+  coordinate is inserted.
+- These are bounded exhaustive observations, not general theorems.
+
+## Active mathematical blockers
+
+1. Define a **natural** global execution defect. The definition may use actual
+   entropy loss, exact near-equality deficits, real support failures, and
+   genealogy inconsistency; it may not include the desired terminal conclusion
+   as an axiom.
+2. Prove the exact zero-defect normal form:
+   \[
+   \text{binary regeneration forest}
+   +
+   \text{reversible exact-future cores}.
+   \]
+3. Prove reversible-core saturation/elimination on actual support:
+   splice saturation, a real near-\(1/4\) pivot link, a complete-block
+   contradiction, or positive defect.
+4. Only after the exact theorem, prove fixed-\(\varepsilon\) quantitative
+   stability.
+
+## Route-B anti-drift rules
+
+- Do not make “all residual mass is charged” an acceptance criterion.
+- Do not promote a new cut, token, or obstruction name unless it gives strict
+  progress or exact structure.
+- Do not infer product support from phase consistency, reversibility, projected
+  support, or local same-pivot data.
+- Do not infer a global single-pivot cylinder from a positive mass of local
+  same-pivot windows.
+- Do not treat splice as free; record every actual real edge used.
+- Do not use block minimality on partial support.
+- Do not use finite computation as a general proof.
 
 ## Immediate next actions
 
-1. Construct a mass-preserving decomposition of \(\mathfrak H_k\) into labelled carrier trajectories.
-2. Find a future-compatible orientation signature with a polynomial or linear weighted budget, or pay every new token using an independent real resource.
-3. Prove that repeated sound tokens produce an accepted exact-future quotient or complete-block closure; then test whether F-0042 reaches \(c_\varepsilon<1/4\).
+1. Specify the faithful global execution object and candidate defect functional
+   in `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`.
+2. Test each proposed defect term on:
+   - the normal \(Q_4\) models;
+   - the fixed-light-anchor reversible core;
+   - diagonal codebooks;
+   - reset/reorientation regressions.
+3. Prove the zero-defect theorem before attempting an \(\varepsilon\)-modulus.
+4. Treat Q-0016 and Q-0017 as coupled structure problems, not downstream
+   charging steps.
 
 ## Required reading
 
 1. `AGENTS.md`
 2. `agent.md`
-3. `docs/PROOF_DAG.md`
-4. `knowledge/FAILURES.md`
-5. `knowledge/QUESTIONS.md#Q-0015`
-6. `docs/framework/FW-15_AGGREGATE_PAIR_CYLINDER.md`
-7. `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`
+3. `docs/PROJECT_STATE.yaml`
+4. `docs/PROOF_DAG.md`
+5. `knowledge/DECISIONS.md`
+6. `knowledge/FAILURES.md`
+7. `knowledge/QUESTIONS.md#Q-0018`
+8. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+9. `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
+10. `evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md`
 
 ## Integrity warnings
 
-- Raw conversations contain intermediate claims later corrected; use canonical registries for status.
-- The bounded \(m=3,b=2\) reset enumeration refutes only immediate closure; it does not prove a general quantitative token bound.
-- Q-0015, Q-0016, Q-0017, and the one-quarter theorem remain open.
+- Route A is suspended, not refuted. Its formal results remain valid within their
+  stated hypotheses.
+- The exchange-flow and Hall-orthogonalization results do not prove a global
+  charging entitlement.
+- The \(Q_4\) experiment classifies a bounded normal model only.
+- “Binary regeneration forest plus reversible cores” is the current target
+  normal form, not an established general theorem.

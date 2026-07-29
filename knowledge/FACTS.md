@@ -711,3 +711,83 @@
 - **Related:** Q-0015
 - **Caveats:** 尚未证明 heavy-excess 界；本条不关闭 Q-0015。
 - **Last updated:** 2026-07-29
+
+## F-0043 — 局部 Hall-deficiency 正交化
+- **Status:** confirmed_formal
+- **Kind:** exact max-flow/min-cut identity
+- **Statement:** 对一个 cylinder 的失败 atoms \(y\)，令质量为 \(\mu_y\)，实际候选 blocker 集为 \(C(y)\)，每个 blocker 节点容量为 \(\tau\)。若局部最大流亏量为
+  \[
+  \delta=\sum_y\mu_y-\operatorname{maxflow},
+  \]
+  则
+  \[
+  \delta=
+  \max_{U}
+  \left(\sum_{y\in U}\mu_y-\tau|C(U)|\right)_+.
+  \]
+  若 \(L_e=\sum_{y:e\in C(y)}\mu_y\)，则
+  \[
+  \delta\le\sum_e(L_e-\tau)_+.
+  \]
+  因此逐 cylinder 求和后的 Hall deficiency 不超过 F-0040 的 heavy positive excess。
+- **Evidence:** `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`，§2。
+- **Dependencies:** max-flow/min-cut, F-0040
+- **Related:** Q-0015, Q-0018
+- **Caveats:** 这是局部正交化，不赋予后续 trajectory 全局真实边收费权。
+- **Last updated:** 2026-07-30
+
+## F-0044 — same-load alternating exchange flow
+- **Status:** confirmed_formal
+- **Kind:** exact residual-network equivalence
+- **Statement:** 固定一个局部最大 blocker assignment \(q\)，令 \(r_a\) 为 residual。构造交替网络
+  \[
+  s\to a,\qquad a\to\ell,\qquad \ell\to a,
+  \]
+  容量分别为 \(r_a,\infty,q_{a\ell}\)，并把 \(a\) 接到其实际可达的独立全局资源网络。则一条交换流精确对应另一个局部可行最大 assignment \(q'\)，且每个 blocker 的总负载与 \(q\) 相同；被送入资源网络的量恰为 \(q'\) 的相应 residual。
+- **Evidence:** `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`，§3。
+- **Dependencies:** F-0043
+- **Related:** Q-0015
+- **Caveats:** 本条只证明 same-load 重排；不证明任意最大 assignment 间的全局等价，也不证明资源容量足够。
+- **Last updated:** 2026-07-30
+
+## F-0045 — 正常 \(Q_4\) 的 splice/reuse/local-cylinder 完整分类
+- **Status:** observed
+- **Kind:** bounded exhaustive computation
+- **Statement:** 穷举 \(Q_4\) 的 272 个坐标完美匹配、其中 8 个正常匹配、192 个正常独立 one-hole states 与 768 个 future-complete release policies，得到：
+  \[
+  384\ \text{edge-disjoint splice candidates},\quad
+  192\ \text{unavoidable real-edge reuse},\quad
+  192\ \text{local same-pivot policies}.
+  \]
+  每个正常 state 的四个 policies 都具有 \(2+1+1\) 的相同模式。
+- **Evidence:** `enumerate/q4_splice_pay_cylinder_validation.py`；
+  `evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md`。
+- **Related:** Q-0016, Q-0017, A-0029, A-0030
+- **Caveats:** 仅是 \(b=2\) 正常模型的 bounded exhaustive observation；不证明一般分类或全局 cylinder。
+- **Last updated:** 2026-07-30
+
+## F-0046 — 正常 \(Q_4\) 中 edge-disjoint splice 使用全部八条真实边
+- **Status:** observed
+- **Kind:** bounded exhaustive computation
+- **Statement:** 在 F-0045 的全部 384 个 edge-disjoint splice candidates 中，最小两支 reconvergence certificate 的不同真实边总数均为 8，即耗尽该正常 \(Q_4\) 模型的全部真实边。
+- **Evidence:** 与 F-0045 相同。
+- **Related:** Q-0016, A-0030
+- **Caveats:** 不能由此给一般超图中的 splice 赋单位收费；它只排除“splice 在最小正常模型中免费反复”的解释。
+- **Last updated:** 2026-07-30
+
+## F-0047 — 均匀四块二元窗口的 splice-density 条件预算
+- **Status:** confirmed_conditional
+- **Kind:** double-counting bound
+- **Statement:** 固定四个大小为 \(b\) 的真实块，并在全部二元窗口及 \(q\) 个 policies 上均匀取样。若每个被标记的 splice policy 都有至少 \(s\) 条互异 actual certificate edges，且每条 certificate edge 的三个端点都属于该窗口，则被标记 policies 的质量比例至多
+  \[
+  \frac{32}{3s}\frac{\Delta(H)}{b^2}.
+  \]
+  对 \(s=8\) 得
+  \[
+  \frac43\frac{\Delta(H)}{b^2}.
+  \]
+- **Evidence:** `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`，§4。
+- **Dependencies:** uniform two-point window sampling
+- **Related:** Q-0015, Q-0016
+- **Caveats:** 这是窗口密度计数，不是全局 charging theorem；一般 trajectory 是否提供这样的 \(s\)-edge certificate 仍需证明。
+- **Last updated:** 2026-07-30

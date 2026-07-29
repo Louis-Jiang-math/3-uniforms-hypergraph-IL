@@ -6,107 +6,115 @@
 
 没有。
 
-目标是证明三一致等块分块超图在
+目标仍是证明三一致等块分块超图在
 
 \[
 \Delta(H)<\left(\frac14-o(1)\right)b^2
 \]
 
-时存在独立横截。当前仍缺一般近无损配置入口、persistent-blocker 正常形、
-因果 incidence 再生和最终稳定计数。
+时存在独立横截。当前转向 Route B：临界稳定性。
 
 ## 2. 当前唯一 active 的主链命题是什么？
 
-**G1c / Q-0015：E-exit 与 aggregate heavy-excess 的定量控制。**
+**S1 / Q-0018：faithful global execution and natural defect。**
 
-已知一个 Q-0015 实根障碍要么在有限前缀产生命名 E 出口，要么可无损提升为
-future-complete persistent blocker。另有 aggregate route 将实际二步失败写成
+目标不是把全部 residual 送入收费账本，而是从任意块极小无 IT 反例构造：
+
+1. 保存真实边、块、root projection、pivot、genealogy 和未来坐标的全局执行对象；
+2. 一个自然非负 defect；
+3. defect 趋零时仍保存 actual support 的极限对象。
+
+Route A 的 Q-0002/Q-0015 暂时搁置。
+
+## 3. 为什么不再以“全部 heavy excess 被支付”为主目标？
+
+因为 \(1/4\) 不必是 \(100\%\) residual-conversion theorem。更合理的稳定性逻辑是：
 
 \[
-\mathcal B_k\le(1+\eta)\Delta(H)A_{k-2}+\mathfrak H_k.
+\text{正 defect}
+\Longrightarrow
+\text{耗散},
+\qquad
+\text{defect}\to0
+\Longrightarrow
+\text{临界结构},
 \]
 
-现在必须控制最短 E 质量或等价地控制全部 heavy-pair 正部总量：
+再由临界结构产生真实 \(1/4\) link、IT 或完整块矛盾。
 
-- 证明它们是小误差；
-- 或用正确的 root-budget、slot、real-edge 账本支付；
-- 或输出可复算结构割；
-- 剩余质量才能进入下游 persistent-blocker 分析。
+逐质量收费仍是合法辅助方法，但不是 Route B 的验收标准。
 
-## 3. 它依赖哪些已证结果？
+## 4. Route B 的精确目标是什么？
 
-可以直接使用：
+先证明零缺陷对象属于
 
-- configuration auditor、root-pivot LP、slot flow、real-edge Hall flow；
-- F-0029 等回归反例；
-- 实际 pivot-switch/reroot lift；
-- finite escape Hall/reuse 二分；
-- future-complete lift 形式二分；
-- 在已假设逐节点 \(11/27\) 收缩时的 \(27/16\) 森林摊还。
+\[
+\text{binary regeneration forest}
++
+\text{reversible exact-future cores}.
+\]
 
-不能把 AMCG、transition capping 或有限深度枚举当作一般入口定理。
+然后证明每个 reversible core 在 actual support 上：
 
-## 4. 什么结果算关闭当前节点？
+- splice 饱和并乘积化；
+- 或进入 single-pivot critical link；
+- 或产生完整真实块终局；
+- 或具有正 defect。
 
-需要给出一个一般定理，作用于低度、块极小、无 IT 的实际 Q-0015 根障碍，并且：
+最后才做固定 \(\varepsilon\) 的定量稳定化。
 
-1. 原路线：对所有相关最短 E 证书给出统一质量控制；或
-2. aggregate 路线：证明 \(\mathcal B_k\le c_\varepsilon b^2A_{k-2}\)，其中 \(c_\varepsilon<1/4\)；
-3. 明确使用哪一份容量账本，不重复真实边、slot 或根预算；
-4. 所有 quotient 必须 future-compatible，并输出可接受结构出口；
-5. 或给出满足全部真实执行条件的严格反模型。
+## 5. 本轮新增的有限证据是什么？
 
-只在新接口中定义 E 可支付，不算关闭。
+脚本 `enumerate/q4_splice_pay_cylinder_validation.py` 穷举：
 
-## 5. 什么反例会杀死它？
+- 272 个 \(Q_4\) 坐标完美匹配；
+- 8 个正常匹配；
+- 192 个正常独立 one-hole states；
+- 768 个 future-complete release policies。
 
-一个有效反例必须同时给出：
+分类结果：
 
-- 真实三一致分块超图；
-- 低度、块极小、无 IT；
-- 实际可达根记录与失败义务；
-- 完整 root projection 和 genealogy；
-- 三份容量账本；
-- 正质量最短 E 证书；
-- 证明该 E 质量既非小误差，也不能合法支付，又不产生规定结构割。
+- 384 个 edge-disjoint splice candidates；
+- 192 个 unavoidable real-edge reuse；
+- 192 个 local same-pivot cylinders。
 
-压缩状态、相位模型或手工抽象树不足以构成反例。
+所有 384 个 splice candidates 的最小 splice 都使用全部 8 条真实边。因此
+splice 不能被当作免费可重复闭包。该结果仅是 bounded exhaustive evidence。
 
-## 6. 哪些脚本可以测试有限模型？
+## 6. 哪些错误必须避免？
 
-从 `enumerate/` 开始，优先查看：
+- 把 \(1/4\) 解释成全部 residual 必须收费；
+- 用 desired terminal structure 定义 defect；
+- 把 local same-pivot 当成 global cylinder；
+- 把 reversibility、phase 或 genealogy 可恢复性当成 product support；
+- 假设 common-base diamond 自动存在；
+- 把 splice 当成免费操作；
+- 对 partial support 使用块极小性；
+- 用有限枚举替代一般定理。
 
-- Q-0015 configuration auditor；
-- root-pivot LP / dual certificate；
-- slot-flow auditor；
-- real-edge Hall-flow auditor；
-- F-0029 和 genealogy collision 回归；
-- depth-two splitter enumeration；
-- reset-compensation 的三块二元完整枚举。
+## 7. Route A 的结果还能使用吗？
 
-计算结果必须保存参数、输入、输出、日志、随机种子和 SHA-256。
-“未找到反例”不是一般证明；unresolved state 也不是反例。
+可以。以下仍是可靠辅助模块：
 
-## 7. 哪些路线已经被永久排除？
+- configuration auditor 和三份独立账本；
+- future-complete lift；
+- old-anchor Lyapunov；
+- aggregate normalization；
+- pair-flat/heavy-excess decomposition；
+- orientation progress；
+- F-0034、F-0042 的条件关闭判据；
+- Hall orthogonalization 和 exchange-flow 工具。
 
-至少包括：
-
-- 所有失败义务共享一个预置 pivot；
-- 删除第一 blocker 的一个端点后不重新检查独立性；
-- 静态 switch 自动产生合法 reroot；
-- 压缩迹相同即可合并 genealogy；
-- trivial monodromy 或 phase 一致自动推出 product support；
-- 投影满推出完整真实块支持；
-- partial support 直接调用块极小性；
-- incidence 增殖直接推出 \(1/4\) 集中；
-- ordinary transition capping 自动创造真实边收费权；
-- 有限 LP/MILP 或小参数枚举替代一般定理。
+但这些模块不得自动把 active node 改回 Q-0015。
 
 ## 接下来读什么？
 
 1. `../HANDOFF_CURRENT.md`
-2. `PROOF_DAG.md`
-3. `framework/FW-10_CONFIGURATION_ENTRY.md`
-4. `framework/FW-40_FUTURE_COMPLETE_LIFT.md`
-5. `../agent.md`
-6. 根目录 `knowledge/FACTS.md`、`knowledge/FAILURES.md`、`knowledge/QUESTIONS.md`
+2. `PROJECT_STATE.yaml`
+3. `PROOF_DAG.md`
+4. `framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+5. `../knowledge/DECISIONS.md`
+6. `../knowledge/FACTS.md`
+7. `../knowledge/FAILURES.md`
+8. `../knowledge/QUESTIONS.md`
+9. `../evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`

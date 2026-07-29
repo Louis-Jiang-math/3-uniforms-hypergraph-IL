@@ -1,0 +1,7552 @@
+拉取仓库并闭合任务
+=========
+
+【提问 轮数1】
+[User is quoting/referring to: "我会验证两件事：一是交换网络满流与“存在可全局收费的另一局部最大正交化”是否逐例等价；二是亏流时最小割是否确实具有交换闭合、账本容量受限等分类性质。之后再用结构化随机实例寻找反例和极端割。"]
+
+请你继续输出
+
+【回答内容 轮数1】
+目前已有两个有价值的中间结果：20,000 个随机实例和 11,664 个小规模全枚举实例均未发现等价性反例；还找到一个最小示例，显示交换层确实能把“错误的局部 residual”重新排列成可收费 residual，而不是只验证一个空泛恒等式。现在我补测含 slot→pivot→sink 串联账本的分层资源网络。
+
+【回答内容 轮数1】
+数值实验还暴露出一个重要简化：先前交换网络里的“平坦负载中转节点” $f$ 在局部流已经最大时从 residual 源永远不可达，否则就形成原局部网络的增广路。因此它在 15,000 个分层随机实例的满流与最小割中从未承担正流或正割容量；第三层可以删去它，保留更自然的交替残量网络。
+
+【回答内容 轮数1】
+数值验证支持这个源汇模型，而且还带来了两处重要修正：
+
+$$
+
+\boxed{
+\text{交换流等价性通过；但“亏流割必然是结构出口”尚未通过。}
+}
+
+$$
+
+更准确地说，收费流的**计算层**已经表现得非常稳定；亏流时得到的是一个精确的全局 exchange-Hall witness，但还不能自动称为 quotient、closure 或其他 accepted exit。
+
+本轮只做独立计算，没有应用补丁或修改仓库。
+
+# 一、验证的自然组合问题
+
+不先固定“应当良好”的 residual，而直接求以下可行流。
+
+设 $F^\ast$ 是所有局部 blocker 网络的最大 flat-flow 总值。变量为：
+
+$$
+
+q'_{\omega\ell}\ge 0
+
+$$
+
+表示 atom $\omega$ 分配给局部 blocker $\ell$ 的质量，以及全局收费流 $g$。
+
+约束只是自然的守恒和容量：
+
+$$
+
+\sum_{\ell}q'_{\omega\ell}
++
+g_\omega
+=
+m_\omega,
+
+$$
+
+$$
+
+\sum_{\omega}q'_{\omega\ell}\le \tau_\ell,
+
+$$
+
+$$
+
+\sum_{\omega,\ell}q'_{\omega\ell}=F^\ast,
+
+$$
+
+并要求 $g$ 能通过实际的：
+
+$$
+
+\text{slot}\longrightarrow
+\text{root-pivot}\longrightarrow t
+
+$$
+
+或
+
+$$
+
+\text{real edge}\longrightarrow t
+
+$$
+
+资源网络。
+
+因为 flat throughput 被固定为其独立定义的最大值 $F^\ast$，全局收费量自动等于
+
+$$
+
+M-F^\ast=D.
+
+$$
+
+这里没有把“全部 residual 必须可收费”写进定义；这是一个普通的带固定 flat-throughput 的可行循环问题。
+
+前面构造的交换网络就是这个循环问题相对于任意局部最大流 $q$ 的残量网络。
+
+---
+
+# 二、数值验证结果
+
+## 1. 直接资源网络
+
+随机生成：
+
+- $1$–$5$ 个 atoms；
+- $1$–$4$ 个局部 blocker；
+- $1$–$4$ 个全局资源；
+- atom 质量 $1$–$4$；
+- 局部和全局容量 $0$–$5$；
+- 任意非空 blocker incidence；
+- 任意 atom-to-resource incidence。
+
+用两个独立计算比较：
+
+1. 交换网络的最大流；
+2. 直接线性规划是否存在某个局部最大正交化 $q'$，其 residual 可全部收费。
+
+结果：
+
+| 测试 | 实例数 | 满流 | 亏流 | 不一致 |
+|---|---:|---:|---:|---:|
+| 原交换网络 | 20,000 | 12,836 | 7,164 | **0** |
+| 简化交换网络 | 20,000 | 12,643 | 7,357 | **0** |
+
+“简化交换网络”将在下文解释。
+
+## 2. 完全穷举小实例
+
+完全穷举：
+
+- 2 个 atoms；
+- 2 个局部 blocker；
+- 2 个全局资源；
+- atom 质量均为 1；
+- blocker 和资源容量取 $0,1,2$；
+- 全部非空局部 incidence；
+- 全部全局资源 incidence。
+
+共：
+
+$$
+
+11,664
+
+$$
+
+个组合实例。
+
+对每个实例还枚举了**全部整数局部最大流** $q$，而不是只取算法返回的一个。
+
+结果：
+
+| 结果 | 数量 |
+|---|---:|
+| 存在可收费的最大正交化 | 8,856 |
+| 不存在 | 2,808 |
+| 交换流与枚举结论不一致 | **0** |
+| 交换流值依赖初始最大流 $q$ | **0** |
+
+因此，在该穷举范围内：
+
+$$
+
+\boxed{
+\text{交换网络的答案与初始选择的局部最大流无关。}
+}
+
+$$
+
+## 3. 分层账本网络
+
+又测试了更接近仓库接口的网络：
+
+$$
+
+\omega\to\text{slot}
+\to\text{root-pivot}
+\to t,
+
+$$
+
+并同时允许：
+
+$$
+
+\omega\to\text{real edge}\to t.
+
+$$
+
+随机范围为：
+
+- 最多 5 个 atoms；
+- 最多 4 个局部 blockers；
+- 最多 5 个 slots；
+- 最多 3 个 root-pivots；
+- 最多 4 个 real-edge gates。
+
+交换流与独立线性规划的比较：
+
+| 测试 | 实例数 | 满流 | 亏流 | 不一致 |
+|---|---:|---:|---:|---:|
+| 原分层交换网络 | 5,000 | 3,468 | 1,532 | **0** |
+| 简化分层交换网络 | 5,000 | 3,411 | 1,589 | **0** |
+
+另外对 10,000 个分层实例直接重构 $q'$：
+
+- 每个 atom 守恒；
+- 每个局部 blocker 容量合法；
+- flat throughput 保持 $F^\ast$；
+- 每个 slot 容量合法；
+- 每个 pivot 总容量合法；
+- 每条 real edge 容量合法。
+
+全部通过，未出现重构错误。
+
+---
+
+# 三、交换层确实能够“回头重选”正交化
+
+一个最小例子已经足够说明交换层不是多余的。
+
+有两个 atoms：
+
+$$
+
+a_0,\ a_1,
+\qquad
+m(a_0)=m(a_1)=2.
+
+$$
+
+只有一个局部 blocker $\ell$，容量为 2，且两个 atoms 都能使用它。
+
+先取局部最大流
+
+$$
+
+q(a_0,\ell)=2,
+\qquad
+q(a_1,\ell)=0.
+
+$$
+
+于是 residual 是
+
+$$
+
+r(a_0)=0,
+\qquad
+r(a_1)=2.
+
+$$
+
+现在只有 $a_0$ 能访问一个容量为 2 的全局资源 $e$，而 $a_1$ 没有任何收费出口。
+
+所以这个特定 residual 完全不可收费。
+
+但交换网络中存在路径
+
+$$
+
+s\to a_1\to\ell\to a_0\to e\to t
+
+$$
+
+并可发送质量 2。重构得到
+
+$$
+
+q'(a_0,\ell)=0,
+\qquad
+q'(a_1,\ell)=2.
+
+$$
+
+新 residual 为
+
+$$
+
+r'(a_0)=2,
+\qquad
+r'(a_1)=0,
+
+$$
+
+恰好可全部送入 $e$。
+
+因此：
+
+$$
+
+\boxed{
+\text{第三层不是支付任取的 residual，
+而是在所有局部最大正交化中选择一个可收费的 residual。}
+}
+
+$$
+
+---
+
+# 四、一个重要简化：中转节点 $f$ 可以删除
+
+前面的交换网络加入了一个节点 $f$，允许改变不同局部 blocker 的总负载：
+
+$$
+
+\ell\to f
+\quad\text{容量 }\tau_\ell-\lambda_\ell,
+
+$$
+
+$$
+
+f\to\ell
+\quad\text{容量 }\lambda_\ell.
+
+$$
+
+数值实验中，它没有贡献：
+
+- 在 3,206 个分层亏流实例的最小割中；
+- `flat-slack` 割容量始终为 0；
+- `flat-load` 割容量始终为 0。
+
+原因其实是严格的。
+
+若 residual atom 能沿交替边到达某个有 slack 的 blocker，再进入 $f$，那么原局部 blocker 网络中存在一条增广路：
+
+$$
+
+\text{未饱和 atom}
+\rightsquigarrow
+\text{未饱和 blocker}.
+
+$$
+
+这与 $q$ 已是局部最大流矛盾。
+
+因此：
+
+$$
+
+\boxed{
+f\text{ 从 residual source 永远不可达。}
+}
+
+$$
+
+可以把第三层网络简化成：
+
+$$
+
+s\to\omega
+\rightleftarrows
+\ell
+\rightleftarrows
+\omega'
+\to
+\text{global resources}
+\to t.
+
+$$
+
+具体边为：
+
+$$
+
+s\to\omega
+\quad\text{容量 }r_\omega,
+
+$$
+
+$$
+
+\omega\to\ell
+\quad\text{大容量},
+
+$$
+
+$$
+
+\ell\to\omega
+\quad\text{容量 }q_{\omega\ell},
+
+$$
+
+以及实际资源网络。
+
+这意味着交换操作可以保持每个局部 blocker 的负载向量
+
+$$
+
+\lambda_\ell
+
+$$
+
+逐项不变，而不仅仅保持总 flat throughput。
+
+在额外的 20,000 个直接资源随机实例和 5,000 个分层实例中，删除 $f$ 后与直接 LP 仍然零不一致。
+
+---
+
+# 五、亏流割的精确公式
+
+数值实验还验证了一个比“exchange-closed cut”更精确的分类。
+
+设 $U$ 是最小割源侧的 atom 集合。定义：
+
+$$
+
+N_L(U)
+=
+\{\ell:\exists\omega\in U,\ \omega\sim\ell\},
+
+$$
+
+即 $U$ 的局部 blocker 邻域。
+
+定义当前局部最大流穿过该集合边界的质量：
+
+$$
+
+\partial_q(U)
+=
+\sum_{\ell\in N_L(U)}
+\sum_{\omega\notin U}
+q_{\omega\ell}.
+
+$$
+
+再令 $\Gamma(U)$ 是 $U$ 通过真实 trajectory 可到达的全局资源入口：
+
+- slots；
+- real-edge gates；
+- 以及它们后面的 pivot gates。
+
+令
+
+$$
+
+\kappa(\Gamma(U))
+
+$$
+
+表示把这些资源入口与汇点分开的最小实际账本容量。对简单 real-edge 网络，它就是相邻资源容量之和；对 slot-pivot 网络，它允许在 slot gate 或共享 pivot gate 处切割。
+
+那么交换网络的最小割恰为
+
+$$
+
+\boxed{
+\operatorname{mincut}
+=
+\min_{U}
+\left[
+r(\bar U)
++
+\partial_q(U)
++
+\kappa(\Gamma(U))
+\right].
+}
+\tag{1}
+
+$$
+
+由于
+
+$$
+
+D=r(U)+r(\bar U),
+
+$$
+
+未能收费的质量为
+
+$$
+
+\boxed{
+\Xi_q
+=
+D-\operatorname{maxflow}
+=
+\max_U
+\left[
+r(U)
+-
+\partial_q(U)
+-
+\kappa(\Gamma(U))
+\right]_+.
+}
+\tag{2}
+
+$$
+
+这可以称为 **global exchange deficiency**。
+
+它与局部 Hall deficiency 的形式非常相似，但增加了两个全局修正：
+
+$$
+
+\partial_q(U)
+
+$$
+
+表示通过重新安排已有 flat assignment，可以从 $U$ 中交换出去的质量；
+
+$$
+
+\kappa(\Gamma(U))
+
+$$
+
+表示所有实际可达全局账本能够吸收的质量。
+
+## 数值核验
+
+直接资源网络中，枚举全部 atom 子集 $U$，直接计算式 (1)，并与网络最小割比较：
+
+| 网络类型 | 实例数 | 不一致 |
+|---|---:|---:|
+| 直接资源 | 10,000 | **0** |
+| slot-pivot-real-edge 分层资源 | 5,000 | **0** |
+
+所以在已测试范围中：
+
+$$
+
+\boxed{
+\text{网络最小割与显式 exchange-Hall 子集公式逐例相等。}
+}
+
+$$
+
+---
+
+# 六、数值验证修正了“exchange-closed”的说法
+
+亏流割不一定对所有反向交换边闭合。
+
+在 3,206 个分层亏流实例中，最小割各类有限容量项出现次数如下；同一割可能同时包含多类：
+
+| 割容量类型 | 出现次数 |
+|---|---:|
+| 未纳入 witness 的 source residual | 1,075 |
+| 当前 flat assignment 的反向边 $q_{\omega\ell}$ | 337 |
+| slot 容量 | 568 |
+| shared pivot 容量 | 1,066 |
+| real-edge 容量 | 1,381 |
+| flat slack/load 中转容量 | **0** |
+
+因此，先前“亏流割是 exchange-closed”的说法过强。
+
+正确说法是：
+
+$$
+
+\boxed{
+\text{它对所有无限容量的合法前向交换和资源邻接闭合，
+但可以通过支付 }\partial_q(U)\text{ 切断已有反向交换。}
+}
+
+$$
+
+也就是说，亏流 witness 满足：
+
+$$
+
+r(U)
+>
+\partial_q(U)+\kappa(\Gamma(U)).
+
+$$
+
+它表示：
+
+> 即使允许利用当前 flat assignment 的全部交替交换边，并利用所有实际可达的共享账本，集合 $U$ 仍有正质量无法送出。
+
+这比 cylinder-local $T_N$-Hall cut 强很多；但它还不是自动的 structural exit。
+
+---
+
+# 七、一个简单的亏流例子
+
+仍使用两个 atoms、一个 blocker 的例子，但把全局资源容量改成 1。
+
+则交换网络最多只能发送 1。取
+
+$$
+
+U=\{a_0,a_1\}.
+
+$$
+
+有
+
+$$
+
+r(U)=2,
+
+$$
+
+由于 $U$ 包含全部 atoms，
+
+$$
+
+\partial_q(U)=0,
+
+$$
+
+而资源最小割为
+
+$$
+
+\kappa(\Gamma(U))=1.
+
+$$
+
+所以
+
+$$
+
+\Xi_q
+=
+2-0-1
+=
+1.
+
+$$
+
+这个 witness 不是“单个未收费 atom”；交换闭包会把 $a_0,a_1$ 一起纳入。它准确表达了：
+
+- 通过 blocker 交换，可以把 residual 放到任意一个 atom 上；
+- 但共享全局资源总共只有容量 1；
+- 因此仍有质量 1 无法收费。
+
+---
+
+# 八、目前验证了什么，尚未验证什么
+
+## 已验证
+
+在抽象网络层面，有非常强的证据支持：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{交换满流}\\
+&\quad\Longleftrightarrow\\
+&\text{存在某个局部最大正交化，
+其全部 residual 可通过真实分层资源收费。}
+\end{aligned}
+}
+
+$$
+
+同时：
+
+- 可以从交换流显式重构 $q'$；
+- 结果不依赖初始最大流的选择；
+- 中转节点 $f$ 可以删除；
+- 亏流值具有精确子集公式 (2)。
+
+## 尚未验证
+
+数值实验没有证明：
+
+$$
+
+\Xi_q>0
+
+$$
+
+时，对应的 witness 必然能够提升为：
+
+$$
+
+\text{exact-future quotient}
+\;\vee\;
+\text{完整块 closure}
+\;\vee\;
+\text{augmentation/survivor}
+\;\vee\;
+\text{块极小性矛盾}.
+
+$$
+
+原因是本轮随机网络只模拟了：
+
+- 局部 blocker incidence；
+- 交替交换；
+- slot/pivot/real-edge 账本层。
+
+它没有编码完整的：
+
+- 超图可达执行；
+- future compatibility；
+- orientation token；
+- 块极小无 IT；
+- all-future-tuple closure。
+
+因此第三层二分目前严格成立的版本是：
+
+$$
+
+\boxed{
+\text{全局收费满流}
+\quad\vee\quad
+\text{正的 global exchange deficiency witness}.
+}
+
+$$
+
+而不是已经完成的：
+
+$$
+
+\boxed{
+\text{全局收费满流}
+\quad\vee\quad
+\text{accepted structural exit}.
+}
+
+$$
+
+下一步真正需要证明的是：
+
+> 对式 (2) 中的最大化集合 $U$，若
+> $$
+
+> r(U)>\partial_q(U)+\kappa(\Gamma(U)),
+>
+$$
+> 则其所有 future-labelled atoms 在真实执行中共同形成一个可接受结构，或者进一步产生新的全局资源入口，使 $\kappa(\Gamma(U))$ 增长并最终消除该缺口。
+
+这比之前模糊的“分类最小割”更具体：后续证明应直接研究这个带三项的 witness
+
+$$
+
+\boxed{
+r(U)-\partial_q(U)-\kappa(\Gamma(U)).
+}
+
+$$
+
+数值验证支持收费流的构造与计算；它同时告诉我们，最后的结构定理必须处理 $\partial_q(U)$ 与共享账本 cut 的混合，而不能只研究一个纯 real-edge Hall cut。
+
+
+【提问 轮数2】
+[User is quoting/referring to: "最后的结构定理必须处理 ∂q(U)\\partial\_q(U)∂q​(U) 与共享账本 cut 的混合，而不能只研究一个纯 real-edge Hall cut。"]
+
+请你尝试证明这个结论，特别地，可以根据数值验证的结果适当调整表述和策略
+
+【回答内容 轮数2】
+我会把“必须处理混合项”提升成一个精确的最小割定理：先证明交换网络的亏流值必然等于
+$$
+
+\max_U\bigl[r(U)-\partial_q(U)-\kappa(\Gamma(U))\bigr]_+,
+
+$$
+再用两个最小反例分别说明，删掉 $\partial_q(U)$ 或把共享账本退化成纯 real-edge cut 都会得出错误分类。
+
+【回答内容 轮数2】
+可以，而且数值结果提示了一个更强的表述：
+
+$$
+
+\boxed{
+\text{对固定的局部最大流 }q,\text{ 最小割确实是混合的；}
+}
+
+$$
+
+但
+
+$$
+
+\boxed{
+\text{在求出第三层最大流后，可以回构另一个局部最大流 }q',
+\text{ 使规范亏流见证满足 }\partial_{q'}(U)=0.
+}
+
+$$
+
+因此最终结构定理**不必直接分类混合项**
+
+$$
+
+r(U)-\partial_q(U)-\kappa(\Gamma(U)),
+
+$$
+
+而可以分类一个更干净的、由第三层流自动产生的：
+
+$$
+
+\boxed{
+r_{q'}(U)>\kappa(\Gamma(U)),
+\qquad
+\partial_{q'}(U)=0.
+}
+
+$$
+
+不过这里的 $\kappa$ 必须是**完整共享账本网络的最小割容量**，不能退化为纯 real-edge 容量。
+
+---
+
+# 一、抽象数据
+
+设：
+
+- $\mathcal A$ 是 future-labelled Hall residual atoms；
+- $m_a\ge0$ 是 atom $a$ 的质量；
+- $\mathcal L$ 是局部 blocker 节点；
+- $a\sim\ell$ 表示 $\ell$ 是 $a$ 的合法局部 blocker；
+- $\tau_\ell$ 是局部 pair-flat 分配容量。
+
+取一个局部最大 blocker assignment
+
+$$
+
+q=(q_{a\ell})_{a\sim\ell}
+
+$$
+
+满足
+
+$$
+
+q_{a\ell}\ge0,
+\qquad
+\sum_{\ell\sim a}q_{a\ell}\le m_a,
+\qquad
+\sum_{a\sim\ell}q_{a\ell}\le\tau_\ell.
+
+$$
+
+记
+
+$$
+
+x_a=\sum_\ell q_{a\ell},
+\qquad
+r_a=m_a-x_a,
+
+$$
+
+以及 blocker 负载
+
+$$
+
+\lambda_\ell=\sum_aq_{a\ell}.
+
+$$
+
+因为 $q$ 是局部最大流，
+
+$$
+
+D:=\sum_ar_a
+
+$$
+
+就是该深度区间的 Hall deficiency 总质量。
+
+---
+
+# 二、共享全局资源网络
+
+令 $\mathcal R$ 是一个有限有向容量网络，汇点为 $t$。
+
+它可以自然包含：
+
+$$
+
+a\to \text{slot}
+\to \text{root-pivot}
+\to t
+
+$$
+
+以及
+
+$$
+
+a\to \text{real edge}\to t.
+
+$$
+
+atom 到它实际可达资源入口的边取无穷容量；有限容量只放在真实账本 gate 上。
+
+仓库本身分别维护 root-budget、slot 和 real-edge 三种容量，说明这些 gate 的身份不能静默合并。
+
+对于 $U\subseteq\mathcal A$，令 $\Gamma(U)$ 是 $U$ 的全部资源入口。定义
+
+$$
+
+\kappa(\Gamma(U))
+
+$$
+
+为资源网络中，把所有 $\Gamma(U)$ 与 $t$ 分开的最小割容量。
+
+注意，它不是简单的候选真实边容量和；共享 root-pivot gate 可以同时限制许多 slots。
+
+---
+
+# 三、简化交换网络
+
+构造网络 $\mathcal X(q)$。
+
+节点为
+
+$$
+
+\{s\}\cup\mathcal A\cup\mathcal L\cup V(\mathcal R).
+
+$$
+
+加入：
+
+$$
+
+s\to a
+\quad\text{容量 }r_a;
+
+$$
+
+对每个 $a\sim\ell$，加入
+
+$$
+
+a\to\ell
+\quad\text{容量 }+\infty,
+
+$$
+
+$$
+
+\ell\to a
+\quad\text{容量 }q_{a\ell};
+
+$$
+
+再加入 atom 到其实际全局资源入口的无穷容量边和整个资源网络 $\mathcal R$。
+
+这里没有“新边自动收费”或“first blocker 自动拥有容量”。确定性 first blocker 只能划分失败，不能保证同一真实边不被不同历史重复使用；pivot switch 也不能重新开启一份度数预算。turn318651view2
+
+---
+
+# 四、固定 $q$ 时的精确混合最小割公式
+
+定义局部 blocker 邻域
+
+$$
+
+N(U)=
+\{\ell\in\mathcal L:
+\exists a\in U,\ a\sim\ell\}.
+
+$$
+
+再定义交换边界
+
+$$
+
+\partial_q(U)
+=
+\sum_{\ell\in N(U)}
+\sum_{a\notin U}q_{a\ell}.
+
+$$
+
+## 定理 1：混合割公式
+
+$$
+
+\boxed{
+\operatorname{mincut}_{\mathcal X(q)}(s,t)
+=
+\min_{U\subseteq\mathcal A}
+\left[
+r(\bar U)+
+\partial_q(U)+
+\kappa(\Gamma(U))
+\right].
+}
+\tag{1}
+
+$$
+
+因此未能收费的质量为
+
+$$
+
+\boxed{
+\Xi_q
+=
+D-\operatorname{maxflow}\mathcal X(q)
+=
+\max_{U\subseteq\mathcal A}
+\left[
+r(U)-\partial_q(U)-\kappa(\Gamma(U))
+\right].
+}
+\tag{2}
+
+$$
+
+## 证明
+
+取任意有限 $s$-$t$ 割，设源侧 atom 集为 $U$。
+
+因为每条
+
+$$
+
+a\to\ell
+
+$$
+
+具有无穷容量，只要 $a\in U$，所有与 $a$ 相邻的 blocker 都必须位于源侧。因此源侧 blocker 至少包含 $N(U)$。
+
+固定 $U$ 后，加入任何不属于 $N(U)$ 的额外 blocker 只可能增加从 blocker 到源侧外 atom 的有限割容量，所以最优选择恰为 $N(U)$。
+
+于是局部交换部分的有限割容量为
+
+$$
+
+\sum_{\ell\in N(U)}
+\sum_{a\notin U}q_{a\ell}
+=
+\partial_q(U).
+
+$$
+
+不在 $U$ 中的 atom，其源边被切断，贡献
+
+$$
+
+r(\bar U).
+
+$$
+
+又因为 $a\in U$ 到其资源入口的边容量无穷大，所有 $\Gamma(U)$ 都必须留在资源网络的源侧。资源部分最小可能贡献恰为
+
+$$
+
+\kappa(\Gamma(U)).
+
+$$
+
+所以固定 $U$ 的最小割容量是
+
+$$
+
+r(\bar U)+\partial_q(U)+\kappa(\Gamma(U)).
+
+$$
+
+对 $U$ 取最小即得式 (1)。
+
+再用
+
+$$
+
+D=r(U)+r(\bar U)
+
+$$
+
+和最大流–最小割，即得式 (2)。$\square$
+
+---
+
+# 五、为什么固定 $q$ 时不能忽略 $\partial_q(U)$
+
+考虑两个 atoms：
+
+$$
+
+a_0,a_1,
+\qquad
+m_{a_0}=m_{a_1}=2.
+
+$$
+
+只有一个 blocker $\ell$，容量为 $2$，且两个 atoms 都与它相邻。
+
+取局部最大流
+
+$$
+
+q_{a_0\ell}=2,
+\qquad
+q_{a_1\ell}=0.
+
+$$
+
+因此
+
+$$
+
+r_{a_0}=0,
+\qquad
+r_{a_1}=2.
+
+$$
+
+只有 $a_0$ 可以访问一个容量为 $2$ 的全局资源，$a_1$ 没有资源入口。
+
+若只看纯资源 Hall 条件，取
+
+$$
+
+U=\{a_1\},
+
+$$
+
+则
+
+$$
+
+r(U)=2,
+\qquad
+\kappa(\Gamma(U))=0,
+
+$$
+
+似乎存在亏流 $2$。
+
+但
+
+$$
+
+N(U)=\{\ell\},
+
+$$
+
+而
+
+$$
+
+\partial_q(U)=q_{a_0\ell}=2.
+
+$$
+
+所以真正的混合缺口为
+
+$$
+
+2-2-0=0.
+
+$$
+
+交换路径
+
+$$
+
+s\to a_1\to\ell\to a_0
+\to\text{resource}\to t
+
+$$
+
+把 blocker 负载从 $a_0$ 移给 $a_1$，再将 residual 移到可收费的 $a_0$。
+
+因此：
+
+$$
+
+\boxed{
+\text{对任意固定 }q,\text{ 忽略 }\partial_q(U)
+\text{ 会产生虚假的结构障碍。}
+}
+
+$$
+
+---
+
+# 六、更强的回构定理：最大流可以消去交换边界
+
+现在取 $\mathcal X(q)$ 中的一个最大流 $\phi$。
+
+令 $S$ 是其残量网络中从 $s$ 可达的节点集合，并定义
+
+$$
+
+U=S\cap\mathcal A.
+
+$$
+
+令
+
+$$
+
+h_a=\phi(s,a)
+
+$$
+
+是从 residual source 送入 atom $a$ 的流量，令
+
+$$
+
+g_a
+
+$$
+
+是从 $a$ 进入全局资源网络的流量。
+
+定义新的局部 assignment：
+
+$$
+
+\boxed{
+q'_{a\ell}
+=
+q_{a\ell}
++
+\phi(a,\ell)
+-
+\phi(\ell,a).
+}
+\tag{3}
+
+$$
+
+## 定理 2：boundary-free pullback theorem
+
+由式 (3) 构造的 $q'$ 满足：
+
+### 1. $q'$ 是局部可行最大流
+
+$$
+
+q'_{a\ell}\ge0,
+
+$$
+
+$$
+
+\sum_aq'_{a\ell}
+=
+\sum_aq_{a\ell}
+=
+\lambda_\ell
+\quad\text{对每个 }\ell.
+\tag{4}
+
+$$
+
+所以每个 blocker 的负载逐点保持不变，$q'$ 与 $q$ 具有相同的局部最大流值。
+
+### 2. 规范见证没有交换边界
+
+$$
+
+\boxed{
+q'_{a\ell}=0
+\quad
+\text{若 }a\notin U,\ \ell\in N(U).
+}
+\tag{5}
+
+$$
+
+因而
+
+$$
+
+\boxed{
+\partial_{q'}(U)=0.
+}
+\tag{6}
+
+$$
+
+### 3. 若最大收费流不满，则产生纯共享账本 Hall 缺口
+
+令
+
+$$
+
+r'_a=m_a-\sum_\ell q'_{a\ell}.
+
+$$
+
+若交换最大流值小于 $D$，则
+
+$$
+
+\boxed{
+r'(U)>\kappa(\Gamma(U)).
+}
+\tag{7}
+
+$$
+
+更精确地，
+
+$$
+
+\boxed{
+D-|\phi|
+=
+r'(U)-\kappa(\Gamma(U)).
+}
+\tag{8}
+
+$$
+
+---
+
+## 证明
+
+### 第一步：$q'\ge0$
+
+因为反向交换边
+
+$$
+
+\ell\to a
+
+$$
+
+的容量为 $q_{a\ell}$，
+
+$$
+
+\phi(\ell,a)\le q_{a\ell}.
+
+$$
+
+所以
+
+$$
+
+q'_{a\ell}
+=
+q_{a\ell}
+-\phi(\ell,a)+\phi(a,\ell)
+\ge0.
+
+$$
+
+### 第二步：每个 blocker 的负载保持
+
+blocker $\ell$ 没有其他入边或出边，因此流守恒给出
+
+$$
+
+\sum_a\phi(a,\ell)
+=
+\sum_a\phi(\ell,a).
+
+$$
+
+于是
+
+$$
+
+\begin{aligned}
+\sum_aq'_{a\ell}
+&=
+\sum_aq_{a\ell}
++
+\sum_a\phi(a,\ell)
+-
+\sum_a\phi(\ell,a)\\
+&=
+\sum_aq_{a\ell}.
+\end{aligned}
+
+$$
+
+这证明式 (4)。
+
+特别地，$q'$ 与 $q$ 的总局部流值完全相同；由于 $q$ 已最大，$q'$ 也最大。
+
+### 第三步：atom 守恒
+
+在 atom $a$ 上，
+
+$$
+
+h_a+\sum_\ell\phi(\ell,a)
+=
+\sum_\ell\phi(a,\ell)+g_a.
+
+$$
+
+因此
+
+$$
+
+\sum_\ell
+\bigl(\phi(a,\ell)-\phi(\ell,a)\bigr)
+=
+h_a-g_a.
+
+$$
+
+所以
+
+$$
+
+\sum_\ell q'_{a\ell}
+=
+\sum_\ell q_{a\ell}+h_a-g_a.
+
+$$
+
+从而
+
+$$
+
+\boxed{
+r'_a
+=
+r_a-h_a+g_a.
+}
+\tag{9}
+
+$$
+
+令
+
+$$
+
+u_a=r_a-h_a
+
+$$
+
+为未从源边送出的质量，则
+
+$$
+
+r'_a=u_a+g_a.
+\tag{10}
+
+$$
+
+### 第四步：交换边界消失
+
+若
+
+$$
+
+\ell\in N(U),\qquad a\notin U,
+
+$$
+
+那么在规范残量可达割中：
+
+- $\ell$ 位于源侧；
+- $a$ 位于汇侧。
+
+因此原边
+
+$$
+
+\ell\to a
+
+$$
+
+是源侧到汇侧的割边，必须饱和：
+
+$$
+
+\phi(\ell,a)=q_{a\ell}.
+
+$$
+
+反方向原边
+
+$$
+
+a\to\ell
+
+$$
+
+从汇侧进入源侧。若它携带正流，则其反向残量边会从源侧通向汇侧，令 $a$ 可达，矛盾。因此
+
+$$
+
+\phi(a,\ell)=0.
+
+$$
+
+代入式 (3)：
+
+$$
+
+q'_{a\ell}
+=
+q_{a\ell}-q_{a\ell}=0.
+
+$$
+
+这证明式 (5)，继而得到
+
+$$
+
+\partial_{q'}(U)=0.
+
+$$
+
+### 第五步：未收费质量只位于 $U$
+
+若 $a\notin U$，则源边
+
+$$
+
+s\to a
+
+$$
+
+跨越规范最小割，因此饱和：
+
+$$
+
+h_a=r_a.
+
+$$
+
+所以
+
+$$
+
+u_a=0.
+
+$$
+
+于是全部未收费质量为
+
+$$
+
+D-|\phi|
+=
+\sum_au_a
+=
+\sum_{a\in U}u_a.
+\tag{11}
+
+$$
+
+### 第六步：资源割容量恰为 $U$ 的已收费量
+
+令
+
+$$
+
+S_{\mathcal R}=S\cap V(\mathcal R).
+
+$$
+
+因为从 $U$ 到资源入口的边容量无穷大，
+
+$$
+
+\Gamma(U)\subseteq S_{\mathcal R}.
+
+$$
+
+规范残量割的所有资源边：
+
+- 从 $S_{\mathcal R}$ 到补集者均饱和；
+- 从补集进入 $S_{\mathcal R}$ 者流量为零。
+
+又因为位于 $U$ 外的 atom 不能向 $S_{\mathcal R}$ 送正流，否则会形成一条从汇侧进入源侧的正流边及反向残量边。
+
+因此进入 $S_{\mathcal R}$ 的全部外部流恰来自 $U$，即
+
+$$
+
+\sum_{a\in U}g_a.
+
+$$
+
+由资源子网络的流守恒，这等于资源割容量：
+
+$$
+
+\sum_{a\in U}g_a
+=
+c_{\mathcal R}\bigl(\delta^+(S_{\mathcal R})\bigr).
+
+$$
+
+而 $S_{\mathcal R}$ 必须是分离 $\Gamma(U)$ 与 $t$ 的最小资源割；否则替换成更便宜的资源割会严格降低整个交换网络的最小割。
+
+故
+
+$$
+
+\boxed{
+\sum_{a\in U}g_a
+=
+\kappa(\Gamma(U)).
+}
+\tag{12}
+
+$$
+
+最后由式 (10)–(12)：
+
+$$
+
+\begin{aligned}
+r'(U)
+&=
+\sum_{a\in U}(u_a+g_a)\\
+&=
+(D-|\phi|)
++
+\kappa(\Gamma(U)).
+\end{aligned}
+
+$$
+
+所以
+
+$$
+
+D-|\phi|
+=
+r'(U)-\kappa(\Gamma(U)).
+
+$$
+
+若 $|\phi|<D$，右侧严格为正，即得式 (7)。$\square$
+
+---
+
+# 七、应当怎样修正前面的结论
+
+前面的说法：
+
+> 最终结构定理必须处理
+> $\partial_q(U)$ 与共享账本 cut 的混合。
+
+对**任意预先选择的局部最大流 $q$** 是正确的。
+
+但从证明策略看，可以加强为：
+
+$$
+
+\boxed{
+\begin{minipage}{0.86\linewidth}
+第三层交换最大流先吸收全部可用的交替重排。
+若仍然亏流，它会自动回构另一个局部最大流 $q'$，并输出一个交换边界为零的规范见证：
+\[
+\partial_{q'}(U)=0,
+\qquad
+r'(U)>\kappa(\Gamma(U)).
+
+$$
+\end{minipage}
+}
+\]
+
+因此最终结构定理只需要研究：
+
+$$
+
+\boxed{
+\text{boundary-free shared-ledger Hall witnesses}.
+}
+
+$$
+
+这比直接处理混合项更干净。
+
+---
+
+# 八、为什么仍不能退化成纯 real-edge Hall cut
+
+虽然 $\partial_q$ 可以通过回构消去，但
+
+$$
+
+\kappa(\Gamma(U))
+
+$$
+
+不能一般地换成候选真实边容量之和。
+
+考虑两个 residual atoms：
+
+$$
+
+a_1,a_2,
+\qquad
+r'_{a_1}=r'_{a_2}=1.
+
+$$
+
+它们分别访问不同 slots：
+
+$$
+
+a_i\to\sigma_i,
+
+$$
+
+每个 slot 容量为 $1$，但两个 slots 共享同一个 root-pivot gate：
+
+$$
+
+\sigma_1,\sigma_2\to\pi\to t,
+\qquad
+c(\pi\to t)=1.
+
+$$
+
+则表面 slot 总容量为
+
+$$
+
+1+1=2,
+
+$$
+
+但共享账本最小割为
+
+$$
+
+\kappa(\Gamma(\{a_1,a_2\}))=1.
+
+$$
+
+所以有缺口
+
+$$
+
+2-1=1.
+
+$$
+
+这不是 real-edge reuse，而是共享 root-pivot bottleneck。
+
+反方向也可能发生：一个 atom 没有可收费 real-edge，但具有合法 slot/root-pivot 通道。此时纯 real-edge Hall cut 会错误报告亏流，而完整资源网络能够满流。
+
+F-0033 的 real-edge Hall 二分适用于 off-pivot 和 multi-defect escape obligations；它并不覆盖所有 configuration/root/slot 通道。
+
+因此正确的终局对象必须是：
+
+$$
+
+\boxed{
+\text{typed shared-ledger Hall cut},
+}
+
+$$
+
+其 cut 中可以同时出现：
+
+- slot gates；
+- root-pivot gates；
+- global-real-edge gates。
+
+---
+
+# 九、接下来真正需要的结构定理
+
+现在可以把下一步重新表述得更精确：
+
+## Boundary-free shared-ledger cut theorem
+
+设 $q'$ 是第三层交换流回构出的局部最大正交化，且存在 $U$ 满足
+
+$$
+
+\partial_{q'}(U)=0,
+
+$$
+
+$$
+
+r'(U)>\kappa(\Gamma(U)).
+
+$$
+
+证明该 witness 在 faithful future expansion 下必然满足至少一种：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{出现新的合法共享账本入口，使 }\kappa\text{ 增长};\\
+&\text{进入可支付的 escape real-edge Hall 分支};\\
+&\text{形成 accepted exact-future quotient};\\
+&\text{形成完整真实块 closure};\\
+&\text{产生 augmentation/survivor 或块极小性矛盾}.
+\end{aligned}
+}
+
+$$
+
+这仍然需要 future completeness、块极小无 IT 和 F-0041 的 transition-congruence token。F-0041 只证明每次 transition 会出现新边、新 support、新 token 或 sound repetition；它没有证明这些事件天然带容量，也没有证明 repetition 已经是 accepted quotient。
+
+同时，不能仅由大量分散 incidence 推出完整核心；仓库已有最大度为 $1$ 的对角分散反例，说明必须加入未来闭合和全局无 IT。
+
+---
+
+# 最终结论
+
+可以严格证明：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{固定 }q\text{ 的亏流值确实是}\\
+&\qquad
+\max_U
+\bigl[
+r(U)-\partial_q(U)-\kappa(\Gamma(U))
+\bigr];\\[1mm]
+&\text{但最大交换流能够回构局部最大流 }q'
+\text{，使规范 witness 满足}\\
+&\qquad
+\partial_{q'}(U)=0,\\
+&\qquad
+D-|\phi|
+=
+r'(U)-\kappa(\Gamma(U)).
+\end{aligned}
+}
+
+$$
+
+所以，数值验证所提示的混合割不是最终不可约对象：
+
+- $\partial_q(U)$ 是对初始局部最大流选择的依赖；
+- 它可以由第三层交换流消去；
+- 真正不可约的障碍是**相对于完整共享账本网络的 Hall 缺口**。
+
+新的证明路线应当是：
+
+$$
+
+\boxed{
+\text{局部正交化}
+\to
+\text{交换最大流}
+\to
+\begin{cases}
+\text{全部 deficiency 全局收费};\\
+\text{boundary-free shared-ledger Hall witness}.
+\end{cases}
+}
+
+$$
+
+这把最后的结构任务从“研究一个混合的 $\partial_q+\kappa$ 割”收缩成了“研究一个交换稳定、但共享账本容量不足的真实全局 witness”。
+
+
+【提问 轮数3】
+感觉我们和之前的很多对话一样，又在对一个实质困难做无限切割了？请你暂时抽离这个具体证明，首先评估证明路线和方法。
+
+【回答内容 轮数3】
+你的判断很可能是对的。我们最近几轮确实呈现出一种典型危险：
+
+$$
+
+\text{困难余项}
+\;\to\;
+\text{更精确余项}
+\;\to\;
+\text{交换稳定余项}
+\;\to\;
+\text{共享账本余项}
+
+$$
+
+每一步都更“干净”，但没有出现一个独立的量真正下降。若继续这样推进，很容易把核心困难不断重新命名，而不是解决它。
+
+## 一、这条路线真正取得了什么
+
+并非完全没有进展。至少有三点是实质性的。
+
+第一，局部计数已经基本澄清。我们知道普通失败质量可以分成 pair-flat 主项和 Hall deficiency：
+
+$$
+
+\mathcal B_k
+\le
+(1+\eta)\Delta(H)A_{k-2}
++
+\mathfrak D_k,
+\qquad
+\mathfrak D_k\le\mathfrak H_k.
+
+$$
+
+这消除了重复 blocker 计数，是一个真实的改进。
+
+第二，我们证明了一个重要的“不可能性”结论：仅靠单-cylinder incidence、低度和更聪明的局部流，无法得到所需的小常数。即使 $\Delta=1$，局部 deficiency 也能接近全部质量。这排除了大量本来可能继续浪费时间的局部优化。
+
+第三，交换网络说明局部最大正交化的选择不是本质障碍。若存在某个局部最大流使 residual 可被全局资源吸收，交换流能够找到它。换言之，“选错了局部最大流”已经不是主困难。
+
+这些结果的共同意义是：
+
+$$
+
+\boxed{
+\text{局部表示问题基本解决了；剩余困难确实是全局结构。}
+}
+
+$$
+
+## 二、但最近几轮没有真正接近主定理
+
+从 Hall deficiency 开始，后续改进主要是**规范化 obstruction**：
+
+$$
+
+\mathfrak H
+\to
+\mathfrak D
+\to
+\text{exchange deficiency}
+\to
+\text{boundary-free shared-ledger witness}.
+
+$$
+
+这些变换有用，但它们没有证明以下任何关键命题：
+
+$$
+
+\text{大 obstruction}
+\Longrightarrow
+\text{高点度数},
+
+$$
+
+或
+
+$$
+
+\text{大 obstruction}
+\Longrightarrow
+\text{更小的无 IT 实例},
+
+$$
+
+或
+
+$$
+
+\text{大 obstruction}
+\Longrightarrow
+\text{质量按固定比例衰减}.
+
+$$
+
+换句话说，我们改善了“困难长什么样”，却没有证明“困难不能存在”。
+
+这是需要警惕的分界线。
+
+## 三、路线目前最大的结构性问题
+
+当前方法在三个地方容易变成无限切割。
+
+### 1. 每个 min-cut 只产生另一个待分类对象
+
+局部 Hall cut 不够全局，于是加入执行网络；执行网络的 cut 又不够结构化，于是加入交换闭包；交换 cut 又混合了边界与账本，于是回构 boundary-free cut。
+
+如果下一步仍是：
+
+> boundary-free cut 还不够，需要加入 future closure，再取一个新的 cut，
+
+那就基本确认进入了无限递归。
+
+一个健康的证明路线应该在某一层出现不可逆进展，例如：
+
+$$
+
+\Phi_{\text{new}}
+\le
+(1-c)\Phi_{\text{old}},
+
+$$
+
+或对象规模严格下降，或某个有限全局资源被永久消耗。现在尚未出现这样的量。
+
+### 2. “结构出口”一直是未来承诺
+
+我们多次得到：
+
+$$
+
+\text{满流}
+\;\vee\;
+\text{结构障碍}.
+
+$$
+
+但右侧还没有一个已经证明能终结反设的对象。它往往只是：
+
+- 更完整的 witness；
+- 更 faithful 的 trajectory；
+- 更准确的 quotient 候选；
+- 更全局的 cut。
+
+若“结构出口”本身仍需要另一套与原问题同等困难的分类，那么二分并没有缩短证明。
+
+### 3. 块极小无 IT 尚未真正参与核心估计
+
+这是最明显的警报。
+
+我们的许多流、割、交换和正交化结论，对一般带权二部 incidence 系统都成立。它们很少真正使用：
+
+- 每个块大小为 $b$；
+- 实例块极小；
+- 整个超图没有 IT；
+- 删除任意适当部分后出现 IT。
+
+但主定理的力量必然来自这些全局组合性质，而不是一般网络流事实。
+
+只要核心论证仍然可以在任意抽象 incidence 网络上运行，它就很难产生 $1/4$ 这个特定阈值。
+
+## 四、应当如何评价当前路线
+
+我的判断是：
+
+$$
+
+\boxed{
+\text{它是一条很好的诊断路线，但尚不是一条完成主定理的证明路线。}
+}
+
+$$
+
+它已经完成的任务是：
+
+- 找到了局部重复计数；
+- 消除了该重复；
+- 证明局部方法不可能独立成功；
+- 给出了一个干净的全局 obstruction 接口。
+
+到这里应该暂停继续细化 obstruction。
+
+否则很可能得到越来越精致的“主困难等价形式”，但没有任何形式更容易被块极小性击破。
+
+## 五、接下来应该设置一个硬性门槛
+
+建议冻结目前的定义，不再新增：
+
+- 新的 deficiency；
+- 新的 cut 类型；
+- 新的 token；
+- 新的 envelope；
+- 新的交换闭包。
+
+除非新定义立即带来以下至少一项：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{固定比例的质量下降；}\\
+&\text{严格更小的块极小无 IT 实例；}\\
+&\text{超过阈值的真实顶点度数；}\\
+&\text{直接构造 IT；}\\
+&\text{一个已完成证明的终局结构。}
+\end{aligned}
+}
+
+$$
+
+否则它只是表示层改进。
+
+## 六、下一步不应再问“这个 cut 如何分类”
+
+更应当直接问一个粗但核心的问题：
+
+> 一个块极小无 IT 的 3-一致超图，为什么不可能长期支持大量彼此分散、低复用、低度的 persistent blocker trajectories？
+
+这句话比所有现有 cut 定义都更接近主定理。
+
+它可能需要的工具未必是更多网络流，而可能是：
+
+- 块极小性产生的交换/替换性质；
+- 对所有块同时成立的横截选择定理；
+- 一个全局熵或平均度不等式；
+- 将许多局部 partial transversals 拼成一个随机或分数 IT；
+- 一个直接的极值稳定性定理；
+- 或一个真正下降的核心提取过程。
+
+特别值得尝试的是直接利用块极小性构造“删除一部分后得到的 IT”，然后研究这些 IT 如何随删除位置变化。当前路线大量研究失败执行，但较少利用**最小反例中大量近似解已经存在**这一事实。
+
+## 七、一个更健康的主攻命题
+
+下一阶段最好只允许攻下面这种级别的命题：
+
+### 全局再生或核心定理
+
+在块极小无 IT 且
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+时，任意质量至少为
+
+$$
+
+\alpha b^2A
+
+$$
+
+的 boundary-free residual family 必然产生以下之一：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{一个 IT；}\\
+&\text{一个严格更小的无 IT 块实例；}\\
+&\text{一个顶点度数超过 }
+(1/4-\varepsilon)b^2;\\
+&\text{residual 质量下降至少 }c(\varepsilon)\alpha.
+\end{aligned}
+}
+
+$$
+
+这里不能把“future-complete witness”或“sound quotient candidate”本身列为结论，除非已经独立证明它能导向上面四者之一。
+
+若这个命题无法证明，或者小规模计算给出反例，那么就应当重新考虑整个 G1c 路线，而不是继续细化 cut。
+
+## 八、对 F-0036–42 的重新定位
+
+F-0036–42 最合理的角色不是逐步接近主定理，而是提供一个**接口层**：
+
+- F-0036–38：保证执行与 reset 不会静默丢失质量；
+- F-0039–40：给出正确归一化和一个 $\Delta$ 主项；
+- F-0041：告诉我们局部停滞有哪些可能形式；
+- F-0042：说明只要余项真正变小，主定理立即完成。
+
+因此它们已经把问题压缩为：
+
+$$
+
+\boxed{
+\text{证明一个真正使用块极小无 IT 的全局衰减定理。}
+}
+
+$$
+
+它们不太可能仅靠内部继续精炼，自行产生这个衰减定理。
+
+## 九、我的总体建议
+
+应当把当前工作视为完成了一次有价值的“证明路线排障”，而不是已经走到主定理门口。
+
+最合理的策略是：
+
+1. 保留 Hall orthogonalization 和交换流，作为最终证明中可能使用的技术模块。
+2. 暂停进一步研究 min-cut 的更细分类。
+3. 转向寻找一个直接使用块极小性和无 IT 的全局结构命题。
+4. 给该命题设定明确的成功标准：质量收缩、高度数、真子核心或 IT。
+5. 若在有限时间内仍只能产生新的 witness 类型，就把这条路线降级为辅助路线，重新探索不同的全局方法。
+
+一句话概括：
+
+$$
+
+\boxed{
+\text{我们已经把“局部为什么失败”解释得足够清楚；
+现在必须证明“全局为什么不能一直失败”。}
+}
+
+$$
+
+继续切割局部障碍不会自动回答后一个问题。
+
+
+【提问 轮数4】
+[User is quoting/referring to: "> 一个块极小无 IT 的 3-一致超图，为什么不可能长期支持大量彼此分散、低复用、低度的 persistent blocker trajectories？"]
+
+这个问题在旧对话中似乎有尝试回答过，请你参考并指出是否可以迁移应用？另外，旧对话中提及块极小性本身不能推出全局结果，你认为是否暗示还需要另一个全局性质配合？
+
+【回答内容 轮数4】
+我会先把旧对话里与“长期分散、低复用、低度轨迹”相关的尝试归纳出来，再对照 failure 文档判断哪些能迁移、哪些只是换名；最后回答“块极小性还需配合什么全局性质”这一核心问题。
+
+【回答内容 轮数4】
+是的，旧对话里已经从几个角度尝试回答过这个问题。那些尝试并非全部失效；更准确地说，它们分别解决了“长期 persistent trajectories”的不同局部侧面，但缺少一个把它们耦合起来的全局性质。
+
+我认为最重要的结论是：
+
+$$
+
+\boxed{
+\text{块极小性是终局矛盾原则，不是产生全局集中或耗散的动力学原则。}
+}
+
+$$
+
+与它配合的性质，应当是某种**跨未来选择、跨 genealogy 的因果一致性或交换连通性**。
+
+# 1. 旧对话中已经尝试过哪些回答
+
+## 集中或增殖
+
+最直接的旧回答是 F-0035。若 persistent trajectories 产生总质量 $M$ 的真实 incidence，顶点负载 $L(v)$ 满足
+
+$$
+
+\sum_vL(v)=M,\qquad L(v)\le d_H(v)\le\Delta(H),
+
+$$
+
+所以
+
+$$
+
+|\operatorname{supp}L|\ge \frac{M}{\Delta(H)}.
+
+$$
+
+也就是：
+
+$$
+
+\boxed{
+\text{质量大}
+\Longrightarrow
+\text{高集中}
+\;\vee\;
+\text{支持增殖}.
+}
+
+$$
+
+这部分可以直接迁移到今天的 Hall residual family：局部正交化之后，每份 residual mass 已经不重复，因而任何真实边或真实顶点负载统计都比旧 heavy-excess 统计更忠实。F-0035 本身正是可复用的全局计数接口。turn909707view4
+
+但它不能完成问题。A-0024 的对角分散模型说明，所有 switch 都可以使用不同顶点和不同真实边，最大度为 $1$，没有 reuse，同时仍然不存在完整无 IT 子核心；那个模型甚至有 IT。也就是说，incidence 账本只看到“增殖”，却看不到这些新对象是否因果相关、是否覆盖全部未来选择、是否组成无 IT 系统。turn909707view1
+
+所以：
+
+$$
+
+\boxed{
+\text{F-0035 可以迁移，但只能作为计数后端，不能作为结构前端。}
+}
+
+$$
+
+---
+
+## 单 genealogy 的时间势
+
+F-0038 给出了 old-anchor profile 的精确 Lyapunov 恒等式。沿坐标单调、逐块删除的单 genealogy 轨道，临界附近停留时间受到首尾势差控制；额外 drift 只会加速离开临界区。
+
+这也可以迁移：若 Hall residual trajectory 在较长时间内不 reroot、不改变主要 old-anchor 结构，那么这段质量不可能永远近临界而不支付势差。
+
+问题是 reroot/reset 可以重新置中 profile。因此它只能控制：
+
+$$
+
+\text{固定 genealogy 内的一段轨道},
+
+$$
+
+不能控制很多 genealogy 各自重新获得的初始势。
+
+这说明旧的势函数不是错误，而是缺少一个**跨 reset 的共享状态**。
+
+---
+
+## Reset compensation
+
+F-0041 正是为此建立的：每个合法 transition 至少发生
+
+$$
+
+\text{新真实边}
+\;\vee\;
+\text{新 carrier support}
+\;\vee\;
+\text{新 future-compatible token}
+\;\vee\;
+\text{sound token repetition}.
+
+$$
+
+因此 reset 并非完全无进展；在 edge、support 固定且无重复 token 的区间内，只能消耗有限个 token。turn909707view6
+
+这同样可以迁移到 Hall residual trajectories，因为局部正交化不改变真实执行状态、blocker、carrier 或 genealogy。
+
+但旧文档也明确指出两个缺口：
+
+- exact token space 可能非常大；
+- sound repetition 尚未证明会产生 accepted quotient 或 complete-block closure。turn909707view6
+
+所以 F-0041 给出的是一个**进展字典**，而不是定量耗散。
+
+---
+
+## 条件 $11/27$ 正常形
+
+F-0034 证明：如果 persistent-blocker genealogy forest 的普通 continuation 每层至多保留父质量的
+
+$$
+
+\frac{11}{27},
+
+$$
+
+则森林截断有最佳的 $27/16$ 摊还。
+
+这可以迁移为最终的摊还后端，但不能迁移为“为什么 continuation 至多 $11/27$”的证明。旧失败 A-0026 已经排除了人为把超过 $11/27$ 的质量命名为 transition charge 的做法，因为 transition edge 出现在因果链中不等于它天然拥有独立的收费容量。
+
+因此：
+
+$$
+
+\boxed{
+\text{$11/27$ 摊还可以复用，但正常形本身仍必须由全局结构产生。}
+}
+
+$$
+
+---
+
+## Future-complete lift
+
+F-0036 给出了最接近所问问题的框架：一个合格实根障碍可以无损展开全部未来 tuple；除 named E 外，得到对忠实 continuation 闭合的 future-complete persistent-blocker forest。turn909707view4
+
+这是可迁移的关键接口，因为它排除了最简单的“只挑有利未来分支”问题。
+
+但 A-0025 指出了它仍不够：旧 blocker 可以跨 genealogy 持续存在，不同前驱可能到很远以后才被区分。“已经 future-complete”不等于“必然圆柱化或闭合”。为什么选择性的未来过滤最终必须饱和，正是尚未解决的因果再生问题。
+
+---
+
+# 2. 所以旧尝试能够怎样迁移
+
+可以迁移成一套三段式机制：
+
+$$
+
+\boxed{
+\text{coherent execution}
+\;+\;
+\text{local temporal control}
+\;+\;
+\text{global incidence accounting}.
+}
+
+$$
+
+具体地：
+
+1. **F-0036** 提供同一根对象产生的、保存 genealogy 的全未来执行森林；
+2. **F-0038** 控制一条 genealogy 内长期 near-critical 的 old-anchor 行为；
+3. **F-0041** 处理 reroot/reset，说明反复重置必须产生 edge、support、token 或 repetition；
+4. **F-0035** 在新 edge/support 真正出现时，把总质量转化成集中或支持增殖；
+5. **F-0034** 一旦能从上述结构推出 $11/27$ 正常形，就完成森林摊还。
+
+这套组合比重新研究更多 Hall cut 更有希望，因为每一部分都有明确角色。
+
+但现在仍缺少中间的核心箭头：
+
+$$
+
+\boxed{
+\text{支持持续增殖}
++
+\text{future completeness}
++
+\text{无 quotient/reuse}
+\Longrightarrow
+\text{高点度数或完整块结构}.
+}
+
+$$
+
+这正是 Proof DAG 中的 G3/Q-0016“causal incidence regeneration”。G3 的输入被明确规定为无 reuse、无 augmentation、无 exact-future quotient 的真实未来闭合区域；输出才允许是 fresh capacity、旧锚集中、高点度数、完整真子核心或未覆盖未来选择。turn617402view6
+
+换言之，旧对话不是没有找到方向；它已经把正确的缺口命名为“因果再生”，只是尚未证明。
+
+# 3. 为什么块极小性本身不够
+
+块极小性的逻辑形式大致是：
+
+> 如果找到一个由完整真实块组成的严格更小无 IT 子系统，就产生矛盾。
+
+它只能在对象已经满足下面条件时启动：
+
+- 由完整块组成；
+- 对所有块选择封闭；
+- blocker 全部留在子系统内部；
+- 该子系统确实无 IT。
+
+它不能把一个部分支持、一个高密度 vertex set、一个 phase codebook 或一个 persistent trajectory 自动变成这样的子系统。A-0013 已明确记录：即使每块投影满射，部分支持也可能遗漏唯一 survivor，因此不能应用块极小性。
+
+因此块极小性更像一个终端规则：
+
+$$
+
+\boxed{
+\text{exact complete-block closure}
+\Longrightarrow
+\text{矛盾}.
+}
+
+$$
+
+它不是下面这个产生规则：
+
+$$
+
+\text{大量局部障碍}
+\Longrightarrow
+\text{exact complete-block closure}.
+
+$$
+
+后一个箭头必须来自别的全局性质。
+
+# 4. 需要配合的全局性质是什么
+
+我认为最准确的名称是：
+
+$$
+
+\boxed{
+\textbf{genealogy-coherent future extension saturation}
+}
+
+$$
+
+中文可以叫：
+
+> **具有 genealogy 一致性的全未来扩张饱和性。**
+
+它包含三层含义。
+
+## 全未来性
+
+对一个近似横截状态，不能只考察有利的几个未来顶点；必须同时处理下一块中的全部顶点，以及更远块中的全部合法 tuple。
+
+这阻止了通过挑选一条对角路径制造“低度、无复用、永远不闭合”的假象。
+
+## 因果一致性
+
+不同未来状态中的 blocker 不是相互独立的任意边，而必须由共同的根状态、pivot switch、reroot 和 genealogy 产生。
+
+也就是说，新顶点和新边必须有来源：
+
+$$
+
+\text{旧状态}
+\longrightarrow
+\text{尝试}
+\longrightarrow
+\text{真实 blocker}
+\longrightarrow
+\text{下一状态}.
+
+$$
+
+A-0024 的对角模型失败于此：它展示了许多分散 incidence，但并未证明这些 incidence 能同时作为一个块极小无 IT 实例的完整未来执行。
+
+## 扩张饱和性
+
+若当前支持没有闭合，那么必须存在未来选择迫使 blocker 逃出当前支持；这些 escape 不能任意出现，而要形成新的、因果生成的 support。
+
+因此每一步出现二分：
+
+$$
+
+\boxed{
+\text{当前支持对全部未来选择内部闭合}
+\quad\vee\quad
+\text{因果支持严格扩张}.
+}
+
+$$
+
+第一种情况最终给完整块 closure，块极小性才能介入。
+
+第二种情况则必须通过全未来分支结构证明，长期扩张会导致：
+
+- 同一真实顶点或边高度复用；
+- exact-future token repetition；
+- 或增长快于低度允许的速度。
+
+这才是“全局为什么不能一直失败”的动力学来源。
+
+# 5. 还有一个更具体的解释：块极小性给近解，但不给近解之间的关系
+
+设删除一个块 $B$。块极小性通常允许在剩余块中找到一个 IT $T_B$。因为原实例没有 IT，对每个
+
+$$
+
+x\in B
+
+$$
+
+集合 $T_B+x$ 必须被某条三边阻断。
+
+所以块极小性加无 IT 给出一个完整块覆盖：
+
+$$
+
+B
+\subseteq
+\bigcup_{p\in\binom{T_B}{2}}N_H(p).
+\tag{1}
+
+$$
+
+这是很强的局部事实。
+
+但对不同块 $B,C$，得到的 $T_B,T_C$ 可能毫无关系。每个删除问题都可以使用完全不同的顶点和完全不同的 blocker。这正是静态对角分散能够逃避全局集中之处。
+
+因此还需要控制：
+
+$$
+
+T_B
+\quad\text{与}\quad
+T_C
+
+$$
+
+之间如何交换、如何沿实际执行相连。
+
+换言之，缺少的是：
+
+$$
+
+\boxed{
+\text{近 IT 族的全局交换连通性或因果相容性}.
+}
+
+$$
+
+F-0032 的实际 reroot lift、F-0036 的 genealogy forest 和 F-0041 的 future-compatible token，实际上都在建立这种相容性的接口；但目前还没有证明它足够强到迫使集中或闭合。turn909707view3turn909707view5
+
+# 6. 推荐的核心命题应当怎样改写
+
+不应再直接证明：
+
+> 大量分散 incidence 不可能。
+
+这被 A-0024 否定了。
+
+应该证明：
+
+## 因果闭合—再生二分
+
+设 $\mathcal F$ 是由同一个真实入口产生的、质量守恒、future-complete、genealogy-coherent 的 persistent-blocker forest，并假设没有：
+
+- 合法 real-edge reuse 出口；
+- augmentation/survivor；
+- accepted exact-future quotient。
+
+那么对任意正质量子森林，至少发生：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{其真实块支持达到完整内部闭合；}\\
+&\text{或某个真实顶点/边负载超过允许度数；}\\
+&\text{或下一代未闭合质量按固定比例下降。}
+\end{aligned}
+}
+\tag{2}
+
+$$
+
+第一项配合块极小性。
+
+第二项配合
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2.
+
+$$
+
+第三项配合 F-0034/F-0042 的递推与摊还。
+
+这个命题才真正使用了两种互补的全局力量：
+
+$$
+
+\boxed{
+\begin{array}{c}
+\text{块极小性}\\
+\text{负责终止完整闭合}
+\end{array}}
+\qquad+\qquad
+\boxed{
+\begin{array}{c}
+\text{future-complete causal coherence}\\
+\text{负责迫使闭合、集中或衰减}
+\end{array}}.
+
+$$
+
+# 7. 是否还需要近临界稳定性
+
+很可能需要。
+
+即使证明了定性二分：
+
+$$
+
+\text{闭合}
+\;\vee\;
+\text{集中}
+\;\vee\;
+\text{衰减},
+
+$$
+
+主定理仍要求与 $\varepsilon$ 同阶的定量间隙。旧失败 A-0014 已提醒：排除完全零费用结构，并不自动给出统一正费用；质量可能分散在许多费用趋零的小 sector 中。
+
+所以最终可能需要第三个组成部分：
+
+$$
+
+\boxed{
+\text{近临界稳定性/紧性}
+}
+
+$$
+
+用来证明：若衰减率趋近于零，则对象逼近某个 exact terminal template；而该 template 又被块极小性或低度排除。
+
+因此最完整的逻辑可能是：
+
+$$
+
+\boxed{
+\text{块极小性}
++
+\text{future-complete causal coherence}
++
+\text{near-critical stability}.
+}
+
+$$
+
+三者角色不同：
+
+- 块极小性：排除严格更小的完整无 IT 核；
+- 因果一致性：排除任意对角分散；
+- 稳定性：把定性排除升级成固定 $\varepsilon$ 的定量耗散。
+
+# 结论
+
+旧对话中的方法可以迁移，但应当作为一个组合系统，而不是分别期待它们单独完成主定理：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{F-0035：集中或增殖的账本；}\\
+&\text{F-0038：单 genealogy 时间耗散；}\\
+&\text{F-0041：reset 的进展分类；}\\
+&\text{F-0036：全未来、保 genealogy 的执行载体；}\\
+&\text{F-0034：得到正常形后的最终摊还。}
+\end{aligned}
+}
+
+$$
+
+真正缺少、而且不能由块极小性替代的是：
+
+$$
+
+\boxed{
+\text{跨未来选择和跨 genealogy 的因果再生/交换相容性定理。}
+}
+
+$$
+
+块极小性只能说“若你真的形成完整块内部闭合，就矛盾”；这个新定理必须说明“若没有高度数、复用、quotient 或质量衰减，那么为什么这种闭合一定形成”。
+
+这也解释了 Proof DAG 为什么把 G3/Q-0016 单独列为“causal incidence regeneration”，而不是把它当作块极小性的直接推论。turn617402view6
+
+
+【提问 轮数5】
+[User is quoting/referring to: "近临界稳定性"]
+
+我们讨论过近临界稳定性，特别是它如何收敛于树状，请你参考旧讨论，指出这种稳定性在全局成立吗？是否是我们需要的全局性质呢？
+
+【回答内容 轮数5】
+我先把旧讨论中“近临界稳定性 → 树状极限”的具体论证链重新提取出来，再对照仓库当前的 failure 记录，判断它究竟是全局性质、局部极限现象，还是只能作为辅助紧性原则。
+
+【回答内容 轮数5】
+你的记忆是准确的。旧讨论里的“近临界稳定性收敛到树状结构”并不是一个已经证明的全局定理，而是一条曾经明确提出的三阶段方案：
+
+$$
+
+\boxed{
+\text{critical link 稳定性}
++
+\text{pivot 全局粘合}
++
+\text{二进制强迫森林终局}.
+}
+
+$$
+
+其中只有部分局部稳定性已经证明；“全局粘合”和“森林终局”仍然开放。旧 handoff 甚至明确要求：先证明零误差 terminal SCC 是二进制强迫森林或完整子核心，再谈定量稳定化；近等号结构应当距离这种森林只有 $o(b^2)$ 的局部误差。turn602731view2
+
+# 一、旧讨论中的“树状收敛”究竟是什么
+
+它不是说原超图本身接近一棵普通树，而是说，若失败执行长期处在 $1/4$ 临界附近，又没有增广、真实边费用或其他出口，那么执行应当呈现如下二叉 genealogy：
+
+- 每个内部状态有一个真实 pivot $p$；
+- 当前相关块被近似分成两个半集；
+- blocker 迫使缺陷进入其中一个半集分支；
+- 两个分支分别继续；
+- 若没有叶出口，根 pivot 最终必须看见两个近半集的完整乘积
+  $$
+
+  A\times C\subseteq L_H(p),
+
+$$
+  从而
+  $$
+
+  d_H(p)\ge |A||C|
+  =\left(\frac14-o(1)\right)b^2.
+
+$$
+
+旧方案将其称为“二进制强迫森林”，并明确把它列为开放的终局命题。turn602731view4
+
+因此，“树状”来自两个近等号现象：
+
+$$
+
+|A|\approx|C|\approx\frac b2
+
+$$
+
+以及每次缺陷移动近似做一次二元分裂。它是 $1/4=(1/2)(1/2)$ 的结构解释。
+
+# 二、目前真正证明了哪一层稳定性
+
+已经证明的是**单 genealogy 内的解析稳定性**。
+
+F-0038 给出了精确恒等式
+
+$$
+
+\frac{n}{4(n-1)}-F(a)
+=
+\frac{Q^2}{4n(n-1)}
++
+\frac{P}{n(n-1)}.
+
+$$
+
+因此接近临界值迫使：
+
+$$
+
+Q^2\ll n^2,
+\qquad
+P\ll n,
+
+$$
+
+也就是坐标整体近似平衡，同时大多数坐标接近 $0$ 或 $1$。沿坐标单调删除的一条 genealogy，near-critical deficit 还能控制它在近临界区域停留的时间。
+
+这确实揭示了二叉结构：
+
+- $P$ 小意味着坐标近二值；
+- $Q$ 小意味着两个二值群近乎各占一半；
+- 单调删除迫使轨道逐步离开平衡，除非不断重置。
+
+所以在**固定 pivot、固定 genealogy、无 reset** 的条件下，“近临界 $\Rightarrow$ 近二分”是严格成立的。
+
+但 F-0038 同时明确注明：
+
+$$
+
+\boxed{\text{reroot/reset 可以重新置中 profile。}}
+
+$$
+
+也就是说，不同 genealogy 可以各自重新获得一份近临界初始状态。这正是局部稳定性没有自动成为全局稳定性的原因。
+
+# 三、全局树状稳定性目前并不成立为已证结论
+
+这里需要区分两个完全不同的“森林”。
+
+## 1. 展开森林
+
+任何带历史的执行过程都可以按 genealogy 展开成一棵树或森林。遇到一个循环时，不识别两个历史副本，继续展开即可。
+
+这种森林性是形式性的：
+
+$$
+
+\text{每个执行过程都有 universal-cover forest}.
+
+$$
+
+它没有结构内容，也不产生 $1/4$。
+
+## 2. 强迫森林
+
+真正需要的是：不同历史不能无限产生彼此不相容的二分；它们必须粘成一个保存真实 pivot、真实边和实际支持的统一二叉结构。
+
+这才是未证的“二进制强迫森林”。
+
+局部近似二分并不能自动全局粘合，已有多个旧反例说明这一点。
+
+### 相位闭路可以无损
+
+非平凡 monodromy 可以只是对 phase 或 sheet 的测度保持置换，不产生边容量消耗或信息损失。因此“局部状态沿闭路变化”不意味着循环可以收费，也不意味着全局对象是无环的。
+
+### 一致局部坐标不产生乘积支持
+
+对角代码簿
+
+$$
+
+\{(i,i):i\in[b]\}
+
+$$
+
+可以具有完全一致的局部相位描述，却不是笛卡尔积。因而每个局部 link 都呈现正确的二分语言，也不能推出实际支持是一个二叉乘积森林。
+
+### 好坐标可以随状态迁移
+
+显式迁移模型说明，每个状态都可能有局部良好的二元坐标，但这些坐标随状态改变；平均边界小并不能将它们圆整成一个固定全局方向。要排除这种迁移，必须额外使用真实度数、执行连通性或 pivot genealogy。
+
+### Persistent blocker 不自动圆柱化
+
+旧 blocker 可以跨 genealogy 持续存在，而不同前驱可能到更远未来才被区分。没有单调量或因果再生定理时，“长期 persistent”不能自动升级为完整乘积或块闭合。
+
+因此目前的状态是：
+
+$$
+
+\boxed{
+\text{单轨道近临界稳定性已证；
+全局二叉森林稳定性未证。}
+}
+
+$$
+
+# 四、它是不是我们需要的全局性质
+
+**方向上是，但原来的表述还不够强。**
+
+仅仅证明
+
+$$
+
+\text{每个局部 link 接近平衡完全二部图}
+
+$$
+
+不够。我们真正需要的是一个**鲁棒的全局树化定理**，它同时包含稳定性、粘合与终局。
+
+一个合适的目标大致应当是：
+
+## 全局近临界树化定理
+
+对每个 $\varepsilon>0$，存在 $\delta,c>0$。设 $\mathcal F$ 是一个：
+
+- future-complete；
+- genealogy-coherent；
+- 保存真实边身份与账本；
+- 没有 accepted augmentation、reuse 或 exact quotient
+
+的正质量执行族。
+
+则至少发生以下之一：
+
+1. 有至少 $c$ 比例的质量产生可收费异常或直接衰减；
+2. 存在顶点
+   $$
+
+   d_H(p)\ge
+   \left(\frac14-\frac{\varepsilon}{2}\right)b^2;
+
+$$
+3. 存在完整真子块无 IT 核心；
+4. 除去至多 $\delta$ 比例的质量，整个执行族可以忠实映射到一个二进制强迫森林。
+
+第四项中的“忠实”必须包含：
+
+- 每个节点的 pivot 是实际顶点；
+- 每条父子边来自实际 blocker transition；
+- 两个近半集是实际块顶点集合；
+- 相同真实边跨所有 genealogy 只有一个身份；
+- 局部二分在重叠窗口上相容；
+- 森林的叶必须对应增广或完整块闭合；
+- 不能只保留 phase 名称而丢掉真实支持。
+
+这才是能够接到块极小性和最大度假设上的全局性质。
+
+# 五、仅有树状极限仍然可能不够
+
+还有一个旧失败必须特别注意：
+
+$$
+
+\boxed{
+\text{零误差结构分类}
+\not\Rightarrow
+\text{统一正的定量间隙}.
+}
+
+$$
+
+即使所有完全零缺陷极限都是二进制森林，有限对象的 residual 仍可能分散在很多小 sector 中；每个 sector 的误差趋于零，但总误差仍为主阶。旧 A-0014 正是因此否定了从定性零费用闭包直接跳到固定比例捕获。turn669422view3
+
+所以我们需要的不是普通的序列紧性：
+
+$$
+
+\operatorname{defect}(X_n)\to0
+\Longrightarrow
+X_n\to\text{某棵森林},
+
+$$
+
+而是**带统一模量的质量稳定性**：
+
+$$
+
+\boxed{
+\operatorname{dist}_{\mu}
+\bigl(X,\mathsf{BinaryForest}\bigr)
+\le
+C(\varepsilon)\operatorname{Def}(X),
+}
+
+$$
+
+或者至少一个二分：
+
+$$
+
+\operatorname{Def}(X)\ge c(\varepsilon)\mu(X)
+
+$$
+
+除非 $X$ 的绝大部分质量已经属于一个忠实的二进制强迫森林。
+
+这里的距离必须按执行质量计算，而不是按组件个数、局部窗口比例或支持顶点数计算。
+
+# 六、与今天 Hall-deficiency 路线的关系
+
+今天的局部正交化恰好可以成为该稳定性定理的入口：
+
+$$
+
+\mathfrak D_k
+
+$$
+
+已经去除了所有可以在同一 cylinder 内通过 blocker 重叠重新分配的质量。剩余 residual atoms 是局部上真正不可压平的部分。
+
+接下来不应继续细化 Hall cut，而应考察由这些 residual atoms 生成的 future-complete 执行族：
+
+$$
+
+\mathcal F(\mathfrak D).
+
+$$
+
+理想的全局稳定性二分是：
+
+$$
+
+\boxed{
+\begin{aligned}
+\mathcal F(\mathfrak D)
+\text{ 离二进制森林较远}
+&\Longrightarrow
+\text{产生正比例收费/耗散};\\
+\mathcal F(\mathfrak D)
+\text{ 接近二进制森林}
+&\Longrightarrow
+\text{终端计数给 }1/4
+\text{ 或块极小性矛盾}.
+\end{aligned}
+}
+
+$$
+
+这才会产生真正下降的量，而不是新的 obstruction 名称。
+
+# 七、最终判断
+
+旧讨论中的树状稳定性是一个非常有价值的方向，但当前并没有全局成立的证明。
+
+更准确地说：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{单 genealogy 的 near-critical 二值/平衡稳定性：已证；}\\
+&\text{局部 terminal link 接近平衡 }K_{b/2,b/2}\text{：提出但未证；}\\
+&\text{不同 pivot/link 的全局相容粘合：未证；}\\
+&\text{近临界执行族接近二进制强迫森林：未证；}\\
+&\text{森林终局推出 }1/4\text{、增广或真子核心：未证。}
+\end{aligned}
+}
+
+$$
+
+它很可能正是所需全局性质的核心，但必须升级为：
+
+$$
+
+\boxed{
+\text{带真实 genealogy、共享账本和统一定量模量的全局树化稳定性。}
+}
+
+$$
+
+单纯“局部上越来越像树”不够；局部弱极限甚至可能只是一个带循环对象的 universal cover。我们需要证明循环、坐标迁移和相关代码簿要么产生真实费用，要么在 actual support 上忠实商化；在此之后，树状终局才能真正与块极小性和 $1/4$ 度数矛盾连接起来。
+
+
+【提问 轮数6】
+请你定位讨论位置，通过接续讨论思路尝试证明全局稳定性
+
+【回答内容 轮数6】
+我会先精确定位旧讨论中“近临界稳定性→树状极限”的原始段落和其后的反例记录，再沿那条思路只推进一个核心命题：局部近二分在重叠执行窗口上何时能全局粘合。若中途发现旧讨论已给出反例，我会据此调整目标而不是重复证明。
+
+【回答内容 轮数6】
+定位到了：旧讨论的核心位于 `sources/raw/conversations/handoff_toward_one_quarter.md` 第 8、10、14 节，尤其是“先做零误差 terminal SCC 分类，再做固定 $\varepsilon$ 稳定化”。这给出一个重要策略约束：不能直接证明模糊的全局近树性，必须先证明精确模型中的 SCC 结构。下面我会尝试推进这个零误差版本。
+
+【回答内容 轮数6】
+## 讨论位置
+
+旧路线集中在两组材料里：
+
+1. `handoff_toward_one_quarter.md` 第 8 节提出三步：
+   $$
+
+   \text{critical link 稳定性}
+   +\text{pivot 全局粘合}
+   +\text{二进制强迫森林终局}.
+
+$$
+   第 10 节明确要求**先分类零误差 terminal SCC，再做固定 $\varepsilon$ 的稳定化**；第 14 节把目标固定为增广、完整真子核心或一个实际 link 乘积 $A\times C$。turn611785view1turn611785view2turn209169view3
+
+2. 更早的“第一阶段解析骨架”讨论证明了零信息损失闭环必为可逆运输或置换 monodromy，同时发现固定轻锚可以支持主阶 residual、零熵自环且度数低于 $b^2/4$。后续据此提出“无免费生锚”和锚再生链。turn203689view3turn865992view0turn865992view1
+
+这两组材料合起来说明，旧表述“近临界对象收敛到树”需要修正：
+
+$$
+
+\boxed{
+\text{近临界对象首先收敛到
+“再生森林 + 可逆置换核心”，而不一定是纯森林。}
+}
+
+$$
+
+下面可以严格证明这一修正版。
+
+---
+
+# 一、全局信息树化定理
+
+取统一测试空间 $(\Omega,\mu)$。令：
+
+- $Q$ 为永久保存的根义务、root projection 和 genealogy 标签；
+- $\Gamma_t$ 为时刻 $t$ 的完整活动接口；
+- $Z_t$ 为该步揭示的未来选择。
+
+所有未来随机性可在 $\Omega$ 中预先采样，因此转移是确定性的：
+
+$$
+
+\Gamma_{t+1}
+=
+F_t(Q,\Gamma_t,Z_t).
+
+$$
+
+定义该步真正遗忘的信息：
+
+$$
+
+\mathcal E_t
+=
+H(\Gamma_t,Z_t\mid \Gamma_{t+1},Q).
+
+$$
+
+## 定理 1：精确树化
+
+若一段执行满足
+
+$$
+
+\sum_{t=0}^{L-1}\mathcal E_t=0,
+
+$$
+
+则对每个 $t$，
+
+$$
+
+(\Gamma_t,Z_t)
+
+$$
+
+都是 $(Q,\Gamma_{t+1})$ 的确定函数。因而：
+
+1. 两条具有同一 $Q$ 的不同执行历史不能汇合到同一个终端接口；
+2. 在保留完整 genealogy 的展开中，执行是一个 rooted forest；
+3. 若把一批可逆历史重新商化成有限 terminal SCC，则其闭路作用是一个置换，即 permutation/monodromy core。
+
+### 证明
+
+条件熵为零等价于存在函数 $D_t$，使
+
+$$
+
+(\Gamma_t,Z_t)
+=
+D_t(Q,\Gamma_{t+1})
+\quad\text{几乎处处}.
+
+$$
+
+从终端 $(Q,\Gamma_L)$ 开始递归应用 $D_{L-1},\ldots,D_0$，可以唯一恢复全部历史。
+
+所以两个不同历史不能在保留 $Q$ 的情况下真正合并。将所有未来选择逐步展开，便得到一棵树；多个根给出森林。
+
+若商化后形成有限 SCC，则每个闭路复合映射在有限正质量支撑上是单射，因此是双射，也就是置换。证毕。
+
+这正是旧讨论中已经出现的熵链式恒等式的全局含义：零损失并不消灭循环，而是把循环规范成可逆 monodromy。turn203689view3
+
+---
+
+## 定理 2：定量树化
+
+一般地，存在解码器 $D_t$，满足
+
+$$
+
+\Pr\!\left[
+D_t(Q,\Gamma_{t+1})
+\ne(\Gamma_t,Z_t)
+\right]
+\le \mathcal E_t
+
+$$
+
+（熵使用自然对数）。
+
+因此，在质量至少
+
+$$
+
+1-\sum_{t=0}^{L-1}\mathcal E_t
+
+$$
+
+的测试集合上，完整终端接口唯一决定整段执行历史。
+
+### 证明
+
+固定输出 $Y=(Q,\Gamma_{t+1})$，令 $p_{\max}(Y)$ 为输入
+
+$$
+
+X=(\Gamma_t,Z_t)
+
+$$
+
+的最大后验概率。MAP 解码错误率是
+
+$$
+
+1-p_{\max}(Y).
+
+$$
+
+对任意概率分布，
+
+$$
+
+1-p_{\max}
+\le -\log p_{\max}
+\le H(X\mid Y=y).
+
+$$
+
+平均后得到单步错误率至多 $\mathcal E_t$。对全部步骤使用 union bound 即得结论。证毕。
+
+所以若总信息损失趋于零，那么除去趋于零的质量后，执行确实在**全局 genealogy 意义下接近一棵树**。
+
+---
+
+# 二、F-0038 使这棵树近似二叉且平衡
+
+F-0038 给出的恒等式是
+
+$$
+
+\frac{n}{4(n-1)}-F(a)
+=
+\frac{Q^2}{4n(n-1)}
++
+\frac{P}{n(n-1)},
+
+$$
+
+其中
+
+$$
+
+Q=n-2\sum_i a_i,
+\qquad
+P=\sum_i a_i(1-a_i).
+
+$$
+
+若临界缺口为 $\xi$，则：
+
+$$
+
+|Q|\le 2\sqrt{\xi n(n-1)},
+\qquad
+P\le \xi n(n-1).
+
+$$
+
+第一式说明两侧总质量近似平衡；第二式说明绝大多数 $a_i$ 接近 $0$ 或 $1$。因此，在固定 genealogy、没有 reset 的 near-critical 段落中，坐标可以除去小质量后分成两个近半类。
+
+结合定理 2：
+
+- 若 reset 真正遗忘了旧接口，它计入 $\mathcal E_t$；
+- 若 reset 不遗忘旧接口，则旧接口必须编码在新接口中，两个 genealogy 不能真正合并；
+- 因而无损 reset 会产生新的 genealogy 分支，而不是把分支抹掉。
+
+所以可严格得到以下修正版稳定性图景：
+
+$$
+
+\boxed{
+\text{近临界、低信息损失执行}
+\longrightarrow
+\text{近似平衡的二叉再生森林}
+\text{，其叶端允许存在可逆置换核心。}
+}
+
+$$
+
+F-0041 与此一致：在 quotient 前，每一步必须产生新边、新 support、新 future-compatible token，或重复 sound token；前几项沿 genealogy 产生进展，最后一项对应可能的可逆核心。
+
+---
+
+# 三、为什么现在还不能删掉“置换核心”
+
+固定轻锚给出一个精确反例。
+
+取固定顶点 $p$、两个块 $B,C$，以及
+
+$$
+
+U\subseteq B,
+\qquad
+|U|=\alpha b,
+\qquad
+\alpha<\frac14.
+
+$$
+
+加入全部边
+
+$$
+
+\{p,u,v\},
+\qquad
+u\in U,\ v\in C.
+
+$$
+
+于是
+
+$$
+
+U\times C\subseteq L_H(p),
+\qquad
+d_H(p)=\alpha b^2<\frac14b^2.
+
+$$
+
+让接口 $(u,v)$ 沿闭环恒等返回，则：
+
+- 信息损失为零；
+- 活接口宽度为 2；
+- residual 为主阶；
+- 没有 survivor；
+- 支持不是完整块乘积，因为只包含 $U\subsetneq B$。
+
+它是一个单点 permutation core，而不是一棵终止于增广或完整核心的树。turn904861view5
+
+无损 monodromy 和对角代码簿又说明，即使局部相位完全一致，也不能自动得到真实支持乘积化。
+
+因此：
+
+$$
+
+\boxed{
+\text{纯粹的“全局近树性”在现有假设下不成立。}
+}
+
+$$
+
+成立的是：
+
+$$
+
+\boxed{
+\text{树状 regeneration 部分}
++
+\text{可逆相关代码簿核心}.
+}
+
+$$
+
+---
+
+# 四、要得到真正的二进制强迫森林，还缺什么
+
+缺少的是一个**可逆核心消去定理**，更具体地说，是：
+
+$$
+
+\boxed{
+\textbf{genealogical splice saturation / cycle breaking}.
+}
+
+$$
+
+它应证明：一个来自实际 future-complete 执行的正质量可逆核心，不能长期只保存一个部分支持代码簿；它必须至少产生以下之一：
+
+1. 一个缺失坐标拼接成为 survivor 或 augmentation；
+2. 一个 off-pivot/multi-defect escape；
+3. 大量新的真实边或某个高次数顶点；
+4. 对所有坐标拼接闭合，从而变成完整乘积支持；
+5. accepted exact-future quotient，其实际支持随后可分类。
+
+这不是信息论性质，而是实际支持和实际超边的组合性质。
+
+---
+
+# 五、可以证明的局部拼接引理
+
+下面是接续旧路线时非常关键的一步。
+
+## 引理 3：二坐标 diamond completion
+
+设 $R$ 是独立部分横截，$a,c$ 来自两个不同缺失块，并且
+
+$$
+
+R+a,\qquad R+c
+
+$$
+
+均独立。
+
+若
+
+$$
+
+R+a+c
+
+$$
+
+不独立，并且其中只有一条实际阻断边，则存在 $p\in R$，使
+
+$$
+
+\{p,a,c\}\in E(H),
+
+$$
+
+且
+
+$$
+
+(R-p)+a+c
+
+$$
+
+独立。
+
+### 证明
+
+设 $e\subseteq R+a+c$ 是阻断边。
+
+若 $a\notin e$，则
+
+$$
+
+e\subseteq R+c,
+
+$$
+
+与 $R+c$ 独立矛盾。因此 $a\in e$。同理 $c\in e$。
+
+超图三一致，所以
+
+$$
+
+e=\{p,a,c\}
+
+$$
+
+且 $p\in R$。
+
+删除 $p$ 后唯一阻断边被破坏；由于假设没有第二条阻断边，
+
+$$
+
+(R-p)+a+c
+
+$$
+
+独立。证毕。
+
+若存在第二条阻断边，恰好进入 multi-defect/竞争 blocker 分支；这不能被普通单缺陷状态静默忽略。F-0028 已经明确记录这一点。
+
+这个引理说明：**一旦两条轨迹共享一个真实 base，且没有异常出口，局部方块确实会自动补全。**
+
+---
+
+# 六、矩形闭包一旦建立，完整乘积立即出现
+
+## 引理 4：矩形闭包引理
+
+设
+
+$$
+
+\mathcal C\subseteq X_1\times\cdots\times X_m
+
+$$
+
+非空。假设对任意 $x,y\in\mathcal C$ 和任意坐标 $i$，把 $x_i$ 替换为 $y_i$ 后所得向量仍在 $\mathcal C$。
+
+则
+
+$$
+
+\boxed{
+\mathcal C
+=
+\prod_{i=1}^m\pi_i(\mathcal C).
+}
+
+$$
+
+### 证明
+
+取任意
+
+$$
+
+z\in\prod_i\pi_i(\mathcal C).
+
+$$
+
+固定 $x^{(0)}\in\mathcal C$。对每个 $i$，选 $y^{(i)}\in\mathcal C$ 使
+
+$$
+
+y_i^{(i)}=z_i.
+
+$$
+
+依次将 $x^{(i-1)}$ 的第 $i$ 坐标替换为 $z_i$。由闭包假设，每一步结果仍在 $\mathcal C$。最终得到 $z\in\mathcal C$。证毕。
+
+所以若可逆核心对实际坐标拼接闭合，并且每个投影是完整真实块，那么其支持就是完整块乘积。此时才可以合法调用块极小性。
+
+这正好排除了对角代码簿：它不满足矩形拼接闭包。
+
+---
+
+# 七、证明目前卡在一个非常精确的位置
+
+将引理 3 反复应用，本来应该导出引理 4。问题是：
+
+> 两条局部轨迹在经过若干 pivot switch/reroot 后，未必仍共享同一个实际 base。
+
+局部正常 $Q_4$ 只说明：**如果四个实际角点已经存在**，它们的方向满足正常模板；它不保证第四角点实际存在，也不保证两个历史可以拉回同一 root projection。
+
+F-0029 更进一步说明，即使正常、无竞争、块极小，同一成功后继的不同失败也可以强制不同 pivot；所以不能偷偷加入“共同预置 pivot”。
+
+因此，旧“全局粘合”命题现在可以更精确地改写为：
+
+## Genealogical common-base diamond lemma
+
+给定同一永久根标签 $Q$ 下的两条 faithful trajectories。若它们只在两个 future coordinates 上不同，并且：
+
+- 两个单坐标移动均为普通单缺陷移动；
+- 没有 multi-defect、off-pivot、边界或 augmentation；
+- 完整接口在闭环中可恢复；
+
+则两条轨迹能够拉回同一个实际 root projection，并由引理 3 补成第四角点；否则必须产生真实费用或 structural exit。
+
+若这个引理成立，则：
+
+$$
+
+\text{局部 diamonds}
+\Longrightarrow
+\text{矩形闭包}
+\Longrightarrow
+\text{完整乘积或 survivor}.
+
+$$
+
+再与块极小性和 link 度数结合，便得到旧 handoff 所需的二进制强迫森林终局。
+
+---
+
+# 八、这次证明尝试得到的准确状态
+
+可以认为已经证明的全局稳定性是：
+
+$$
+
+\boxed{
+\begin{minipage}{0.88\linewidth}
+在统一测试空间上，总信息损失很小意味着：除去同阶小质量后，完整 genealogy 可以从终端接口恢复。因此执行不会真正汇合，而是展开为一个全局 regeneration forest。F-0038 使 near-critical 的固定-genealogy 段近似平衡二叉。任何剩余闭路只能是可逆的 permutation/codebook core。
+\end{minipage}
+}
+
+$$
+
+不能认为已经证明的是：
+
+$$
+
+\boxed{
+\text{全部可逆核心自动消失，所以极限是纯二进制森林。}
+}
+
+$$
+
+固定轻锚和相关代码簿反例排除了这个跳跃。
+
+因此，旧讨论的“树状稳定性”应该正式修正为：
+
+$$
+
+\boxed{
+\textbf{binary regeneration forest with reversible cores}.
+}
+
+$$
+
+主定理真正缺少的全局性质是：
+
+$$
+
+\boxed{
+\textbf{可逆核心的 genealogical splice saturation / elimination}.
+}
+
+$$
+
+引理 3 已经解决了共享实际 base 时的局部方块补全；现在唯一实质桥梁是证明，在无异常、低度、future-complete 的可逆核心里，不同 genealogy 可以被拉回共同 base，或者这种拉回失败本身必然产生可收费真实结构。
+
+这比继续分类更多 Hall cuts 更接近旧路线原本设定的“全局 pivot 粘合”问题。
+
+
+【提问 轮数7】
+[User is quoting/referring to: "Genealogical common-base diamond lemma
+--------------------------------------
+
+给定同一永久根标签 QQQ 下的两条 faithful trajectories。若它们只在两个 future coordinates 上不同，并且：
+
+*   两个单坐标移动均为普通单缺陷移动；
+
+*   没有 multi-defect、off-pivot、边界或 augmentation；
+
+*   完整接口在闭环中可恢复；
+
+
+则两条轨迹能够拉回同一个实际 root projection，并由引理 3 补成第四角点；否则必须产生真实费用或 structural exit。"]
+
+请你对这个命题进行数值检验
+
+【回答内容 轮数7】
+我会先把命题离散化成一个可枚举的有限状态模型：根投影、genealogy、两条单坐标轨迹、实际 blocker、闭环可恢复性和异常出口都分别编码；随后穷举最小规模实例，寻找“满足全部前提但无法 common-base 拉回”的反例。
+
+【回答内容 轮数7】
+我已经找到一个可直接计算、且与命题最接近的零误差模型：四块 $Q_4$ 执行图中，可恢复闭环恰表现为“ordinary–switch–ordinary–switch”的四环；“共同实际 base”对应两条 switch 的真实两洞前驱相同。对全部 **272** 个坐标完美匹配（包括 8 个正常相位）检验后，目前没有反例。接下来放宽到一般随机四块超图，只保留满足前提的干净闭环。
+
+【回答内容 轮数7】
+检验出现了关键分界：**原命题按字面并不成立**。在 272 个零误差 $Q_4$ 模型中，所有 8 个正常相位都通过；但 264 个非正常匹配中有 200 个出现干净、可逆、无 multi-defect/边界/augmentation 的四环，却对应两个不同的实际根投影。也就是说，命题必须把“非正常四块窗口”加入异常/出口，或显式假设窗口正常。
+
+【回答内容 轮数7】
+## 数值检验结论
+
+原命题按字面表述**不成立**。缺少的关键前提是：
+
+$$
+
+\boxed{\text{相关四块交换窗口必须属于正常 }Q_4\text{ 相位}}
+
+$$
+
+或者等价地，把非正常 $Q_4$ 匹配明确列为异常出口。
+
+修正后得到的数值结论非常稳定：
+
+$$
+
+\boxed{
+\text{clean + reversible + normal }Q_4
+\Longrightarrow
+\text{common actual reroot signature}
+}
+
+$$
+
+但目前验证到的是组合意义上的实际 root signature；要升级为完全相同的历史 genealogy record，还需要一个额外的 genealogy-lift 论证。
+
+---
+
+# 1. 检验模型
+
+我把“两条只在两个 future coordinates 上不同的轨迹”编码为一个四块缺陷执行图中的有向四环：
+
+$$
+
+\text{switch}
+\to
+\text{ordinary}
+\to
+\text{switch}
+\to
+\text{ordinary}.
+
+$$
+
+每个状态完整记录：
+
+$$
+
+(\text{missing block},\text{当前实际顶点},\text{pivot block/value}).
+
+$$
+
+只保留满足以下条件的 transition：
+
+- 当前部分横截独立；
+- 插入后恰有一条实际 blocker；
+- ordinary move 保持 pivot；
+- switch move 使用 blocker 中另一个旧端点作为新 pivot；
+- 释放旧顶点以后重新检查独立性；
+- 没有 multi-defect；
+- 没有边界失败或 augmentation；
+- 四步后完整返回初始接口。
+
+这里没有把“共同根”写入定义。
+
+对每次 switch，定义其自然的实际 reroot signature：
+
+$$
+
+\operatorname{sig}(\sigma)
+=
+\bigl(
+\text{删除旧端点后的实际两洞 base},
+\text{被释放的旧端点}
+\bigr).
+
+$$
+
+两个 switch 的 signature 相同，才意味着它们可由同一个实际 source root projection 拉回。
+
+仓库本身也要求 root projection 对应一个真实访问过的记录，不能用任意集合删除来冒充；同时，正常 $Q_4$ phase 本身并不自动保证相同的真实 execution record 或唯一 genealogy。turn404945view2
+
+---
+
+# 2. 全部 $Q_4$ 完美匹配的精确枚举
+
+我穷举了 $Q_4$ 的全部坐标完美匹配：
+
+$$
+
+272\text{ 个}.
+
+$$
+
+其中仓库意义下的正常匹配恰有：
+
+$$
+
+8\text{ 个}.
+
+$$
+
+逐个建立相应的四块 3-一致超图，枚举全部 clean、可逆、ordinary/switch 交替四环。
+
+| 匹配类型 | 匹配数 | clean 可逆四环 | common-root 失败 |
+|---|---:|---:|---:|
+| 正常相位 | 8 | 192 | **0** |
+| 非正常相位 | 264 | 4,224 | **960** |
+| 总计 | 272 | 4,416 | 960 |
+
+因此：
+
+$$
+
+\boxed{
+\text{在全部正常相位的 192 个四环中，没有发现反例。}
+}
+
+$$
+
+而非正常匹配中，有 200 个匹配至少包含一个反例四环。
+
+这与旧证明路线的设计相符：零误差模型原本就将“所有交换方块属于八个正常模板”作为独立假设；非正常匹配应进入 common-anchor/异常稳定性账本，而不能继续作为普通无费用窗口。turn404945view5
+
+---
+
+# 3. 原命题的具体反例
+
+存在一个 clean、唯一 blocker、完全可逆的四环，其四条 blocker 为：
+
+$$
+
+\begin{aligned}
+e_0&=\{(0,1),(2,0),(3,1)\},\\
+e_1&=\{(0,1),(2,1),(3,1)\},\\
+e_2&=\{(1,0),(2,1),(3,0)\},\\
+e_3&=\{(1,0),(2,0),(3,0)\}.
+\end{aligned}
+
+$$
+
+四步依次为：
+
+$$
+
+\begin{aligned}
+&\text{switch: }(3,1)\text{ 插入，释放 }(2,0),\\
+&\text{ordinary: }(2,1)\text{ 插入，释放 }(3,1),\\
+&\text{switch: }(3,0)\text{ 插入，释放 }(2,1),\\
+&\text{ordinary: }(2,0)\text{ 插入，释放 }(3,0).
+\end{aligned}
+
+$$
+
+两个 switch 的两洞 base 相同：
+
+$$
+
+\{(0,1),(1,0)\},
+
+$$
+
+但其旧端点分别是：
+
+$$
+
+(2,0)
+\quad\text{和}\quad
+(2,1).
+
+$$
+
+所以对应的实际根为：
+
+$$
+
+\{(0,1),(1,0),(2,0)\}
+
+$$
+
+和
+
+$$
+
+\{(0,1),(1,0),(2,1)\},
+
+$$
+
+并不是同一个 root projection。
+
+这个例子满足：
+
+- 每一步只有一条 blocker；
+- 没有 multi-defect；
+- 没有边界；
+- 没有 augmentation；
+- 闭环完全可恢复；
+- 两条轨迹的共同两洞 base 存在。
+
+唯一失败的是：它的 $Q_4$ 匹配**非正常**。
+
+这说明“完整接口可恢复”本身只保证可逆 monodromy，不能迫使两个 switch 使用相同的旧端点。仓库的既有 failure 记录也已指出，可逆 monodromy 可以是无损置换，不能自动收费或自动乘积化。
+
+---
+
+# 4. 一般随机超图压力测试
+
+我还随机生成了一般四块 3-一致超图，只保留 clean、唯一 blocker、可逆交替四环。
+
+| 块大小 | 随机超图数 | clean 四环数 | common-root 失败 |
+|---|---:|---:|---:|
+| $b=2$ | 20,000 | 34,613 | 766 |
+| $b=3$ | 5,000 | 52,740 | 1,534 |
+| $b=4$ | 1,000 | 19,358 | 286 |
+
+所以在不加入 normality 时，反例不是一个极端偶然现象。
+
+另一方面，在所有这些计算中，两个 switch 的**两洞 base 集合**始终相同。失败发生在：
+
+$$
+
+\boxed{
+\text{共同两洞 base 存在，但成功旧端点不同。}
+}
+
+$$
+
+这精确定位了需要粘合的对象：不是 base set，而是完整 root projection。
+
+---
+
+# 5. 局部 diamond completion 本身通过了
+
+一旦人为给定同一个实际 root projection，即同一个 base 和同一个旧端点，则先前的局部引理表现完全正常。
+
+在全部 272 个精确 $Q_4$ 模型中，共检验：
+
+$$
+
+13,056
+
+$$
+
+个共享实际 base 的局部 diamond 实例，失败数为：
+
+$$
+
+0.
+
+$$
+
+所以困难不在：
+
+$$
+
+R+a,\ R+c\text{ 独立}
+\Longrightarrow
+\text{能否处理 }R+a+c.
+
+$$
+
+困难在更早一步：
+
+$$
+
+\boxed{
+\text{两个可逆 switch 是否真的来自同一个 }R.
+}
+
+$$
+
+正常 $Q_4$ 条件在所有精确枚举中恰好排除了旧端点不一致。
+
+---
+
+# 6. 建议采用的修正版命题
+
+数值结果支持下面的版本。
+
+## Normal common-base diamond lemma
+
+设一个实际四块执行窗口满足：
+
+1. 两个 future coordinates 构成 clean 可逆四环；
+2. 四步交替为 ordinary 与 pivot switch；
+3. 每个插入只有一条实际 blocker；
+4. 没有 multi-defect、off-pivot、边界或 augmentation；
+5. 完整接口在闭环中可恢复；
+6. 诱导的 $Q_4$ blocker matching 是八个正常相位之一。
+
+则两个相对的 switch 具有相同的组合 reroot signature：
+
+$$
+
+\boxed{
+(R,r)_{\sigma_1}=(R,r)_{\sigma_2}.
+}
+
+$$
+
+于是它们可以在组合层面拉回同一个实际 root projection
+
+$$
+
+R+r,
+
+$$
+
+并应用局部 diamond completion。
+
+若第 6 条失败，则应输出：
+
+$$
+
+\boxed{\text{nonnormal four-block window}}
+
+$$
+
+并将其送入已有的 common-anchor/稳定性异常分支，而不能继续免费地作为普通 persistent transition。
+
+---
+
+# 7. 尚未由数值检验覆盖的内容
+
+即使 signature 相同，仍需区分：
+
+$$
+
+\text{相同实际顶点集合}
+
+$$
+
+和
+
+$$
+
+\text{相同历史记录及 genealogy}.
+
+$$
+
+仓库明确警告，正常 phase 并不单独保证两个状态来自同一真实执行记录或唯一 projection genealogy。
+
+因此，完整证明还需要一个较小但真实的桥梁：
+
+## Genealogy lift
+
+在正常、clean、可恢复四环中，若两个 switch 的实际 reroot signature 相同，则：
+
+$$
+
+\text{两者的 root records 可在永久根标签 }Q
+\text{ 下识别},
+
+$$
+
+或者 genealogy 不一致本身产生一个明确的 projection mismatch/quotient obstruction。
+
+这个问题已经比原命题小很多：
+
+- normality 解决组合坐标不一致；
+- diamond completion 解决共享实际 base 后的第四角点；
+- 剩下的只是相同实际 root 数据能否提升为相同历史 record。
+
+---
+
+# 最终判断
+
+本次数值检验给出了一个明确的否定和一个明确的正面结果：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{原 common-base diamond lemma：不成立；}\\
+&\text{加入 normal }Q_4\text{ 前提后：全部精确枚举通过；}\\
+&\text{共同两洞 base：在所有已检实例中自动成立；}\\
+&\text{真正需要 normality 控制的是旧端点/root projection；}\\
+&\text{完整 genealogy 提升仍需单独证明。}
+\end{aligned}
+}
+
+$$
+
+因此，下一步不应继续尝试无条件 common-base lemma，而应采用：
+
+$$
+
+\boxed{
+\text{normal common-base}
+\quad\vee\quad
+\text{nonnormal-square exit}.
+}
+
+$$
+
+这与旧讨论“先分类零误差正常 SCC，再把非正常窗口计入稳定性误差”的策略一致。
+
+[下载检验脚本](sandbox:/mnt/data/common_base_diamond_audit.py)
+
+[下载完整结果](sandbox:/mnt/data/common_base_diamond_audit_results.json)
+
+
+【提问 轮数8】
+[User is quoting/referring to: "Genealogical common-base diamond lemma
+--------------------------------------
+
+给定同一永久根标签 QQQ 下的两条 faithful trajectories。若它们只在两个 future coordinates 上不同，并且：
+
+*   两个单坐标移动均为普通单缺陷移动；
+
+*   没有 multi-defect、off-pivot、边界或 augmentation；
+
+*   完整接口在闭环中可恢复；
+
+
+则两条轨迹能够拉回同一个实际 root projection，并由引理 3 补成第四角点；否则必须产生真实费用或 structural exit。"]
+
+请你对这个问题尝试数值验证
+
+【回答内容 轮数8】
+我会把这个引理先压成一个可穷举的有限模型：枚举小型 3-一致超图、共同永久根标签下的两条单缺陷轨迹，以及是否存在共同 base、第四角点或明确异常。重点不是“跑随机图看起来没问题”，而是寻找最小反例并判断缺失条件究竟在哪里。
+
+【回答内容 轮数8】
+数值验证给出了一个很明确、也很有价值的否定结果：
+
+$$
+
+\boxed{
+\text{“Genealogical common-base diamond lemma”按当前表述并不成立。}
+}
+
+$$
+
+即使在零误差、正常 $Q_4$、唯一 blocker、释放后独立、完整历史可恢复的最小模型里，也可能没有共同 base 的四角补全。缺失的不是更精细的 genealogy 标签，而是一个此前未列入例外的 **internal old-anchor obstruction**。
+
+## 1. 有限代理模型
+
+采用旧讨论中最自然的零误差测试空间：
+
+- 四个块，每块两个顶点；
+- 每个完整横截恰含一条三边；
+- 因而超图等价于 $Q_4=\{0,1\}^4$ 上沿坐标边的完美匹配；
+- 共 $272$ 个匹配，其中 $8$ 个为正常相位；
+- 状态是实际独立的三点部分横截；
+- 一次普通单缺陷移动为：
+  1. 向缺失块加入一个实际顶点；
+  2. 得到唯一 blocker $\{p,r,x\}$；
+  3. 删除旧端点 $r$；
+  4. 删除后状态重新验证为独立。
+
+这正是旧 handoff 建议在定量稳定性之前先分类的零误差 $Q_4$ 模型；仓库也记录了 $272/8$ 的完整枚举以及正常模型中的真实不同-pivot 反例。turn253223view6
+
+我重新枚举了全部 $272$ 个模型，并重点分析全部 $8$ 个正常模型。
+
+---
+
+## 2. 最直接的 common-base 测试
+
+固定两个旧块上的真实 base
+
+$$
+
+R=\{u,v\},
+
+$$
+
+以及两个未来块 $A,C$。
+
+选择 $a\in A$，要求：
+
+$$
+
+R+a\text{ 独立},
+
+$$
+
+并要求对 $C$ 中两个顶点 $c_0,c_1$，均有
+
+$$
+
+R+c_j\text{ 独立},
+
+$$
+
+且
+
+$$
+
+R+a+c_j
+
+$$
+
+恰有唯一 blocker
+
+$$
+
+\{p_j,a,c_j\}.
+
+$$
+
+这就是两条普通单缺陷轨迹：
+
+$$
+
+R+a
+\;\xrightarrow{c_0}\;
+\{p_0,a,c_0\},
+
+$$
+
+$$
+
+R+a
+\;\xrightarrow{c_1}\;
+\{p_1,a,c_1\}.
+
+$$
+
+最自然的 common-base diamond 问题是：另一个顶点 $a'\in A$ 是否也能补出另外两个角点，从而得到完整矩形
+
+$$
+
+\{a,a'\}\times\{c_0,c_1\}?
+
+$$
+
+### 完整枚举结果
+
+| 项目 | 数量 |
+|---|---:|
+| 正常 $Q_4$ 模型 | 8 |
+| 满足上述条件的两轨迹窗口 | 96 |
+| 两轨迹使用同一 pivot | **0** |
+| 两轨迹使用不同 pivot | **96** |
+| 能补成完整 $2\times2$ common-base 矩形 | **0** |
+| 缺失行被固定 internal blocker 阻断 | **96** |
+
+所以在全部正常零误差模型中：
+
+$$
+
+\boxed{
+\text{每一个这样的两轨迹窗口都不能补成 common-base diamond。}
+}
+
+$$
+
+而且原因完全一致：另一个候选 $a'$ 在加入第二个未来坐标之前，就已经被一条只依赖 $R+a'$ 的旧三边阻断。
+
+---
+
+## 3. 最小显式反例正是 F-0029
+
+取仓库的八边模型，并令
+
+$$
+
+R=\{0_0,1_0\},
+\qquad
+a=2_1.
+
+$$
+
+则
+
+$$
+
+R+a
+
+$$
+
+独立。对第四块的两个顶点：
+
+$$
+
+c_0=3_0,\qquad c_1=3_1,
+
+$$
+
+有
+
+$$
+
+R+c_0,\quad R+c_1
+
+$$
+
+均独立，并且
+
+$$
+
+R+a+c_0
+
+$$
+
+的唯一 blocker 是
+
+$$
+
+\{1_0,2_1,3_0\},
+
+$$
+
+pivot 为 $1_0$；而
+
+$$
+
+R+a+c_1
+
+$$
+
+的唯一 blocker 是
+
+$$
+
+\{0_0,2_1,3_1\},
+
+$$
+
+pivot 为 $0_0$。
+
+两次删除 $a=2_1$ 后都恢复独立，因此它们确实是普通单缺陷移动，不是 multi-defect。仓库以此确认不能预置一个共同 pivot。
+
+现在尝试补另一行，取
+
+$$
+
+a'=2_0.
+
+$$
+
+但
+
+$$
+
+R+a'
+=
+\{0_0,1_0,2_0\}
+
+$$
+
+本身就是一条边。因此另外两个角点在加入 $c_0,c_1$ 之前便已经失败。
+
+也就是说：
+
+$$
+
+\boxed{
+\text{两条轨迹完整可恢复、无竞争、均为普通单缺陷，
+仍不推出 common-base diamond。}
+}
+
+$$
+
+缺失角点的障碍是：
+
+$$
+
+\boxed{
+\text{不依赖第二个未来坐标的 internal old-anchor edge。}
+}
+
+$$
+
+它既不是 multi-defect，也不是 off-pivot、边界或 augmentation。
+
+---
+
+## 4. “完整接口可恢复”没有修复这个反例
+
+在实验中，每次转移都保留完整数据：
+
+$$
+
+(\text{源状态},
+\text{attempted vertex},
+\text{唯一 blocker},
+\text{released endpoint},
+\text{pivot},
+\text{目标状态}).
+
+$$
+
+因此路径不存在状态合并、相位遗失或 genealogy 遗忘。给定完整转移标签，可以唯一恢复前后状态。
+
+所以该反例不是由于：
+
+- 接口太粗；
+- genealogy 未保存；
+- 闭环信息擦除；
+- 不同历史被错误合并。
+
+它表明：
+
+$$
+
+\boxed{
+\text{可逆性只能防止历史丢失，
+不能创造一个本来不独立的共同 base。}
+}
+
+$$
+
+---
+
+## 5. 更长 genealogy 是否可以绕开缺失 diamond
+
+我还建立了全部普通单缺陷状态的有向转移图。
+
+每个正常模型有：
+
+- $24$ 个实际独立 one-hole 状态；
+- $96$ 条普通单缺陷转移；
+- $8$ 条实际超边。
+
+### F-0029 型分支
+
+考虑从同一源状态出发、尝试不同未来顶点，但释放同一旧端点的两条分支。这正是 F-0029 的 differing-pivot 模式。
+
+全部正常模型中共有：
+
+$$
+
+192
+
+$$
+
+对这种分支。
+
+若允许不同 genealogy 重复使用同一条真实边，则所有 $192$ 对都能在各走两步后重新汇合：
+
+$$
+
+(2,2)\text{-step reconvergence}.
+
+$$
+
+但若要求同一真实边跨两条历史只能使用一次，则：
+
+$$
+
+\boxed{
+192/192
+\text{ 均不存在任何 edge-disjoint reconvergence。}
+}
+
+$$
+
+这个搜索是穷尽的，而不只是检查固定深度：每个模型只有八条真实边；禁止重复边后，每条简单轨迹长度至多八，本次枚举了全部 edge-simple 路径。
+
+因此，F-0029 型窗口有一个非常稳定的二分：
+
+$$
+
+\boxed{
+\text{不能局部补 diamond；
+若要在更远 genealogy 中重新粘合，
+就必然重复使用真实边。}
+}
+
+$$
+
+这意味着“拉回共同 base”不能被免费假设；在最小模型里，它需要消耗 global-real-edge reuse。
+
+---
+
+## 6. 其他普通分支对
+
+再考虑从同一状态出发、释放不同旧端点的普通分支。八个正常模型中共有：
+
+$$
+
+960
+
+$$
+
+对。
+
+若暂时忽略跨 genealogy 的真实边复用：
+
+- 全部 $960$ 对都能在至多三步内重新汇合。
+
+若要求两条历史使用的真实边完全不交：
+
+| 结果 | 数量 |
+|---|---:|
+| 存在 edge-disjoint reconvergence | 768 |
+| 不存在任何 edge-disjoint reconvergence | 192 |
+
+其中无法无复用汇合的 $192$ 对全部具有同一个特征：
+
+$$
+
+\boxed{\text{两条初始 blocker 共享同一实际 pivot。}}
+
+$$
+
+这更像一个小型 link-cylinder obstruction：分支之间可以保持同一 pivot，但若想重新合并，就必须复用真实边。
+
+---
+
+## 7. 数值结果支持的修正版
+
+因此，当前引理中的结论
+
+> 两条轨迹能够拉回同一个实际 root projection 并补成第四角点，否则产生费用或 structural exit
+
+方向上接近正确，但例外列表不完整。
+
+有限模型支持下面的修正版：
+
+## Common-base splice dichotomy
+
+给定同一永久根标签下的两条普通单缺陷轨迹，并保存完整 genealogy。则应证明至少发生一种：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{存在实际 common-base diamond；}\\
+&\text{缺失角点在加入第二坐标前已被 internal old-anchor 阻断；}\\
+&\text{任何更远的 genealogy splice 都必然复用真实边；}\\
+&\text{两分支保持共同 pivot，并进入 link-cylinder 分支；}\\
+&\text{或出现 multi-defect、off-pivot、边界、augmentation 等已知异常。}
+\end{aligned}
+}
+
+$$
+
+在本次全部正常 $b=2$ 模型中：
+
+- common-base rectangle 分支没有出现；
+- 两坐标窗口全部进入 internal old-anchor 分支；
+- 更远的 differing-pivot splice 全部需要真实边复用；
+- 一部分 different-release 困难窗口进入共同-pivot 分支。
+
+---
+
+## 8. 对证明策略的含义
+
+数值验证否定了以下推理：
+
+$$
+
+\text{零误差}
++
+\text{普通单缺陷}
++
+\text{完整接口可恢复}
+\Longrightarrow
+\text{common-base diamond}.
+
+$$
+
+正确的策略应当是研究：
+
+$$
+
+\boxed{
+\text{为什么 internal old-anchor 或共同-pivot 分支
+在低度、future-complete、块极小无 IT 的全局执行中不能长期持续。}
+}
+
+$$
+
+这与此前发现的“可逆核心不能自动消去”完全一致。局部可逆性只说明历史不会被遗忘；它不会迫使实际支持矩形闭合。旧 handoff 也明确警告，正常局部相位只分类坐标粘合，不分类真实支持，而对角代码簿可以保持局部一致却不乘积化。
+
+### 当前判断
+
+$$
+
+\boxed{
+\text{Genealogical common-base diamond lemma 按原表述被有限正常模型否定。}
+}
+
+$$
+
+但实验也指出了一个比原命题更具体的下一步：
+
+$$
+
+\boxed{
+\text{common-base splice}
+\;\vee\;
+\text{internal old-anchor}
+\;\vee\;
+\text{unavoidable real-edge reuse}
+\;\vee\;
+\text{same-pivot link cylinder}.
+}
+
+$$
+
+其中后面三项都对应现有全局证明路线中的真实对象，而不是新的抽象余项。
+
+
+【提问 轮数9】
+common-base splice这一项指代的是什么？
+
+【回答内容 轮数9】
+“common-base splice”指的是：把两条原本分开的 faithful trajectories，拉回到同一个实际部分横截 $R$，然后在这个共同 base 上交换它们的未来坐标，补出缺失的第四个角点。
+
+设两条轨迹分别使用未来顶点 $a\in A$ 和 $c\in C$。理想情形是存在同一个实际独立 base $R$，使
+
+$$
+
+R+a,\qquad R+c
+
+$$
+
+都独立，而
+
+$$
+
+R+a+c
+
+$$
+
+只有一条 blocker
+
+$$
+
+\{p,a,c\}.
+
+$$
+
+删除 $p$ 后得到新的独立状态
+
+$$
+
+(R-p)+a+c.
+
+$$
+
+这一步就是一个局部 splice：把“选择 $a$”的历史和“选择 $c$”的历史接合在同一个真实 base 上。
+
+若有两个 $A$-坐标 $a_0,a_1$ 和两个 $C$-坐标 $c_0,c_1$，common-base diamond 要求四个组合都能在同一个 $R$ 上实现：
+
+$$
+
+R+a_i+c_j,
+\qquad i,j\in\{0,1\},
+
+$$
+
+或者在删除相应实际 pivot 后都能得到合法独立状态。它形成一个交换方块：
+
+$$
+
+\begin{array}{ccc}
+& R &\\
+/&&\backslash\\
+R+a && R+c\\
+\backslash&&/\\
+& R+a+c &
+\end{array}
+
+$$
+
+“common-base”强调两条分支共享的不是抽象状态或相同 phase，而是**同一个实际顶点集合 $R$**；“splice”强调把两条 genealogy 的坐标选择重新组合。
+
+在刚才的数值反例中，问题是另一个候选 $a'$ 已经使
+
+$$
+
+R+a'
+
+$$
+
+不独立。因此缺失角点在加入 $c$ 之前就不存在，无法进行 common-base splice。更远处两条 genealogy 也许还能重新汇合，但实验表明这往往需要重复使用同一真实边；那属于 real-edge reuse，而不是免费的 common-base splice。
+
+
+【提问 轮数10】
+[User is quoting/referring to: "全局证明路线中的真实对象"]
+
+如果四项分解都是真实对象，这个分类引理是否值得证明？
+
+【回答内容 轮数10】
+值得证明，但前提是把它定位为**接口分类引理**，而不是新的主攻终局。
+
+这四项之所以比之前的 Hall-cut、deficiency、token 分类更有价值，是因为它们都直接对应超图中的实际对象：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{common-base splice};\\
+&\text{internal old-anchor blocker};\\
+&\text{unavoidable real-edge reuse};\\
+&\text{same-pivot link cylinder}.
+\end{aligned}}
+
+$$
+
+它们不是人为定义的“坏质量类型”。不过，“是真实对象”还不足以保证值得投入；真正的标准是：**每一项是否已经有下游定理，能产生度数、衰减、IT 或完整子核心。**
+
+## 1. 四项目前的价值并不相同
+
+### Common-base splice
+
+它本身不是终局，而是一种**闭包操作**。如果能反复进行 splice，就可能得到矩形闭包：
+
+$$
+
+\mathcal C=\prod_i\pi_i(\mathcal C),
+
+$$
+
+继而得到实际乘积支持、完整块闭合或 survivor。
+
+所以它的价值是：
+
+$$
+
+\text{splice}
+\Longrightarrow
+\text{扩大实际可拼接支持}.
+
+$$
+
+但必须证明一个单调量，例如矩形闭包秩、可拼接坐标数或支持体积严格增加。否则“存在 splice”只是说还能继续执行，并没有进展。
+
+### Internal old-anchor blocker
+
+这是一个真实的 link-incidence：
+
+$$
+
+\{p,a',r\}\in E(H)
+
+$$
+
+在第二个未来坐标加入之前就已经阻断候选角点。
+
+它有潜在的直接计数意义：若大量缺失 diamonds 都被同一个旧锚 $p$ 阻断，就可能迫使
+
+$$
+
+d_H(p)
+
+$$
+
+很大。
+
+但旧讨论已经说明，锚可以迁移、reset，也可以在不同 genealogy 中重复出现而没有天然容量。因此需要的是：
+
+$$
+
+\text{internal old-anchor 质量}
+\Longrightarrow
+\text{固定旧锚集中}
+\;\vee\;
+\text{新锚再生}.
+
+$$
+
+固定锚集中可以接度数；新锚再生则必须接一个有限、不可重置的全局势。没有这一步，它仍可能成为新的 persistent-obstruction 名称。
+
+### Unavoidable real-edge reuse
+
+这是四项中目前下游最清楚的一项。若“任何 splice 都必须复用真实边”，那么可以尝试把质量送到 global-real-edge ledger，并与
+
+$$
+
+\Delta(H)
+
+$$
+
+比较。
+
+但“不可避免地会用到某条已经出现过的边”仍不自动等于可收费。还需要证明：
+
+- 哪条实际边被复用；
+- 同一质量不会经过多个 histories 重复计入；
+- 不同 genealogies 的复用共享同一容量；
+- 该边确实消耗独立的剩余 ledger。
+
+这是已有 F-0033/real-edge Hall 机制最可能接住的一支。
+
+### Same-pivot link cylinder
+
+这可能是最接近 $1/4$ 阈值的一支。若很多分支长期保持同一 pivot $p$，并且未来完整性迫使两个近半块集合 $A,C$ 被覆盖，则可能得到
+
+$$
+
+A\times C\subseteq L_H(p),
+
+$$
+
+于是
+
+$$
+
+d_H(p)\ge |A||C|
+\approx \frac{b^2}{4}.
+
+$$
+
+但旧失败也表明，same-pivot 本身只可能形成部分代码簿，例如对角支持，而不一定是乘积。所以还需：
+
+$$
+
+\text{same-pivot cylinder}
++
+\text{future completeness}
++
+\text{splice saturation}
+\Longrightarrow
+\text{link 乘积或逃逸}.
+
+$$
+
+这其实就是旧路线中的“critical link 稳定性 + 全局粘合”。
+
+## 2. 因此，分类引理值得证明的条件
+
+它应当被表述成一个**有限路由定理**，且每个出口已经有确定后端：
+
+$$
+
+\boxed{
+\begin{array}{rcl}
+\text{splice}
+&\longrightarrow&
+\text{某个闭包势严格增加},\\
+\text{old-anchor}
+&\longrightarrow&
+\text{锚集中或再生势增加},\\
+\text{edge reuse}
+&\longrightarrow&
+\text{真实边账本消耗},\\
+\text{same pivot}
+&\longrightarrow&
+\text{link-cylinder 稳定性问题}.
+\end{array}}
+
+$$
+
+如果只能证明“四种情况至少有一种”，但四种情况之后都还需要同等困难的新分类，那么不值得；那会再次成为无限切割。
+
+最重要的是，在证明分类引理之前应先为前三项分别指定一个不可逆量：
+
+$$
+
+\Phi_{\mathrm{splice}},\qquad
+\Phi_{\mathrm{anchor}},\qquad
+\Phi_{\mathrm{edge}}.
+
+$$
+
+例如理想状态是：
+
+$$
+
+\begin{aligned}
+\text{splice}&\Rightarrow \Phi_{\mathrm{splice}}\uparrow,\\
+\text{new anchor}&\Rightarrow \Phi_{\mathrm{anchor}}\uparrow,\\
+\text{edge reuse}&\Rightarrow \Phi_{\mathrm{edge}}\uparrow,
+\end{aligned}
+
+$$
+
+且三个量都有全局上界。这样反复应用分类引理后，前三项不能无限持续，最终大量质量只能进入 same-pivot cylinder，而那里才进行真正的 $1/4$ 稳定性分析。
+
+## 3. 更好的分类不是“四项并列”
+
+从证明架构上，最好把它们组织成两层，而不是四个平行出口：
+
+### 第一层：能否实际拼接
+
+$$
+
+\boxed{
+\text{common-base splice}
+\quad\vee\quad
+\text{splice obstruction}.
+}
+
+$$
+
+### 第二层：splice obstruction 的真实原因
+
+$$
+
+\boxed{
+\text{internal old-anchor}
+\;\vee\;
+\text{unavoidable edge reuse}
+\;\vee\;
+\text{same-pivot link cylinder}
+\;\vee\;
+\text{已知异常}.
+}
+
+$$
+
+这样逻辑更自然：
+
+- splice 是正向闭包机制；
+- 后三项是阻止 splice 的几种实际原因。
+
+也能避免把“能继续闭包”和“终局障碍”混在同一层。
+
+## 4. 最值得证明的其实是带进展量的版本
+
+建议目标不是单纯的分类引理，而是：
+
+### Quantitative splice-or-pay lemma
+
+对一族质量为 $M$ 的 future-complete、genealogy-coherent 两分支窗口，存在质量守恒分解
+
+$$
+
+M=M_{\mathrm{sp}}+M_{\mathrm{an}}+M_{\mathrm{re}}+M_{\mathrm{cy}}+M_{\mathrm{ex}},
+
+$$
+
+其中：
+
+1. splice 部分使某个实际矩形闭包势增加至少
+   $$
+
+   c\,M_{\mathrm{sp}};
+
+$$
+2. old-anchor 部分产生锚负载或锚再生增量至少
+   $$
+
+   c\,M_{\mathrm{an}};
+
+$$
+3. reuse 部分被真实边账本吸收至少
+   $$
+
+   c\,M_{\mathrm{re}};
+
+$$
+4. cylinder 部分进入同一 pivot 的 future-complete link 系统；
+5. exceptional 部分进入已有 accepted exit。
+
+常数 $c$ 可以先取 $1$，如果分类是逐原子确定性的；真正困难是质量不能在多个分支重复。
+
+这个版本一旦成立，才真正有用。因为前三项都有潜在全局上界，迭代后只剩：
+
+$$
+
+\text{same-pivot future-complete link cylinder},
+
+$$
+
+于是主困难被压缩为一个单一且与 $1/4$ 直接相关的结构问题。
+
+## 5. 需要特别防止的一种伪进展
+
+不能把：
+
+> “缺失 diamond 被 internal old-anchor 阻断”
+
+直接定义成“支付了一次 anchor token”。
+
+这会重犯此前 transition charging 的错误。真实边或锚出现在因果链中，不代表它拥有独立容量。
+
+old-anchor 分支只有在以下之一成立时才算有用：
+
+$$
+
+\begin{aligned}
+&\text{同一锚的实际不同邻接对累积，直接增加 }d_H(p);\\
+&\text{锚变化进入一个全局不可重置的再生图；}\\
+&\text{重复锚状态产生 accepted exact quotient};\\
+&\text{锚阻断使实际支持严格缩小或闭合。}
+\end{aligned}
+
+$$
+
+否则它只是“为什么不能 splice”的解释，不是证明进展。
+
+## 6. 我的判断
+
+$$
+
+\boxed{
+\text{分类值得证明，但只能作为一次性的结构路由器。}
+}
+
+$$
+
+它有两个明显优点：
+
+- 数值实验已经表明原 common-base lemma 缺失的主要机制恰好落在这些真实分支中；
+- 四项都与现有后端有真实联系：矩形闭包、old-anchor profile、real-edge ledger、critical link。
+
+但在正式投入证明前，应当先要求：
+
+$$
+
+\boxed{
+\text{至少三项有严格单调或可收费后端，
+最后一项是唯一剩余主结构。}
+}
+
+$$
+
+否则证明分类本身只会告诉我们“困难有四种真实形态”，随后每种又展开成新的 Proof DAG。
+
+最健康的目标不是四项分类本身，而是：
+
+$$
+
+\boxed{
+\text{反复 splice 或支付之后，
+正质量必须进入单 pivot 的 future-complete link cylinder。}
+}
+
+$$
+
+若能做到这一点，这个引理非常值得证明；因为它把多 genealogy、迁移 pivot、真实边复用等杂乱问题统一清理掉，最终只留下与 $b^2/4$ 直接匹配的单-pivot link 稳定性。
+
+
+【提问 轮数11】
+[User is quoting/referring to: "最健康的目标不是四项分类本身，而是：
+
+反复 splice 或支付之后， 正质量必须进入单 pivot 的 future-complete link cylinder。\\boxed{ \\text{反复 splice 或支付之后， 正质量必须进入单 pivot 的 future-complete link cylinder。} }反复 splice 或支付之后， 正质量必须进入单 pivot 的 future-complete link cylinder。​
+
+若能做到这一点"]
+
+请你使用数值验证这个结论是否成立
+
+【回答内容 轮数11】
+我会把“反复 splice 或支付”先落成一个有限状态消去过程：在全部正常 $Q_4$ 零误差模型中，反复执行可补的 common-base splice；若补不了，就把不可避免的真实边复用记为 pay；最后检查所有仍存活窗口是否都落入同一 pivot、且对未来两值都闭合的 link cylinder。
+
+【回答内容 轮数11】
+出现了一个关键反例信号：在全部 8 个正常 $Q_4$ 模型中，确实存在“splice / reuse-pay / same-pivot cylinder”的逐窗口三分；但所有可无复用 splice 的窗口，其任何最省真实边的重新汇合都恰好耗尽全部 8 条真实边。也就是说，splice 在最小正常模型里并不是可反复免费执行的闭包操作。
+
+【回答内容 轮数11】
+数值结果**不支持原结论按当前表述成立**。它支持的是一个较弱但清晰的局部三分：
+
+$$
+
+\boxed{
+\text{splice 候选}
+\;\vee\;
+\text{不可避免的真实边复用}
+\;\vee\;
+\text{same-pivot cylinder}.
+}
+
+$$
+
+但它同时显示：
+
+$$
+
+\boxed{
+\text{splice 在最小正常模型中不是可以反复免费执行的操作。}
+}
+
+$$
+
+因此，不能由这个三分直接推出“反复 splice 或支付后，仍有正质量必须进入单 pivot cylinder”。
+
+## 1. 数值模型
+
+我重新枚举了 clean $Q_4$ 模型：
+
+- $Q_4$ 的全部 $272$ 个坐标完美匹配；
+- 其中全部 $8$ 个正常模板；
+- 每个正常模板有 $24$ 个实际独立 one-hole states；
+- 每个状态对未来块的两个顶点分别有两个旧端点释放选择。
+
+正常的定义正是“每个二维面出现三个匹配方向”；仓库的旧讨论也将 $272/8$ 枚举定位为局部交换的完整有限样本空间，但明确警告不能把它直接当成全局有限见证定理。turn719595view1
+
+因此共有
+
+$$
+
+8\cdot24\cdot2\cdot2=768
+
+$$
+
+个 future-complete release policies。
+
+我使用了以下自然分类，没有把目标结论写进定义：
+
+### Same-pivot cylinder
+
+两个未来值所对应的普通单缺陷移动保留同一个**实际 pivot**。
+
+### Spliceable
+
+两条分支能够到达同一个实际独立状态，并且两条 genealogy 使用的真实 blocker edges 两两不重复。
+
+注意，这是比严格的 common-base diamond **更宽松**的 splice 定义：不要求立即补第四角点，允许在更远处重新汇合。
+
+### Pay/reuse
+
+不存在上述 edge-disjoint reconvergence。于是任何重新粘合都必须在两条 genealogy 内或两条 genealogy 之间复用某条真实边。
+
+---
+
+## 2. 完整枚举结果
+
+| 分类 | 数量 |
+|---|---:|
+| edge-disjoint splice 候选 | 384 |
+| unavoidable real-edge reuse | 192 |
+| same-pivot cylinder | 192 |
+| 未分类 | **0** |
+
+更强的是，对全部
+
+$$
+
+8\cdot24=192
+
+$$
+
+个状态，每个状态都恰好具有同一种模式：
+
+$$
+
+\boxed{
+2\text{ 个 splice policies}
++
+1\text{ 个 reuse policy}
++
+1\text{ 个 cylinder policy}.
+}
+
+$$
+
+所以，作为**逐窗口分类引理**，三分得到了非常强的数值支持。
+
+---
+
+## 3. 关键否定结果：每次 splice 都耗尽全部真实边
+
+对每个 spliceable policy，我穷举了两条 genealogy 的全部 edge-simple 路径，寻找使用不同真实边并汇合到同一状态的方案。
+
+结果是：
+
+$$
+
+\boxed{
+384/384
+\text{ 个 spliceable policies 的最小 splice 都需要全部 }8
+\text{ 条真实边。}
+}
+
+$$
+
+更具体地，每条分支都需要使用 $4$ 条不同真实边，两条分支的边集不交：
+
+$$
+
+4+4=8.
+
+$$
+
+而一个正常 $Q_4$ 模型总共恰有八条真实超边。因此执行一次无复用 splice 后：
+
+$$
+
+\text{剩余未使用真实边数}=0.
+
+$$
+
+下一次任何非平凡 transition 都必须复用真实边。
+
+这说明：
+
+$$
+
+\boxed{
+\text{在最小正常模型里不存在“反复免费 splice”。}
+}
+
+$$
+
+一次 splice 就已经到达整个局部真实边账本的边界。
+
+---
+
+## 4. 原结论为什么没有被验证
+
+原结论是：
+
+$$
+
+\text{反复 splice 或支付之后，正质量必须进入 cylinder}.
+\tag{*}
+
+$$
+
+数值结果给出了三种解释，而没有一种能直接推出 $(*)$。
+
+### 把 splice 当作免费操作
+
+这不符合真实边账本。数值上，每次 splice 已使用局部模型的全部八条真实边；将它视为免费会忽略实际边消耗。
+
+### 把 splice 的边使用算入支付
+
+那么一份质量可以在第一次 splice 时就被全部支付掉，剩余质量可能为零。此时不能推出“仍有正质量进入 cylinder”。
+
+### 只对重复边收费
+
+那么第一次 splice 后，任何继续执行都会触发 reuse-pay。轨迹可能终止于支付分支，而不进入 cylinder。
+
+所以局部状态空间只证明：
+
+$$
+
+\boxed{
+\text{若拒绝 cylinder，
+则可以选择一次全局 splice，
+但随后任何继续都必须支付 reuse。}
+}
+
+$$
+
+它没有证明：
+
+$$
+
+\boxed{
+\text{支付能力不足以吸收全部质量，
+因而必有正质量被迫选择 cylinder。}
+}
+
+$$
+
+后一句需要一个额外的**全局质量—容量不等式**。
+
+---
+
+## 5. 数值实验实际支持的修正版
+
+一个更准确的候选命题是：
+
+### Splice–reuse–cylinder exhaustion lemma
+
+对每个 future-complete 正常窗口，存在质量守恒分解
+
+$$
+
+M=M_{\mathrm{sp}}+M_{\mathrm{re}}+M_{\mathrm{cy}},
+
+$$
+
+其中：
+
+- $M_{\mathrm{sp}}$ 可以进行实际 genealogy splice；
+- $M_{\mathrm{re}}$ 的任何 splice 都需要真实边复用；
+- $M_{\mathrm{cy}}$ 已处于 same-pivot future-complete cylinder。
+
+但要从这里得到正的 cylinder 质量，还必须另外证明：
+
+$$
+
+\boxed{
+\operatorname{Cost}(M_{\mathrm{sp}})
++
+\operatorname{Cost}(M_{\mathrm{re}})
+<
+M.
+}
+\tag{1}
+
+$$
+
+从而
+
+$$
+
+M_{\mathrm{cy}}>0.
+
+$$
+
+更理想的是定量版本：
+
+$$
+
+\operatorname{Cost}(M_{\mathrm{sp}})
++
+\operatorname{Cost}(M_{\mathrm{re}})
+\le(1-c)M,
+
+$$
+
+于是
+
+$$
+
+M_{\mathrm{cy}}\ge cM.
+
+$$
+
+数值模型本身没有提供这样的 $c>0$。相反，它提示 splice 的实际边成本可能非常高。
+
+---
+
+## 6. 对证明策略的调整
+
+因此不宜继续把 splice 描述成“闭包势免费增加”。数值结果显示它更像一个**全局重新布线操作**：
+
+$$
+
+\text{splice}
+=
+\text{用一大批不同真实边换取 genealogy 汇合}.
+
+$$
+
+更合理的二分应当是：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{splice 所消耗的真实边能够被全局账本收费};\\
+&\text{或大量质量共享 splice 所需的边，产生 reuse/concentration};\\
+&\text{或为了避免这些费用，质量进入 same-pivot cylinder}.
+\end{aligned}
+}
+
+$$
+
+这里 cylinder 不是由纯组合迭代自动产生，而是由一个**预算不足原则**产生：
+
+> 其他两条路线所需的真实边资源不足以承载全部 future-complete 质量。
+
+这正好与旧 handoff 的要求一致：terminal SCC 的最终输出必须是增广、真实 $1/4$ link 负载或完整真子核心，并且同一真实边容量至多一次；局部正常相位本身不能完成全局粘合。turn719595view2
+
+## 结论
+
+数值验证给出的判断是：
+
+$$
+
+\boxed{
+\text{逐窗口的 splice/reuse/cylinder 分类成立得很好；}
+}
+
+$$
+
+但
+
+$$
+
+\boxed{
+\text{“反复 splice 或支付后必剩正质量进入 cylinder”并未成立。}
+}
+
+$$
+
+最小正常模型已经显示：
+
+$$
+
+\boxed{
+\text{一次无复用 splice 就可能耗尽整个局部真实边集。}
+}
+
+$$
+
+因此下一步真正值得证明的不是纯粹的迭代分类，而是一个定量的全局预算定理：
+
+$$
+
+\boxed{
+\text{若 cylinder 质量很小，
+则实现全部 splice/reuse 所需的真实边负载
+超过 }\Delta(H)\text{ 或现有账本容量。}
+}
+
+$$
+
+只有这个不等式才能把局部三分升级为“正质量必须进入单 pivot cylinder”。
+
+[复现实验脚本](sandbox:/mnt/data/q4_splice_pay_cylinder_validation.py)
+[实验结果 JSON](sandbox:/mnt/data/q4_splice_pay_cylinder_results.json)
+
+
+【提问 轮数12】
+[User is quoting/referring to: "定量的全局预算定理"]
+
+请你严格陈述并尝试证明
+
+【回答内容 轮数12】
+我会把“全局预算定理”写成一个真正可检验的定理：输入只包括 future-complete 执行族、实际 splice/reuse 轨迹和唯一真实边账本；结论则是“要么这些轨迹的总质量受 $\Delta(H)$ 控制，要么出现正质量 same-pivot cylinder”。证明中我会明确区分已能严格完成的部分与仍缺少的核心不等式。
+
+【回答内容 轮数12】
+可以严格证明一个非平凡的“splice 预算定理”，但目前还不能证明完整的：
+
+$$
+
+\text{splice/reuse 被预算吸收}
+\Longrightarrow
+\text{正质量进入全局单-pivot cylinder}.
+
+$$
+
+完整结论实际上包含三个不同步骤：
+
+$$
+
+\boxed{
+\text{局部 splice 密度预算}
++
+\text{全局 reuse 预算}
++
+\text{局部同 pivot 的全局粘合}.
+}
+
+$$
+
+第一步可以完成；后两步正好落在仓库已经标记为开放的“全局 pivot 相容性”和“因果再生/terminal SCC”上。干净四块窗口确实化为 $Q_4$ 坐标匹配，正常模板恰有八个，但这些只是局部分类，不自动控制真实支持的全局粘合。turn851827view9
+
+---
+
+# 一、自然的四块窗口模型
+
+固定四个真实块
+
+$$
+
+B_1,B_2,B_3,B_4,
+\qquad |B_i|=b.
+
+$$
+
+记
+
+$$
+
+\mathcal W
+=
+\prod_{i=1}^4\binom{B_i}{2}
+
+$$
+
+为所有二元四块窗口。一个窗口写成
+
+$$
+
+X=(X_1,X_2,X_3,X_4),
+\qquad |X_i|=2.
+
+$$
+
+若每个窗口还有 $q$ 个释放策略或 genealogy policy，令
+
+$$
+
+\widetilde{\mathcal W}
+=
+\mathcal W\times[q].
+
+$$
+
+赋均匀质量。更一般地，可以有许多 future cylinders $\mathscr C$，每个 cylinder $C$ 赋权 $w_C$，并在其全部二元窗口和 policy 上均匀细分：
+
+$$
+
+\mu_C(X,\pi)
+=
+\frac{w_C}
+{q\binom b2^4}.
+
+$$
+
+总质量为
+
+$$
+
+M=\sum_Cw_C.
+
+$$
+
+这种二元 pair refinement 只是对 future-complete 块选择的均匀抽样，不写入任何收费性质。
+
+---
+
+# 二、自然的 splice certificate
+
+对一个 policy $\omega=(X,\pi)$，称
+
+$$
+
+\mathcal P(\omega)\subseteq E(H)
+
+$$
+
+为一个 **$s$-edge internal splice certificate**，若：
+
+1. $\mathcal P(\omega)$ 含至少 $s$ 条互异真实超边；
+2. 每条 $e\in\mathcal P(\omega)$ 只使用四个活动块中的三个；
+3. 若
+   $$
+
+   e\cap B_i\ne\varnothing,
+
+$$
+   则
+   $$
+
+   e\cap B_i\subseteq X_i;
+
+$$
+4. 这些边是实际 splice/reconvergence 所使用的 blocker edges，而不是人为添加的候选资源。
+
+这一定义只记录 splice 实际使用了哪些边，没有要求这些边可收费，也没有给它们单位容量。
+
+令 $\mathcal S$ 为所有具有所选 $s$-edge certificate 的 policy。
+
+数值实验提示，在正常 $Q_4$ 零误差模型的 edge-disjoint splice 分支中，可以取
+
+$$
+
+s=8.
+
+$$
+
+以下定理对任意 $s$ 成立，并不依赖这一数值结论。
+
+---
+
+# 三、局部—全局 splice 预算定理
+
+## 定理 A
+
+在上述条件下，
+
+$$
+
+\boxed{
+\mu(\mathcal S)
+\le
+\frac{32}{3s}
+\frac{\Delta(H)}{b^2}\,M.
+}
+\tag{1}
+
+$$
+
+特别地，若每个 splice certificate 至少使用八条真实边，则
+
+$$
+
+\boxed{
+\mu(\mathcal S)
+\le
+\frac{4}{3}
+\frac{\Delta(H)}{b^2}\,M.
+}
+\tag{2}
+
+$$
+
+若
+
+$$
+
+\Delta(H)
+\le
+\left(\frac14-\varepsilon\right)b^2,
+
+$$
+
+则
+
+$$
+
+\boxed{
+\mu(\mathcal S)
+\le
+\left(
+\frac13-\frac{4\varepsilon}{3}
+\right)M.
+}
+\tag{3}
+
+$$
+
+---
+
+## 证明
+
+先固定一个 cylinder $C$，省略下标。
+
+计算 incidence 总数
+
+$$
+
+I
+=
+\sum_{\omega\in\mathcal S}
+|\mathcal P(\omega)|.
+
+$$
+
+因为每个 splice policy 有至少 $s$ 条 certificate edges，
+
+$$
+
+I\ge s|\mathcal S|.
+\tag{4}
+
+$$
+
+现在固定一条真实边 $e$，假设它分别在三个块中使用顶点
+
+$$
+
+v_i\in B_i,\quad
+v_j\in B_j,\quad
+v_k\in B_k,
+
+$$
+
+并遗漏第四块 $B_\ell$。
+
+要使 $e$ 出现在窗口 $X$ 中：
+
+- 在含 $e$ 端点的三个块中，必须把固定端点 $v_i,v_j,v_k$ 各放入一个二元子集；
+- 每个这样的二元子集还有 $b-1$ 种第二顶点选择；
+- 在遗漏块 $B_\ell$ 中可以任选一个二元子集。
+
+所以包含 $e$ 的窗口数恰至多为
+
+$$
+
+(b-1)^3\binom b2.
+\tag{5}
+
+$$
+
+每个窗口有 $q$ 个 policy，因此 $e$ 对 $I$ 的最大贡献为
+
+$$
+
+q(b-1)^3\binom b2.
+
+$$
+
+令
+
+$$
+
+E_4
+=
+E(H)\cap
+\binom{B_1\cup\cdots\cup B_4}{3}
+
+$$
+
+表示完全位于这四块中的真实边。于是
+
+$$
+
+I
+\le
+q|E_4|(b-1)^3\binom b2.
+\tag{6}
+
+$$
+
+另一方面，每条 $E_4$ 中的边在四块顶点度数和中被计算三次，所以
+
+$$
+
+3|E_4|
+\le
+\sum_{v\in B_1\cup\cdots\cup B_4}d_H(v)
+\le
+4b\Delta(H).
+
+$$
+
+因此
+
+$$
+
+|E_4|
+\le
+\frac{4b}{3}\Delta(H).
+\tag{7}
+
+$$
+
+由 (4)、(6)、(7)：
+
+$$
+
+s|\mathcal S|
+\le
+q\frac{4b}{3}\Delta(H)
+(b-1)^3\binom b2.
+
+$$
+
+而 policy 总数为
+
+$$
+
+|\widetilde{\mathcal W}|
+=
+q\binom b2^4.
+
+$$
+
+所以
+
+$$
+
+\frac{|\mathcal S|}
+{|\widetilde{\mathcal W}|}
+\le
+\frac{4b\Delta(H)}{3s}
+\frac{(b-1)^3}{\binom b2^3}.
+
+$$
+
+利用
+
+$$
+
+\binom b2^3
+=
+\frac{b^3(b-1)^3}{8},
+
+$$
+
+得到
+
+$$
+
+\frac{|\mathcal S|}
+{|\widetilde{\mathcal W}|}
+\le
+\frac{32}{3s}
+\frac{\Delta(H)}{b^2}.
+
+$$
+
+乘以 cylinder 权重 $w_C$，再对所有 cylinders 求和，得到 (1)。
+
+令 $s=8$ 得 (2)，再代入最大度假设得到 (3)。证毕。 $\square$
+
+---
+
+# 四、它真正说明了什么
+
+设所有 clean policies 被分为：
+
+$$
+
+\mathcal W
+=
+\mathcal S
+\sqcup
+\mathcal R
+\sqcup
+\mathcal P
+\sqcup
+\mathcal E,
+
+$$
+
+其中：
+
+- $\mathcal S$：edge-simple splice；
+- $\mathcal R$：任何 splice 都不可避免地复用真实边；
+- $\mathcal P$：局部 two-value window 保持同一个实际 pivot；
+- $\mathcal E$：multi-defect、off-pivot、边界、augmentation 等异常。
+
+记相应质量为
+
+$$
+
+M_S,M_R,M_P,M_E.
+
+$$
+
+定理 A 立刻给出：
+
+$$
+
+\boxed{
+M_R+M_P+M_E
+\ge
+\left(
+1-\frac{32}{3s}\frac{\Delta}{b^2}
+\right)M.
+}
+\tag{8}
+
+$$
+
+在数值提示的 $s=8$ 情形，以及
+
+$$
+
+\Delta\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+下：
+
+$$
+
+\boxed{
+M_R+M_P+M_E
+\ge
+\left(
+\frac23+\frac{4\varepsilon}{3}
+\right)M.
+}
+\tag{9}
+
+$$
+
+这是一个真正的定量结论：
+
+> 在低于 $1/4$ 的最大度下，免费 edge-disjoint splice 最多吸收约三分之一的 future-complete 窗口质量。
+
+这与 $b=2$ 正常模型中 splice policy 占一半并不矛盾，因为那些模型的归一化最大度远高于 $1/4$。
+
+---
+
+# 五、期望的完整全局预算定理
+
+真正想得到的是下面的命题。
+
+## 目标定理 GSB
+
+对每个 $\varepsilon>0$，存在 $c(\varepsilon)>0$。若：
+
+- $H$ 块极小且无 IT；
+- $\Delta(H)\le(1/4-\varepsilon)b^2$；
+- $\mathcal F$ 是质量守恒、future-complete、genealogy-coherent 的 clean 执行族；
+- 没有 accepted augmentation、完整真子核心或其他终局出口；
+
+则存在实际顶点 $p$ 和 future-complete 正质量子族 $\mathcal F_p$，使该子族始终保持 pivot $p$，且
+
+$$
+
+\mu(\mathcal F_p)
+\ge
+c(\varepsilon)\mu(\mathcal F).
+\tag{10}
+
+$$
+
+随后还要由 critical-link 稳定性推出
+
+$$
+
+A\times C\subseteq L_H(p),
+\qquad
+|A||C|
+\ge
+\left(
+\frac14-o_\varepsilon(1)
+\right)b^2.
+\tag{11}
+
+$$
+
+这与旧 handoff 中明确列出的“全局 pivot 相容性”和“terminal defect SCC”问题一致；这些仍是开放桥梁。turn329300view3
+
+---
+
+# 六、尝试证明目标定理
+
+由 (9)，若异常质量 $M_E$ 已被控制，则只需处理：
+
+$$
+
+M_R+M_P
+\ge
+\left(
+\frac23+\frac{4\varepsilon}{3}
+\right)M-M_E.
+\tag{12}
+
+$$
+
+理想上，我们希望再证明一个 reuse 预算：
+
+$$
+
+M_R\le\beta M
+\tag{13}
+
+$$
+
+其中
+
+$$
+
+\beta<
+\frac23+\frac{4\varepsilon}{3}.
+
+$$
+
+那么
+
+$$
+
+M_P
+\ge
+\left(
+\frac23+\frac{4\varepsilon}{3}
+-\beta
+\right)M-M_E.
+\tag{14}
+
+$$
+
+若还能把大部分局部同-pivot 窗口粘合成真实 future-complete cylinder，就得到 (10)。
+
+因此完整证明只剩两个明确步骤。
+
+---
+
+# 七、第一处失败：目前不能证明 reuse 预算
+
+对每个 $\omega\in\mathcal R$，可以选取“第一次不可避免复用”的实际边
+
+$$
+
+e(\omega).
+
+$$
+
+自然地希望定义负载
+
+$$
+
+L(e)
+=
+\sum_{\omega:e(\omega)=e}\mu(\omega)
+
+$$
+
+并证明
+
+$$
+
+L(e)\le \operatorname{cap}(e).
+\tag{15}
+
+$$
+
+但 (15) 并不由“$e$ 是第一次复用边”推出。
+
+同一真实边可以是：
+
+- 多个 cylinders 的第一次复用边；
+- 多个 root projections 的第一次复用边；
+- 多个 genealogies 的第一次复用边。
+
+确定性 first blocker 或 first reuse 只把执行记录分成互斥类别，并不产生真实边单位容量；仓库已把这个错误记录为 A-0019。
+
+局部 Hall 正交化也没有修复这个问题。它只消除了**初始 cylinder 内** blocker assignment 的重叠；后续不同 trajectories 仍可能汇聚到同一真实边。
+
+可以对 reuse obligations 建立全局 Hall 网络。F-0033 保证：
+
+$$
+
+\text{全部 reuse 质量可注入剩余真实边容量}
+\quad\vee\quad
+\text{存在 Hall/reuse cut}.
+
+$$
+
+但满流只给出真实边总费用，不保证费用集中到一个顶点；亏流 cut 也还不是 accepted cylinder 或子核心。
+
+进一步使用
+
+$$
+
+\sum_vL(v)=M_R,\qquad L(v)\le d_H(v)
+
+$$
+
+只能得到集中或顶点增殖。对角分散模型说明，大量不同真实边、低度、无 reuse 可以同时存在；若不使用未来闭合、因果再生和全局无 IT，这不能产生 $1/4$ link 或完整子核心。turn851827view6
+
+所以证明在此停止：
+
+$$
+
+\boxed{
+\text{“不可避免 reuse”}
+\not\Rightarrow
+\text{“已有合法单位容量收费权”。}
+}
+
+$$
+
+直接把 transition/reuse edge 定义为可收费资源，会重犯 A-0026 的循环容量错误。turn131842view3
+
+---
+
+# 八、第二处失败：局部同 pivot 不等于全局 cylinder
+
+即使 (14) 给出了大量局部同-pivot policies，也不能直接选出一个全局 $p$。
+
+不同重叠窗口可能分别使用：
+
+$$
+
+p_X,\quad p_Y,\quad p_Z,
+
+$$
+
+而且这些 pivot 可以随 genealogy 和 reset 迁移。
+
+局部 statement
+
+$$
+
+\text{窗口 }X\text{ 的两个未来值共享 pivot }p_X
+
+$$
+
+并不推出：
+
+$$
+
+p_X=p_Y
+
+$$
+
+对所有重叠窗口成立。
+
+即使相位坐标一致，也不能推出实际支持乘积化；正常 $Q_4$ 图册只分类局部交换，不分类真实超图支持。仓库因此把“全局 pivot 相容性”和“二进制强迫森林终局”单独列为 $1/4$ 路线的开放桥梁。turn329300view2
+
+所以 (14) 的 $M_P$ 目前只能解释为：
+
+$$
+
+\boxed{
+\text{局部同-pivot window mass},
+}
+
+$$
+
+而不是已经构造好的：
+
+$$
+
+\boxed{
+\text{单一 }p\text{ 的 future-complete link cylinder mass}.
+}
+
+$$
+
+---
+
+# 九、严格成立的条件化版本
+
+把两个尚未完成的量显式写出来：
+
+- $\beta$：能够合法支付的 reuse 质量比例；
+- $\zeta$：局部同-pivot 质量在全局粘合中损失的比例；
+- $\xi=M_E/M$：异常质量比例。
+
+则定理 A 给出：
+
+## 条件化全局预算推论
+
+若
+
+$$
+
+M_R\le\beta M
+
+$$
+
+并且局部同-pivot 质量中至少
+
+$$
+
+M_P-\zeta M
+
+$$
+
+能忠实粘合成实际单-pivot future-complete cylinders，则
+
+$$
+
+\boxed{
+M_{\mathrm{cyl}}
+\ge
+\left[
+1-
+\frac{32}{3s}\frac{\Delta}{b^2}
+-\beta-\xi-\zeta
+\right]M.
+}
+\tag{16}
+
+$$
+
+在 $s=8$ 时：
+
+$$
+
+\boxed{
+M_{\mathrm{cyl}}
+\ge
+\left[
+1-
+\frac{4}{3}\frac{\Delta}{b^2}
+-\beta-\xi-\zeta
+\right]M.
+}
+\tag{17}
+
+$$
+
+若理想的 root-compatible single-defect routing 能给出
+
+$$
+
+\beta\le(1+\gamma)\frac{\Delta}{b^2},
+
+$$
+
+则
+
+$$
+
+M_{\mathrm{cyl}}
+\ge
+\left[
+1-
+\left(\frac73+\gamma\right)
+\frac{\Delta}{b^2}
+-\xi-\zeta
+\right]M.
+\tag{18}
+
+$$
+
+当
+
+$$
+
+\Delta\le
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+时：
+
+$$
+
+M_{\mathrm{cyl}}
+\ge
+\left[
+\frac5{12}
+-\frac{\gamma}{4}
++
+\left(\frac73+\gamma\right)\varepsilon
+-\xi-\zeta
+\right]M.
+\tag{19}
+
+$$
+
+所以只要 reuse routing 和 pivot gluing 的总损失小于右侧主常数，就确实得到正比例 cylinder。
+
+---
+
+# 十、对当前路线的准确评价
+
+这次可以严格证明的不是完整的“全局预算定理”，而是：
+
+$$
+
+\boxed{
+\textbf{八边 splice 密度预算：}
+\qquad
+M_S\le
+\frac43\frac{\Delta}{b^2}M.
+}
+
+$$
+
+它很有价值，因为它第一次把数值发现“一个 splice 使用全部八条边”转化成了一个真正的全局度数不等式，而且没有给边虚构收费容量。
+
+但它也说明完整目标并没有被解决，而是被准确压缩为两个旧问题：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{大 reuse 质量能否合法压入共享真实边/root-pivot 预算？}\\
+&\text{大局部同-pivot 质量能否粘合成单一 actual pivot cylinder？}
+\end{aligned}
+}
+
+$$
+
+第一项是因果 reuse 容量问题；第二项是全局 pivot 相容性问题。继续给它们增加新的 cut 名称没有意义。
+
+此外，定理 A 的 $1/3$ 级别预算本身远大于 F-0042 关闭 heavy excess 所需的 $O(\varepsilon)$ 余项，因此它不能直接关闭 Q-0015；它的用途是迫使大量质量进入 reuse 或同-pivot 结构，再由真正的全局结构定理处理。F-0042 当前仍明确要求一个小的 $\rho$-级 heavy-excess 界。turn131842view4
+
+最精确的当前结论是：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{免费 splice 不能承载全部质量；}\\
+&\text{低于 }1/4\text{ 时，至少约 }2/3
+\text{ 的质量必须进入}\\
+&\qquad
+\text{reuse、局部同 pivot 或真实异常；}\\
+&\text{把后两者转化为全局 cylinder/费用，仍是实质开放步骤。}
+\end{aligned}
+}
+
+$$
+
+
+【提问 轮数13】
+如果不追求1/4，只希望一个较当前改进的界，你觉得希望如何？
+
+【回答内容 轮数13】
+我会先核对仓库里“当前已证界”和各中间常数，再评估哪些较弱目标能直接由现有模块闭合。重点不是随意猜一个常数，而是找出**最少新增全局结构**就能达到的改进区间。
+
+【回答内容 轮数13】
+我觉得**希望明显更大**。若暂时不追求 $1/4$，最合理的目标不是马上选一个很高的常数，而是先证明：
+
+$$
+
+\boxed{
+\Delta(H)\le
+\left(\frac4{27}+\delta-o(1)\right)b^2
+\Longrightarrow H\text{ 有 IT}
+}
+
+$$
+
+其中 $\delta>0$ 是任意一个明确的绝对常数。
+
+这会把任务从“近乎无损处理全部困难质量”降成“合法处理其中一个固定正比例”。
+
+仓库目前仍只有 $4/27$ 基准，且没有无条件的首项常数改进；历史上讨论过的 $3/20,1/6,3/16$ 等都还依赖未证的结构桥梁。turn943183view1
+
+# 1. 弱化目标后，所需回收比例可以精确计算
+
+当前中位源规模为
+
+$$
+
+\frac14b^2,
+
+$$
+
+基准 $4/27$ 之后留下的 residual gap 为
+
+$$
+
+\frac14-\frac4{27}
+=
+\frac{11}{108}.
+
+$$
+
+这正是仓库中的 F-0007。turn943183view4
+
+假设能够用严格合法的共享账本处理 residual 的 $\alpha$ 比例，而剩余比例为 $1-\alpha$。忽略 $o(1)$ 和额外入口损失时，可达到的常数是
+
+$$
+
+\boxed{
+c(\alpha)
+=
+\frac4{27}
++
+\alpha\frac{11}{108}.
+}
+\tag{1}
+
+$$
+
+更接近当前 aggregate 路线的稳健形式是：若
+
+$$
+
+\text{pair-flat coefficient}\le(1+\eta)c
+
+$$
+
+且未解决余项满足
+
+$$
+
+\rho
+\le
+(1-\alpha)\frac{11}{108}+\xi,
+
+$$
+
+那么二阶递推闭合所需的是
+
+$$
+
+(1+\eta)c+\rho<\frac14.
+
+$$
+
+等价地，
+
+$$
+
+\boxed{
+c<
+\frac{
+\frac4{27}
++\alpha\frac{11}{108}
+-\xi
+}{1+\eta}.
+}
+\tag{2}
+
+$$
+
+这里：
+
+- $\alpha$ 是真正被全局认证的 residual 比例；
+- $\eta$ 是投影/配置入口重数；
+- $\xi$ 是异常或未覆盖损失。
+
+这很好地显示了弱化目标的优势：不再要求 $\alpha\to1$。
+
+# 2. 几个目标分别需要多少 residual
+
+| 目标常数 $c$ | 相比 $4/27$ 的增量 | 理想情况下所需 $\alpha$ |
+|---|---:|---:|
+| 任意 $4/27+\delta$ | $\delta$ | $\frac{108\delta}{11}$ |
+| $3/20$ | $1/540$ | $\boxed{1/55\approx1.82\%}$ |
+| $1/6$ | $1/54$ | $\boxed{2/11\approx18.18\%}$ |
+| $5/27$ | $1/27$ | $\boxed{4/11\approx36.36\%}$ |
+| $3/16$ | $17/432$ | $\boxed{17/44\approx38.64\%}$ |
+| $2/9$ | $2/27$ | $\boxed{8/11\approx72.73\%}$ |
+
+这张表给出了非常不同的难度层级。
+
+特别地，证明 $3/20$ 并不需要理解全部 terminal SCC，也不需要把所有近临界执行粘成二进制强迫森林。理想情况下，只需要合法捕获约
+
+$$
+
+1.82\%
+
+$$
+
+的 residual。
+
+当然，若 $\eta,\xi>0$，实际需要的比例应略大于 $1/55$。例如对 $3/20$，式 (2) 要求
+
+$$
+
+\alpha\frac{11}{108}
+>
+\frac1{540}
++\frac3{20}\eta+\xi.
+\tag{3}
+
+$$
+
+所以不能让配置入口损失吞掉这个很小的增量。
+
+# 3. 我对不同目标的判断
+
+## 第一目标：任意严格改进 $4/27+\delta$
+
+**希望最高。**
+
+这里不应一开始指定漂亮常数。可以先争取一个弱全局捕获定理：
+
+> 存在绝对常数 $\alpha_0>0$，使局部正交化后的 residual 中，至少 $\alpha_0$ 比例能够无重复地进入真实边账本、合法结构终局或一个已经证明可关闭的完整块对象。
+
+一旦证明任何
+
+$$
+
+\alpha_0>0,
+
+$$
+
+就得到
+
+$$
+
+c>
+\frac4{27}.
+
+$$
+
+例如，即使只能处理 residual 的 $1\%$，也能把首项常数提高约
+
+$$
+
+0.01\cdot\frac{11}{108}
+\approx0.0010185,
+
+$$
+
+得到约
+
+$$
+
+0.14917,
+
+$$
+
+已经是严格改进。
+
+这类结论不要求掌握无穷时间行为；一个固定深度、固定正比例的捕获机制可能就够。
+
+---
+
+## 第二目标：$3/20$
+
+$$
+
+\frac3{20}=0.15
+
+$$
+
+是我认为**最值得优先尝试的命名常数**。
+
+原因不只是它离 $4/27$ 很近。旧讨论对特定 $3/20$ 框架的审计认为，中位源、真实边容量、四块二元化、$Q_4$ 枚举、加权修复、刚性 atlas 和遗传完整时的终局已经形成了一条链；剩下的集中困难是 atlas 扩张缺陷的收费。相比之下，$1/4$ 路线至少还需要单缺陷降秩、全局 pivot 相容性和无出口终局三个桥梁。这个旧框架后来并未升级成无条件证明，但它表明 $3/20$ 的结构负担明显较轻。turn821362view1turn943183view1
+
+更重要的是，只需要回收
+
+$$
+
+\frac1{55}
+
+$$
+
+的 residual。因此可以容忍：
+
+- 大部分窗口无法分类；
+- 大部分 genealogy 被丢弃；
+- 大部分 reuse 义务不能收费；
+- 大部分正常相位无法全局粘合。
+
+只要能从所有 residual 中统一提取大约 $2\%$ 的、真正有全球容量认证的质量，就足够。
+
+---
+
+## 第三目标：$1/6$
+
+$$
+
+\frac16\approx0.16667
+
+$$
+
+我认为**有希望，但已经需要一条真正的新全局引理**。
+
+它要求处理 residual 的
+
+$$
+
+\frac2{11}\approx18.18\%.
+
+$$
+
+这不再能靠一个非常稀薄的局部异常集合完成。至少需要以下之一：
+
+- reuse obligations 中有固定比例可通过共享 real-edge Hall 网络支付；
+- local same-pivot windows 中有固定比例能粘成实际 link cylinder；
+- splice/old-anchor 分类中有固定比例产生真实度数负载；
+- 或者存在一个有界深度的“每 $K$ 份质量至少一份支付”定理，其中大致 $K\le5$。
+
+不过它仍可能避开最困难的 $1/4$ 近等号稳定性。仓库里的固定轻锚局部模型可承载约
+
+$$
+
+\frac{11}{54}b^2\approx0.2037b^2
+
+$$
+
+的负载；这类局部可逆核心在 $1/6$ 最大度假设下已经过于昂贵，因此证明 $1/6$ 时或许不需要完整分类其精细树状极限。需要强调的是，这只是局部障碍的尺度提示，不是现成的全局定理。
+
+---
+
+## $5/27$、$3/16$ 及以上
+
+这一区间要求回收 residual 的约 $36\%$–$39\%$。
+
+我认为仅靠当前局部正交化、splice 预算和有限 $Q_4$ 分类不太够。此时大概率已经需要：
+
+- 大规模 reuse 的合法全局容量定理；
+- local same-pivot 到 actual single-pivot cylinder 的粘合；
+- 或某种真正的 causal regeneration。
+
+也就是说，会重新碰到我们为了 $1/4$ 而讨论的核心全局问题，只是稳定性常数可以放松。
+
+# 4. 新得到的 splice 预算为何支持先攻 $3/20$
+
+我们刚才证明的条件化 splice 预算是：
+
+$$
+
+M_{\mathrm{sp}}
+\le
+\frac{32}{3s}\frac{\Delta}{b^2}M.
+
+$$
+
+数值正常模型提示 $s=8$，于是
+
+$$
+
+M_{\mathrm{sp}}
+\le
+\frac43\frac{\Delta}{b^2}M.
+\tag{4}
+
+$$
+
+若目标是
+
+$$
+
+\Delta\le\frac3{20}b^2,
+
+$$
+
+则
+
+$$
+
+M_{\mathrm{sp}}\le\frac15M.
+
+$$
+
+因此至少
+
+$$
+
+\frac45M
+
+$$
+
+的窗口质量落入 reuse、same-pivot 或真实异常，而不是免费 splice。
+
+要达到 $3/20$，只需要从全部 residual 中合法回收约 $1/55$。粗略相比，这只相当于从上述非-splice 部分中提取大约
+
+$$
+
+\frac{1/55}{4/5}
+=
+\frac1{44}
+\approx2.27\%.
+
+$$
+
+这不是证明，因为窗口质量与主 residual 质量之间仍需一个无损接口；但它说明所需的全局转化率非常低。我们无需先证明“大部分非-splice 都进入 cylinder”，只需证明其中一个很小但统一的子比例能够合法支付或终结。
+
+相比之下，达到 $1/6$ 大约需要从非-splice 质量中转化四分之一左右；达到 $3/16$ 则需要转化约一半。后两者显然更依赖全局结构。
+
+# 5. 我建议的真正主攻命题
+
+不再直接证明全局树状稳定性，而先攻：
+
+## Weak residual capture theorem
+
+存在绝对常数 $\alpha>0$，使对每一族实际可达、future-complete、保留 genealogy 和三份账本的 residual trajectories，存在质量守恒分解
+
+$$
+
+\mathfrak D
+=
+\mathfrak D_{\mathrm{cap}}
++
+\mathfrak D_{\mathrm{rem}},
+
+$$
+
+满足：
+
+1. $\mathfrak D_{\mathrm{cap}}$ 被送入预先存在的全局真实资源容量，或者形成已接受的 IT/完整块终局；
+2. 跨 cylinder、深度和 genealogy 不复制真实资源；
+3.
+   $$
+
+   \mathfrak D_{\mathrm{cap}}
+   \ge
+   \alpha\mathfrak D.
+
+$$
+
+这里不要要求剩余部分有漂亮分类，更不要要求它接近树。只需要一个固定正比例被真正解决。
+
+若能证明：
+
+$$
+
+\alpha>\frac1{55}
+
+$$
+
+并把入口损失 $\eta,\xi$ 控制得比式 (3) 的余量小，就有望得到 $3/20$。
+
+若只能证明某个更小的 $\alpha>0$，仍然得到一个严格优于 $4/27$ 的常数。
+
+# 6. 哪种证明方式最可能成功
+
+我会优先尝试**固定深度的局部—全局捕获**，而不是无限 terminal SCC 分类：
+
+1. 对 Hall residual 做当前已有的局部正交化；
+2. 只展开常数深度 $L$；
+3. 用自然、互斥的首次真实事件分成：
+   - non-normal $Q_4$ certificate；
+   - actual reuse obligation；
+   - same-pivot two-value cylinder；
+   - edge-expensive splice；
+   - accepted exception；
+4. 证明其中至少一个类别拥有绝对正比例质量；
+5. 只对该类别建立一次全局 Hall/度数/完整块后端。
+
+由于目标仅是 $\alpha>0$，$L$ 可以固定，允许常数极差。这样有可能避开：
+
+- 指数级 exact token space；
+- 无限 genealogy 的统一粘合；
+- 近 $1/4$ 的平衡二部稳定性；
+- 所有可逆 SCC 的完整分类。
+
+这正是弱常数与 $1/4$ 的本质差别。
+
+# 总体判断
+
+我的研究优先级会是：
+
+$$
+
+\boxed{
+\begin{array}{c|c}
+\text{目标} & \text{判断}\\
+\hline
+4/27+\delta\text{，某个显式 }\delta>0
+& \text{最有希望}\\
+3/20
+& \text{很值得作为第一命名里程碑}\\
+1/6
+& \text{有希望，但需弱版全局再生/容量定理}\\
+5/27\text{ 或 }3/16
+& \text{大概率重新触及主要全局障碍}\\
+1/4-o(1)
+& \text{仍需完整近临界稳定性与终局}
+\end{array}
+}
+
+$$
+
+最健康的近期目标不是声称能到 $1/6$，而是先证明一个明确的：
+
+$$
+
+\boxed{
+\alpha\text{-fraction residual capture theorem}
+}
+
+$$
+
+哪怕 $\alpha=10^{-3}$，都会给出首个无条件严格改进；而一旦方法能达到 $\alpha>1/55$，$3/20$ 就成为自然的下一站。
+
+
+【提问 轮数14】
+奇怪的是，1/4这个界暗示转化率是完全的，但是似乎一个细微的转化也很难得到？
+
+【回答内容 轮数14】
+是的，这个“反差”非常值得重视。它更可能说明：
+
+$$
+
+\boxed{\text{我们把 }1/4\text{ 定理错误地理解成了“完全收费定理”。}}
+
+$$
+
+$1/4$ 并不必然意味着全部 residual 都能被转换成某个既有账本容量。它只意味着：**在低于 $1/4$ 的反设下，全部未收费现象最终不能共同存在。**
+
+这两种陈述强度差别很大。
+
+# 1. “完全转化率”只是当前递推框架的要求
+
+在当前 aggregate recurrence 中，我们把失败质量写成
+
+$$
+
+\mathcal B_k
+\le
+(1+\eta)\Delta(H)A_{k-2}
++
+\mathfrak D_k.
+
+$$
+
+若希望直接把系数推到 $1/4$，便需要
+
+$$
+
+\mathfrak D_k=o(b^2A_{k-2}),
+
+$$
+
+或经过 telescoping 后总余项是 $o(1)$ 级。于是看起来像是：
+
+$$
+
+\text{几乎全部 residual 都必须被收费或消灭。}
+
+$$
+
+但这是由这种**线性递推分解**造成的，不是定理本身强迫的。
+
+换一种证明，完全可能不需要逐单位处理 residual。例如：
+
+$$
+
+\boxed{
+\text{residual 很小}
+\quad\vee\quad
+\text{residual 很大但形成直接的 }1/4\text{ 结构矛盾}.
+}
+
+$$
+
+第二种情况下 residual 根本没有被“转化”；它本身成为证明材料。
+
+---
+
+# 2. 正确的二分应当是“收费或结构”，而不是“全部收费”
+
+理想的全局命题应该更像：
+
+$$
+
+\boxed{
+\mathfrak D
+\le \rho b^2A
+\quad\vee\quad
+\mathcal F(\mathfrak D)
+\text{ 接近一个临界结构}.
+}
+\tag{1}
+
+$$
+
+接着证明临界结构满足：
+
+$$
+
+\boxed{
+\text{有 IT}
+\quad\vee\quad
+\Delta(H)\ge
+\left(\frac14-o(1)\right)b^2
+\quad\vee\quad
+\text{完整真子核心}.
+}
+\tag{2}
+
+$$
+
+于是，在
+
+$$
+
+\Delta(H)<\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+的反设下，式 (2) 排除“大 residual 结构分支”；剩下的式 (1) 第一支才给出小余项。
+
+所以“近乎完全转化”是**结构分类之后的结论**：
+
+> 不是每份 residual 都有独立收费凭证，而是在排除了所有临界结构后，剩余 residual 总量必然很小。
+
+这是稳定性定理，而不是 charging theorem。
+
+---
+
+# 3. 为什么连细微的统一转化率都很难
+
+要证明某个固定
+
+$$
+
+\alpha>0
+
+$$
+
+比例可收费，必须构造一个对所有实例都成立的全局映射：
+
+$$
+
+\text{residual mass}
+\longrightarrow
+\text{共享真实资源}.
+
+$$
+
+而且要同时保证：
+
+- 不跨 cylinder 复制；
+- 不跨 genealogy 复制；
+- reroot 后仍使用同一容量；
+- 相同真实边只有一个身份；
+- 不能把因果出现误当成收费资格；
+- 入口分解不损失太多质量。
+
+这是一种非常强的、近似算法化的结论。
+
+局部反例可以让每一种自然收费规则都失效：
+
+- first blocker 可以跨执行记录重复；
+- pivot 可以迁移；
+- splice 可以一次耗尽局部全部边；
+- same-pivot 支持可以只是相关代码簿；
+- old anchor 可以长期存在但不形成大 link；
+- 不同实例可以让“可收费的那一小部分”出现在完全不同的位置。
+
+所以即使对每个具体实例都“存在一些可以处理的质量”，也未必存在一个统一常数 $\alpha$ 和统一自然规则。
+
+这是经典的量词区别：
+
+$$
+
+\forall H\;\exists\text{ 某些可处理质量}
+
+$$
+
+远弱于
+
+$$
+
+\exists\alpha>0\;\forall H\;
+\text{至少 }\alpha\text{ 比例可用同一机制处理}.
+
+$$
+
+我们需要后者才能改进递推常数。
+
+---
+
+# 4. $1/4$ 可能来自刚性，而不是平均效率
+
+阈值 $1/4$ 很可能是一个**刚性阈值**：
+
+- 远离临界结构时，有正的耗散；
+- 接近临界结构时，执行变得近似二叉、平衡；
+- 真正的二叉平衡结构直接产生
+  $$
+
+  |A||C|\approx\frac{b^2}{4}
+
+$$
+  的 link 负载。
+
+因此它的逻辑可能是：
+
+$$
+
+\boxed{
+\begin{aligned}
+\text{不规则}
+&\Longrightarrow
+\text{发生某种耗散};\\
+\text{几乎不耗散}
+&\Longrightarrow
+\text{接近二叉临界结构};\\
+\text{二叉临界结构}
+&\Longrightarrow
+\Delta(H)\ge\frac14b^2-o(b^2).
+\end{aligned}}
+\tag{3}
+
+$$
+
+注意第一行不一定给出一个全局固定比例的“收费”。耗散模量可能依赖于对象距离临界族有多远：
+
+$$
+
+\operatorname{Diss}(X)
+\ge
+\psi\!\left(
+\operatorname{dist}(X,\mathcal E)
+\right),
+
+$$
+
+其中 $\mathcal E$ 是临界二叉结构族，且
+
+$$
+
+\psi(t)>0\quad(t>0),
+\qquad
+\psi(t)\to0\quad(t\to0).
+
+$$
+
+这类稳定性足以证明 $1/4-o(1)$，但不一定直接给出一个简单的 $\alpha$-fraction charging lemma。
+
+---
+
+# 5. 为什么“任意严格改进”反而可能比 $1/4-o(1)$ 更难以当前形式证明
+
+这听起来反直觉，但在方法论上完全可能。
+
+若使用紧性—稳定性证明，可以反设存在一列
+
+$$
+
+\Delta(H_n)
+\le
+\left(\frac14-\varepsilon\right)b_n^2
+
+$$
+
+的反例，抽取极限，证明极限必是精确二叉结构，再与固定的 $\varepsilon$ 矛盾。
+
+这种证明只需要：
+
+$$
+
+\text{缺陷趋零序列}
+\Longrightarrow
+\text{极限属于临界族}.
+
+$$
+
+它不一定提供显式的有限尺度转化比例。
+
+而要证明
+
+$$
+
+\frac4{27}+\delta
+
+$$
+
+通过当前 recurrence，则需要一个明确、统一、有限尺度的不等式：
+
+$$
+
+\mathfrak D_{\mathrm{captured}}
+\ge
+\alpha(\delta)\mathfrak D.
+
+$$
+
+这反而要求定量模量和全局容量映射。
+
+所以可能出现：
+
+$$
+
+\boxed{
+\text{定性/渐近的 }1/4-o(1)
+\text{ 路线存在，}
+\quad
+\text{但显式小改进的线性收费路线很难。}
+}
+
+$$
+
+当然，真正完成紧性路线也绝不容易：必须定义正确的全局极限对象，并处理 genealogy、monodromy、代码簿和真实支持。但它要求的是结构分类，不是单位质量收费。
+
+---
+
+# 6. 这也解释了为什么我们不断陷入“无限切割”
+
+我们一直试图把每份 residual 分到：
+
+$$
+
+\text{edge}
+\vee
+\text{support}
+\vee
+\text{token}
+\vee
+\text{quotient}
+\vee
+\text{cylinder}
+\vee\cdots
+
+$$
+
+然后希望每类都有容量。
+
+这隐含了一个假设：
+
+$$
+
+\boxed{\text{主定理应当由逐质量的线性账本证明。}}
+
+$$
+
+但临界稳定性通常不是这种形式。它更像：
+
+> 若总缺陷很小，则大量局部约束必须同时接近等号；这些近等号条件相互粘合后，迫使整个对象接近唯一的极值模型。
+
+这里没有必要为每个局部失败找到一个独立付费对象。
+
+例如，成千上万个局部近等号可能共同迫使同一个平衡二分。它们不是分别收费，而是共同提供结构刚性。
+
+---
+
+# 7. 对当前路线的实际修正
+
+我认为应该把工作拆成两个完全不同的计划，避免混在一起。
+
+## 路线 A：显式较弱常数
+
+继续寻找一个真正的
+
+$$
+
+\alpha\text{-fraction capture}
+
+$$
+
+定理。它若成功，可以给出明确的 $4/27+\delta$，甚至 $3/20$。
+
+这里必须接受：
+
+- 它可能只处理一种很窄的事件；
+- 常数可能极小；
+- 证明会强烈依赖全局账本；
+- 不应期待它自然延伸到 $\alpha\to1$。
+
+## 路线 B：$1/4-o(1)$ 稳定性
+
+停止逐质量收费，转而证明：
+
+$$
+
+\boxed{
+\text{若所有已知耗散都为 }o(1),
+\text{则执行族在质量意义下接近二叉强迫结构。}
+}
+
+$$
+
+其核心对象应是我们已经发现的：
+
+$$
+
+\text{binary regeneration forest}
++
+\text{reversible cores}.
+
+$$
+
+然后证明 reversible cores 要么：
+
+- 在真实支持上 splice 饱和并乘积化；
+- 要么产生高 link degree；
+- 要么形成完整块无 IT 核心；
+- 要么其总质量不是 $o(1)$-无耗散的。
+
+这条路线不需要证明每份 residual 可收费。
+
+---
+
+# 8. 最重要的研究判断
+
+这个现象不是在说“$1/4$ 应该很容易，而我们连 $1\%$ 都做不到”。
+
+它更可能在说：
+
+$$
+
+\boxed{
+\text{我们当前选择的“转化率”坐标并不是 }1/4
+\text{ 定理的自然坐标。}
+}
+
+$$
+
+在这个坐标中：
+
+- 小改进要求一个统一的容量路由，异常苛刻；
+- 完全改进看似要求 $100\%$ 转化，几乎不可能。
+
+但在稳定性坐标中：
+
+- 大量 residual 不是债务，而是临界结构的证据；
+- 真正需要转化的只是不符合极值结构的那部分；
+- 当不规则部分趋零时，剩余部分直接因 $1/4$ link 结构而矛盾。
+
+所以更准确的目标不是
+
+$$
+
+\text{把 residual 全部转化},
+
+$$
+
+而是
+
+$$
+
+\boxed{
+\text{把 residual 分成“可耗散的不规则部分”
+和“可分类的临界部分”。}
+}
+
+$$
+
+前者需要收费；后者不需要收费，它应当直接产生 $1/4$ 或块极小性终局。
+
+这正好解释了眼前的悖论：**我们之所以连细微转化都难，可能不是因为 $1/4$ 太远，而是因为“转化”本身不是通往 $1/4$ 的主机制。**
+
+
+【提问 轮数15】
+搁置路线A,在路线B中，请你指出原来的Q-0015-17等路线是否都要重新考虑？
+
+【回答内容 轮数15】
+我会把 Q-0015、Q-0016、Q-0017 在当前 Proof DAG 中各自承担的逻辑角色重新对照一遍，然后判断：哪些只是路线 A 的“收费接口”，哪些仍然是路线 B 必不可少的结构模块，哪些需要彻底改写。
+
+【回答内容 轮数15】
+是的。**若真正搁置路线 A 的逐质量收费，并转向路线 B 的临界稳定性，那么当前 Q-0015 → Q-0017 → Q-0016 的线性依赖顺序需要整体重审。**
+
+但不是全部推倒重来。更准确地说：
+
+$$
+
+\boxed{
+\text{保留已经证明的“忠实表示模块”，
+重写它们的目标合同和先后关系。}
+}
+
+$$
+
+当前 Proof DAG 把 Q-0015 作为入口，要求先得到近无损配置/aggregate 递推，再由 Q-0017 导出 $11/27$ 收缩正常形，最后由 Q-0016 把 incidence 增殖转化为集中或终局。turn539243view0
+
+这套顺序本质上属于路线 A：
+
+$$
+
+\text{义务质量}
+\to
+\text{尽量收费}
+\to
+\text{剩余质量逐层收缩}
+\to
+\text{最终递推}.
+
+$$
+
+路线 B 的逻辑则应当是：
+
+$$
+
+\text{定义总缺陷}
+\to
+\text{若缺陷不小则已有耗散}
+\to
+\text{若缺陷趋零则抽取全局临界极限}
+\to
+\text{分类临界极限}
+\to
+\text{用 }1/4\text{ 或块极小性排除}.
+
+$$
+
+因此，三个问题的地位会发生很大变化。
+
+---
+
+# 一、Q-0015：不能继续以“消灭全部 heavy excess”为目标
+
+当前 Q-0015 要求对全部
+
+$$
+
+\mathfrak H_k
+
+$$
+
+给出充分小的界、跨深度 telescoping，或者把它们送入 Hall、quotient、closure 出口；当前 handoff 也把“没有定理耗散全部 $\mathfrak H_k$”列为主要阻塞。turn539243view0
+
+这正是我们刚才怀疑的地方。
+
+在路线 B 中，不应要求：
+
+$$
+
+\mathfrak H_k=o(b^2A_{k-2})
+\quad\text{对全部近临界反例成立}.
+
+$$
+
+因为可能存在大量 heavy excess，它们不是待支付债务，而是临界结构的主要质量。
+
+Q-0015 应重写为：
+
+## Q-0015B：忠实临界执行对象的提取
+
+从任意块极小无 IT、低度实例中，构造一个质量守恒的全局执行对象 $\mathcal X$，并定义非负总缺陷
+
+$$
+
+\operatorname{Def}(\mathcal X)
+
+$$
+
+满足：
+
+1. 所有真实 root projection、genealogy、pivot、carrier、blocker 和三份账本都保留；
+2. aggregate pair-flat、old-anchor Lyapunov、orientation ambiguity 等已有量成为 $\operatorname{Def}$ 的组成部分；
+3. 若
+   $$
+
+   \operatorname{Def}(\mathcal X)\ge c_\varepsilon\mu(\mathcal X),
+
+$$
+   则已有足够耗散，可以关闭反设的该部分；
+4. 若
+   $$
+
+   \operatorname{Def}(\mathcal X)=o(\mu(\mathcal X)),
+
+$$
+   则能抽取一个零缺陷或近零缺陷的全局执行极限。
+
+注意第四项并不要求 heavy excess 小。相反，应重新判断：
+
+$$
+
+\mathfrak H_k
+
+$$
+
+究竟是“缺陷”，还是临界对象中应保留的“结构质量”。
+
+局部正交化仍然有价值，因为它给出不重复的表示；future-complete lift 也仍然有价值，因为它保证没有挑选有利未来。当前 G1b 已经正式提供了无损未来完备 persistent-blocker lift，而 F-0039/F-0040 则提供准确的 aggregate normalization 和 pair-flat/$\mathfrak H_k$ 分解。turn399421view1
+
+所以：
+
+$$
+
+\boxed{
+\text{Q-0015 的技术成果保留，
+但“全部余项必须被收费”这一合同应取消。}
+}
+
+$$
+
+---
+
+# 二、Q-0017：当前的 $11/27$ 正常形很可能是路线 A 专用目标
+
+当前 Q-0017 要证明 persistent blocker 要么进入出口，要么每层 continuation 至多
+
+$$
+
+\frac{11}{27}+o(1).
+
+$$
+
+F-0034 只是在假设这一收缩后给出森林摊还；现有文档也明确说，$11/27$ 不是一般 defect 系统已证的性质。turn539243view2
+
+在路线 B 中，这个目标不应继续作为主节点。
+
+原因很简单：临界对象可能长期保持大量质量，甚至完全无损。路线 B 正是要分类这种近无损对象，而不是预先证明它逐层只保留 $11/27$。
+
+若一个真正的 $1/4$ 极值模型对应平衡二叉强迫结构，它很可能在某些自然状态表示下根本不满足每层 $11/27$ 收缩。强迫其收缩，会把需要保留的临界结构当成坏质量切掉。
+
+Q-0017 应改写为：
+
+## Q-0017B：零缺陷 persistent-blocker 正常形
+
+若一个 future-complete、genealogy-coherent 的 persistent-blocker 执行对象满足
+
+$$
+
+\operatorname{Def}(\mathcal X)=0,
+
+$$
+
+则证明它属于一个明确的精确模型类：
+
+$$
+
+\boxed{
+\text{binary regeneration forest}
++
+\text{reversible exact-future cores}.
+}
+
+$$
+
+近零缺陷版本则要求：
+
+$$
+
+\operatorname{Def}(\mathcal X)=o(\mu(\mathcal X))
+
+$$
+
+推出除去 $o(\mu)$ 质量后，$\mathcal X$ 接近上述精确模型。
+
+这里的正常形不是“每层质量收缩”，而是“近等号约束同时成立后，对象必须有什么结构”。
+
+因此：
+
+- F-0034 的 $11/27$ 摊还可以保留为一个**非临界分支的辅助定理**；
+- 它不应继续定义 persistent-blocker 主正常形；
+- ordinary continuation 超过 $11/27$ 不应自动被视为需要收费，而可能表示对象接近临界模型。
+
+$$
+
+\boxed{
+\text{Q-0017 需要实质改写，而不仅是调整证明。}
+}
+
+$$
+
+---
+
+# 三、Q-0016：不应删除，反而应提升为路线 B 的核心
+
+当前 Q-0016 研究的是：在未来闭合、无 reuse、无增广、无 exact-future quotient 的区域中，因果生成的新 pivot/incidence 是否必然产生新鲜容量、高点度数、完整真子核心或未覆盖未来选择。现有文档已经承认，单纯 incidence 集中或顶点增殖不够，对角分散模型阻止直接推出 $1/4$。turn539243view1
+
+这个问题在路线 B 中不是下游收费节点，而是**零缺陷模型分类的核心组合定理**。
+
+它应重写成：
+
+## Q-0016B：可逆核心消去与因果饱和
+
+设 $\mathcal C$ 是 Q-0017B 输出的正质量可逆核心。证明至少发生：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{实际支持对未来坐标 splice 饱和并乘积化；}\\
+&\text{某个实际 pivot link 包含近平衡乘积 }A\times C;\\
+&\text{产生完整真实块无 IT 子核心；}\\
+&\text{或核心产生正的稳定性缺陷。}
+\end{aligned}
+}
+
+$$
+
+这正是我们此前把问题逐渐定位为：
+
+- genealogical splice saturation；
+- internal old-anchor persistence；
+- unavoidable real-edge reuse；
+- same-pivot future-complete cylinder；
+- reversible codebook core elimination。
+
+这些不再是“收费类别”，而是**精确临界核心为什么必须饱和或产生 $1/4$** 的结构问题。
+
+因此在路线 B 中，Q-0016 很可能要移到 Q-0017B 之前或与其合并：
+
+$$
+
+\text{局部零缺陷正常形}
+\quad\leftrightarrow\quad
+\text{全局因果饱和}.
+
+$$
+
+两者会互相反馈，而不是严格的 Q-0017 → Q-0016 单向依赖。
+
+$$
+
+\boxed{
+\text{Q-0016 是最应保留、并提升优先级的节点。}
+}
+
+$$
+
+---
+
+# 四、Q-0003–Q-0007 不再是“最后再接的独立输入”
+
+当前 DAG 把 critical-link 稳定性等 Q-0003–Q-0007 放在 G4，作为 Q-0015–17 完成后的 terminal structure 和 epsilon stability。
+
+路线 B 中，这样的顺序不自然。
+
+尤其是：
+
+- Q-0003：fixed-pivot critical link 稳定性；
+- Q-0004：不同配置分支的全局 pivot/genealogy 粘合；
+- Q-0005：二进制强迫森林终局；
+- Q-0006：零误差 terminal SCC 分类；
+- Q-0007：固定 $\varepsilon$ 稳定化。
+
+它们实际上正是路线 B 的主体，而不是最末端装饰。当前问题注册表也明确说，Q-0005 的目标是把无增广、正常交换、无复用、近平衡 link 的 terminal 组件转化成 $1/4$ link 乘积、增广叶或完整真子核心；Q-0006 则要求先分类零误差执行图，再做 Q-0007 的稳定化。
+
+新的逻辑应更像：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{忠实执行对象提取}\\
+&\quad\downarrow\\
+&\text{零缺陷局部正常形}\\
+&\quad\downarrow\\
+&\text{因果饱和与全局 pivot 粘合}\\
+&\quad\downarrow\\
+&\text{terminal SCC / binary forest 分类}\\
+&\quad\downarrow\\
+&\varepsilon\text{-稳定化}.
+\end{aligned}
+}
+
+$$
+
+也就是说，Q-0003–Q-0006 应当被提前，和重写后的 Q-0016/Q-0017 组成一个共同的“精确临界结构”层。
+
+---
+
+# 五、Q-0002 / G1d 也要弱化合同
+
+当前 G1d 要求从任意低度块极小无 IT 实例构造跨深度、跨 root projection 的**近无损配置/escape 流**。
+
+若坚持这个表述，它仍然是路线 A：要求几乎所有失败义务都进入可预算的配置流。
+
+路线 B 只需要一个**不偏置的测试对象**：
+
+- 每个实际失败义务都被记录；
+- 所有未来 tuple 都以正确权重展开；
+- 未能配置化的部分不能被丢弃，而应保留为另一种状态；
+- 整体质量、真实边和 genealogy 不被复制。
+
+所以 G1d 应从：
+
+> near-lossless configuration entry
+
+改为：
+
+> **faithful global execution entry**
+
+即不要求每份质量立即获得 root-pivot/slot 收费接口，只要求它进入统一、可做紧性和稳定性分析的全局状态空间。
+
+F-0037 的 no-configuration 重标就很适合路线 B：它把这类质量无损地解释成 external old-anchor，而不是把它当作必须很小的入口错误。当前资料也明确说明该重标不提供总质量控制。
+
+---
+
+# 六、F-0037–F-0042 如何重新定位
+
+这些工作并不会浪费。
+
+## 仍然核心的部分
+
+- **F-0037**：no-configuration 的无损结构重标；
+- **F-0038**：单 genealogy 的精确近临界 Lyapunov；
+- **F-0039**：aggregate 质量的精确归一化；
+- **F-0040**：pair-flat 与 heavy excess 的正交分解；
+- **F-0041**：reset 时 edge/support/token/repetition 的精确进展字典。
+
+这些都能帮助定义全局 defect functional，并识别零缺陷模型。
+
+## 降级为辅助充分条件的部分
+
+- **F-0042**：若 $\mathfrak H_k$ 足够小则递推闭合。
+
+它在路线 B 中仍然提供“远离临界结构时如何结束”的一支，但不再是主定理唯一出口。
+
+类似地，F-0034 的 $11/27$ 摊还也成为一个非临界耗散分支，而非全局主正常形。
+
+---
+
+# 七、建议的新 Proof DAG
+
+我建议路线 B 使用下面的依赖图。
+
+```text
+M0  One-quarter theorem
+└── S5  Quantitative stability and final contradiction
+    ├── S4  Exact terminal structure
+    │   ├── S3a  Binary regeneration forest terminal theorem
+    │   ├── S3b  Reversible-core saturation/elimination
+    │   └── S3c  Critical-link product theorem
+    ├── S2  Zero-defect global normal form
+    │   ├── faithful future-complete execution
+    │   ├── genealogy preservation
+    │   └── local near-equality identities
+    └── S1  Faithful extraction and defect decomposition
+        ├── aggregate orthogonalization
+        ├── old-anchor Lyapunov
+        ├── orientation/reset accounting
+        └── compactness/tightness
+```
+
+与现有问题的对应大致是：
+
+$$
+
+\begin{array}{c|c}
+\text{旧节点} & \text{路线 B 中的新角色}\\
+\hline
+Q\text{-}0015 & S1：忠实提取与缺陷分解\\
+Q\text{-}0017 & S2：零缺陷结构正常形\\
+Q\text{-}0016 & S3b：因果饱和与可逆核心消去\\
+Q\text{-}0003 & S3c：critical-link 产品稳定性\\
+Q\text{-}0004 & S3b：全局 pivot/genealogy 粘合\\
+Q\text{-}0005,Q\text{-}0006 & S3a/S4：精确终局分类\\
+Q\text{-}0007 & S5：定量稳定化
+\end{array}
+
+$$
+
+---
+
+# 八、需要暂停的具体工作
+
+若正式选择路线 B，以下任务应暂时降级：
+
+1. 试图证明所有 $\mathfrak H_k$ 都能进入小的 $\rho$-账本；
+2. 寻找 polynomial-size token budget，只为把全部 token 付掉；
+3. 强行把 persistent blocker 压成 $11/27$ continuation；
+4. 不断细分 Hall cut，希望最终每一份质量都有收费权；
+5. 把局部 same-pivot 质量先做数量预算，而尚未理解零缺陷 same-pivot 核心。
+
+这些工作不是错误，但它们服务的是路线 A 的递推关闭。
+
+---
+
+# 九、路线 B 当前最先要解决的三个问题
+
+## 1. 定义正确的总缺陷
+
+需要一个
+
+$$
+
+\operatorname{Def}(\mathcal X)
+
+$$
+
+满足：
+
+- 非负；
+- 对 genealogy refinement 和忠实 lift 稳定；
+- 包含真实的不可逆损失，而不是临界结构本身；
+- $\operatorname{Def}=0$ 时能够严格分类。
+
+这是新 Q-0015B 的核心。
+
+## 2. 先证明零缺陷定理
+
+不要先求 $\varepsilon$-定量。先问：
+
+> 在所有 defect 项严格为零时，执行对象究竟是什么？
+
+候选答案不是纯森林，而是：
+
+$$
+
+\text{binary regeneration forest}
++
+\text{reversible cores}.
+
+$$
+
+然后由 Q-0016B 消去或饱和 reversible cores。
+
+## 3. 最后才做稳定化
+
+在精确模型分类完成后，再证明：
+
+$$
+
+\operatorname{Def}(\mathcal X_n)\to0
+\Longrightarrow
+\mathcal X_n
+\text{ 在质量意义下接近精确临界族}.
+
+$$
+
+这样才有机会避免“每个异常分别收费”的无限列表。
+
+---
+
+# 结论
+
+$$
+
+\boxed{
+\text{Q-0015–17 不应全部废弃，
+但它们的目标合同和逻辑顺序都需要重写。}
+}
+
+$$
+
+最准确的判断是：
+
+- **Q-0015 保留技术内容，取消“全部 heavy excess 必须小”的主目标；**
+- **Q-0017 放弃以 $11/27$ 收缩作为全局正常形，改成零缺陷结构分类；**
+- **Q-0016 提升为核心，负责因果饱和、全局粘合和可逆核心消去；**
+- **Q-0003–Q-0006 提前进入主线，而非等待 Q-0015–17 完成；**
+- **Q-0007 继续作为最后的定量稳定化。**
+
+现有 DAG 的“Q-0015 → Q-0017 → Q-0016 → terminal counting”是一个合理的收费—递推架构，但不适合作为纯稳定性路线的骨架。当前注册表也明确把该顺序限定为原 configuration-flow 路线；这为重新组织另一条路线留下了空间。turn539243view1
+
+路线 B 的关键变化可以浓缩成一句话：
+
+$$
+
+\boxed{
+\text{入口不再追求近无损收费，
+正常形不再追求逐层收缩，
+全局结构也不再作为收费后的余项；
+它们共同用于分类近等号对象。}
+}
+
+$$

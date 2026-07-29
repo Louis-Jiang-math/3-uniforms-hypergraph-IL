@@ -252,58 +252,60 @@
 - **Answer criterion:** 已满足：真实块、顶点、边、执行根迹、成功旧端点、两个失败、第一阻断边和释放后独立性均已列出。
 - **Last updated:** 2026-07-27
 
-## Q-0015 — 义务—真实配置流、aggregate pair cylinder 与 Hall/quotient 出口
-
+## Q-0015 — Route A：近无损配置流、aggregate heavy excess 与收费出口
 - **Question:** 对实际搜索产生的失败义务集合，能否通过近无损真实配置流，或通过保质量的 aggregate future-cylinder 归约，保住单个 \(\Delta(H)\) 因子并把全部超额质量送入可复算的 Hall、quotient 或 closure 出口？
-- **Status:** partially answered — auditor、old-anchor stability 与 aggregate flat reduction completed；heavy-excess theorem open
-- **Why it matters:** Q-0014 已证明共同预置 pivot 过强。Q-0015 是实际失败质量进入单缺陷/aggregate 状态空间并产生 \(c<1/4\) 二阶递推的最早合法接口。
-- **Known so far:** 审计器已实现合法配置枚举、root-pivot LP、slot flow 与独立 real-edge Hall flow。F-0037 把 no-configuration 无损重标为 surviving old-anchor；F-0038 给出 exact profile/temporal Lyapunov。F-0039 给出全部实际二步失败的精确 aggregate normalization；F-0040 把 old-anchor 与 fresh/configurable failure 统一成真实 pair cylinder，并证明 pair-flat 部分由单个 \(\Delta(H)\) 支付。全部未控质量精确缩减为 heavy-pair 正部总量 \(\mathfrak H_k\)。F-0041 给出 future-compatible orientation-budget reset compensation；A-0028 以完整枚举否定“第一次免费 reset 立即闭合”。
-- **Missing:** 对全部 \(\mathfrak H_k\) 的无损加权 carrier-trajectory 分解；可定量控制的 future-compatible orientation token 空间或 token 费用；sound token repetition 到 exact-future quotient/完整块 closure 的结构提升；最终满足 F-0042 的 heavy-excess 界或跨深度 telescoping。
-- **Related:** F-0005, F-0022, F-0027–F-0042, A-0027, A-0028, Q-0002, Q-0004, Q-0006, Q-0016, Q-0017
+- **Status:** suspended as a main route; partially answered as a supporting program
+- **Why it matters:** 这是一个合法的充分路线，但不再被视为 \(1/4\) 定理必须采用的机制。
+- **Known so far:** F-0037–F-0042 给出 no-configuration 重标、old-anchor Lyapunov、aggregate normalization、pair-flat/heavy-excess 分解、orientation progress 与条件递推关闭。F-0043–F-0044 又给出局部 Hall-deficiency 正交化和 same-load exchange-flow 工具。
+- **Missing if reactivated:** 全部 \(\mathfrak H_k\) 的非循环收费权、可定量 orientation budget、sound repetition 到 accepted structure 的提升，以及满足 F-0042 的全局余项界。
+- **Related:** F-0005, F-0022, F-0027–F-0044, A-0026–A-0028, A-0031, Q-0002, Q-0018
 - **Sources:**
   - `docs/framework/FW-15_AGGREGATE_PAIR_CYLINDER.md`
   - `evidence/proofs/Q0015_AGGREGATE_PAIR_CYLINDER_RESET.md`
-  - `evidence/experiments/q0015/reports/q0015_external_old_anchor_temporal_stability.md`
-  - `evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md`
-- **Suggested next action:** 证明 quantitative heavy-pair dissipation：把 \(\mathfrak H_k\) 保质量分解到 carrier trajectories，并以新真实边、新 support、可控 orientation token 或 sound quotient 支付全部正部质量。
-- **Answer criterion:** 以下任一路线成立：
-  1. 对所有相关深度证明原近无损 configuration/escape flow，并满足独立 root、slot、real-edge 账本；或
-  2. 证明 aggregate 路线在每层或合法 telescoping 区间内满足
-     \[
-     \mathcal B_k\le c_\varepsilon b^2A_{k-2},
-     \qquad c_\varepsilon<1/4,
-     \]
-     除非出现保存真实对象、genealogy 和账本的 accepted structural exit。
-  满足低度、块极小、无 IT、真实可达和全账本条件的反模型也可回答本问题。
-- **Last updated:** 2026-07-29
+  - `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
+- **Suggested next action:** 无。当前只维护审计器、回归和可复用的精确引理；不得以一个新收费子类自动重新激活本问题。
+- **Answer criterion:** 原 answer criterion 保留：一般近无损 configuration/escape flow，或统一 \(c_\varepsilon<1/4\) aggregate recurrence，且全部账本和 structural exits 合法。满足全部真实条件的反模型也可回答。
+- **Reactivation criterion:** `knowledge/DECISIONS.md` 中新增显式决策，并同步更新全部权威状态文件。
+- **Last updated:** 2026-07-30
 
-
-## Q-0016 — 因果 incidence 再生与集中
-- **Question:** 在块极小无 IT、未来闭合、无真实边 reuse、无增广和无 exact-future quotient 的执行区域中，若每个新收费 pivot 都有可审计的组合 switch/reroot 因果见证，是否必然产生正比例新增真实容量、某顶点 \((1/4-o(1))b^2\) 度数、完整真子无 IT 核心或未覆盖未来选择？
+## Q-0016 — 可逆核心的 actual-support 饱和与因果粘合
+- **Question:** 对 Q-0017 输出的正质量 reversible exact-future core，能否证明其 actual support 要么对 genealogy splice 饱和并乘积化，要么产生真实 single-pivot critical link、完整真子无 IT 核心、增广，或一个自然正 defect？
 - **Status:** open
-- **Why it matters:** F-0033 只把 off-pivot/multi-defect 转化为真实 incidence 费用；F-0035 只给出集中或顶点增殖。Q-0016 是从“顶点增殖”回到 \(1/4\) 或完整块终局的主结构桥梁。
-- **Known so far:** 两固定基准锚下的平均计数可给出 \(1/4\)；一般分散 incidence 有对角反例 A-0024。
-- **Missing:** 证明新 pivot 的因果再生不能长期无损，或给出符合全部全局条件的反模型。
-- **Related:** F-0023, F-0024, F-0032–F-0035, A-0018, A-0024, Q-0005, Q-0010
-- **Suggested next action:** 先证明两个连续近临界模块的深度二再生附加费，再迭代到截断森林。
-- **Answer criterion:** 所有费用必须使用真实边身份、全局单位容量、完整块支持和可审计 genealogy。
-- **Last updated:** 2026-07-27
+- **Why it matters:** 这是 Route B 从“可逆代码簿核心”到真实 \(1/4\) link 或块极小性矛盾的主结构桥梁。
+- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。正常 \(Q_4\) 的 bounded exhaustive 分类给出 splice/reuse/local-cylinder 三类，但不提供一般全局粘合。
+- **Missing:** common-base 失败的 internal old-anchor 分支如何在 actual support 上再生；不同 genealogies 何时必须复用真实边；局部 same-pivot windows 如何粘成一个 actual pivot cylinder；reversible codebook 何时矩形闭合。
+- **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, A-0024, A-0025, A-0029, A-0030
+- **Suggested next action:** 先在零 defect、保存完整 root projection 的 exact model 中证明 actual-support splice saturation 或给出真实反模型；不得先引入收费常数。
+- **Answer criterion:** 对每个正质量 reversible core 给出增广、真实近 \(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection 或 partial support 结论不够。
+- **Last updated:** 2026-07-30
 
-## Q-0017 — Persistent-blocker 临界正常形
-- **Question:** 对真实可达配置流中的持续 persistent blocker，能否证明它要么进入命名 Hall/closure 出口，要么归约成每层继续质量至多 \((11/27+o(1))\) 的临界 splitter 正常形？
+## Q-0017 — 零 defect 的全局 persistent-blocker 正常形
+- **Question:** 对 Q-0018 产生的 faithful global execution object，若所有自然 defect 项严格为零，是否必分解为 binary regeneration forest 与 reversible exact-future cores？
 - **Status:** open
-- **Why it matters:** F-0034 的截断摊还已完全证明，但其 \(11/27\) 局部收缩是假设，不是一般 defect 系统的结论。
-- **Known so far:** 旧对话构造并分析了临界 \(16/27\)-\(11/27\) 链；Q-0015 枚举发现 persistent old blocker/no-configuration 是真实障碍。
-- **Missing:** 从一般低度配置执行到临界 splitter 的结构抽取，且保存真实 root projection、pivot、槽位和边账本。
-- **Related:** F-0030, F-0034, A-0025, Q-0005, Q-0015, Q-0016
-- **Suggested next action:** 在 `enumerate/` 审计器中加入深度二 ordinary/switch/multi-defect 展开，搜索违反 \(11/27\) 正常形的最小真实反例。
-- **Answer criterion:** 给出统一误差 \(o_\varepsilon(1)\) 的正常形定理，或满足低度、块极小、无 IT、真实可达的反模型。
-- **Last updated:** 2026-07-27
+- **Why it matters:** Route B 先分类近等号对象，而不是预先要求全部 persistent mass 每层收缩。
+- **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。零信息损失只推出历史可恢复或 permutation monodromy，不自动推出 product support。固定轻锚和 diagonal codebook 是必须保留的 reversible-core 测试。
+- **Missing:** 一个保存 actual support 的全局零 defect 定理；reset/reroot 后的 genealogy 粘合；forest 与 reversible core 的规范分解；terminal SCC 的精确分类接口。
+- **Related:** F-0034, F-0036–F-0041, Q-0005, Q-0006, Q-0016, Q-0018, A-0001–A-0003, A-0025
+- **Suggested next action:** 先证明有限深度 exact object 的可恢复展开与 core decomposition，再建立紧性；不要先追求 \(11/27\) 或固定 \(\varepsilon\)。
+- **Answer criterion:** 给出完整零 defect 分类，保留真实边、块、root projection、pivot、genealogy 和 actual support；或给出满足全部零 defect 公理的真实反模型。
+- **Nonclaim:** F-0034 的 \(11/27\) 森林摊还是非临界辅助结果，不是本问题的正常形定义。
+- **Last updated:** 2026-07-30
 
-## 2026-07-29 状态补充 — Q-0015/Q-0016/Q-0017 的逻辑顺序
-- **Canonical active node:** Q-0015 的失败质量定量控制；见 `HANDOFF_CURRENT.md` 与 `docs/PROOF_DAG.md`。
-- **Q-0015 progress:** F-0037–F-0042 已完成 no-configuration 重标、temporal Lyapunov、aggregate normalization、统一 pair-flat 界、精确 heavy-excess 余项与 sound reset orientation budget。未证明 \(\mathfrak H_k\) 的充分小界，故 Q-0015 不关闭。
-- **Q-0017 status:** open。F-0034 仍是条件森林摊还；A-0026 排除了把 ordinary transition capping 当作一般正常形证明。
-- **Q-0016 status:** open。F-0041 的有限状态 Lyapunov 定理不替代因果集中；exact token space 可能过大。
-- **Research/application order:** 原 configuration-flow 路线仍按 Q-0015/Q-0002 → Q-0017 → Q-0016 → terminal counting；aggregate heavy-excess 路线若达到 F-0042，可直接提供相应 \(c<1/4\) 递推。
-- **Last updated:** 2026-07-29
+## Q-0018 — Faithful global execution 与自然 defect
+- **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，并定义一个自然非负 defect，使 defect 趋零的序列具有 faithful 零 defect 极限？
+- **Status:** active
+- **Why it matters:** 这是 Route B 的合法入口。它允许“大 residual 是临界结构证据”，而不要求每份 residual 先获得收费权。
+- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress。F-0043–F-0044 提供局部正交化工具。现有模块尚未给出统一全局 defect 或紧性。
+- **Natural-defect constraints:**
+  1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
+  2. 不得把“不是 binary forest”“不是 product support”或“没有 terminal exit”直接写成 defect；
+  3. 对 faithful refinement、genealogy 展开和实际 reroot 必须有明确协变性；
+  4. defect 为零时仍须保留 actual edge/support identity，不能只得到 phase quotient。
+- **Missing:** 统一概率/质量空间；跨深度 tightness；自然 defect 的精确定义；零 defect 极限保存 actual support 的证明。
+- **Related:** F-0036–F-0044, Q-0003–Q-0007, Q-0016, Q-0017, A-0031
+- **Sources:**
+  - `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+  - `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
+- **Suggested next action:** 在三个强制测试族上提出并审计 defect：正常 \(Q_4\)、固定轻锚 reversible core、diagonal codebook；任何候选必须同时区分真实耗散与临界结构。
+- **Answer criterion:** 给出可应用于原超图的 faithful execution construction、自然 defect、紧性定理和零 defect 极限接口；或证明这套入口不可能并提供真实反模型。
+- **Last updated:** 2026-07-30

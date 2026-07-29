@@ -1,5 +1,5 @@
 schema_version: 1
-updated: 2026-07-29
+updated: 2026-07-30
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -7,106 +7,143 @@ source_baseline:
   date: 2026-07-28
 repository_restructure:
   generation: v3.1
-  local_patch_validation: passed
-  github_actions_requirement: must-pass-after-merge
+  local_patch_validation: proposal-only
+  github_actions_requirement: must-pass-after-apply
   canonical_mathematical_status_promoted: false
+  proof_strategy_changed: true
 theorem:
   id: M0
   statement: "Delta(H) < (1/4-o(1)) b^2 implies an independent transversal"
   status: open
-
+patch_base:
+  commit: b56fe56d3fd7d4bf09c9b48113f50890d727aba7
+  short_commit: b56fe56
+  date: 2026-07-29
+proof_strategy:
+  primary: route_b_critical_stability
+  route_a_status: suspended
+  route_a_reactivation: "requires an explicit decision and synchronized state changes"
+  nonclaim: "The strategy change proves no new asymptotic threshold."
 active_node:
-  id: G1c
-  question: Q-0015
-  title: "E-exit and aggregate heavy-excess control"
+  id: S1
+  question: Q-0018
+  title: "Faithful global execution and natural defect decomposition"
   status: active
   exact_goal: >
-    Either construct the original near-lossless configuration/escape flow, or
-    dissipate the exact aggregate heavy-pair excess using separate real
-    resources or a future-compatible structural quotient, obtaining a
-    second-order recurrence with coefficient strictly below one quarter.
-
+    Construct a faithful global execution object preserving actual support,
+    real-edge identity, root projection, pivot, genealogy, future choices, and
+    ledger history; define a natural nonnegative defect whose vanishing admits
+    an actual-support zero-defect limit, without building the desired terminal
+    structure into the definition.
 nodes:
-  G1a:
-    title: "Configuration auditor infrastructure"
-    status: proved-formal
-    references: ["F-0030", "Q-0015"]
-  G1b:
-    title: "Future-complete lift dichotomy"
-    status: proved-formal
-    references: ["FW-40"]
-    nonclaims:
-      - "Does not construct the Q-0015 entrance from every target hypergraph"
-      - "Does not bound E-exit mass"
-      - "Does not prove Q-0017 or Q-0016"
-  G1c:
-    title: "E-exit and aggregate heavy-excess control"
-    status: active
-    depends_on: ["G1a", "G1b"]
-    references: ["F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0042", "FW-15"]
-    remaining:
-      - "Mass-preserving trajectory decomposition of the full heavy excess"
-      - "Quantitative future-compatible orientation-token control"
-      - "Sound token repetition to an accepted structural exit"
-  G1d:
-    title: "Near-lossless cross-projection configuration flow"
+  R1:
+    title: "Faithful supporting modules"
+    status: proved-formal-supporting
+    references:
+      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044"]
+  R2:
+    title: "Tightness and compactness interface"
     status: open
-    depends_on: ["G1c"]
-  G2:
-    title: "Persistent-blocker critical normal form"
+    depends_on: ["R1"]
+  S1:
+    title: "Faithful execution and natural defect"
+    question: Q-0018
+    status: active
+    depends_on: ["R1", "R2"]
+  S2:
+    title: "Zero-defect global normal form"
     question: Q-0017
     status: open
-    depends_on: ["G1d"]
-  G3:
-    title: "Causal incidence regeneration/concentration"
+    depends_on: ["S1"]
+  S3:
+    title: "Reversible-core saturation and terminal structure"
     question: Q-0016
     status: open
-    depends_on: ["G2"]
-  G4:
-    title: "Terminal structure and epsilon stability"
+    depends_on: ["S2"]
+    related_questions: ["Q-0003", "Q-0004", "Q-0005", "Q-0006", "Q-0009", "Q-0010"]
+  S4:
+    title: "Exact terminal contradiction"
     status: blocked
-    depends_on: ["G1d", "G2", "G3"]
+    depends_on: ["S2", "S3"]
+  S5:
+    title: "Quantitative epsilon stability"
+    question: Q-0007
+    status: blocked
+    depends_on: ["S4"]
   M0:
     title: "One-quarter theorem"
     status: blocked
-    depends_on: ["G4"]
-
+    depends_on: ["S5"]
+parked_route_a:
+  status: suspended
+  questions: ["Q-0002", "Q-0015"]
+  conditional_results: ["F-0034", "F-0042"]
+  retained_tools:
+    - "Configuration auditor and separate root/slot/real-edge ledgers"
+    - "Future-complete lift"
+    - "Aggregate pair-cylinder and heavy-excess decomposition"
+    - "Hall orthogonalization and exchange-flow tools"
+  forbidden_reactivation:
+    - "A new charging subclass alone"
+    - "A new Hall cut or token name alone"
+    - "An unproved claim that all residual mass has a charging entitlement"
 accepted_latest_progress:
   - id: R-Q0015-AGG-01
-    status: proved-formal
+    status: proved-formal-supporting
     statement: >
       Actual two-step failure mass has an exact normalized aggregate-cylinder
       decomposition. Pair-flat mass is paid by one Delta(H); all remaining mass
       is the explicit heavy-pair positive excess.
-    nonclaim: "The heavy-pair excess is not yet bounded."
+    nonclaim: "The heavy-pair excess is not known to be small."
   - id: R-Q0015-RESET-01
-    status: proved-formal
+    status: proved-formal-supporting
     statement: >
       Under a future-compatible orientation congruence, every resource-free
       reset consumes a new orientation token or repeats a sound quotient token.
-    nonclaim: "The exact token space may be too large for the final count."
+    nonclaim: "The exact token space may be too large for a charging proof."
   - id: R-FCL-01
-    status: proved-formal
+    status: proved-formal-supporting
     statement: >
       A Q-0015 actual root obstacle either produces a finite named exit or has a
       mass- and ledger-preserving future-complete lift containing a genuine
       persistent-blocker branch.
+    nonclaim: "It does not construct a general entrance or prove global stability."
   - id: R-AMCG-01
     status: definition
     statement: >
       AMCG is an auditable fractional mass-conserving genealogy specification.
       It is not known to arise near-losslessly from every target instance.
-
+  - id: R-HALL-ORTH-01
+    status: proved-formal-supporting
+    statement: >
+      Local blocker max-flow gives an exact Hall-deficiency orthogonalization,
+      and the Hall deficiency is bounded by the earlier positive heavy-excess
+      quantity.
+  - id: R-EXCHANGE-01
+    status: proved-formal-supporting
+    statement: >
+      For a fixed local maximum assignment, the simplified alternating exchange
+      network exactly reconstructs chargeable residual assignments with the same
+      blocker-load vector.
+  - id: R-Q4-SPLICE-01
+    status: observed-bounded-exhaustive
+    statement: >
+      In all eight normal Q4 matching models, 768 future-complete release
+      policies split as 384 edge-disjoint splice candidates, 192 unavoidable
+      real-edge-reuse policies, and 192 local same-pivot policies.
+    nonclaim: "This is not a general splice/reuse/cylinder theorem."
+  - id: R-Q4-SPLICE-02
+    status: observed-bounded-exhaustive
+    statement: >
+      Every edge-disjoint splice candidate in the normal Q4 models uses all
+      eight real edges.
+    nonclaim: "Splice is therefore not licensed as a free global operation."
 rejected_latest_claims:
   - id: X-RESET-01
     status: refuted-bounded-exhaustive
     statement: >
       No new blocker edge and no new carrier support force immediate reset
       closure.
-    reason: >
-      The single-edge three-block model has three distinct hole orientations;
-      255 of all 256 three-block binary transversal-edge sets contain an
-      immediate counterexample.
   - id: X-TRCAP-01
     status: unsupported
     statement: >
@@ -114,3 +151,18 @@ rejected_latest_claims:
     reason: >
       The construction assumes an additional non-circular real-edge charging
       right for ordinary transition mass, which has not been derived.
+  - id: X-COMMON-BASE-01
+    status: refuted-bounded-exhaustive
+    statement: >
+      Reversibility, normal local exchange, and ordinary single-defect motion
+      force a common-base diamond.
+    reason: >
+      An internal old-anchor edge can block the missing corner before the second
+      future coordinate is inserted.
+  - id: X-FREE-SPLICE-01
+    status: refuted-bounded-exhaustive
+    statement: >
+      Edge-disjoint splice can be repeated as a free closure operation until a
+      same-pivot cylinder remains.
+    reason: >
+      Every bounded normal-Q4 splice candidate consumes all eight real edges.
