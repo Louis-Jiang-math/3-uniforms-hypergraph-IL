@@ -12,6 +12,7 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.optimize import Bounds, LinearConstraint, linprog, milp
 
+from .certificates import ExitCertificate, ExitType
 from .execution import (
     Configuration,
     ExecutionRecord,
@@ -231,6 +232,243 @@ def classify_group(group: RootGroup) -> Tuple[str, Dict]:
     if lp["eta"] <= 1e-8:
         return "zero-error-budget-feasible", lp
     return "positive-root-budget-gap", lp
+
+
+def no_configuration_exit_certificate(
+    hg: Hypergraph,
+    group: RootGroup,
+    obligation: Obligation,
+) -> Optional[ExitCertificate]:
+    """Retype a no-configuration obligation as a surviving old-anchor blocker.
+
+    This preserves the obligation mass and does not charge root-budget, slot,
+    or global-real-edge capacity.
+    """
+    if obligation.configurations:
+        return None
+
+    surviving_blockers = hg.blocking_edges(
+        group.root_record.trace,
+        obligation.attempted_vertex,
+    )
+    if not surviving_blockers:
+        raise ValueError(
+            "no-configuration obligation has no blocker surviving release"
+        )
+
+    rank = hg.edge_rank
+    old_blocker = min(surviving_blockers, key=rank.__getitem__)
+    if obligation.inserted_vertex in old_blocker:
+        raise ValueError("surviving old blocker uses the released vertex")
+    if obligation.attempted_vertex not in old_blocker:
+        raise ValueError("surviving old blocker omits the attempted vertex")
+
+    raw = repr(
+        (
+            "q0015-no-configuration-old-anchor-v1",
+            obligation.obligation_id,
+            tuple(sorted(old_blocker)),
+        )
+    ).encode()
+    certificate = ExitCertificate(
+        certificate_id=hashlib.sha256(raw).hexdigest()[:16],
+        exit_type=ExitType.EXTERNAL_OLD_ANCHOR,
+        mass=float(obligation.weight),
+        root_record_id=group.root_record.record_id,
+        root_projection_id=obligation.root_projection_id,
+        genealogy=list(group.root_record.genealogy),
+        attempted_vertex=vertex_name(obligation.attempted_vertex),
+        first_real_edge=edge_name(old_blocker),
+        ledger=None,
+        payload={
+            "source_exit_type": ExitType.NO_CONFIGURATION.value,
+            "obligation_id": obligation.obligation_id,
+            "inserted_vertex": vertex_name(obligation.inserted_vertex),
+            "original_first_real_edge": edge_name(obligation.first_edge),
+            "released_trace": [
+                vertex_name(vertex)
+                for vertex in group.root_record.trace
+                + (obligation.attempted_vertex,)
+            ],
+            "surviving_real_edges": [
+                edge_name(edge)
+                for edge in sorted(surviving_blockers, key=rank.__getitem__)
+            ],
+            "ledger_charge": None,
+        },
+        status="certified",
+    )
+    certificate.validate()
+    return certificate
+
+
+def old_anchor_profile_score(profile: Sequence[float]) -> float:
+    """Return the normalized ordered-pair old-anchor profile score."""
+    values = np.asarray(tuple(float(value) for value in profile), dtype=float)
+    n = len(values)
+    if n < 2:
+        raise ValueError("old-anchor profile requires at least two blocks")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("profile values must be finite")
+    if np.any(values < 0.0) or np.any(values > 1.0):
+        raise ValueError("profile values must lie in [0, 1]")
+
+    total = float(values.sum())
+    square_sum = float(values @ values)
+    return (
+        (n - 1) * total - total * total + square_sum
+    ) / (n * (n - 1))
+
+
+def old_anchor_profile_maximum(block_count: int) -> float:
+    """Return the exact maximum over the profile cube."""
+    if block_count < 2:
+        raise ValueError("old-anchor profile requires at least two blocks")
+    return math.floor(block_count * block_count / 4) / (
+        block_count * (block_count - 1)
+    )
+
+
+def old_anchor_profile_summary(profile: Sequence[float]) -> Dict:
+    """Return exact numerical-stability defects for one profile."""
+    values = tuple(float(value) for value in profile)
+    score = old_anchor_profile_score(values)
+    n = len(values)
+    total = sum(values)
+    imbalance = n - 2.0 * total
+    polarization = sum(value * (1.0 - value) for value in values)
+    smooth_maximum = n / (4.0 * (n - 1))
+    finite_maximum = old_anchor_profile_maximum(n)
+    finite_deficit = finite_maximum - score
+    parity = n % 2
+    endpoint_bound_squared = (
+        4.0 * n * (n - 1) * finite_deficit + parity
+    )
+    if endpoint_bound_squared < -1e-9:
+        raise AssertionError("profile exceeds the exact finite maximum")
+
+    return {
+        "block_count": n,
+        "score": score,
+        "finite_maximum": finite_maximum,
+        "finite_deficit": max(0.0, finite_deficit),
+        "smooth_maximum": smooth_maximum,
+        "imbalance": imbalance,
+        "polarization_defect": polarization,
+        "stability_identity_residual": abs(
+            smooth_maximum
+            - score
+            - imbalance * imbalance / (4.0 * n * (n - 1))
+            - polarization / (n * (n - 1))
+        ),
+        "endpoint_bound": math.sqrt(max(0.0, endpoint_bound_squared)),
+    }
+
+
+def old_anchor_temporal_certificate(
+    profiles: Sequence[Dict[str, float]],
+    removed_blocks: Sequence[str],
+    tau: float,
+) -> Dict:
+    """Certify the endpoint temporal-stability inequality.
+
+    The next profile must delete the named block and can only decrease
+    surviving coordinates.
+    """
+    if not (0.0 <= tau < 0.5):
+        raise ValueError("tau must lie in [0, 1/2)")
+    if len(profiles) != len(removed_blocks) + 1:
+        raise ValueError("a T-step trajectory requires T+1 profiles")
+
+    normalized = [
+        {str(block): float(value) for block, value in profile.items()}
+        for profile in profiles
+    ]
+    summaries = [
+        old_anchor_profile_summary(tuple(profile.values()))
+        for profile in normalized
+    ]
+    steps = []
+    weighted_surplus = 0.0
+
+    for index, removed in enumerate(removed_blocks):
+        current = normalized[index]
+        following = normalized[index + 1]
+        removed = str(removed)
+        if removed not in current:
+            raise ValueError(f"removed block {removed!r} is absent")
+        if set(following) != set(current) - {removed}:
+            raise ValueError(
+                "the next profile must contain exactly the surviving blocks"
+            )
+
+        decreases = {
+            block: current[block] - following[block]
+            for block in following
+        }
+        if any(value < -1e-9 for value in decreases.values()):
+            raise ValueError("surviving profile coordinates cannot increase")
+
+        alpha = current[removed]
+        drift = sum(decreases.values())
+        actual_increment = (
+            summaries[index + 1]["imbalance"]
+            - summaries[index]["imbalance"]
+        )
+        expected_increment = 2.0 * alpha - 1.0 + 2.0 * drift
+        weighted_surplus += 2.0 * alpha - 1.0
+        steps.append(
+            {
+                "step": index,
+                "removed_block": removed,
+                "removed_value": alpha,
+                "survivor_drift": drift,
+                "imbalance_increment": actual_increment,
+                "increment_identity_residual": abs(
+                    actual_increment - expected_increment
+                ),
+            }
+        )
+
+    endpoint_bound = (
+        summaries[0]["endpoint_bound"]
+        + summaries[-1]["endpoint_bound"]
+    )
+    all_removed_near_good = all(
+        step["removed_value"] >= 1.0 - tau - 1e-9
+        for step in steps
+    )
+    lifespan_left = len(steps) * (1.0 - 2.0 * tau)
+
+    certificate = {
+        "schema_version": "q0015-old-anchor-temporal-v1",
+        "status": "certified",
+        "tau": tau,
+        "step_count": len(steps),
+        "profiles": summaries,
+        "steps": steps,
+        "weighted_surplus": weighted_surplus,
+        "endpoint_bound": endpoint_bound,
+        "weighted_temporal_slack": endpoint_bound - weighted_surplus,
+        "weighted_temporal_holds": (
+            weighted_surplus <= endpoint_bound + 1e-8
+        ),
+        "all_removed_near_good": all_removed_near_good,
+        "lifespan_left": lifespan_left,
+        "lifespan_holds": (
+            all_removed_near_good
+            and lifespan_left <= endpoint_bound + 1e-8
+        ),
+    }
+
+    if any(
+        step["increment_identity_residual"] > 1e-8
+        for step in steps
+    ):
+        certificate["status"] = "invalid"
+    if not certificate["weighted_temporal_holds"]:
+        certificate["status"] = "invalid"
+    return certificate
 
 
 def eight_edge_model() -> Hypergraph:
