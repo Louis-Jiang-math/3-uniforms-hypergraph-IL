@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "artifact_type": "experiment-baseline",
+    "command": "python enumerate/route_b_lp_atlas_validation.py --exact 200 --general4 200 --general5 50 --generated-at 2026-07-30T16:34:00Z --output evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json",
+    "generated_at": "2026-07-30T16:34:00Z",
+    "generator": "enumerate/route_b_lp_atlas_validation.py",
+    "parameters": {
+      "exact": 200,
+      "general4": 200,
+      "general5": 50,
+      "seeds": {
+        "exact": 20260737,
+        "general4": 20260738,
+        "general5": 20260734
+      }
+    },
+    "payload_sha256": "cf4aa0da128d738bb81bed13de51ace0bc81611c9290107f8577dd8afd2dfb9b",
+    "platform": "Linux-6.12.13-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "result_type": "mixed-exhaustive-and-bounded-random",
+    "schema_version": "research-artifact-v1",
+    "scope": "complete b=2 Q4 star-forest and normal-policy spaces; fixed-seed bounded b=3 exact/general cover searches",
+    "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928"
+  },
+  "payload": {
+    "b3_five_block_general_cover": {
+      "attempts": 50,
+      "classification": {
+        "covered_after_WMAN_and_R": 50,
+        "reduced_q_core": 0,
+        "reduced_residual_core": 0
+      },
+      "edge_count_distribution": {
+        "27": 2,
+        "28": 6,
+        "29": 6,
+        "30": 9,
+        "31": 9,
+        "32": 5,
+        "33": 4,
+        "34": 4,
+        "35": 2,
+        "36": 2,
+        "37": 1
+      },
+      "seed": 20260734,
+      "target": 50,
+      "unique_models": 50
+    },
+    "b3_four_block_exact_cover": {
+      "attempts": 202,
+      "classification": {
+        "N_covered_or_same_edge_R_only": 200,
+        "raw_q_cycle": 54,
+        "reduced_q_cycle": 0
+      },
+      "raw_kernel_sizes": {
+        "3 states/6 moves": 54
+      },
+      "target": 200,
+      "unique_block_minimal_exact_covers": 200
+    },
+    "b3_four_block_general_cover": {
+      "attempts": 200,
+      "classification": {
+        "covered_after_MN_and_same_edge_reduction": 200,
+        "reduced_q_only_cycle": 0,
+        "reduced_residual_cycle": 0
+      },
+      "edge_count_distribution": {
+        "27": 4,
+        "28": 6,
+        "29": 24,
+        "30": 33,
+        "31": 55,
+        "32": 52,
+        "33": 24,
+        "34": 2
+      },
+      "target": 200,
+      "unique_block_minimal_covers": 200
+    },
+    "interpretation": {
+      "certified_modules": [
+        "W",
+        "M",
+        "A",
+        "N"
+      ],
+      "nonclaim": "bounded computation does not prove a general atlas or core classification theorem",
+      "same_edge_R_reduction": "consecutive moves using the same actual blocker edge do not form a residual history cycle"
+    },
+    "normal_q4_release_policies": {
+      "categories": {
+        "edge-disjoint splice": 384,
+        "same-pivot cylinder": 192,
+        "unavoidable real-edge reuse": 192
+      },
+      "coordinate_perfect_matchings": 272,
+      "future_complete_release_policies": 768,
+      "minimum_distinct_real_edges_per_splice": {
+        "8": 384
+      },
+      "normal_independent_states": 192,
+      "normal_matchings": 8,
+      "per_state_patterns": {
+        "edge-disjoint splice | edge-disjoint splice | same-pivot cylinder | unavoidable real-edge reuse": 192
+      }
+    },
+    "q4_star_forests": {
+      "block_minimal": 50524,
+      "multi_blocker_M": 50256,
+      "nonnormal_N": 260,
+      "normal_Q4": 8,
+      "not_block_minimal": 4,
+      "star_forests_total": 50528
+    },
+    "schema_version": "route-b-lp-atlas-validation-v1"
+  }
+}

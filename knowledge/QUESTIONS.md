@@ -272,8 +272,8 @@
 - **Question:** 对 Q-0017 输出的正质量 reversible exact-future core，能否证明其 actual support 要么对 genealogy splice 饱和并乘积化，要么产生真实 single-pivot critical link、完整真子无 IT 核心、增广，或一个自然正 defect？
 - **Status:** open
 - **Why it matters:** 这是 Route B 从“可逆代码簿核心”到真实 \(1/4\) link 或块极小性矛盾的主结构桥梁。
-- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。正常 \(Q_4\) 的 bounded exhaustive 分类给出 splice/reuse/local-cylinder 三类，但不提供一般全局粘合。
-- **Missing:** common-base 失败的 internal old-anchor 分支如何在 actual support 上再生；不同 genealogies 何时必须复用真实边；局部 same-pivot windows 如何粘成一个 actual pivot cylinder；reversible codebook 何时矩形闭合。
+- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052 将 finite quotient 中的普通 W/M/A/N 循环与同边 R 振荡剥离，剩余对象才是 actual multi-edge residual core；F-0054 的 bounded search 表明这类 residual core 在小模型中很稀有并保留正常 \(Q_4\)，但不证明一般分类。
+- **Missing:** residual core 的 actual-support 模板分类与密度计算；common-base 失败的 internal old-anchor 分支如何在 actual support 上再生；不同 genealogies 何时必须复用真实边；局部 same-pivot windows 如何粘成一个 actual pivot cylinder；reversible codebook 何时矩形闭合。当前更可信的目标是“刚性模板分类并证明每个模板的度数/增广/完整块后果”，而不是预设所有 core 都乘积化或被消灭。
 - **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, A-0024, A-0025, A-0029, A-0030
 - **Suggested next action:** 先在零 defect、保存完整 root projection 的 exact model 中证明 actual-support splice saturation 或给出真实反模型；不得先引入收费常数。
 - **Answer criterion:** 对每个正质量 reversible core 给出增广、真实近 \(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection 或 partial support 结论不够。
@@ -295,17 +295,17 @@
 - **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，并定义一个自然非负 defect，使 defect 趋零的序列具有 faithful 零 defect 极限？
 - **Status:** active
 - **Why it matters:** 这是 Route B 的合法入口。它允许“大 residual 是临界结构证据”，而不要求每份 residual 先获得收费权。
-- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress。F-0043–F-0044 提供局部正交化工具。现有模块尚未给出统一全局 defect 或紧性。
+- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 又给出 competing-blocker 的 rank-one release 结构、fresh/return genealogy 分解、wide-fan/heavy-pair 计数、clean product-chart deficit ledger、actual-edge-history LP/core 等价，以及 finite future-signature atlas 的稳定化或 overflow 二分。F-0054 保存 bounded Q4 与固定种子 b=3 回归。它们构成 S1 的有限接口和局部账本，但尚未给出从任意目标实例到统一全局对象的完整 entrance/tightness 定理。
 - **Natural-defect constraints:**
   1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
   2. 不得把“不是 binary forest”“不是 product support”或“没有 terminal exit”直接写成 defect；
   3. 对 faithful refinement、genealogy 展开和实际 reroot 必须有明确协变性；
   4. defect 为零时仍须保留 actual edge/support identity，不能只得到 phase quotient。
-- **Missing:** 统一概率/质量空间；跨深度 tightness；自然 defect 的精确定义；零 defect 极限保存 actual support 的证明。
+- **Missing:** 从任意目标实例构造统一概率/质量空间；把局部 chart 字典完成为全覆盖、future-compatible 的 global atlas；证明 unbounded overflow 的实际 W/S/A 或 core 后果；把 critical profile 忠实识别为 actual pair-cylinder mass；建立 heavy-pair load 的全局集中/codebook 二分；证明 residual actual-support core 的模板分类与终局后果。零 defect 极限仍须保存 actual support。
 - **Related:** F-0036–F-0044, Q-0003–Q-0007, Q-0016, Q-0017, A-0031
 - **Sources:**
   - `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
   - `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
-- **Suggested next action:** 在三个强制测试族上提出并审计 defect：正常 \(Q_4\)、固定轻锚 reversible core、diagonal codebook；任何候选必须同时区分真实耗散与临界结构。
+- **Suggested next action:** 优先证明 critical-profile identification：在 clean chart 中把 F-0038 的 \(F(a)\) 识别为 actual pair-cylinder cross mass，任何失败必须输出已有 W/M/A/N/S/R/reset witness。随后研究 heavy-pair load 的全局集中/codebook 二分；不要把单个 heavy pair 当作已完成的 \(1/4\) 出口。
 - **Answer criterion:** 给出可应用于原超图的 faithful execution construction、自然 defect、紧性定理和零 defect 极限接口；或证明这套入口不可能并提供真实反模型。
 - **Last updated:** 2026-07-30

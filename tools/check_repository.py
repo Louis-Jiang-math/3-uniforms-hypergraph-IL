@@ -29,14 +29,22 @@ required = [
     "docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md",
     "evidence/audits/REPOSITORY_AUDIT.md",
     "evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md",
+    "evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md",
+    "evidence/experiments/route_b/MANIFEST.json",
+    "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json",
     "evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md",
+    "evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md",
     "evidence/experiments/q0015/baselines/q0015_audit_results.json",
     "evidence/experiments/q0015/MANIFEST.json",
     "sources/raw/MANIFEST.json", "history/legacy-frameworks/single-defect-monolith.md",
     "src/hypergraph_il/artifacts.py", "src/hypergraph_il/cli.py",
     "enumerate/q0015_configuration_auditor.py",
     "enumerate/q4_splice_pay_cylinder_validation.py",
+    "enumerate/route_b_b3_reduced_core_search.py",
+    "enumerate/route_b_lp_atlas_validation.py",
+    "src/hypergraph_il/route_b_atlas.py",
     "tests/test_artifacts.py",
+    "tests/test_route_b_atlas.py",
 ]
 for item in required:
     require(item)
@@ -107,7 +115,7 @@ for expected in ["[build-system]", "[project]", "[project.optional-dependencies]
 state_text = require("docs/PROJECT_STATE.yaml").read_text(encoding="utf-8")
 for expected in [
     "commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928",
-    "commit: b56fe56d3fd7d4bf09c9b48113f50890d727aba7",
+    "commit: 2f930000fdc1cc7838475be2cb69b3ebf0f1b5c7",
     "status: open",
     "primary: route_b_critical_stability",
     "route_a_status: suspended",
@@ -135,8 +143,8 @@ registries = "\n".join(require(path).read_text(encoding="utf-8") for path in [
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md"
 ])
 for token in [
-    "F-0035", "F-0036", "F-0043",
-    "A-0025", "A-0026", "A-0029",
+    "F-0035", "F-0036", "F-0043", "F-0048", "F-0053",
+    "A-0025", "A-0026", "A-0029", "A-0033",
     "Q-0015", "Q-0016", "Q-0017", "Q-0018",
 ]:
     if token not in registries:

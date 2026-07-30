@@ -1,0 +1,35 @@
+{
+  "schema_version": "route-b-evidence-manifest-v1",
+  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
+  "canonical_baseline": {
+    "path": "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json",
+    "generator": "enumerate/route_b_lp_atlas_validation.py",
+    "result_type": "mixed-exhaustive-and-bounded-random",
+    "scope": "complete b=2 Q4 star-forest and normal-policy spaces; fixed-seed bounded b=3 exact/general cover searches"
+  },
+  "reports": [
+    "evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md",
+    "evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md"
+  ],
+  "reproducible_experiments": [
+    {
+      "path": "enumerate/q4_splice_pay_cylinder_validation.py",
+      "result_type": "bounded-exhaustive",
+      "scope": "all coordinate perfect matchings and normal Q4 release policies"
+    },
+    {
+      "path": "enumerate/route_b_lp_atlas_validation.py",
+      "result_type": "mixed-exhaustive-and-bounded-random",
+      "scope": "complete b=2 Q4 star-forest and normal-policy spaces; fixed-seed bounded b=3 exact/general cover searches"
+    },
+    {
+      "path": "enumerate/route_b_b3_reduced_core_search.py",
+      "result_type": "bounded-random",
+      "scope": "fixed-seed b=3 exact/general cover reduced-core searches"
+    }
+  ],
+  "canonical_nonclaims": [
+    "finite computation is not a general proof",
+    "no Route-B question or theorem is closed"
+  ]
+}

@@ -8,7 +8,10 @@
     "../src/hypergraph_il/q0015.py": "mathematical computation",
     "../src/hypergraph_il/artifacts.py": "atomic artifact metadata and hash support",
     "q0015_reset_compensation.py": "bounded-exhaustive reset counterexample generator",
-    "../src/hypergraph_il/q0015_reset.py": "one-hole reset state graph and bounded exhaustive computation"
+    "../src/hypergraph_il/q0015_reset.py": "one-hole reset state graph and bounded exhaustive computation",
+    "route_b_lp_atlas_validation.py": "combined exhaustive Q4 and bounded b=3 Route-B validation generator",
+    "route_b_b3_reduced_core_search.py": "fixed-seed b=3 reduced actual-edge-history core search",
+    "../src/hypergraph_il/route_b_atlas.py": "finite M-release, deficit, and reduced-history helpers"
   },
   "schemas": {
     "schemas/e_exit.schema.json": "named E-exit certificate schema"
@@ -17,7 +20,9 @@
     "../evidence/experiments/q0015/baselines/q0015_audit_results.json": "reproducible exhaustive regression baseline",
     "../evidence/experiments/q0015/reports/": "human and machine-readable reports",
     "../evidence/experiments/q0015/historical/": "noncanonical historical outputs",
-    "../evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md": "bounded exhaustive immediate-reset refutation"
+    "../evidence/experiments/q0015/reports/q0015_reset_compensation_attack.md": "bounded exhaustive immediate-reset refutation",
+    "../evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json": "auditable mixed exhaustive/bounded Route-B baseline",
+    "../evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md": "human-readable Route-B atlas/LP validation report"
   },
   "open_scope": [
     "quantitative heavy-pair excess dissipation",
@@ -25,6 +30,9 @@
     "sound quotient closure",
     "general near-lossless entrance",
     "Q-0017",
-    "Q-0016"
+    "Q-0016",
+    "critical-profile identification on clean charts",
+    "global heavy-pair load concentration or pair-codebook dichotomy",
+    "actual-support residual-core template classification"
   ]
 }

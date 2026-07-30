@@ -532,3 +532,45 @@
 - **Do not repeat:** 在 Route B 中不得把“全部 \(\mathfrak H_k\) 小”或“全部 residual 有收费权”写入 active-node acceptance criterion。
 - **Status:** suspended-strategy
 - **Last updated:** 2026-07-30
+
+## A-0032 — 由三一致性自动推出 3-local realizability
+- **Goal:** 用只含二元和三元坏原子的 LLL/工具语言刻画全部返回工具不可组合性。
+- **Approach:** 假设三一致性保证任何全局不可实现工具族都有大小至多 3 的不可实现子族。
+- **Failure type:** bounded actual-execution counterexample / unsupported locality
+- **Failure point:** faithful blocker-release 动力学可以出现四个单目标工具，使每个至多三工具子族都可由实际返回路径共同实现，但四个目标共同到达一个 multi-blocker、无单释放的动态死锁。
+- **Why it failed:** 一条三边只含三个端点，不代表“所有释放均失败”的动态条件只有三阶 witness；释放合法性依赖完整 blocker family 和当前 support。
+- **Failure signature:** `3-uniform edge rank mistaken for rank-3 dynamic realizability`
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §9；`tests/test_route_b_atlas.py::test_four_tool_dynamic_deadlock_counterexample`.
+- **Related:** Q-0018, A-0011, A-0025
+- **Retry conditions:** 先剥离 multi-defect/deadlock，或使用完整 finite future signatures 与 overflow，而不是固定 rank-3 bad-atom language。
+- **Do not repeat:** 不得仅因原超图三一致就声称所有执行不相容性有三元局部见证。
+- **Status:** failed-bounded
+- **Last updated:** 2026-07-30
+
+## A-0033 — 把抽象四标签 LP 的正余量解释成机制转换
+- **Goal:** 从 \(W/S/M/A\) 布尔标签上的共同线性权重推出执行轨迹以正密度在四类间转换。
+- **Approach:** 最大化所有 recurrent cycles 的最小平均标签权重，并把最优对偶 circulation 称为混合核心。
+- **Failure type:** LP interpretation error
+- **Failure point:** 对偶允许把彼此不相交的纯 \(W\) 循环与纯 \(M\) 循环作凸组合。正共同余量只说明多个标签共同击中全部循环，不说明任何一条循环发生机制切换。
+- **Why it failed:** 状态标签不是实际不可复制资源；不同纯循环的凸组合被误读为同一执行中的联动摊还。
+- **Failure signature:** `fractional cycle hitting mistaken for positive-density mechanism conversion`
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §7；F-0052 的 actual-edge-history replacement；bounded artifact `route_b_lp_atlas_validation.json`.
+- **Related:** F-0052, Q-0018
+- **Retry conditions:** 使用实际循环模块与 blocker-edge history；只有暴露全部 certified modules 后仍存在 residual circulation 才称为 mixed core。
+- **Do not repeat:** 不得用四个类别的 simplex 权重代替实际 witness/module variables。
+- **Status:** failed
+- **Last updated:** 2026-07-30
+
+## A-0034 — 将单个 heavy pair 直接提升为 \(1/4\) 出口
+- **Goal:** 从 \(d_H(x,r)\ge\alpha b\) 直接推出 \(\Delta(H)\ge(1/4-o(1))b^2\)。
+- **Approach:** 把 wide-fan 的 heavy real-pair 后果视为已经完成的最大度出口。
+- **Failure type:** scale mismatch / unsupported implication
+- **Failure point:** pair codegree 只有线性 \(b\) 量级。F-0050 证明的是 fan 质量到 heavy pair 的转换；它没有把许多 heavy pairs 集中到同一顶点，也没有排除 pair 身份沿 genealogy 轮换形成 codebook/core。
+- **Why it failed:** \(d_H(x,r)\le\deg_H(x)\) 的线性下界远弱于所需二次下界；还缺全局 load concentration 或 actual-edge growth。
+- **Failure signature:** `linear pair fiber promoted directly to quadratic vertex degree`
+- **Evidence:** F-0050；`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §4 and §10.
+- **Related:** Q-0008, Q-0016, Q-0018
+- **Retry conditions:** 证明 positive heavy-pair load 要么集中在共同实际顶点、产生大量不同真实边，要么形成 `S/A` pair-codebook/recurrent core。
+- **Do not repeat:** 不得把“存在一个 heavy pair”单独列为已接受的 \(1/4\) 终局。
+- **Status:** failed-as-direct-exit
+- **Last updated:** 2026-07-30

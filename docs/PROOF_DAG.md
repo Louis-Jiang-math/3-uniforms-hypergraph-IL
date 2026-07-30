@@ -35,10 +35,11 @@ future-complete、保留 genealogy 与真实支持的执行对象，但不要求
 ### R1 — Faithful supporting modules
 
 - **Status:** proved-formal/supporting.
-- **Contents:** F-0036–F-0041，以及 F-0043–F-0044。
+- **Contents:** F-0036–F-0041、F-0043–F-0044，以及 F-0048–F-0053。
 - **Output:** 质量守恒的 future lift、no-configuration 重标、old-anchor
   Lyapunov、aggregate orthogonalization、orientation progress、局部 Hall
-  deficiency 和 same-load exchange flow。
+  deficiency、same-load exchange flow，以及 finite signature atlas、实际边
+  history LP/core 接口、M-event release/fan 分解和 clean product-chart ledger。
 - **Does not prove:** 全局 defect 很小、零缺陷分类、product support、全局
   single-pivot cylinder 或 \(1/4\)。
 
@@ -48,7 +49,9 @@ future-complete、保留 genealogy 与真实支持的执行对象，但不要求
 - **Input:** 有界深度 faithful execution laws，保留实际块、边、pivot、
   root projection、genealogy 与未来坐标。
 - **Required output:** 一个不会因 refinement、reroot 或历史展开而丢失实际
-  身份的紧性/极限接口。
+  身份的紧性/极限接口。F-0053 已给出 finite-signature 稳定化或 overflow
+  的形式二分；尚需把 unbounded overflow 连接到实际 W/S/A 结构、资源增长或
+  exact-future core。
 - **Forbidden shortcut:** 只对压缩 phase graph 或当前 trace 取极限。
 
 ### S1 — Faithful execution and natural defect

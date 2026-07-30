@@ -21,3 +21,15 @@
 - repaired Markdown escape corruption and restored compatibility pointers;
 - added machine checks for protocol length, control characters, packaging, and CI configuration;
 - no canonical mathematical status was promoted.
+
+## 2026-07-30 — Route-B finite atlas and history-aware LP support
+
+- added proved supporting facts F-0048–F-0053 for multi-blocker release,
+  genealogy multiplicity, wide-fan bounds, clean product-chart ledgers,
+  actual-edge-history residual cores, and finite signature atlas overflow;
+- added failures A-0032–A-0034 to prevent automatic rank-3 realizability,
+  abstract-label LP overinterpretation, and direct heavy-pair terminal claims;
+- added reusable Route-B generators, tests, a hashed mixed exhaustive/bounded
+  artifact, and a proof audit;
+- refined the three remaining closure gaps and their reliability estimates;
+- no theorem or open question was closed.

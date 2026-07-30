@@ -10,110 +10,107 @@ open.
 - **Primary strategy:** Route B — critical stability.
 - **Active node:** `S1 / Q-0018` — faithful global execution and natural defect
   decomposition.
-- **Route A status:** suspended as a main route. Do not resume the program of
-  dissipating all \(\mathfrak H_k\), constructing a near-lossless charging flow,
-  or forcing \(11/27\) contraction unless `knowledge/DECISIONS.md` is explicitly
-  changed.
-- **No status promotion:** Q-0015, Q-0016, Q-0017, and the one-quarter theorem
-  remain open.
+- **Route A status:** suspended as a main route. Its formal identities and auditors may
+  be reused, but no near-lossless residual-charging criterion is active.
+- **Open status:** Q-0016, Q-0017, Q-0018, and the one-quarter theorem remain
+  open.
 
-Route B does not interpret \(1/4\) as a \(100\%\) residual-conversion theorem.
-It seeks a dichotomy between genuine dissipation and a classifiable critical
-structure.
+Route B seeks a faithful transient-forest/core decomposition. It does not require
+all residual mass to acquire an independent charging entitlement.
 
-## Retained formal modules
+## Newly reliable supporting results
 
-The following remain reliable inputs, but are supporting modules rather than the
-active proof contract:
+The proof and executable interfaces are in
+`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` and F-0048–F-0053.
 
-- F-0036: faithful future-complete lift after an actual root obstruction exists;
-- F-0037: lossless no-configuration retyping;
-- F-0038: exact old-anchor near-critical identity and single-genealogy Lyapunov;
-- F-0039–F-0040: aggregate normalization and pair-flat/heavy-excess
-  orthogonalization;
-- F-0041: future-compatible orientation progress;
-- F-0042 and F-0034: conditional sufficient criteria only;
-- F-0043–F-0044: local Hall orthogonalization and same-load exchange-flow
-  equivalence, retained as Route-A-compatible tools.
+1. **Competing blockers:** legal release is the intersection of all blocker old
+   endpoints. A live multi-blocker event has at most one release and forms a
+   real pair-fiber fan; empty intersection is a release deadlock.
+2. **Genealogy multiplicity:** a bare incidence `(x,e)` has no fixed capacity.
+   The exact token is `(support-interface,x,e)`; occurrences split into first
+   support appearances and return/merge occurrences.
+3. **Wide fans:** rectangular fresh support gives an exact product-tail bound;
+   in five blocks, \(F_{x,r}\le d_1d_2d_3\) and
+   \(F_x\le(2/27)D_x^2\deg(x)\). Nonrectangular support gives an `S` witness.
+4. **Product charts:** in a clean finite product chart, F-0038 deficit is paid
+   by actual SCC-rank progress and pairwise-disjoint first leaves or structural
+   exits.
+5. **History-aware LP:** after actual `W/M/A/N` modules are exposed and
+   same-edge release oscillations `R` are removed, LP infeasibility is exactly a
+   residual multi-real-edge circulation in the finite faithful quotient.
+6. **Atlas interface:** finite future signatures either stabilize to a faithful
+   quotient or remain explicit as unbounded overflow with an inverse-limit
+   exact-future object.
 
-## New evidence from the route review
+## Bounded computational evidence
 
-- Exhaustive bounded \(Q_4\) validation checks all 272 coordinate perfect
-  matchings and all 8 normal matchings.
-- Across 768 future-complete release policies in the normal models:
-  - 384 are edge-disjoint splice candidates;
-  - 192 have unavoidable real-edge reuse;
-  - 192 are local same-pivot cylinders.
-- Every edge-disjoint splice candidate uses all 8 real edges in the normal
-  \(Q_4\) model. Splice is therefore not a free repeatable closure operation.
-- The proposed common-base diamond lemma is false as stated: an internal
-  old-anchor edge can block the missing corner before the second future
-  coordinate is inserted.
-- These are bounded exhaustive observations, not general theorems.
+`evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json` is a
+hashed generated artifact.
 
-## Active mathematical blockers
+- Complete four-block binary star-forest space: 50,528 models; 50,524 are
+  block-minimal, split as 50,256 multi-blocker `M`, 260 nonnormal `N`, and 8
+  normal \(Q_4\).
+- Normal \(Q_4\) policy space reproduces the 384 splice / 192 reuse / 192 local
+  same-pivot classification and the eight-edge splice cost.
+- The committed fixed-seed \(b=3\) samples contain no new reduced residual core
+  after `W/M/A/N` certification and actual-edge-history `R` reduction.
 
-1. Define a **natural** global execution defect. The definition may use actual
-   entropy loss, exact near-equality deficits, real support failures, and
-   genealogy inconsistency; it may not include the desired terminal conclusion
-   as an axiom.
-2. Prove the exact zero-defect normal form:
-   \[
-   \text{binary regeneration forest}
-   +
-   \text{reversible exact-future cores}.
-   \]
-3. Prove reversible-core saturation/elimination on actual support:
-   splice saturation, a real near-\(1/4\) pivot link, a complete-block
-   contradiction, or positive defect.
-4. Only after the exact theorem, prove fixed-\(\varepsilon\) quantitative
-   stability.
+Only the first two bullets are exhaustive in their stated finite spaces. The
+\(b=3\) results are bounded observations and prove no general nonexistence.
 
-## Route-B anti-drift rules
+## Three remaining closure gaps
 
-- Do not make “all residual mass is charged” an acceptance criterion.
-- Do not promote a new cut, token, or obstruction name unless it gives strict
-  progress or exact structure.
-- Do not infer product support from phase consistency, reversibility, projected
-  support, or local same-pivot data.
-- Do not infer a global single-pivot cylinder from a positive mass of local
-  same-pivot windows.
-- Do not treat splice as free; record every actual real edge used.
-- Do not use block minimality on partial support.
-- Do not use finite computation as a general proof.
+### A. Critical-profile identification — reliability: high
+
+Prove that a clean chart's F-0038 profile cross mass is the actual normalized
+pair-cylinder mass. Every failure must output a concrete
+`W/M/A/N/S/R/reset` witness. Existing work suggests this is mainly a faithful
+normalization/interface theorem, but it is not yet global.
+
+### B. Heavy-pair aggregation — reliability: medium after reformulation
+
+A single linear pair fiber is not a \(1/4\) exit. The credible target is:
+positive heavy-pair load either concentrates many real fibers at a common
+vertex, creates distinct real-edge growth, or forms an `S/A` pair-codebook or
+recurrent core. The direct heavy-pair-to-quadratic-degree claim is not accepted.
+
+### C. Residual-core saturation — rigidity high, elimination low-to-medium
+
+Residual cores appear highly rigid in bounded tests, but normal \(Q_4\),
+fixed-light-anchor, and diagonal-codebook examples rule out automatic product
+support, a universal common pivot, or free splice iteration. The expected
+result is actual-support template classification plus a density, augmentation,
+complete-block, or positive-defect consequence for every template.
 
 ## Immediate next actions
 
-1. Specify the faithful global execution object and candidate defect functional
-   in `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`.
-2. Test each proposed defect term on:
-   - the normal \(Q_4\) models;
-   - the fixed-light-anchor reversible core;
-   - diagonal codebooks;
-   - reset/reorientation regressions.
-3. Prove the zero-defect theorem before attempting an \(\varepsilon\)-modulus.
-4. Treat Q-0016 and Q-0017 as coupled structure problems, not downstream
-   charging steps.
-
-## Required reading
-
-1. `AGENTS.md`
-2. `agent.md`
-3. `docs/PROJECT_STATE.yaml`
-4. `docs/PROOF_DAG.md`
-5. `knowledge/DECISIONS.md`
-6. `knowledge/FAILURES.md`
-7. `knowledge/QUESTIONS.md#Q-0018`
-8. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-9. `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
-10. `evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md`
+1. Prove critical-profile identification on the clean product-chart interface.
+2. State and test a global heavy-pair load/concentration-or-codebook lemma; do
+   not treat one heavy pair as a terminal contradiction.
+3. Search for and classify residual multi-edge cores after `W/M/A/N/R`
+   reduction, preserving actual support and full genealogy.
+4. Extend atlas overflow only through explicit structure theorems; do not merge
+   unresolved future signatures.
 
 ## Integrity warnings
 
-- Route A is suspended, not refuted. Its formal results remain valid within their
-  stated hypotheses.
-- The exchange-flow and Hall-orthogonalization results do not prove a global
-  charging entitlement.
-- The \(Q_4\) experiment classifies a bounded normal model only.
-- “Binary regeneration forest plus reversible cores” is the current target
-  normal form, not an established general theorem.
+- Finite computation is not a general proof.
+- Actual transition modules and blocker-edge history are required; a common
+  weight on abstract labels only performs fractional cycle hitting.
+- The clean product-chart ledger controls execution mass, not distinct original
+  hypergraph edges.
+- A stable finite atlas is conditional on future-signature stabilization;
+  unbounded overflow is an open structure branch.
+- No canonical question or theorem was closed by this update.
+
+## Required reading
+
+1. `AGENTS.md` and `agent.md`
+2. `docs/PROJECT_STATE.yaml`
+3. `docs/PROOF_DAG.md`
+4. `knowledge/FACTS.md#F-0048` through `F-0054`
+5. `knowledge/FAILURES.md#A-0032` through `A-0034`
+6. `knowledge/QUESTIONS.md#Q-0018`
+7. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+8. `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
+9. `evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md`

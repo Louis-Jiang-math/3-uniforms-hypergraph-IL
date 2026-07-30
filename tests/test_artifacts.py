@@ -49,3 +49,12 @@ def test_cli_writes_auditable_artifact(tmp_path: Path) -> None:
 def test_cli_rejects_nonpositive_time_limit() -> None:
     with pytest.raises(SystemExit):
         main(["--time-limit", "0"])
+
+
+def test_route_b_baseline_is_auditable() -> None:
+    path = Path(__file__).resolve().parents[1] / "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    validate_artifact(value)
+    assert value["metadata"]["result_type"] == "mixed-exhaustive-and-bounded-random"
+    assert value["payload"]["q4_star_forests"]["normal_Q4"] == 8
+    assert value["payload"]["b3_four_block_general_cover"]["classification"]["reduced_residual_cycle"] == 0

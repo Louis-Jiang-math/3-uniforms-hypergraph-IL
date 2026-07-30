@@ -24,3 +24,17 @@ python tools/check_generated_artifacts.py
 ```
 
 The outer search is bounded and may return an iteration-limit or unresolved status. Such a result is not a proof or counterexample.
+
+## Route-B atlas/LP validation
+
+```bash
+python enumerate/route_b_lp_atlas_validation.py \
+  --exact 200 --general4 200 --general5 50 \
+  --generated-at 2026-07-30T16:34:00Z \
+  --output artifacts/runs/route_b/route_b_lp_atlas_validation.json
+```
+
+The committed baseline additionally exhausts the complete four-block binary
+star-forest space and the normal-Q4 release-policy space. The b=3 portions are
+fixed-seed bounded searches. Reusing the generator with larger targets is
+allowed, but such runs remain computational observations.

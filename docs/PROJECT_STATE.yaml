@@ -9,16 +9,16 @@ repository_restructure:
   generation: v3.1
   local_patch_validation: proposal-only
   github_actions_requirement: must-pass-after-apply
-  canonical_mathematical_status_promoted: false
+  canonical_mathematical_status_promoted: true
   proof_strategy_changed: true
 theorem:
   id: M0
   statement: "Delta(H) < (1/4-o(1)) b^2 implies an independent transversal"
   status: open
 patch_base:
-  commit: b56fe56d3fd7d4bf09c9b48113f50890d727aba7
-  short_commit: b56fe56
-  date: 2026-07-29
+  commit: 2f930000fdc1cc7838475be2cb69b3ebf0f1b5c7
+  short_commit: 2f93000
+  date: 2026-07-30
 proof_strategy:
   primary: route_b_critical_stability
   route_a_status: suspended
@@ -40,7 +40,7 @@ nodes:
     title: "Faithful supporting modules"
     status: proved-formal-supporting
     references:
-      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044"]
+      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053"]
   R2:
     title: "Tightness and compactness interface"
     status: open
@@ -138,6 +138,27 @@ accepted_latest_progress:
       Every edge-disjoint splice candidate in the normal Q4 models uses all
       eight real edges.
     nonclaim: "Splice is therefore not licensed as a free global operation."
+  - id: R-ATLAS-LP-01
+    status: proved-formal-supporting
+    statement: >
+      Finite future signatures either stabilize to a faithful quotient or remain
+      explicit as overflow; on any finite faithful quotient, certified W/M/A/N
+      modules plus actual blocker-edge history give an exact potential-or-residual-core
+      interface.
+    nonclaim: "This does not construct a global atlas from every target instance or classify residual cores."
+  - id: R-M-FAN-01
+    status: proved-formal-supporting
+    statement: >
+      Competing blockers have at most one legal release. Live events form real
+      pair-fiber fans, and under rectangular support wide-fan mass satisfies the
+      product-tail/heavy-pair bound of F-0050.
+    nonclaim: "A single heavy pair is not a one-quarter terminal exit."
+  - id: R-PRODUCT-LEDGER-01
+    status: proved-conditional-supporting
+    statement: >
+      In a clean finite product chart, the exact critical deficit is paid by
+      actual SCC-rank progress and disjoint first leaves or structural exits.
+    nonclaim: "The chart hypotheses and global resource multiplicities remain to be proved."
 rejected_latest_claims:
   - id: X-RESET-01
     status: refuted-bounded-exhaustive
@@ -166,3 +187,18 @@ rejected_latest_claims:
       same-pivot cylinder remains.
     reason: >
       Every bounded normal-Q4 splice candidate consumes all eight real edges.
+  - id: X-ABSTRACT-LABEL-LP-01
+    status: refuted-interpretation
+    statement: >
+      A positive common weight on W/S/M/A labels proves positive-density
+      mechanism conversion along recurrent trajectories.
+    reason: >
+      The dual can mix distinct pure cycles; actual transition modules and
+      blocker-edge history are required.
+  - id: X-HEAVY-PAIR-TERMINAL-01
+    status: unsupported
+    statement: >
+      One linear-size pair fiber is already a one-quarter maximum-degree exit.
+    reason: >
+      F-0050 has only linear scale; global load concentration, real-edge growth,
+      or codebook/core structure is still required.

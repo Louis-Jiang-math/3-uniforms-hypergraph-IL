@@ -105,7 +105,55 @@ For every positive-mass reversible core, prove at least one:
 Reversibility, phase consistency, projected surjectivity, or local same-pivot
 data alone are not accepted substitutes.
 
-## 7. Required finite test families
+## 7. Finite atlas and history-aware LP interface
+
+The following are accepted supporting interfaces, not a proof of S1:
+
+1. A finite future-signature hierarchy may be used. If equality stabilizes at a
+   finite depth, the stable partition is a future-compatible faithful quotient;
+   if it does not stabilize, the unresolved branch must remain explicit as
+   `overflow` and may not be silently merged.
+2. Finite LP/core analysis must use actual transition modules and blocker-edge
+   history. Abstract weights on the labels `W/S/M/A` are only fractional cycle
+   hitting and do not prove positive-density mechanism conversion.
+3. Certified finite modules may include actual `W`, `M`, `A`, and nonnormal `N`
+   witnesses. Same-edge release oscillation `R` is a reversible local history
+   pattern and must be separated before declaring a residual multi-edge core.
+4. In a clean product chart, F-0038 deficit may be paid by actual SCC-rank
+   progress and pairwise-disjoint first exits. This local ledger does not grant
+   an independent real-edge charging right.
+
+The proved supporting statements are F-0048–F-0053 and
+`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`.
+
+## 8. Remaining closure interfaces and reliability
+
+The finite atlas/LP work leaves three distinct interfaces. They must not be
+collapsed into one generic “defect”.
+
+### 8.1 Critical-profile identification
+
+Expected form: in a clean chart, identify F-0038's profile cross mass with an
+actual normalized pair-cylinder quantity; every failure must produce a concrete
+`W/M/A/N/S/R/reset` witness. This is considered the most reliable of the three
+remaining interfaces, but is not yet a global theorem.
+
+### 8.2 Heavy-pair aggregation
+
+F-0050 proves wide-fan mass gives a real heavy pair fiber (or `S` correlation).
+A single linear pair codegree is not an accepted one-quarter exit. The expected
+form is a global dichotomy between common-vertex load concentration, distinct
+real-edge growth, and an `S/A` pair-codebook or recurrent core.
+
+### 8.3 Residual-core saturation
+
+After certified modules and same-edge `R` oscillations are removed, any
+remaining multi-edge circulation must be classified on actual support. Small
+computations support rigidity, not universal elimination. The expected theorem
+is a finite-template/density, augmentation, complete-block, or positive-defect
+classification. Product support or a single common pivot may not be assumed.
+
+## 9. Required finite test families
 
 Every proposed defect and zero-defect axiom must be tested against:
 
@@ -119,7 +167,7 @@ Every proposed defect and zero-defect axiom must be tested against:
 Passing these tests does not prove the general theorem; failing one refutes the
 candidate definition or lemma.
 
-## 8. Route-A interface
+## 10. Route-A interface
 
 The following may be used as supporting results:
 
@@ -134,7 +182,7 @@ The following may be used as supporting results:
 
 They do not impose a near-lossless charging acceptance criterion on Route B.
 
-## 9. Progress and stopping rules
+## 11. Progress and stopping rules
 
 A Route-B result counts as main progress only if it supplies at least one:
 
@@ -149,7 +197,7 @@ A Route-B result counts as main progress only if it supplies at least one:
 Stop and record a failure instead of extending the taxonomy when the next step
 only introduces a new cut, token, quotient candidate, or obstruction name.
 
-## 10. Nonclaims
+## 12. Nonclaims
 
 This framework does not prove:
 

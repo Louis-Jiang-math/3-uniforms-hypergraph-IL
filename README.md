@@ -45,6 +45,14 @@ one-quarter theorem. It changes what counts as main progress: the project now
 seeks an exact zero-defect structure theorem and a quantitative stability
 upgrade, rather than a unit-by-unit charging of all residual mass.
 
+Recent supporting progress now includes a finite future-signature
+stabilization/overflow interface, an actual-edge-history potential-or-core
+criterion, exact competing-blocker release structure, a wide-fan/heavy-pair
+bound, and a clean product-chart deficit ledger. These are recorded as
+F-0048–F-0053. They do not complete S1: critical-profile identification,
+global heavy-pair aggregation, and actual-support residual-core classification
+remain open.
+
 ## Ten-minute start
 
 1. [`docs/QUICKSTART_10_MINUTES.md`](docs/QUICKSTART_10_MINUTES.md)

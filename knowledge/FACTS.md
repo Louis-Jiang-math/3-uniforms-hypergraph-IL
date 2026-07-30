@@ -791,3 +791,109 @@
 - **Related:** Q-0015, Q-0016
 - **Caveats:** 这是窗口密度计数，不是全局 charging theorem；一般 trajectory 是否提供这样的 \(s\)-edge certificate 仍需证明。
 - **Last updated:** 2026-07-30
+
+## F-0048 — competing blockers 的公共释放判据与 rank-one 性
+- **Status:** confirmed_formal
+- **Kind:** exact local execution theorem
+- **Statement:** 设独立 one-hole 状态为 \(T\)，向缺失块加入 \(x\)，并令
+  \[
+  \mathcal K(T,x)=\{e\in E(H):e\subseteq T\cup\{x\}\}.
+  \]
+  对旧顶点 \(r\in T\)，释放 \(r\) 后独立当且仅当
+  \[
+  r\in\bigcap_{e\in\mathcal K(T,x)}(e\setminus\{x\}).
+  \]
+  因而若 \(|\mathcal K(T,x)|\ge2\)，合法单释放至多一个。live multi-blocker 事件的全部真实 blockers 具有共同 pair \((x,r)\) 并写成 \(\{x,r,p\}\)；若交为空则是 release deadlock。
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §2；`src/hypergraph_il/route_b_atlas.py::legal_release_vertices`；`tests/test_route_b_atlas.py`。
+- **Dependencies:** F-0028
+- **Related:** Q-0018, Q-0016
+- **Caveats:** 本条只控制单个实际尝试的释放结构；不控制同一 pair 在不同 support/genealogy 中出现多少次。
+- **DAG role:** S1 supporting local structure
+- **Last updated:** 2026-07-30
+
+## F-0049 — live \(M\) occurrence 的 fresh/return 精确分解
+- **Status:** confirmed_formal
+- **Kind:** genealogy bookkeeping theorem
+- **Statement:** 固定足以决定完整 blocker family、合法释放、successor 和保留标签的 faithful support-interface token \(\sigma\)，以及实际 incidence \((x,e)\)。由 F-0048，固定 \((\sigma,x,e)\) 后至多有一个 live transition。任意有限 genealogy 中，\((x,e)\) 的 occurrence 数精确分解为不同 \(\sigma\) 的首次 occurrence 数与重复 token 的 return/merge occurrence 数：
+  \[
+  |\mathcal O_\Gamma(x,e)|=G_\Gamma(x,e)+R_\Gamma(x,e).
+  \]
+  因而 bare incidence \((x,e)\) 没有统一单位容量；精确资源是 \((\sigma,x,e)\)，重复项必须进入 return/information-loss/core 分支。
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §3。
+- **Dependencies:** F-0048, F-0041
+- **Related:** Q-0018, Q-0017
+- **Caveats:** 这是精确分割，不证明 fresh tokens 对不同真实边或不同度数资源有有界重数。
+- **DAG role:** S1 supporting genealogy interface
+- **Last updated:** 2026-07-30
+
+## F-0050 — wide-fan 的 product-tail 与 heavy real-pair 界
+- **Status:** confirmed_conditional
+- **Kind:** exact counting theorem under rectangular support
+- **Statement:** 固定 live common pair \((x,r)\)，对剩余块 \(C\) 令
+  \[
+  N_C(x,r)=\{p\in C:\{x,r,p\}\in E(H)\}.
+  \]
+  若固定 kernel 的 actual fresh external support \(\Sigma\) 不是坐标投影的笛卡尔积，则得到有限 `S`-correlation witness；若 \(\Sigma=\prod_C S_C\)，wide-fan 数至多为对应 Poisson-binomial 的至少三次成功尾概率。五块均匀计数中，若三个剩余块 fiber 大小为 \(d_1,d_2,d_3\)，则
+  \[
+  F_{x,r}\le d_1d_2d_3\le\left(\frac{d(x,r)}3\right)^3.
+  \]
+  进一步
+  \[
+  F_x\le\frac{2}{27}D_x^2\deg_H(x),
+  \qquad D_x=\max_r d(x,r).
+  \]
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §4；bounded audit in `evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json`.
+- **Dependencies:** F-0048
+- **Related:** Q-0008, Q-0018, Q-0016
+- **Caveats:** rectangular support 是显式前提；非矩形时结论是 `S` witness，不是同一乘积上界。heavy pair 本身不推出 \(b^2/4\) 最大度。
+- **DAG role:** S1 supporting quantitative exit
+- **Last updated:** 2026-07-30
+
+## F-0051 — clean product chart 的 critical-deficit 全局账本
+- **Status:** confirmed_conditional
+- **Kind:** exact chart ledger theorem
+- **Statement:** 在有限 faithful product chart 中，假设 chart 内无 reroot、无未认证 support correlation、无 cross-anchor，且同一外部 SCC 内的 successor 被送入 recurrent-module 账本。对 faithful genealogy 节点 \(u\) 的 continuation profile \(a(u)\)，有
+  \[
+  \sum_u m(u)D(a(u))
+  \le
+  G_{\rm rank}+G_{\rm leaf}+G_S+G_A+G_C+G_{\rm reset},
+  \]
+  其中 \(D\) 是 F-0038 的精确 deficit，\(G_{\rm rank}\) 是外部 SCC condensation 的实际 rank 增量，其余项是互斥的首次终止或结构出口质量。首次退出圆柱两两不交；fresh support 要么进入新 SCC rank，要么属于 recurrent module。
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §5–§6。
+- **Dependencies:** F-0038, F-0049
+- **Related:** Q-0017, Q-0018
+- **Caveats:** 本条控制执行质量，不把 rank/leaf 质量自动注入不同原超图边；跨 chart 的全局 atlas completion 与实际资源重数仍开放。
+- **DAG role:** S1/S2 supporting stability interface
+- **Last updated:** 2026-07-30
+
+## F-0052 — 实际边历史 LP 的 residual-core 等价
+- **Status:** confirmed_formal
+- **Kind:** finite potential-or-core theorem
+- **Statement:** 对有限 faithful quotient，删除具有实际 `W/M/A/N` 证书的 transitions，并以剩余实际 transitions 为顶点；当两个 transitions 可连续执行且 blocker-edge identity 不同时连边。则以下等价：历史图无有向环；存在每条历史边严格增加的有限势；不存在未认证的 multi-real-edge residual circulation。同一实际 blocker edge 内的 release oscillation 不形成 residual 历史环。
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §7；`src/hypergraph_il/route_b_atlas.py::reduced_history_graph`；`tests/test_route_b_atlas.py`。
+- **Dependencies:** F-0045, F-0046
+- **Related:** Q-0016, Q-0017, Q-0018
+- **Caveats:** 这是给定 finite faithful quotient 与完整证书字典后的等价；不证明一般 quotient 存在，也不分类 residual core。
+- **DAG role:** S1/S2 finite core interface
+- **Last updated:** 2026-07-30
+
+## F-0053 — finite future-signature atlas 的稳定化或 overflow
+- **Status:** confirmed_formal
+- **Kind:** finite-interface completion theorem
+- **Statement:** 对有限分支、有限单步标签字母表的 faithful execution，深度 \(k\) future signatures 形成有限逐层细化。若某层 \(K\) 的 signature equality 已决定 \(K+1\) 层 equality，则该划分永久稳定，并给出保存当前实际数据、同标签全部合法 successors 与 ledger increments 的 finite future-compatible congruence。若无层稳定，则 interface complexity 在无穷多层严格增长；兼容 overflow signatures 具有 inverse-limit exact-future object，重复 exact type 给出 return/recurrent object。
+- **Evidence:** `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` §8；`src/hypergraph_il/route_b_atlas.py::stable_partition`；`tests/test_route_b_atlas.py`。
+- **Dependencies:** F-0041
+- **Related:** Q-0018, Q-0017
+- **Caveats:** unbounded interface growth 不自动推出具体 `W/S/A` 结构；这仍需 overflow-structure theorem。
+- **DAG role:** R2/S1 supporting compactness-interface alternative
+- **Last updated:** 2026-07-30
+
+## F-0054 — Route-B LP/atlas 的 bounded Q4 与 \(b=3\) 审计
+- **Status:** observed
+- **Kind:** exhaustive-bounded plus fixed-seed bounded computation
+- **Statement:** committed generator exhausts 50,528 edge-minimal four-block binary star-forest covers: 50,524 are block-minimal and split into 50,256 multi-blocker `M`, 260 unique-blocker nonnormal `N`, and 8 normal \(Q_4\) models. It also reproduces F-0045/F-0046. In the committed fixed-seed \(b=3\) samples, raw same-edge release kernels are removed by actual-edge-history `R` reduction and no new reduced residual core is observed.
+- **Evidence:** `enumerate/route_b_lp_atlas_validation.py`; `enumerate/route_b_b3_reduced_core_search.py`; `evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json`; `evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md`.
+- **Related:** F-0045, F-0046, F-0052, Q-0016, Q-0017
+- **Caveats:** Q4 counts are exhaustive in the stated finite space; \(b=3\) results are fixed-seed bounded observations. No general core classification or nonexistence theorem follows.
+- **DAG role:** bounded regression evidence only
+- **Last updated:** 2026-07-30
