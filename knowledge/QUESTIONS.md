@@ -114,23 +114,18 @@
 - **Answer criterion:** 给出严格三出口分类；若为假，给出满足全部配置化零误差公理的真实反模型，而不是仅给相位商图。
 - **Last updated:** 2026-07-27
 
-## Q-0007 — 固定 \(\varepsilon\) 的配置化稳定化
+## Q-0007 — 固定 \(\varepsilon\) 的 faithful stability backend
 
-- **Question:** 配置化零误差分类成立后，能否把配置 Hall 缺口、multi-defect、off-pivot、orientation ambiguity、projection failure、competition、reuse、boundary 和 non-normal square 的总质量控制为 \(\eta(\varepsilon),\gamma(\varepsilon)\)，并满足
-  \[
-  (1+\eta(\varepsilon))(1+\gamma(\varepsilon))(1/4-\varepsilon)<1/4?
-  \]
+- **Question:** 若 Q-0018 给出 zero-或 vanishing-loss 的 faithful Round-or-Core，且 Q-0016 给出每个 actual recurrent core 的终局后果，F-0038/F-0051/F-0042 的现有稳定性代数是否以统一参数闭合固定 \(\varepsilon\)？
 - **Status:** blocked
-- **Why it matters:** 它把配置化精确分类升级为实际的 \(1/4-\varepsilon\) 证明。
-- **Known so far:** 非正常窗口有九面证书，真实边容量与 link 边数可提供预算（F-0005, F-0011）；F-0029 说明共同预置 pivot 失败必须进入配置入口，而不能作为小异常默默删除。
-- **Missing:** Q-0015、Q-0006，以及每一类异常的独立定量稳定性和汇总方式。
-- **Related:** Q-0002, Q-0003, Q-0004, Q-0006, Q-0015
-- **Sources:**
-  - `handoff_toward_one_quarter.md`，第 1170–1194 行，发言者 `unknown`
-  - `SINGLE_DEFECT_FRAMEWORK.md` v0.5，第 15、17、20 节
-- **Suggested next action:** 在 Q-0006 完成后，逐类定义异常质量；禁止把义务需求、配置槽位、transition edge 和全局真实边容量记在同一份未归一化账本中。
-- **Answer criterion:** 显式给出 \(\delta(\varepsilon)\)、\(\eta(\varepsilon)\)、\(\gamma(\varepsilon)\)、全部异常账本和最终递推。
-- **Last updated:** 2026-07-27
+- **Backend status:** conditional backend available
+- **Why it matters:** 它把精确/近精确的 actual-object 分类翻译为 \(1/4-\varepsilon\) 的二阶递推，但不应再被误写成一个独立的异常分类计划。
+- **Known so far:** F-0038 给出精确 critical-profile deficit 恒等式；F-0051 在 clean faithful product chart 中给出互斥 rank/leaf/structural-exit 账本；F-0042 在有效重数与未控余项满足显式 \(<1/4\) 不等式时关闭递推。若 strong Round-or-Core 的损失为零，或随深度一致趋零，则这些工具构成可用的条件 stability backend。
+- **Missing:** Q-0018 必须提供与递推量一致的 global Round 质量、三份账本的合法输入及 zero/vanishing loss；Q-0016 必须关闭 positive-mass actual core。不存在独立证据支持再逐类发明一套新的 stability defect taxonomy。
+- **Related:** F-0038, F-0042, F-0051, F-0055, Q-0016, Q-0018
+- **Suggested next action:** 无独立主线动作。把所有 loss/normalization 义务写入 Q-0018 的 global entrance/Round compatibility；把 core 后果写入 Q-0016。
+- **Answer criterion:** 在 Q-0018/Q-0016 的实际输出上验证统一参数使最终二阶系数严格小于 \(1/4\)，或证明 exact zero-loss 情形直接适用 F-0042；不得把条件 chart 结论提升为无条件 stability theorem。
+- **Last updated:** 2026-08-01
 
 ## Q-0008 — 重纤维的覆盖保持二点选择
 
@@ -268,44 +263,48 @@
 - **Reactivation criterion:** `knowledge/DECISIONS.md` 中新增显式决策，并同步更新全部权威状态文件。
 - **Last updated:** 2026-07-30
 
-## Q-0016 — 可逆核心的 actual-support 饱和与因果粘合
-- **Question:** 对 Q-0017 输出的正质量 reversible exact-future core，能否证明其 actual support 要么对 genealogy splice 饱和并乘积化，要么产生真实 single-pivot critical link、完整真子无 IT 核心、增广，或一个自然正 defect？
+## Q-0016 — actual-support Core Endgame
+- **Question:** 对 Q-0018/F-0055 输出的正质量 actual reversible exact-future core，能否证明其产生增广、真实 near-\(1/4\) single-pivot link、完整真子无 IT 块系统，或一个独立自然正 defect？
 - **Status:** open
-- **Why it matters:** 这是 Route B 从“可逆代码簿核心”到真实 \(1/4\) link 或块极小性矛盾的主结构桥梁。
-- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052 将 finite quotient 中的普通 W/M/A/N 循环与同边 R 振荡剥离，剩余对象才是 actual multi-edge residual core；F-0054 的 bounded search 表明这类 residual core 在小模型中很稀有并保留正常 \(Q_4\)，但不证明一般分类。
-- **Missing:** residual core 的 actual-support 模板分类与密度计算；common-base 失败的 internal old-anchor 分支如何在 actual support 上再生；不同 genealogies 何时必须复用真实边；局部 same-pivot windows 如何粘成一个 actual pivot cylinder；reversible codebook 何时矩形闭合。当前更可信的目标是“刚性模板分类并证明每个模板的度数/增广/完整块后果”，而不是预设所有 core 都乘积化或被消灭。
+- **Why it matters:** 在 strong faithful Round-or-Core 之后，这是从 actual recurrent core 到最终结构矛盾的唯一主要 endgame；phase、projection 或 partial support 正常形本身都不够。
+- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052 将 finite quotient 中的普通 W/M/A/N 循环与同边 R 振荡剥离，F-0055 说明在 exact execution-tree/stable-atlas 前提下未进入 Round 或命名出口的正质量可以落到 actual multi-edge recurrent core。F-0054 的 bounded search 只支持刚性，不证明一般分类。
+- **Missing:** 一次性、适用于每个 actual core 的模板/密度终局；必须保存 actual support、root projection、pivot、genealogy 与真实边复用。现有 local same-pivot、difunctional、square-balance 或 holonomy 讨论只能作为候选子引理，尚未组合成一般 theorem。
 - **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, A-0024, A-0025, A-0029, A-0030
-- **Suggested next action:** 先在零 defect、保存完整 root projection 的 exact model 中证明 actual-support splice saturation 或给出真实反模型；不得先引入收费常数。
-- **Answer criterion:** 对每个正质量 reversible core 给出增广、真实近 \(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection 或 partial support 结论不够。
-- **Last updated:** 2026-07-30
+- **Suggested next action:** 直接陈述并攻击一个完整 Core Endgame theorem：每个 positive-mass actual core 输出 augmentation、real near-\(1/4\) pivot link、complete-block core 或 natural positive defect。停止在没有上述后果时继续细分新的 phase/core 名称。
+- **Answer criterion:** 对每个正质量 actual reversible core 给出增广、真实 near-\(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection、holonomy 或 partial support 结论不够。
+- **Last updated:** 2026-08-01
 
-## Q-0017 — 零 defect 的全局 persistent-blocker 正常形
-- **Question:** 对 Q-0018 产生的 faithful global execution object，若所有自然 defect 项严格为零，是否必分解为 binary regeneration forest 与 reversible exact-future cores？
+## Q-0017 — 零 defect 的 faithful forest/core 正常形
+- **Question:** 对 Q-0018 产生的 faithful global execution object，若所有自然 defect 项严格为零，是否必分解为 no-copy transient/Round forest 与 reversible exact-future cores？
 - **Status:** open
-- **Why it matters:** Route B 先分类近等号对象，而不是预先要求全部 persistent mass 每层收缩。
-- **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。零信息损失只推出历史可恢复或 permutation monodromy，不自动推出 product support。固定轻锚和 diagonal codebook 是必须保留的 reversible-core 测试。
-- **Missing:** 一个保存 actual support 的全局零 defect 定理；reset/reroot 后的 genealogy 粘合；forest 与 reversible core 的规范分解；terminal SCC 的精确分类接口。
-- **Related:** F-0034, F-0036–F-0041, Q-0005, Q-0006, Q-0016, Q-0018, A-0001–A-0003, A-0025
-- **Suggested next action:** 先证明有限深度 exact object 的可恢复展开与 core decomposition，再建立紧性；不要先追求 \(11/27\) 或固定 \(\varepsilon\)。
-- **Answer criterion:** 给出完整零 defect 分类，保留真实边、块、root projection、pivot、genealogy 和 actual support；或给出满足全部零 defect 公理的真实反模型。
-- **Nonclaim:** F-0034 的 \(11/27\) 森林摊还是非临界辅助结果，不是本问题的正常形定义。
-- **Last updated:** 2026-07-30
+- **Why it matters:** 它必须把实际未终止历史分成可由现有 stability backend 处理的 transient 部分和交给 Q-0016 的 actual cores，而不是预先要求所有 residual 被收费。
+- **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。F-0055 已在 exact execution-tree、pre-owned ledgers 与 finite stable atlas 前提下给出 pathwise Round / named exit / R / actual multi-edge core 分解；F-0052 处理 stable quotient 中的 potential-or-core。零信息损失仍只推出历史可恢复或 permutation behavior，不自动推出 product support。
+- **Missing:** 从原实例获得 F-0055 所需的 global exact tree 与 owner/ledger interface；证明零 defect 与该 pathwise decomposition 的 hypotheses/zero-loss 条件一致；处理 F-0053 的 unbounded overflow。actual core 的终局分类属于 Q-0016，不再重复列入本问题。
+- **Related:** F-0034, F-0036–F-0041, F-0052, F-0053, F-0055, Q-0005, Q-0006, Q-0016, Q-0018, A-0001–A-0003, A-0025
+- **Suggested next action:** 通过 Q-0018 的 global entrance 与 overflow conversion 把 F-0055 从条件 exact tree 提升到原超图；不要重新发明另一套 finite core taxonomy。
+- **Answer criterion:** 给出完整零 defect/no-copy forest-core 分解，保留真实边、块、root projection、pivot、genealogy 和 actual support；或给出满足全部零 defect 公理的真实反模型。
+- **Nonclaim:** F-0055 是条件 finite-interface theorem，不构造 global entrance，也不关闭 overflow 或 Q-0016。
+- **Last updated:** 2026-08-01
 
-## Q-0018 — Faithful global execution 与自然 defect
-- **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，并定义一个自然非负 defect，使 defect 趋零的序列具有 faithful 零 defect 极限？
+## Q-0018 — Faithful global Round-or-Core entrance 与自然 defect
+- **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，使 F-0055 的 pathwise Round-or-Core-or-Overflow 接口适用，并使 Round loss/自然 defect 为零或一致趋零？
 - **Status:** active
-- **Why it matters:** 这是 Route B 的合法入口。它允许“大 residual 是临界结构证据”，而不要求每份 residual 先获得收费权。
-- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 又给出 competing-blocker 的 rank-one release 结构、fresh/return genealogy 分解、wide-fan/heavy-pair 计数、clean product-chart deficit ledger、actual-edge-history LP/core 等价，以及 finite future-signature atlas 的稳定化或 overflow 二分。F-0054 保存 bounded Q4 与固定种子 b=3 回归。它们构成 S1 的有限接口和局部账本，但尚未给出从任意目标实例到统一全局对象的完整 entrance/tightness 定理。
+- **Why it matters:** 这是 Route B 的合法全局入口。它允许无法路由的正质量成为实际临界 core 或 overflow，而不要求每份 residual 预先获得独立收费权。
+- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合了 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。
 - **Natural-defect constraints:**
   1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
-  2. 不得把“不是 binary forest”“不是 product support”或“没有 terminal exit”直接写成 defect；
+  2. 不得把“不是 binary forest”“不是 product support”“没有 terminal exit”或“没有被当前 LP 路由”直接写成 defect；
   3. 对 faithful refinement、genealogy 展开和实际 reroot 必须有明确协变性；
   4. defect 为零时仍须保留 actual edge/support identity，不能只得到 phase quotient。
-- **Missing:** 从任意目标实例构造统一概率/质量空间；把局部 chart 字典完成为全覆盖、future-compatible 的 global atlas；证明 unbounded overflow 的实际 W/S/A 或 core 后果；把 critical profile 忠实识别为 actual pair-cylinder mass；建立 heavy-pair load 的全局集中/codebook 二分；证明 residual actual-support core 的模板分类与终局后果。零 defect 极限仍须保存 actual support。
-- **Related:** F-0036–F-0044, Q-0003–Q-0007, Q-0016, Q-0017, A-0031
+- **Missing:**
+  1. **Global faithful entrance/Round compatibility:** 从任意目标实例构造统一实际样本空间、first-owner stopping line、完整 candidate blocker sets 与不复制的 root/slot budgets，并证明 Round 输出正是 F-0038/F-0051/F-0042 所需的 actual recurrence mass；critical-profile identification 与 heavy-pair aggregation 是该接口的子合同，而不是独立最终 gap。
+  2. **Overflow conversion:** 把 F-0053 的 unbounded exact-future interface growth 转化为命名 W/M/A/N/S/reset、实际资源增长或 positive-mass actual core；不得静默商化。
+  actual recurrent core 的模板与终局后果由 Q-0016 处理。
+- **Related:** F-0036–F-0044, F-0048–F-0055, Q-0003–Q-0007, Q-0016, Q-0017, A-0031, A-0035
 - **Sources:**
   - `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-  - `evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
-- **Suggested next action:** 优先证明 critical-profile identification：在 clean chart 中把 F-0038 的 \(F(a)\) 识别为 actual pair-cylinder cross mass，任何失败必须输出已有 W/M/A/N/S/R/reset witness。随后研究 heavy-pair load 的全局集中/codebook 二分；不要把单个 heavy pair 当作已完成的 \(1/4\) 出口。
-- **Answer criterion:** 给出可应用于原超图的 faithful execution construction、自然 defect、紧性定理和零 defect 极限接口；或证明这套入口不可能并提供真实反模型。
-- **Last updated:** 2026-07-30
+  - `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
+  - `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`
+- **Suggested next action:** 构造原实例上的 exact first-owner execution tree，并逐项验证 F-0055 的 entrance、owner、candidate-set 和 Round-compatibility hypotheses；随后单独证明 overflow conversion。不要再把 critical-profile、heavy-pair 和 core classification 混成一个 generic defect。
+- **Answer criterion:** 给出可应用于原超图的 faithful entrance construction、三账本兼容的 pathwise Round-or-Core、自然 defect/zero-loss 接口，以及 overflow conversion；或证明这套入口不可能并提供真实反模型。
+- **Last updated:** 2026-08-01

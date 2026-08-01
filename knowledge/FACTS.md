@@ -897,3 +897,14 @@
 - **Caveats:** Q4 counts are exhaustive in the stated finite space; \(b=3\) results are fixed-seed bounded observations. No general core classification or nonexistence theorem follows.
 - **DAG role:** bounded regression evidence only
 - **Last updated:** 2026-07-30
+
+## F-0055 — exact execution tree 的 pathwise Round-or-Core-or-Overflow 接口
+- **Status:** confirmed_conditional
+- **Kind:** finite dynamic max-flow / actual-history theorem
+- **Statement:** 给定一个有限分支 exact actual execution tree，假设入口由 first-owner stopping line 互斥分割；每个节点保存完整 actual blocker-edge candidate set；continuation 与 named-exit cylinders 是实际可测互斥分割；root/configuration 与 projection-sensitive slot 预算已另行验证；每条真实边给定全局容量。则对每个有限深度，动态 obligation network 满足精确 max-flow/min-cut 公式，且任意可行流可在 atomless refinement 上实现为互不复制的实际样本路径。若深度流值趋于全部入口质量，则得到任意精度的 faithful Round；若不趋于全部质量，则正质量实际历史永不进入命名出口。future signatures 稳定时，这些历史要么形成正质量 same-edge `R`，要么在收缩 `R` 后产生正质量 actual multi-real-edge recurrent core；不稳定时必须保留 F-0053 的 exact-future overflow。
+- **Evidence:** `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`。
+- **Dependencies:** F-0005, F-0048, F-0049, F-0052, F-0053
+- **Related:** Q-0016, Q-0017, Q-0018, A-0035, D-0009
+- **Caveats:** 本条不从任意目标超图构造 exact execution tree，不证明 root/slot 预算，不把 Round 流自动识别为 F-0042 所需的全局递推量，不转换 overflow，也不分类 actual recurrent core。它没有重新激活 Route A。
+- **DAG role:** R1/S1 finite faithful Round-or-Core interface
+- **Last updated:** 2026-08-01

@@ -574,3 +574,17 @@
 - **Do not repeat:** 不得把“存在一个 heavy pair”单独列为已接受的 \(1/4\) 终局。
 - **Status:** failed-as-direct-exit
 - **Last updated:** 2026-07-30
+
+## A-0035 — 把 max-flow 反向残量弧解释为实际执行交换
+- **Goal:** 从 Hall/max-flow 的 residual graph 直接读取 blocker-release continuation，并据此证明逃逸完备性或 recurrent core。
+- **Approach:** 将算法中的反向弧 `edge gate -> obligation` 当作同一实际样本可执行的 reroute、release 或 genealogy splice。
+- **Failure type:** LP interpretation error / unsupported realizability
+- **Failure point:** 反向残量弧只表示撤销先前分数分配的算法能力；它可能跨越不同 actual samples、support tokens、roots 或 genealogies，并不自动对应一条实际超图执行路径。
+- **Why it failed:** 最大流的整数性/可行性与执行动力学的实际可实现性是不同命题。把反向弧当作 actual transition 会重新混合三份容量账本，并把待证的跨 history 交换写入网络定义。
+- **Failure signature:** `algorithmic residual reversal mistaken for actual blocker-release dynamics`
+- **Evidence:** `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md` §5–§8。
+- **Related:** F-0005, F-0044, F-0052, F-0055, Q-0018
+- **Retry conditions:** 只使用最终 forward flow，并通过 execution-tree cylinder 分割实现 no-copy pathwise assignment；Core 从未进入命名出口的 actual histories 与 faithful quotient 中提取。
+- **Do not repeat:** 不得把 max-flow 求解器的反向弧、对偶交换或 fractional rerouting 本身列为 actual execution transition。
+- **Status:** failed
+- **Last updated:** 2026-08-01

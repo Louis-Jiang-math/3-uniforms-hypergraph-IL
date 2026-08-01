@@ -1,5 +1,5 @@
 schema_version: 1
-updated: 2026-07-30
+updated: 2026-08-01
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -16,9 +16,9 @@ theorem:
   statement: "Delta(H) < (1/4-o(1)) b^2 implies an independent transversal"
   status: open
 patch_base:
-  commit: 2f930000fdc1cc7838475be2cb69b3ebf0f1b5c7
-  short_commit: 2f93000
-  date: 2026-07-30
+  commit: 3f9cb079b0d486ec10a39e9a733949e6236cc742
+  short_commit: 3f9cb07
+  date: 2026-08-01
 proof_strategy:
   primary: route_b_critical_stability
   route_a_status: suspended
@@ -27,26 +27,26 @@ proof_strategy:
 active_node:
   id: S1
   question: Q-0018
-  title: "Faithful global execution and natural defect decomposition"
+  title: "Faithful global Round-or-Core entrance and natural defect"
   status: active
   exact_goal: >
-    Construct a faithful global execution object preserving actual support,
-    real-edge identity, root projection, pivot, genealogy, future choices, and
-    ledger history; define a natural nonnegative defect whose vanishing admits
-    an actual-support zero-defect limit, without building the desired terminal
-    structure into the definition.
+    Construct the faithful actual execution tree, first-owner interface, and
+    three-ledger-compatible pathwise Round-or-Core required by F-0055; make the
+    Round output compatible with the existing stability backend; and convert
+    unbounded exact-future overflow without building the desired terminal
+    structure into the defect definition.
 nodes:
   R1:
     title: "Faithful supporting modules"
     status: proved-formal-supporting
     references:
-      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053"]
+      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053", "F-0055"]
   R2:
-    title: "Tightness and compactness interface"
+    title: "Global entrance, tightness, and overflow conversion"
     status: open
     depends_on: ["R1"]
   S1:
-    title: "Faithful execution and natural defect"
+    title: "Faithful Round-or-Core entrance and natural defect"
     question: Q-0018
     status: active
     depends_on: ["R1", "R2"]
@@ -56,7 +56,7 @@ nodes:
     status: open
     depends_on: ["S1"]
   S3:
-    title: "Reversible-core saturation and terminal structure"
+    title: "Actual-support Core Endgame"
     question: Q-0016
     status: open
     depends_on: ["S2"]
@@ -66,14 +66,42 @@ nodes:
     status: blocked
     depends_on: ["S2", "S3"]
   S5:
-    title: "Quantitative epsilon stability"
+    title: "Quantitative epsilon closure check"
     question: Q-0007
     status: blocked
-    depends_on: ["S4"]
+    depends_on: ["S1", "S4"]
+    note: >
+      F-0038, F-0051, and F-0042 provide the accepted conditional backend;
+      the remaining duty is faithful global loss/normalization compatibility,
+      not a new independent anomaly taxonomy.
   M0:
     title: "One-quarter theorem"
     status: blocked
     depends_on: ["S5"]
+current_gap_judgment:
+  finite_interface_status: >
+    F-0055 closes the exact execution-tree max-flow/min-cut and pathwise
+    no-copy realization, and combines stable finite atlas with F-0052 to expose
+    actual recurrent cores; it does not construct the global object.
+  remaining:
+    - id: E1
+      title: "Global faithful entrance and Round compatibility"
+      includes:
+        - "one no-copy actual sample space and first-owner stopping line"
+        - "complete actual blocker-edge candidate sets"
+        - "separate root, slot, and global real-edge ledger compatibility"
+        - "critical-profile identification and heavy-pair aggregation as backend subcontracts"
+        - "zero or uniformly vanishing Round loss in the recurrence normalization"
+    - id: E2
+      title: "Overflow conversion"
+      goal: "Convert unbounded exact-future interfaces to named structure, actual resource growth, or a positive-mass actual core."
+    - id: E3
+      title: "Actual-support Core Endgame"
+      question: Q-0016
+      goal: "Every positive-mass actual core yields augmentation, a real near-1/4 pivot link, a complete-block no-IT core, or natural positive defect."
+  nonclaim: >
+    The one-quarter theorem and Q-0016/Q-0017/Q-0018 remain open; the
+    conditional stability backend is not promoted to a global theorem.
 parked_route_a:
   status: suspended
   questions: ["Q-0002", "Q-0015"]
@@ -88,6 +116,18 @@ parked_route_a:
     - "A new Hall cut or token name alone"
     - "An unproved claim that all residual mass has a charging entitlement"
 accepted_latest_progress:
+  - id: R-ROUND-CORE-01
+    status: proved-conditional-supporting
+    statement: >
+      On an exact finitely branching execution tree with a no-copy first-owner
+      partition, complete actual candidate-edge sets, and separately verified
+      root/slot budgets, the dynamic actual-edge network has an exact
+      max-flow/min-cut formula and every flow has a pathwise actual realization.
+      Stable finite future completion gives Round / named exit / R / actual
+      multi-edge core; nonstabilization remains explicit overflow.
+    nonclaim: >
+      This does not construct the execution tree from every target instance,
+      convert overflow, classify actual cores, or prove the one-quarter theorem.
   - id: R-Q0015-AGG-01
     status: proved-formal-supporting
     statement: >

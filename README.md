@@ -16,17 +16,21 @@ The one-quarter theorem is **open**. The active proof strategy is now:
 
 The single active node is:
 
-> **S1 / Q-0018 — faithful global execution and natural defect decomposition.**
+> **S1 / Q-0018 — faithful global Round-or-Core entrance and natural defect.**
 
 The current logical path is
 
 \[
-\text{faithful execution object}
-\to \text{zero-defect global normal form}
-\to \text{reversible-core saturation}
-\to \text{terminal }1/4\text{ structure}
-\to \varepsilon\text{-stability}.
+\text{global faithful entrance}
+\to \text{pathwise Round-or-Core}
+\to \text{overflow conversion / actual core}
+\to \text{Core Endgame}
+\to \text{conditional stability closure}.
 \]
+
+F-0055 closes the finite/exact dynamic max-flow and pathwise realization
+interface under explicit execution-tree and pre-owned-ledger hypotheses. It does
+not construct that object from every target instance.
 
 Route A—the near-lossless configuration/escape-flow and aggregate
 heavy-excess-dissipation program—is temporarily suspended as a main route.
@@ -42,16 +46,27 @@ Its proved modules remain available as supporting tools:
 
 The strategy change does **not** close Q-0015, Q-0016, Q-0017, or the
 one-quarter theorem. It changes what counts as main progress: the project now
-seeks an exact zero-defect structure theorem and a quantitative stability
-upgrade, rather than a unit-by-unit charging of all residual mass.
+seeks a faithful Round-or-Core entrance and an actual-support Core Endgame,
+rather than a unit-by-unit charging of all residual mass.
 
 Recent supporting progress now includes a finite future-signature
 stabilization/overflow interface, an actual-edge-history potential-or-core
 criterion, exact competing-blocker release structure, a wide-fan/heavy-pair
-bound, and a clean product-chart deficit ledger. These are recorded as
-F-0048–F-0053. They do not complete S1: critical-profile identification,
-global heavy-pair aggregation, and actual-support residual-core classification
-remain open.
+bound, a clean product-chart deficit ledger, and a pathwise finite-depth
+Round-or-Core-or-Overflow theorem. These are recorded as F-0048–F-0055.
+
+The current remaining-gap judgment is:
+
+1. construct the global faithful entrance and verify Round compatibility with
+   the separate root, slot, and real-edge ledgers;
+2. convert unbounded exact-future overflow into named actual structure or a
+   positive-mass core;
+3. prove the actual-support Core Endgame of Q-0016.
+
+Critical-profile identification and heavy-pair aggregation remain subcontracts
+of the first item. F-0038/F-0051/F-0042 are the available conditional stability
+backend once the faithful Round loss is zero or uniformly vanishing. No open
+question or theorem is closed by this refinement.
 
 ## Ten-minute start
 

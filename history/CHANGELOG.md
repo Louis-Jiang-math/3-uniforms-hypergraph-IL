@@ -33,3 +33,18 @@
   artifact, and a proof audit;
 - refined the three remaining closure gaps and their reliability estimates;
 - no theorem or open question was closed.
+
+## 2026-08-01 — Faithful Round-or-Core finite interface
+
+- added F-0055, a proved-conditional exact execution-tree max-flow/min-cut and
+  pathwise no-copy realization theorem with stable-atlas `R`/actual-core and
+  nonstable overflow alternatives;
+- added D-0009 to separate the final forward flow from algorithmic residual
+  reverse arcs and to preserve the root/slot/global-real-edge ledger split;
+- added A-0035 to prevent reverse residual arcs from being interpreted as actual
+  blocker-release dynamics;
+- compressed the current closure map to global faithful entrance/Round
+  compatibility, overflow conversion, and actual-support Core Endgame;
+- recorded F-0038/F-0051/F-0042 as a conditional stability backend rather than a
+  fourth independent structural gap;
+- no theorem or open question was closed, and Route A remains suspended.

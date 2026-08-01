@@ -82,3 +82,17 @@
   recurrence criteria.
 - **Consequences:** using one of these modules does not reactivate the
   near-lossless charging acceptance criterion.
+
+## D-0009 — Use pathwise Round-or-Core as the S1 finite interface
+
+- **Status:** active
+- **Decision:** `S1 / Q-0018` may use the pathwise dynamic Round-or-Core interface of F-0055. The max-flow algorithm selects a final no-copy actual-edge assignment; reverse residual arcs are not required to be actual blocker-release transitions. Root/configuration, projection-sensitive slot, and global real-edge capacities remain separate, and the first two must be fixed and verified before the actual-edge flow is invoked.
+- **Reason:** the finite network theorem and pathwise realization isolate the legitimate LP content without granting every residual atom an independent charging entitlement. Any unrouteable positive mass remains actual history and must become a named exit, a stable-atlas actual core, or explicit overflow.
+- **Consequences:**
+  - critical-profile identification and heavy-pair aggregation remain necessary subcontracts for the global entrance/Round backend, but are not separate final endgames;
+  - once a zero- or vanishing-loss faithful Round estimate is supplied, F-0038, F-0051, and F-0042 are the available conditional stability backend rather than a fourth independent immediate gap;
+  - the current genuine closure map is: global faithful entrance/Round compatibility; overflow conversion; actual-support Core Endgame (Q-0016);
+  - Q-0016, Q-0017, Q-0018, and the one-quarter theorem remain open.
+- **Nonclaim:** F-0055 does not construct the global execution object, prove overflow structure, or classify recurrent cores.
+- **Related:** D-0002, D-0006, D-0007, F-0055, Q-0016, Q-0017, Q-0018
+- **Last updated:** 2026-08-01

@@ -8,109 +8,124 @@ open.
 ## Current strategy
 
 - **Primary strategy:** Route B — critical stability.
-- **Active node:** `S1 / Q-0018` — faithful global execution and natural defect
-  decomposition.
-- **Route A status:** suspended as a main route. Its formal identities and auditors may
-  be reused, but no near-lossless residual-charging criterion is active.
+- **Active node:** `S1 / Q-0018` — faithful global Round-or-Core entrance and
+  natural defect.
+- **Route A status:** suspended as a main route. Its exact identities, Hall
+  tools, auditors, and conditional recurrence criteria remain supporting
+  modules only.
 - **Open status:** Q-0016, Q-0017, Q-0018, and the one-quarter theorem remain
   open.
 
-Route B seeks a faithful transient-forest/core decomposition. It does not require
-all residual mass to acquire an independent charging entitlement.
+Route B does not require every residual atom to acquire an independent charging
+entitlement. It seeks a no-copy split between a transient/Round part and actual
+critical histories.
 
-## Newly reliable supporting results
+## Newly reliable finite interface
 
-The proof and executable interfaces are in
-`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md` and F-0048–F-0053.
+F-0055 and `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md` establish the
+following under explicit exact execution-tree hypotheses:
 
-1. **Competing blockers:** legal release is the intersection of all blocker old
-   endpoints. A live multi-blocker event has at most one release and forms a
-   real pair-fiber fan; empty intersection is a release deadlock.
-2. **Genealogy multiplicity:** a bare incidence `(x,e)` has no fixed capacity.
-   The exact token is `(support-interface,x,e)`; occurrences split into first
-   support appearances and return/merge occurrences.
-3. **Wide fans:** rectangular fresh support gives an exact product-tail bound;
-   in five blocks, \(F_{x,r}\le d_1d_2d_3\) and
-   \(F_x\le(2/27)D_x^2\deg(x)\). Nonrectangular support gives an `S` witness.
-4. **Product charts:** in a clean finite product chart, F-0038 deficit is paid
-   by actual SCC-rank progress and pairwise-disjoint first leaves or structural
-   exits.
-5. **History-aware LP:** after actual `W/M/A/N` modules are exposed and
-   same-edge release oscillations `R` are removed, LP infeasibility is exactly a
-   residual multi-real-edge circulation in the finite faithful quotient.
-6. **Atlas interface:** finite future signatures either stabilize to a faithful
-   quotient or remain explicit as unbounded overflow with an inverse-limit
-   exact-future object.
+1. a first-owner stopping line gives a no-copy entrance partition;
+2. the finite-depth dynamic actual-edge network has an exact max-flow/min-cut
+   formula;
+3. every feasible flow has a pathwise realization by disjoint actual sample
+   mass, so the final forward assignment respects global real-edge capacities;
+4. max-flow reverse residual arcs are algorithmic and are not interpreted as
+   actual blocker-release transitions;
+5. if the depth flow tends to full entrance mass, arbitrary-precision faithful
+   Round is available;
+6. otherwise positive actual mass never reaches a named exit; a stable faithful
+   atlas yields positive-mass same-edge `R` or an actual multi-edge recurrent
+   core, while nonstabilization remains explicit exact-future overflow.
 
-## Bounded computational evidence
+This is a proved-conditional supporting interface. It does **not** construct the
+execution tree from every target hypergraph, prove root/slot budgets, convert
+overflow, classify actual cores, or prove the theorem.
 
-`evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json` is a
-hashed generated artifact.
+## Current genuine closure gaps
 
-- Complete four-block binary star-forest space: 50,528 models; 50,524 are
-  block-minimal, split as 50,256 multi-blocker `M`, 260 nonnormal `N`, and 8
-  normal \(Q_4\).
-- Normal \(Q_4\) policy space reproduces the 384 splice / 192 reuse / 192 local
-  same-pivot classification and the eight-edge splice cost.
-- The committed fixed-seed \(b=3\) samples contain no new reduced residual core
-  after `W/M/A/N` certification and actual-edge-history `R` reduction.
+### E1. Global faithful entrance and Round compatibility
 
-Only the first two bullets are exhaustive in their stated finite spaces. The
-\(b=3\) results are bounded observations and prove no general nonexistence.
+From every target low-degree block-minimal no-IT instance, construct the actual
+sample space and exact execution tree required by F-0055. Prove:
 
-## Three remaining closure gaps
+- conservative first ownership under refinement, reroot, and genealogy;
+- complete actual blocker-edge candidate sets;
+- separate root/configuration and projection-sensitive slot budgets before the
+  global actual-edge flow;
+- identification of the Round output with the actual recurrence/profile mass
+  required by F-0038, F-0051, and F-0042;
+- zero or uniformly vanishing loss.
 
-### A. Critical-profile identification — reliability: high
+Critical-profile identification and heavy-pair aggregation are subcontracts of
+this interface, not separate final endgames.
 
-Prove that a clean chart's F-0038 profile cross mass is the actual normalized
-pair-cylinder mass. Every failure must output a concrete
-`W/M/A/N/S/R/reset` witness. Existing work suggests this is mainly a faithful
-normalization/interface theorem, but it is not yet global.
+### E2. Overflow conversion
 
-### B. Heavy-pair aggregation — reliability: medium after reformulation
+Turn F-0053's unbounded exact-future interface growth into a named
+`W/M/A/N/S/reset` consequence, actual resource growth, or a positive-mass
+actual recurrent core. Unstable signatures may not be silently quotiented or
+called a small defect by definition.
 
-A single linear pair fiber is not a \(1/4\) exit. The credible target is:
-positive heavy-pair load either concentrates many real fibers at a common
-vertex, creates distinct real-edge growth, or forms an `S/A` pair-codebook or
-recurrent core. The direct heavy-pair-to-quadratic-degree claim is not accepted.
+### E3. Actual-support Core Endgame — Q-0016
 
-### C. Residual-core saturation — rigidity high, elimination low-to-medium
+For every positive-mass actual recurrent core, prove at least one:
 
-Residual cores appear highly rigid in bounded tests, but normal \(Q_4\),
-fixed-light-anchor, and diagonal-codebook examples rule out automatic product
-support, a universal common pivot, or free splice iteration. The expected
-result is actual-support template classification plus a density, augmentation,
-complete-block, or positive-defect consequence for every template.
+- augmentation or survivor;
+- a real near-\(1/4\) single-pivot link;
+- a complete real-block no-IT subinstance;
+- a strictly positive natural defect.
+
+Local phase, holonomy, square-balance, projected support, or same-pivot windows
+are only candidate sublemmas unless they yield one of these terminal outcomes.
+
+## Stability status
+
+F-0038 supplies the exact critical-profile deficit identity; F-0051 supplies a
+conditional clean-product-chart ledger; F-0042 closes the recurrence once the
+effective multiplicity and residual loss make the second-order coefficient
+strictly smaller than \(1/4\).
+
+Accordingly, stability is not treated as a fourth independent structural gap
+after a zero- or vanishing-loss faithful Round-or-Core and a complete Core
+Endgame. The remaining duty is to verify the loss and normalization parameters
+on the global actual object. These conditional results are not promoted to an
+unconditional global stability theorem.
 
 ## Immediate next actions
 
-1. Prove critical-profile identification on the clean product-chart interface.
-2. State and test a global heavy-pair load/concentration-or-codebook lemma; do
-   not treat one heavy pair as a terminal contradiction.
-3. Search for and classify residual multi-edge cores after `W/M/A/N/R`
-   reduction, preserving actual support and full genealogy.
-4. Extend atlas overflow only through explicit structure theorems; do not merge
-   unresolved future signatures.
+1. Construct the original-instance first-owner execution tree and verify every
+   F-0055 entrance, owner, candidate-set, and ledger hypothesis.
+2. Prove that the resulting Round mass is exactly the recurrence/profile mass;
+   every mismatch must be an existing named actual exit or core, not a new
+   generic defect.
+3. Prove overflow conversion independently.
+4. State Q-0016 as one complete Core Endgame theorem and stop extending the core
+   taxonomy unless a new distinction yields a terminal outcome.
 
 ## Integrity warnings
 
+- F-0055 is conditional on an exact actual execution tree and preverified
+  root/slot ledgers.
+- A dynamic Hall cut is a capacity certificate, not automatically a structural
+  defect.
+- Max-flow reverse residual arcs are not actual execution transitions.
+- Root/configuration, projection-sensitive slot, and global real-edge capacities
+  remain separate.
+- Stable finite atlas does not imply product support or a universal pivot.
+- Overflow remains open until an actual structure theorem converts it.
 - Finite computation is not a general proof.
-- Actual transition modules and blocker-edge history are required; a common
-  weight on abstract labels only performs fractional cycle hitting.
-- The clean product-chart ledger controls execution mass, not distinct original
-  hypergraph edges.
-- A stable finite atlas is conditional on future-signature stabilization;
-  unbounded overflow is an open structure branch.
-- No canonical question or theorem was closed by this update.
+- No canonical question or theorem is closed by this update.
 
 ## Required reading
 
 1. `AGENTS.md` and `agent.md`
 2. `docs/PROJECT_STATE.yaml`
 3. `docs/PROOF_DAG.md`
-4. `knowledge/FACTS.md#F-0048` through `F-0054`
-5. `knowledge/FAILURES.md#A-0032` through `A-0034`
-6. `knowledge/QUESTIONS.md#Q-0018`
-7. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-8. `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
-9. `evidence/experiments/route_b/reports/route_b_lp_atlas_validation.md`
+4. `knowledge/DECISIONS.md#D-0009`
+5. `knowledge/FACTS.md#F-0055`
+6. `knowledge/FAILURES.md#A-0035`
+7. `knowledge/QUESTIONS.md#Q-0016` through `Q-0018`
+8. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+9. `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`
+10. `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`

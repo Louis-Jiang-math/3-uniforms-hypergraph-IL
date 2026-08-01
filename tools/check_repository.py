@@ -30,6 +30,8 @@ required = [
     "evidence/audits/REPOSITORY_AUDIT.md",
     "evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md",
     "evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md",
+    "evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md",
+    "evidence/audits/ROUND_OR_CORE_PATCH_SCOPE.md",
     "evidence/experiments/route_b/MANIFEST.json",
     "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json",
     "evidence/experiments/route_b/reports/q4_splice_pay_cylinder_validation.md",
@@ -115,7 +117,7 @@ for expected in ["[build-system]", "[project]", "[project.optional-dependencies]
 state_text = require("docs/PROJECT_STATE.yaml").read_text(encoding="utf-8")
 for expected in [
     "commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928",
-    "commit: 2f930000fdc1cc7838475be2cb69b3ebf0f1b5c7",
+    "commit: 3f9cb079b0d486ec10a39e9a733949e6236cc742",
     "status: open",
     "primary: route_b_critical_stability",
     "route_a_status: suspended",
@@ -142,9 +144,12 @@ if re.search(r"^## .*update", handoff, re.I | re.M):
 registries = "\n".join(require(path).read_text(encoding="utf-8") for path in [
     "knowledge/FACTS.md", "knowledge/FAILURES.md", "knowledge/QUESTIONS.md"
 ])
+decisions_text = require("knowledge/DECISIONS.md").read_text(encoding="utf-8")
+if "D-0009" not in decisions_text:
+    ERRORS.append("stable decision ID disappeared: D-0009")
 for token in [
-    "F-0035", "F-0036", "F-0043", "F-0048", "F-0053",
-    "A-0025", "A-0026", "A-0029", "A-0033",
+    "F-0035", "F-0036", "F-0043", "F-0048", "F-0053", "F-0055",
+    "A-0025", "A-0026", "A-0029", "A-0033", "A-0035",
     "Q-0015", "Q-0016", "Q-0017", "Q-0018",
 ]:
     if token not in registries:

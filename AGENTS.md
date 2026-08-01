@@ -24,10 +24,15 @@ historical sources, not canonical status.
 
 - The one-quarter theorem is open.
 - The active proof strategy is **Route B: critical stability**.
-- The single active proof node is `S1 / Q-0018`: faithful global execution and
-  natural defect decomposition.
+- The single active proof node is `S1 / Q-0018`: faithful global
+  Round-or-Core entrance and natural defect.
 - `Q-0017` is the zero-defect global normal-form problem.
-- `Q-0016` is the reversible-core saturation and causal-gluing problem.
+- `Q-0016` is the actual-support Core Endgame problem.
+- F-0055 closes only the exact execution-tree/pathwise finite interface. The
+  current genuine closure map is global faithful entrance/Round compatibility,
+  overflow conversion, and actual-support Core Endgame. Critical-profile and
+  heavy-pair work are subcontracts of the first item; the existing stability
+  algebra remains conditional on faithful zero- or vanishing-loss input.
 - Route A (`Q-0002/Q-0015`, near-lossless charging and aggregate heavy-excess
   dissipation) is suspended as a main route. Its formal modules remain usable as
   supporting lemmas and regression infrastructure.

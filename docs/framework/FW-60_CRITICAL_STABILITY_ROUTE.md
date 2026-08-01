@@ -105,7 +105,7 @@ For every positive-mass reversible core, prove at least one:
 Reversibility, phase consistency, projected surjectivity, or local same-pivot
 data alone are not accepted substitutes.
 
-## 7. Finite atlas and history-aware LP interface
+## 7. Finite atlas, pathwise Round, and history-aware Core interface
 
 The following are accepted supporting interfaces, not a proof of S1:
 
@@ -113,45 +113,82 @@ The following are accepted supporting interfaces, not a proof of S1:
    finite depth, the stable partition is a future-compatible faithful quotient;
    if it does not stabilize, the unresolved branch must remain explicit as
    `overflow` and may not be silently merged.
-2. Finite LP/core analysis must use actual transition modules and blocker-edge
+2. On an exact execution tree with a first-owner antichain, complete actual
+   candidate-edge sets, measurable no-copy continuation cylinders, and
+   separately verified root/slot budgets, F-0055 gives an exact dynamic
+   max-flow/min-cut formula. Every feasible flow has a pathwise realization by
+   disjoint actual sample mass.
+3. The max-flow algorithm's reverse residual arcs are not actual
+   blocker-release transitions. The final forward assignment is realized on the
+   execution tree; an actual Core is extracted from positive-mass non-exit
+   histories in a faithful quotient.
+4. Finite LP/core analysis must use actual transition modules and blocker-edge
    history. Abstract weights on the labels `W/S/M/A` are only fractional cycle
    hitting and do not prove positive-density mechanism conversion.
-3. Certified finite modules may include actual `W`, `M`, `A`, and nonnormal `N`
+5. Certified finite modules may include actual `W`, `M`, `A`, and nonnormal `N`
    witnesses. Same-edge release oscillation `R` is a reversible local history
    pattern and must be separated before declaring a residual multi-edge core.
-4. In a clean product chart, F-0038 deficit may be paid by actual SCC-rank
+6. In a clean product chart, F-0038 deficit may be paid by actual SCC-rank
    progress and pairwise-disjoint first exits. This local ledger does not grant
    an independent real-edge charging right.
 
-The proved supporting statements are F-0048–F-0053 and
-`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`.
+The proved supporting statements are F-0048--F-0055,
+`evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`, and
+`evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`.
 
-## 8. Remaining closure interfaces and reliability
+## 8. Current closure map
 
-The finite atlas/LP work leaves three distinct interfaces. They must not be
-collapsed into one generic “defect”.
+The finite/exact network step is no longer the main ambiguity. The current
+working judgment has three genuine interfaces. They must not be collapsed into
+one generic defect or expanded into an unbounded taxonomy.
 
-### 8.1 Critical-profile identification
+### 8.1 E1 — Global faithful entrance and Round compatibility
 
-Expected form: in a clean chart, identify F-0038's profile cross mass with an
-actual normalized pair-cylinder quantity; every failure must produce a concrete
-`W/M/A/N/S/R/reset` witness. This is considered the most reliable of the three
-remaining interfaces, but is not yet a global theorem.
+Construct, from every target low-degree block-minimal no-IT instance, the exact
+actual execution tree required by F-0055. This includes:
 
-### 8.2 Heavy-pair aggregation
+- one no-copy sample space and first-owner stopping line;
+- complete actual blocker-edge candidate sets;
+- root/configuration and projection-sensitive slot budgets verified before the
+  global actual-edge flow;
+- covariance under refinement, reroot, and genealogy expansion;
+- identification of the Round output with the actual recurrence/profile mass
+  used by F-0038, F-0051, and F-0042.
 
-F-0050 proves wide-fan mass gives a real heavy pair fiber (or `S` correlation).
-A single linear pair codegree is not an accepted one-quarter exit. The expected
-form is a global dichotomy between common-vertex load concentration, distinct
-real-edge growth, and an `S/A` pair-codebook or recurrent core.
+Critical-profile identification and heavy-pair aggregation remain real
+subcontracts of E1. They are not separate final endgames: a mismatch must either
+be repaired inside the faithful entrance/Round construction or output a named
+actual exit/core.
 
-### 8.3 Residual-core saturation
+### 8.2 E2 — Overflow conversion
 
-After certified modules and same-edge `R` oscillations are removed, any
-remaining multi-edge circulation must be classified on actual support. Small
-computations support rigidity, not universal elimination. The expected theorem
-is a finite-template/density, augmentation, complete-block, or positive-defect
-classification. Product support or a single common pivot may not be assumed.
+F-0053 preserves unbounded future-interface complexity as an inverse-limit
+exact-future object. Prove that this overflow yields a concrete
+`W/M/A/N/S/reset` consequence, actual resource growth, or positive-mass actual
+recurrent core. Unstable signatures may not be silently quotiented or called a
+small defect by definition.
+
+### 8.3 E3 — Actual-support Core Endgame
+
+After named modules and same-edge `R` oscillations are removed, classify every
+positive-mass actual recurrent core and prove at least one:
+
+1. augmentation or survivor;
+2. a genuine near-one-quarter single-pivot link;
+3. a complete real-block no-IT subinstance;
+4. a strictly positive natural defect.
+
+This is Q-0016. Product support, a universal common pivot, phase consistency,
+holonomy, or local same-pivot windows may not be assumed.
+
+### 8.4 Conditional stability backend
+
+F-0038, F-0051, and F-0042 provide the currently accepted algebraic/conditional
+stability backend. If E1 supplies an exact or uniformly vanishing-loss Round
+estimate and E3 closes all positive-mass cores, no fourth independent structural
+stability taxonomy is required. The remaining duty is to verify the loss and
+normalization parameters on the faithful global object; this statement does not
+promote the conditional chart results to an unconditional theorem.
 
 ## 9. Required finite test families
 
@@ -186,7 +223,8 @@ They do not impose a near-lossless charging acceptance criterion on Route B.
 
 A Route-B result counts as main progress only if it supplies at least one:
 
-- a faithful compactness/tightness theorem;
+- a global faithful entrance/Round-compatibility theorem;
+- an overflow-conversion theorem;
 - a natural defect with a proved zero-set property;
 - an exact zero-defect normal form;
 - actual-support reversible-core saturation;
@@ -207,4 +245,7 @@ This framework does not prove:
 - that local same-pivot mass glues globally;
 - that splice is free;
 - that all residual mass is small or chargeable;
+- that F-0055 constructs a global execution object or converts overflow;
+- that the conditional F-0038/F-0051/F-0042 backend is already a global
+  stability theorem;
 - the one-quarter theorem.
