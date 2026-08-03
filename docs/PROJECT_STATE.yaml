@@ -1,5 +1,5 @@
 schema_version: 1
-updated: 2026-08-01
+updated: 2026-08-03
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -40,7 +40,7 @@ nodes:
     title: "Faithful supporting modules"
     status: proved-formal-supporting
     references:
-      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053", "F-0055"]
+      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053", "F-0055", "F-0056", "F-0057", "F-0058", "F-0059", "F-0060", "F-0061", "F-0062", "F-0063", "F-0064", "F-0065", "F-0066", "F-0067"]
   R2:
     title: "Global entrance, tightness, and overflow conversion"
     status: open
@@ -98,10 +98,9 @@ current_gap_judgment:
     - id: E3
       title: "Actual-support Core Endgame"
       question: Q-0016
-      goal: "Every positive-mass actual core yields augmentation, a real near-1/4 pivot link, a complete-block no-IT core, or natural positive defect."
+      goal: "Use the audited all-release context identities and saturated completion-switch matching to force augmentation, a real near-1/4 pivot link, a complete-block no-IT core, an exact incompatible cover, or quantitative loss."
   nonclaim: >
-    The one-quarter theorem and Q-0016/Q-0017/Q-0018 remain open; the
-    conditional stability backend is not promoted to a global theorem.
+    The one-quarter theorem and Q-0016/Q-0017/Q-0018 remain open; F-0056--F-0067 are supporting results only, and the conditional stability backend is not promoted to a global theorem.
 parked_route_a:
   status: suspended
   questions: ["Q-0002", "Q-0015"]

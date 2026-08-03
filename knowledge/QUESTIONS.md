@@ -267,10 +267,10 @@
 - **Question:** 对 Q-0018/F-0055 输出的正质量 actual reversible exact-future core，能否证明其产生增广、真实 near-\(1/4\) single-pivot link、完整真子无 IT 块系统，或一个独立自然正 defect？
 - **Status:** open
 - **Why it matters:** 在 strong faithful Round-or-Core 之后，这是从 actual recurrent core 到最终结构矛盾的唯一主要 endgame；phase、projection 或 partial support 正常形本身都不够。
-- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052 将 finite quotient 中的普通 W/M/A/N 循环与同边 R 振荡剥离，F-0055 说明在 exact execution-tree/stable-atlas 前提下未进入 Round 或命名出口的正质量可以落到 actual multi-edge recurrent core。F-0054 的 bounded search 只支持刚性，不证明一般分类。
-- **Missing:** 一次性、适用于每个 actual core 的模板/密度终局；必须保存 actual support、root projection、pivot、genealogy 与真实边复用。现有 local same-pivot、difunctional、square-balance 或 holonomy 讨论只能作为候选子引理，尚未组合成一般 theorem。
+- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052/F-0055 提供条件 actual recurrent-core 入口。F-0058 给 fixed-pivot target-follow terminal module；F-0063–F-0066 给 all-release core 的三角形分解、weighted context regularity、共同状态恒等式、forced-off-pivot 质量和 pairwise-incompatible 静态界。F-0067 完成最大复用边的 completion–switch 同步—分散二分。A-0041 证明纯矩阵分散不能产生 capacity slack。
+- **Missing:** 从饱和 completion–switch fractional matching 加上实际三端点 incidence、support transport、no-IT 与 block-minimality，推出 augmentation/survivor、real near-\(1/4\) link、complete-block no-IT core、pairwise-incompatible exact cover，或可进入递推的 strict loss。同步不自动给 product support，分散不自动给 spare capacity。
 - **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, A-0024, A-0025, A-0029, A-0030
-- **Suggested next action:** 直接陈述并攻击一个完整 Core Endgame theorem：每个 positive-mass actual core 输出 augmentation、real near-\(1/4\) pivot link、complete-block core 或 natural positive defect。停止在没有上述后果时继续细分新的 phase/core 名称。
+- **Suggested next action:** 固定 D-0011 的 saturated actual switch-matching 子问题。先攻击一个忠实的两 slot 交换方块：若两次 switch 可交换，推出遗传 actual coordinate expansion；若不可交换，识别造成差异的具体真实 blocker edges 并证明 strict Hall slack、真实边增长或 accepted terminal structure。停止继续命名同一 context-reuse 障碍。
 - **Answer criterion:** 对每个正质量 actual reversible core 给出增广、真实 near-\(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection、holonomy 或 partial support 结论不够。
 - **Last updated:** 2026-08-01
 
@@ -278,7 +278,7 @@
 - **Question:** 对 Q-0018 产生的 faithful global execution object，若所有自然 defect 项严格为零，是否必分解为 no-copy transient/Round forest 与 reversible exact-future cores？
 - **Status:** open
 - **Why it matters:** 它必须把实际未终止历史分成可由现有 stability backend 处理的 transient 部分和交给 Q-0016 的 actual cores，而不是预先要求所有 residual 被收费。
-- **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。F-0055 已在 exact execution-tree、pre-owned ledgers 与 finite stable atlas 前提下给出 pathwise Round / named exit / R / actual multi-edge core 分解；F-0052 处理 stable quotient 中的 potential-or-core。零信息损失仍只推出历史可恢复或 permutation behavior，不自动推出 product support。
+- **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。F-0055 已在 exact execution-tree、pre-owned ledgers 与 finite stable atlas 前提下给出 pathwise Round / named exit / R / actual multi-edge core 分解；F-0052 处理 stable quotient 中的 potential-or-core。F-0061 修复 unique-blocker 的 all-release no-copy 语义，F-0062 在单调 clean epochs 与有限完整转移类型下证明 transient mass 消失。零信息损失仍只推出历史可恢复或 permutation behavior，不自动推出 product support。
 - **Missing:** 从原实例获得 F-0055 所需的 global exact tree 与 owner/ledger interface；证明零 defect 与该 pathwise decomposition 的 hypotheses/zero-loss 条件一致；处理 F-0053 的 unbounded overflow。actual core 的终局分类属于 Q-0016，不再重复列入本问题。
 - **Related:** F-0034, F-0036–F-0041, F-0052, F-0053, F-0055, Q-0005, Q-0006, Q-0016, Q-0018, A-0001–A-0003, A-0025
 - **Suggested next action:** 通过 Q-0018 的 global entrance 与 overflow conversion 把 F-0055 从条件 exact tree 提升到原超图；不要重新发明另一套 finite core taxonomy。
@@ -290,7 +290,7 @@
 - **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，使 F-0055 的 pathwise Round-or-Core-or-Overflow 接口适用，并使 Round loss/自然 defect 为零或一致趋零？
 - **Status:** active
 - **Why it matters:** 这是 Route B 的合法全局入口。它允许无法路由的正质量成为实际临界 core 或 overflow，而不要求每份 residual 预先获得独立收费权。
-- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合了 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。
+- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。F-0056 说明完整有限 Markov 标签足以在深度零稳定 future signatures，F-0061 说明 future-complete unique-blocker execution 必须保留两个 release branches；二者均为条件接口，不构造 global entrance。
 - **Natural-defect constraints:**
   1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
   2. 不得把“不是 binary forest”“不是 product support”“没有 terminal exit”或“没有被当前 LP 路由”直接写成 defect；

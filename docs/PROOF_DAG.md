@@ -53,7 +53,8 @@ compression.
 ### R1 — Faithful supporting modules
 
 - **Status:** proved-formal/supporting.
-- **Contents:** F-0036–F-0041、F-0043–F-0044，以及 F-0048–F-0055。
+- **Contents:** F-0036–F-0041、F-0043–F-0044、F-0048–F-0055，以及经审计的
+  F-0056–F-0067。
 - **Output:** 质量守恒的 future lift、no-configuration 重标、old-anchor
   Lyapunov、aggregate orthogonalization、orientation progress、局部 Hall
   deficiency、same-load exchange flow，以及 finite signature atlas、实际边
@@ -130,8 +131,15 @@ compression.
 - **Output:** 对每个 positive-mass actual core 给出 augmentation/survivor、
   real near-\(1/4\) single-pivot link、complete real-block no-IT subinstance 或
   strictly positive natural defect。
+- **Known supporting structure:** F-0058 与 F-0063–F-0067 给出 target-follow、
+  all-release core 三角形/context identities、incompatible-family bound 和
+  maximal-reuse switch-matching 二分。
+- **Current strict subproblem:** D-0011 的 saturated actual switch-matching
+  conversion；必须使用 actual incidence/support transport 得到 terminal
+  outcome 或 quantitative loss。
 - **Known limits:** common-base diamond 原命题为假；splice 不是免费重复操作；
-  phase/reversibility 不自动推出 product support。
+  phase/reversibility 不自动推出 product support；A-0041 排除“switch-map
+  dispersion 自动给 spare capacity”。
 
 ### S4 — Exact terminal contradiction
 

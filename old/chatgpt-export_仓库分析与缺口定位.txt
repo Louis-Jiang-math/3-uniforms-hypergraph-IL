@@ -1,0 +1,3065 @@
+仓库分析与缺口定位
+=========
+
+【提问 轮数1】
+请你拉取仓库https://github.com/Louis-Jiang-math/3-uniforms-hypergraph-IL，尝试沿路线B定位三个缺口，并尝试闭合证明。在收到明确指示前，不要对仓库做只读之外的操作。
+
+【回答内容 轮数1】
+我会先以只读方式拉取并检查仓库结构、README/笔记里对“路线B”和“三个缺口”的定义，然后逐一追踪相关引理、计算与依赖，最后给出每个缺口的闭合尝试与仍需补强之处。整个过程中不会推送、提交、改分支、开 issue/PR，或做任何会改变仓库状态的操作。
+
+【回答内容 轮数1】
+目前已确认仓库把主线切到 **路线B：critical stability**。仓库中最自然的“三个缺口”正是精确理论的三道门：全局缺陷泛函、零缺陷正常形、以及可逆核心在真实支撑上的饱和/消去；定量 $\varepsilon$-稳定性被明确放在这三步之后。下一步我会核对规范文档、失败清单与有限模型审计，避免把已被仓库否定的“乘积支撑”“免费 splice”等捷径重新引入。
+
+【回答内容 轮数1】
+仓库现在把“三个缺口”进一步精确命名为：**A. critical-profile identification、B. heavy-pair aggregation、C. residual-core saturation**。我已经看到一个关键分层：A 很可能能在“clean chart”内闭合为精确恒等式；B 的“单个重 pair 直接推出 $1/4$”路线确实不成立，必须改成顶点集中/新边增长/codebook 三分；C 则不能强行乘积化，只能做真实边历史保真的刚性模板分类。
+
+【回答内容 轮数1】
+## 结论
+
+我全程只做了只读检查，没有提交、推送、切换或创建分支，也没有创建 issue/PR。命令行 `git clone` 因执行环境无法解析 `github.com` 而失败，因此我改用 GitHub 当前公开 `main` 分支的页面与 raw 文件逐项核对；没有对远端仓库产生任何写操作。
+
+仓库目前明确将 **路线 B：critical stability** 作为主线，而 $1/4$ 独立横截阈值定理仍是开放状态。路线 B 剩余的三个正式缺口是：
+
+1. **Critical-profile identification**
+2. **Heavy-pair aggregation**
+3. **Residual-core saturation** turn401221view0
+
+我的判断是：
+
+| 缺口 | 本次结果 |
+|---|---|
+| A. critical-profile identification | **clean product chart 内基本可以闭合**；全局 atlas 入口仍缺 |
+| B. heavy-pair aggregation | 得到一个较精确的 Hall/codebook 三分归约，但**尚不能闭合** |
+| C. residual-core saturation | 可归约为最短多真实边循环分类；已有有限模型证据，但**尚不能闭合** |
+
+---
+
+## A. Critical-profile identification
+
+### 可以闭合的局部命题
+
+固定一个 faithful clean product chart 的节点 $u$，设可用 future 坐标为
+$$
+
+I(u)=\{1,\dots,n\}.
+
+$$
+令 $A_i$ 表示第 $i$ 个坐标能够继续的实际 cylinder 事件，并记
+$$
+
+a_i=\Pr(A_i\mid u).
+
+$$
+
+如果该 chart 的“product”含义不仅是投影集合为笛卡尔积，而且条件质量确实按坐标乘积化，那么对 $i\ne j$ 有
+$$
+
+\Pr(A_i\cap A_j^c\mid u)=a_i(1-a_j).
+
+$$
+因此实际规范化 pair-cylinder cross mass 正好是
+$$
+
+\Phi(u)
+=\frac1{n(n-1)}
+  \sum_{i\ne j}\Pr(A_i\cap A_j^c\mid u)
+=\frac1{n(n-1)}
+  \sum_{i\ne j}a_i(1-a_j)
+=F_n(a).
+
+$$
+
+仓库已有精确恒等式
+$$
+
+\frac{n}{4(n-1)}-F_n(a)
+=
+\frac{(n-2\sum_i a_i)^2}{4n(n-1)}
++
+\frac{\sum_i a_i(1-a_i)}{n(n-1)}.
+
+$$
+右侧两项均非负。于是零 deficit 当且仅当
+$$
+
+a_i\in\{0,1\}\quad\text{对所有 }i,
+\qquad
+\sum_i a_i=\frac n2.
+
+$$
+也就是说，零缺陷 profile 必须是一个**确定性的半开半闭二值 profile**。这正是 binary regeneration 所需的局部正常形。仓库的 clean-chart ledger 已经证明这些 deficit 可以由 SCC rank、首次退出以及 $S/A/C/\mathrm{reset}$ 等互斥账本支付。
+
+进一步加入一个自然的零信息损失条件：同一 exact-future 类型上的 successor 映射是单射。由于 recurrent module 有限，单射即置换，所以 recurrent SCC 确实是 reversible exact-future core。把有限商展开回 genealogy，非循环部分天然是一片森林，而循环终端是可逆核心。
+
+因此可以表述为：
+
+> **Clean-chart 零缺陷正常形定理。**
+> 在无 reroot、无 cross-anchor、无未认证 support correlation，且条件质量真正乘积化的有限 faithful chart 中，如果 critical deficit、信息损失以及所有结构出口质量都为零，则其 genealogy 是二值 regeneration forest 加 reversible exact-future cores。
+
+这部分证明是闭合的，并且比单纯的账本不等式多走了一步：它明确识别了仓库中 $F_n(a)$ 与实际 pair-cylinder cross mass 的关系。
+
+### 尚未闭合的全局入口
+
+全局仍需要证明：每个 faithful execution atom 要么进入上述 clean chart，要么产生具体的
+$$
+
+W/M/A/N/S/R/\mathrm{reset}
+
+$$
+证书。
+
+仓库当前只证明了 future signatures：
+
+- 要么在某一有限深度稳定，得到 faithful finite quotient；
+- 要么复杂度持续增长，形成 inverse-limit overflow object。
+
+但 **overflow 尚不能自动转化为 $W/S/A$ 或其他正缺陷结构**。跨 chart 的 reroot、条件质量不因子化，以及 actual-support 与统计乘积之间的差异也仍需处理。
+
+所以缺口 A 的准确状态是：
+
+> **局部闭合；全局化只差一个 atlas-completion / overflow-to-structure 定理。**
+
+---
+
+## B. Heavy-pair aggregation
+
+仓库已证明：对共同 pair $(x,r)$，记
+$$
+
+d(x,r)=|\{p:\{x,r,p\}\in E(H)\}|.
+
+$$
+在矩形 actual support 中，
+$$
+
+F_{x,r}\le \left(\frac{d(x,r)}3\right)^3,
+
+$$
+并且
+$$
+
+F_x\le \frac{2}{27}D_x^2\deg_H(x),
+\qquad
+D_x=\max_r d(x,r).
+
+$$
+非矩形 support 则产生 $S$-correlation witness。
+
+由此还能直接推出一个有用的阈值分解。对任意 $\lambda>0$，
+$$
+
+\begin{aligned}
+\sum_{r:\,d(x,r)<\lambda b}F_{x,r}
+&\le
+\frac1{27}
+\sum_{r:\,d(x,r)<\lambda b}d(x,r)^3\\
+&\le
+\frac{\lambda^2b^2}{27}\sum_r d(x,r)\\
+&=
+\frac{2\lambda^2b^2}{27}\deg_H(x),
+\end{aligned}
+
+$$
+这里使用了精确恒等式
+$$
+
+\sum_r d(x,r)=2\deg_H(x).
+
+$$
+
+因此，大量 wide-fan mass 必须落入以下某种情形：
+
+1. 某个 $x$ 上有大量 heavy pair fibers；
+2. 质量分散到许多实际 pair/edge；
+3. 大量执行状态反复使用一个很小的 pair-edge codebook。
+
+第一种情形若能证明
+$$
+
+\sum_{r\in H_x}d(x,r)\ge \frac{b^2}{2},
+
+$$
+就立即得到
+$$
+
+\deg_H(x)=\frac12\sum_r d(x,r)\ge \frac{b^2}{4}.
+
+$$
+
+### 为什么现有材料仍差一步
+
+执行质量不能直接按单位容量收费给实际边。仓库已经明确证明，真正的 fresh 资源是
+$$
+
+(\sigma,x,e),
+
+$$
+其中 $\sigma$ 是完整 faithful support-interface token；裸的 $(x,e)$ 没有统一单位容量。不同的 $\sigma$ 可以对应同一条实际边，而不属于同一个“fresh occurrence”。重复 exact token 才能进入 return/recurrent 分支。turn262270view2
+
+所以“发现一个线性 codegree 的 pair”离 $b^2/4$ 顶点度数还很远，这也是仓库明确拒绝的捷径。
+
+### 我得到的精确待证引理
+
+可以把缺口 B 压缩成下面一个命题。
+
+> **Uniform token aggregation lemma。**
+> 对固定的 actual pair cylinder，所有 fresh faithful occurrences 至少满足以下之一：
+>
+> 1. 可按统一有界重数分配给不同实际边；
+> 2. 在同一顶点 $x$ 上形成总 pair-codegree 至少 $b^2/2$ 的集中；
+> 3. 产生一个具体 $S/A$ support codebook；
+> 4. 正质量进入 recurrent exact-future module。
+
+证明思路应当是对 occurrence—actual-edge 二部图做 max-flow/Hall 分解：
+
+- 大匹配给出 distinct real-edge growth；
+- Hall deficient set 给出“许多状态、很少实际边”的 codebook；
+- codebook 若重复 exact type，则进入 recurrent core；
+- codebook 若 exact type 不断增长，则必须由 overflow-to-structure 定理产生 $S/A$。
+
+这个归约很干净，但现有仓库只给出了“稳定或 overflow”，还没有证明 overflow 必然产生支持相关性、增强结构或足够多的新实际边。因此，我不能诚实地把 B 宣布闭合。
+
+---
+
+## C. Residual-core saturation
+
+仓库已经给出了一个很强的精确归约：
+
+删除带有实际 $W/M/A/N$ 证书的 transitions，并先消去同一实际 blocker edge 内的 $R$-oscillation。此后 residual history graph：
+
+- 若无有向环，则存在严格增加的有限势；
+- 若有有向环，则存在未认证的 multi-real-edge residual circulation。
+
+所以只需考虑一个最短有向循环
+$$
+
+t_0\to t_1\to\cdots\to t_{\ell-1}\to t_0,
+
+$$
+其中相邻 transition 的实际 blocker edges 不同。
+
+若自然信息损失为零，则这个循环所在的 exact-future SCC 是可逆的。真正的难点是：怎样从可逆性推出 actual-support saturation、augmentation、临界 link 或完整块矛盾。
+
+### 一个可以闭合的 support 小引理
+
+设 residual core 的外部实际 support 为
+$$
+
+\Sigma\subseteq\prod_{i=1}^k S_i.
+
+$$
+采用如下具体而非形式化的 $S$-测试：
+
+> 对任意 $u,v\in\Sigma$ 和任意坐标 $i$，把 $u$ 的第 $i$ 坐标替换为 $v_i$ 后，所得 tuple 仍必须属于实际 support。
+
+若没有这种 $S$-witness，则
+$$
+
+\Sigma=\prod_i\pi_i(\Sigma).
+
+$$
+
+证明很短：从任意 $u\in\Sigma$ 出发，对目标 tuple 的坐标逐个替换；每一步都由上述交换闭包留在 $\Sigma$ 内，最终构造出投影笛卡尔积中的任意 tuple。
+
+这说明：**如果能够把每次单坐标 splice 的失败定义成真实、历史保真的 $S$-证书，那么零 $S$-defect 确实推出 product support。**
+
+### 为什么 product support 仍不够
+
+product support 只说明 tuple 存在，不说明沿两条 genealogy 同时拼接时，实际 blocker edges 和其他资源可以重复使用。仓库对正常 $Q_4$ 的穷举显示：
+
+- 一部分 splice 不可避免地复用实际边；
+- 即使是 edge-disjoint splice，最小证书也会使用模型中的全部八条实际边。
+
+因此 splice 不能被当作可以无限次免费迭代的操作。turn798698view1
+
+此外，仓库保留的 differing-pivot 与 dynamic-deadlock 模型也排除了“所有局部循环自动共享一个 pivot”或“所有低阶投影可达便推出整体可达”的论证。
+
+### 缺口 C 的精确剩余形式
+
+> **Resource-faithful residual-cycle theorem。**
+> 每个最短 multi-real-edge residual cycle 至少满足以下之一：
+>
+> 1. 某个实际 splice 失败，产生 $S/A/N$ 证书；
+> 2. 某组真实 pair incidences 达到足以推出 $\deg(x)\ge b^2/4$ 的密度；
+> 3. 循环允许 augmentation 或直接构造 IT；
+> 4. 循环包含完整 real-block no-IT 子实例；
+> 5. 循环属于有限个资源历史保真的刚性 codebook 模板，并且这些模板可被单独计数。
+
+仓库的 $b=2$ 穷举和固定种子的 $b=3$ 审计支持“核心很刚性”这一猜测：在相应有限搜索中，没有发现新的 reduced residual core；但这些只是有限证据，不能推出一般分类。
+
+---
+
+## 三个缺口背后的共同瓶颈
+
+这次尝试后，我认为 B 和 C 实际上被同一个更基础的命题卡住：
+
+> **Uniform overflow-to-structure theorem。**
+> 若 faithful support-interface signatures 没有统一有限复杂度，那么其复杂度增长必须以正密度产生以下至少一种资源：
+>
+> - actual-support correlation $S$；
+> - augmentation $A$；
+> - 足够多的不同实际 blocker edges；
+> - 足够集中的 pair incidence，从而达到 $b^2/4$ 顶点度；
+> - 一个重复 exact type 的可逆 recurrent codebook。
+
+一旦这个定理成立：
+
+- A 的 clean charts 可以覆盖全局执行；
+- B 的 token 重数可以转成新边、集中或 codebook；
+- C 的无限模板复杂度可以转成正缺陷，而有限复杂度则可交给 residual-cycle 分类。
+
+## 最终判断
+
+我没有得到完整的 $1/4$ 定理证明，也没有发现仓库已有结果中能够无条件补上 B、C 的隐藏步骤。最实质的进展是：
+
+1. 给出了缺口 A 在 clean product chart 内的完整闭合证明；
+2. 把 B 精确压缩成 uniform token aggregation lemma；
+3. 证明零单坐标 $S$-witness 可推出实际 support 笛卡尔化；
+4. 把 C 压缩成 resource-faithful residual-cycle theorem；
+5. 识别出 B、C 共同依赖的 uniform overflow-to-structure 定理。
+
+仓库状态保持未改动。
+
+
+【提问 轮数2】
+[User is quoting/referring to: "Uniform overflow-to-structure theorem。"]
+
+请你尝试通过数值验证，指出这里的复杂度应当如何理解？
+
+【回答内容 轮数2】
+我会把“复杂度”拆成几个可计算候选量，在仓库已有的小规模模型上做对照：状态数、future-signature 数、support-interface 类型数、最小自动机大小，以及资源历史的增长率。重点不是找一个越大越好的指标，而是找出**能区分“有限可逆核心”和“真正 overflow”**、同时又能触发 $S/A/$新边增长的那一种。
+
+【回答内容 轮数2】
+先给出一个重要的校准：仓库里的递归签名若把“完整状态 ID”或“整段 genealogy”直接塞进 $d(u)$，数值上会立刻稳定或永远增长，但两者都没有数学信息。真正应测的是：在**固定的、资源充分但不过度记忆的接口字母表**下，深度 $k$ 的未来可区分类型数如何增长。换句话说，它更接近 Myhill–Nerode/最小自动机复杂度，而不是节点数或历史长度。
+
+【回答内容 轮数2】
+## 结论
+
+数值实验表明，这里的“复杂度”**不能理解为状态数、genealogy 节点数、签名字符串长度，甚至也不能只理解为 $|\{\sigma_k\}|$**。
+
+更合适的是：
+
+> **在忽略无关历史、但保留 actual support、实际边相等关系及资源账本的等变编码下，用有限深度未来近似 exact future 所需的“异常质量”和“活动资源宽度”。**
+
+也就是说，它至少是二维的：
+
+$$
+
+\boxed{\text{future-refinement tightness}
+\quad+\quad
+\text{active-resource width}.}
+
+$$
+
+仓库当前只正式定义了递归签名
+$$
+
+\sigma_{k+1}(u)=
+\left(
+d(u),
+\{\!\{(\lambda(u,v),\sigma_k(v))\}\!\},
+\operatorname{stop}(u)
+\right),
+
+$$
+并将“不在任何有限层稳定”称为 overflow；但仓库也明确承认，尚未把这种非稳定性转化为实际 $W/S/A$ 或核心结构。
+
+---
+
+## 1. 数值重建
+
+我没有改动仓库。实验使用仓库公开的枚举逻辑、测试中的实际边集合，以及一个独立的签名细化程序。
+
+采用的测试接口为：
+
+$$
+
+d(u)=\text{缺失块},
+
+$$
+
+而 transition label 保留
+
+$$
+
+\lambda=
+(\text{尝试顶点},\text{释放顶点},
+\text{完整实际 blocker-edge ID 集合}),
+
+$$
+
+并保留 stop/deadlock 标志。
+
+这是有意选择的“偏粗”初始接口：如果直接把完整实际状态放进 $d(u)$，每个状态在 $k=0$ 就已不同，稳定性测试会变得完全空洞。
+
+### 正常 $Q_4$
+
+我重现了仓库的完整枚举：
+
+- star forests：50,528；
+- normal $Q_4$：8；
+- 每个 normal $Q_4$ 有 24 个 independent one-hole states；
+- 96 个带实际 blocker 信息的 transitions。
+
+这与仓库基线中的 50,528 和 8 完全一致。仓库枚举还显示，所有 384 个 edge-disjoint splice 候选都需要使用模型中的全部 8 条实际边。turn794077view7
+
+对全部 8 个 normal $Q_4$，签名类型数都是
+
+$$
+
+N_k:=|\{\sigma_k\}|:
+\qquad
+4,\ 24,\ 24.
+
+$$
+
+即：
+
+- $k=0$：只看到 4 种缺失块；
+- $k=1$：实际尝试、释放和 blocker edge 已区分全部 24 个状态；
+- 此后不再细化。
+
+因此 normal $Q_4$ 是一个**有限资源代码簿/可逆核心**，不是 overflow。无限展开的 genealogy 并不意味着复杂度无界。
+
+### 五块 dynamic-deadlock 模型
+
+仓库测试提供了一个 11 条真实边的五块二元模型：从指定起点可到达所有 15 个 proper coordinate-change masks，但另有一个真实 deadlock state。turn794077view6
+
+我重建得到：
+
+- independent one-hole states：40；
+- 实际 transitions：140；
+- 签名类型数：
+  $$
+
+  N_k=5,\ 31,\ 40,\ 40.
+
+$$
+
+它在两层未来后稳定。这个例子说明：
+
+> 固定阶局部可达性不足，但缺陷仍可由很浅的 exact-future 接口识别；它不是无界复杂度。
+
+---
+
+## 2. 为什么 $N_k$ 不是正确的复杂度
+
+我又测试了一个“延迟终止链”族。状态 $n$ 经同一标签转移到 $n-1$，状态 $0$ 停止。对于长度 $M=64$ 的链，
+
+$$
+
+N_k=k+1\qquad(k\le64).
+
+$$
+
+所以签名类型数持续增长。
+
+但给这些状态不同的质量分布，会得到完全不同的结构意义。
+
+定义下面的有限图册误差：
+
+$$
+
+\tau_{K,L}
+=
+1-
+\sum_{C\in\mathcal P_K}
+\max_{\substack{D\in\mathcal P_L\\D\subseteq C}}
+\mu(D),
+
+$$
+
+其中 $\mathcal P_k$ 是 $\sigma_k$ 给出的划分。
+
+它等于：
+
+> 为使“深度 $K$ 签名决定深度 $L$ 签名”，最少需要删除的质量。
+
+再定义
+
+$$
+
+\tau_K=\sup_{L>K}\tau_{K,L}.
+
+$$
+
+实验结果如下：
+
+| 深度 $K$ | 类型数 $N_K$ | 64 状态均匀质量的 $\tau_K$ | 几何质量 $p_n\propto2^{-n}$ 的 $\tau_K$ |
+|---:|---:|---:|---:|
+| 2 | 3 | 0.96875 | 0.25 |
+| 8 | 9 | 0.875 | 0.00390625 |
+| 16 | 17 | 0.75 | $1.53\times10^{-5}$ |
+| 32 | 33 | 0.50 | $2.33\times10^{-10}$ |
+| 64 | 65 | 0 | 0 |
+
+两列的类型增长完全相同，但意义相反：
+
+- **均匀质量：** 对固定 $K$，当链越来越长时，几乎全部质量仍有未解析未来。这是真正的非紧 overflow。
+- **几何质量：** 类型数仍不断增长，但未解析质量指数下降；删除极小质量后已有有限图册。这不应触发正密度结构结论。
+
+所以：
+
+$$
+
+\boxed{
+N_k\to\infty
+\quad\not\Rightarrow\quad
+\text{正密度 overflow}.
+}
+
+$$
+
+---
+
+## 3. 在仓库小模型上的 $\tau_K$
+
+使用均匀状态质量：
+
+| 模型 | $N_k$ | $\tau_0$ | $\tau_1$ | $\tau_2$ |
+|---|---|---:|---:|---:|
+| normal $Q_4$ | $4,24,24$ | $5/6$ | $0$ | $0$ |
+| dynamic deadlock | $5,31,40,40$ | $7/8$ | $9/40$ | $0$ |
+
+这两个模型虽然一开始都有很大的局部不确定性，但都在统一有限深度后变成 exact-future atlas。
+
+这也符合仓库现有的有限证据：
+
+- $b=3$ 四块 exact-cover 样本中出现的 54 个 raw cycles 都是单条实际边周围的三状态/六步振荡，做同边 $R$-reduction 后全部消失；
+- 200 个四块 general covers 和 50 个五块 general covers 中都没有发现新的 reduced residual core。turn777634view2
+
+这些结果支持的是“小模型中有限接口很快稳定或被既有模块解释”，而不是一般有限图册定理。
+
+---
+
+## 4. 还必须处理“实际名字爆炸”
+
+只用 $\tau_K$ 仍不够。
+
+仓库要求 execution object 保存实际顶点、blocker-edge identity、support、genealogy 和三份账本历史，并且只有在保持 actual support 与全部合法后继时才能合并历史。
+
+但若把所有实际名字直接放进签名：
+
+- $b$ 增大时，$N_0$ 会仅因顶点名称不同而增长；
+- 若把完整 genealogy word 放进 $d(u)$，即使是一个二状态周期，展开到深度 64 也会出现 65 个“不同历史”；
+- 反过来，若每个完整实际状态已经唯一，$\tau_0=0$，有限图册问题又被人为消除了。
+
+因此需要把两件事分开：
+
+1. **类型按重命名后的结构形状计数；**
+2. **实际名字作为 marks/resources 被保留，但不因名称本身制造新类型。**
+
+可将深度 $K$ 的签名理解为一种 **orbit signature**：
+
+- 固定 root、pivot、当前 support boundary 等必须固定的实际名字；
+- 内部新出现的实际顶点和边允许做一致重命名；
+- 必须保存“同一条实际边是否再次出现”、两个分支是否共享实际顶点、support tuple 是否真正存在等相等关系；
+- 完整 genealogy 仍作为审计证书保存，但只有在改变后续合法动作或账本余额时才进入接口。
+
+这类似“带实际资源 marks 的最小自动机”，而不是删除实际身份的 phase quotient。
+
+---
+
+## 5. 推荐的复杂度定义
+
+令 $B_K(u)$ 为深度 $K$ 未来中仍然“活跃”的实际资源边界，例如：
+
+- 在已展开部分和未展开未来中都会再次出现的实际顶点；
+- 会影响多个后继的 blocker edges；
+- 持续存在的 root/pivot/slot；
+- 尚未结清的 support 或 ledger token。
+
+定义活动宽度
+
+$$
+
+w_K(u)=|B_K(u)|.
+
+$$
+
+然后用二参数尾量
+
+$$
+
+\Theta_{K,L}(\mathcal X)
+=
+\tau_K(\mathcal X)
++
+\mu\{u:w_K(u)>L\}.
+
+$$
+
+它区分两种问题：
+
+### 未来逻辑 overflow
+
+$$
+
+\tau_K\not\to0.
+
+$$
+
+即使活动资源数有界，也有正质量的历史要看越来越深才能判断未来。这应产生：
+
+- stop/augmentation 差异；
+- support splice 差异；
+- reroot/pivot 差异；
+- 或一个真正的无限 exact-future core。
+
+### 资源接口 overflow
+
+$$
+
+\mu(w_K>L)\not\to0.
+
+$$
+
+正质量需要越来越多实际资源才能描述。此时自然二分是：
+
+- 资源大多不同：产生 actual-edge growth、pair-incidence 增长或 heavy-pair concentration；
+- 资源来自小代码簿但反复使用：产生 recurrent codebook/reversible core；
+- 分支对资源组合不相容：产生 $S$-witness；
+- root/pivot 关系持续改变：产生 $A$/reset 类结构。
+
+这正好对应此前希望得到的结构出口，而不是凭类型数直接推导出口。
+
+---
+
+## 6. 建议改写 overflow-to-structure theorem
+
+设 $\mathcal X_n$ 是一列 faithful executions。定义
+
+$$
+
+\operatorname{Ov}(\mathcal X_n)
+=
+\lim_{K,L\to\infty}
+\limsup_{n\to\infty}
+\Theta_{K,L}(\mathcal X_n).
+
+$$
+
+更可信的定理形式是：
+
+> **Measured equivariant overflow-to-structure theorem。**
+> 若
+> $$
+
+> \operatorname{Ov}(\mathcal X_n)=0,
+>
+$$
+> 则对每个 $\varepsilon>0$，删除至多 $\varepsilon$ 质量后，存在统一有限深度、统一有限活动宽度的 faithful orbit atlas。
+>
+> 若
+> $$
+
+> \operatorname{Ov}(\mathcal X_n)\ge\eta>0,
+>
+$$
+> 则有正的 $\eta$-依赖质量产生以下至少一种：
+> $$
+
+> S,\quad A/\mathrm{reset},\quad
+> \text{actual-edge/pair growth},\quad
+> \text{heavy-pair concentration},\quad
+> \text{recurrent exact-future codebook/core}.
+>
+$$
+
+所以此前的“复杂度无界”应收紧为：
+
+$$
+
+\boxed{
+\text{不存在统一的有限深度、有限活动资源宽度、}
+o(1)\text{ 异常质量的 faithful atlas}.
+}
+
+$$
+
+这比“某个无限对象的签名永不严格稳定”强得多，也更接近路线 B 所需的**正密度结构结论**。
+
+最后，下一轮数值审计最值得加入的不是单独输出 $N_k$，而是同时输出：
+
+$$
+
+N_k,\qquad
+\tau_{K,L},\qquad
+H(\sigma_{k+1}\mid\sigma_k),\qquad
+w_K\text{ 的分布},
+
+$$
+
+并为每个签名分裂记录第一个不同字段：support、blocker edge、pivot/root、ledger、stop 或 reroot。这样才能直接观察 overflow 质量究竟流向 $S/A$、新实际边，还是有限代码簿核心。
+
+
+【提问 轮数3】
+[User is quoting/referring to: "uniform overflow-to-structure 定理"]
+
+由这个观察来严格陈述并证明此定理
+
+【回答内容 轮数3】
+我会把上一步的数值观察提升为一个真正可证明的“测度化、等变、有限图册”定理，并把结论分成两层：第一层是无需额外组合假设的紧性二分；第二层是在仓库的 witness 完备性假设下，推出 $S/A/$新边增长/可逆核心的结构出口。这样可以清楚区分已经严格证明的部分与仍需仓库补证的接口引理。
+
+【回答内容 轮数3】
+可以，但必须先把结论分成两层：
+
+1. **无条件可证明：** overflow 等价于“不存在统一有限深度、有限活动宽度、忽略小质量后的 faithful atlas”，并且 overflow 质量可严格分解成“宽度溢出”或有限种“首次未来分歧”。
+2. **通向 $S/A/$新边增长/可逆核心：** 还需要一个有界重数的 witness-conversion 引理。仅从 future signatures 不稳定本身，不能推出这些超图结构。
+
+仓库目前也只证明了：有限层稳定会给出 faithful atlas；不稳定会产生 inverse-limit exact-future object，而从接口复杂度导出具体 `W/S/A` 仍是开放问题。 仓库要求 quotient 同时保留实际顶点、blocker-edge identity、support、genealogy 和各账本历史，不能只压缩抽象 phase。
+
+下面给出严格版本。
+
+---
+
+# 一、faithful future 系统
+
+考虑一列带概率的执行对象
+
+$$
+
+\mathbf X=\bigl(X_n,\mu_n,T_n\bigr)_{n\ge1}.
+
+$$
+
+其中 $x\in X_n$ 表示一个实际执行历史，$T_n(x)$ 是从 $x$ 出发的完整未来树。假设：
+
+### 假设 F1：局部有限
+
+每个未来树有限分支，并且每个有限深度截断只包含有限个节点和实际资源。
+
+### 假设 F2：faithful 标签
+
+节点和转移标签保留：
+
+$$
+
+\begin{aligned}
+&\text{实际块、实际选点、实际 blocker edge，}\\
+&\text{support、root、pivot、released endpoint，}\\
+&\text{genealogy/interface token、各 ledger 状态、stop 状态。}
+\end{aligned}
+
+$$
+
+实际资源允许作保持块、资源种类、相等关系和关联关系的一致重命名；这种重命名不允许把两条不同的实际边合并。
+
+这正对应 FW-60 对 faithful execution 的要求。
+
+### 深度签名
+
+令
+
+$$
+
+\sigma_{n,k}(x)
+
+$$
+
+是 $T_n(x)$ 的深度 $k$ 截断在上述 faithful 重命名下的同构类型。
+
+其递归形式可以写成
+
+$$
+
+\sigma_{0}(x)=d(x),
+
+$$
+
+$$
+
+\sigma_{k+1}(x)
+=
+\left(
+d(x),
+\{\!\{(\lambda(x,y),\sigma_k(y)):x\to y\}\!\},
+\operatorname{stop}(x)
+\right),
+
+$$
+
+其中 $d$ 和 $\lambda$ 都是完整 faithful 数据，而不是只保留抽象动作名称。这是仓库现有 signature hierarchy 的等变版本。
+
+定义 exact-future 类型
+
+$$
+
+\sigma_{n,\infty}(x)
+=
+\bigl(\sigma_{n,k}(x)\bigr)_{k\ge0}.
+
+$$
+
+---
+
+## 引理 1：有限签名确定完整未来
+
+若
+
+$$
+
+\sigma_{n,k}(x)=\sigma_{n,k}(y)
+\qquad\text{对每个 }k,
+
+$$
+
+则 $T_n(x)$ 和 $T_n(y)$ faithful 同构。
+
+### 证明
+
+对每个 $k$，令 $\mathcal I_k$ 为两个深度 $k$ 截断之间所有 faithful 同构的有限集合。
+
+由签名相等，$\mathcal I_k\ne\varnothing$。把 $\phi_{k+1}\in\mathcal I_{k+1}$ 与其限制
+
+$$
+
+\phi_{k+1}|_{\le k}\in\mathcal I_k
+
+$$
+
+相连。这形成一棵无限、有有限分支且每层非空的树。
+
+由 König 引理，存在相容序列
+
+$$
+
+\phi_0\subseteq\phi_1\subseteq\phi_2\subseteq\cdots.
+
+$$
+
+其并
+
+$$
+
+\phi=\bigcup_k\phi_k
+
+$$
+
+是完整未来树之间的 faithful 同构。∎
+
+因此 exact-future 类型不是额外假设，而是有限签名的逆极限。
+
+---
+
+# 二、活动资源宽度
+
+单纯计算未来中出现过多少实际名字并不合适。一个过程可以不断引入新边，但旧边再也不用；这并不要求一个不断扩大的实时接口。
+
+对未来树 $T=T_n(x)$ 和深度切口 $j$，定义活动边界 $B_j(T)$ 为以下实际资源的集合：
+
+1. 在深度不超过 $j$ 的部分出现过；
+2. 在深度大于 $j$ 的某个合法未来中还会再次被引用；
+
+并加入在切口处尚未结清的 root、slot、support 和 ledger obligations。
+
+定义
+
+$$
+
+w_n(x)=\sup_{j\ge0}|B_j(T_n(x))|.
+
+$$
+
+这里不同种类的资源也可以分别计数，得到一个宽度向量；为简化陈述，先使用其总和。
+
+这个定义具有三点性质：
+
+$$
+
+w_n(x)
+
+$$
+
+在 faithful 重命名下不变；同一条实际边反复出现只计一个活动资源；已经永远退出未来的旧资源不再占据接口。
+
+---
+
+## 假设 F3：局部等变有限性
+
+对每个固定 $K,L$，存在与 $n$ 无关的有限数 $q(K,L)$，使得
+
+$$
+
+\left|
+\left\{
+\sigma_{n,K}(x):w_n(x)\le L
+\right\}
+\right|
+\le q(K,L).
+
+$$
+
+这是“接口字母表固定、实际名字按等变方式处理”的严格版本。
+
+仓库中“固定深度签名有限”目前依赖于数据字母表有限和分支度有界；这里的 F3 是对一列规模增长模型所需的统一版本。
+
+---
+
+# 三、最优有限图册误差
+
+给定 $K,L$，考虑所有函数
+
+$$
+
+f:
+\{\text{深度 }K\text{ 签名}\}
+\longrightarrow
+\{\text{exact-future 类型}\}.
+
+$$
+
+定义它所正确描述的集合
+
+$$
+
+E_f
+=
+\left\{
+x:
+w_n(x)\le L,\
+\sigma_{n,\infty}(x)
+=
+f(\sigma_{n,K}(x))
+\right\}.
+
+$$
+
+也就是说，在 $E_f$ 上：
+
+- 活动接口宽度至多 $L$；
+- 只看深度 $K$ 签名就能确定完整 exact future。
+
+定义最优可图册化质量
+
+$$
+
+\alpha_n(K,L)
+=
+\sup_f\mu_n(E_f),
+
+$$
+
+以及图册误差
+
+$$
+
+\Theta_n(K,L)=1-\alpha_n(K,L).
+
+$$
+
+由于宽度不超过 $L$ 的深度 $K$ 签名至多有 $q(K,L)$ 种，$E_f$ 自动被分成至多 $q(K,L)$ 个 exact-future charts。
+
+还有等价公式
+
+$$
+
+\alpha_n(K,L)
+=
+\sum_s
+\sup_t
+\mu_n
+\left(
+w_n\le L,\
+\sigma_{n,K}=s,\
+\sigma_{n,\infty}=t
+\right),
+
+$$
+
+其中 $s$ 遍历深度 $K$ 签名，$t$ 遍历 exact-future 类型。
+
+这正是每个有限签名 cell 中选择概率最大的 exact type。
+
+---
+
+# 四、统一 overflow
+
+定义
+
+$$
+
+\boxed{
+\operatorname{Ov}(\mathbf X)
+=
+\inf_{K,L}
+\limsup_{n\to\infty}
+\Theta_n(K,L).
+}
+
+$$
+
+因为增大 $K$ 或 $L$ 只会增大可图册化质量，$\Theta_n(K,L)$ 对两个参数都是单调不增的。
+
+---
+
+# 定理 A：统一测度化等变图册定理
+
+在 F1–F3 下，以下两者等价。
+
+### 条件 1：无 overflow
+
+$$
+
+\operatorname{Ov}(\mathbf X)=0.
+
+$$
+
+### 条件 2：统一近似 finite atlas
+
+对每个 $\varepsilon>0$，存在整数 $K,L,N$，使得对每个 $n\ge N$，存在集合
+
+$$
+
+E_n\subseteq X_n,
+\qquad
+\mu_n(E_n)\ge1-\varepsilon,
+
+$$
+
+满足：
+
+1. $w_n(x)\le L$ 对所有 $x\in E_n$；
+2. 在 $E_n$ 上，$\sigma_{n,\infty}$ 是 $\sigma_{n,K}$ 的函数；
+3. $E_n$ 可以分成至多 $q(K,L)$ 个 faithful exact-future charts。
+
+---
+
+## 证明
+
+### $1\Rightarrow2$
+
+设 $\varepsilon>0$。
+
+由
+
+$$
+
+\inf_{K,L}\limsup_n\Theta_n(K,L)=0,
+
+$$
+
+可选取 $K,L$，使得
+
+$$
+
+\limsup_{n\to\infty}\Theta_n(K,L)<\varepsilon.
+
+$$
+
+于是存在 $N$，使得所有 $n\ge N$ 满足
+
+$$
+
+\Theta_n(K,L)<\varepsilon.
+
+$$
+
+对每个这样的 $n$，选择达到最优值的函数 $f_n$。令
+
+$$
+
+E_n
+=
+\left\{
+x:
+w_n(x)\le L,\
+\sigma_{n,\infty}(x)
+=
+f_n(\sigma_{n,K}(x))
+\right\}.
+
+$$
+
+则
+
+$$
+
+\mu_n(E_n)
+=
+\alpha_n(K,L)
+=
+1-\Theta_n(K,L)
+>
+1-\varepsilon.
+
+$$
+
+按深度 $K$ 签名把 $E_n$ 分块。F3 表明这样的非空块至多有 $q(K,L)$ 个。
+
+在每个块中，
+
+$$
+
+\sigma_{n,\infty}=f_n(s)
+
+$$
+
+恒定，所以每个块是一个 faithful exact-future chart。∎
+
+### $2\Rightarrow1$
+
+给定 $\varepsilon>0$，取条件 2 中的 $K,L,N$。
+
+因为在 $E_n$ 上 exact future 由 $\sigma_{n,K}$ 决定，所以存在函数 $f_n$，满足
+
+$$
+
+E_n
+\subseteq
+\left\{
+w_n\le L,\
+\sigma_{n,\infty}=f_n(\sigma_{n,K})
+\right\}.
+
+$$
+
+故
+
+$$
+
+\alpha_n(K,L)\ge\mu_n(E_n)\ge1-\varepsilon,
+
+$$
+
+于是
+
+$$
+
+\Theta_n(K,L)\le\varepsilon
+\qquad(n\ge N).
+
+$$
+
+因此
+
+$$
+
+\operatorname{Ov}(\mathbf X)
+\le
+\limsup_n\Theta_n(K,L)
+\le\varepsilon.
+
+$$
+
+令 $\varepsilon\downarrow0$，得到
+
+$$
+
+\operatorname{Ov}(\mathbf X)=0.
+
+$$
+
+∎
+
+---
+
+## 注：有限 atlas 必然在有限深度可见
+
+设某个集合 $E$ 只包含有限个 exact-future 类型
+
+$$
+
+t_1,\dots,t_m.
+
+$$
+
+对每一对 $i\ne j$，因为 $t_i\ne t_j$，存在有限的 $K_{ij}$ 使它们的 $K_{ij}$-签名不同。
+
+取
+
+$$
+
+K=\max_{i\ne j}K_{ij}.
+
+$$
+
+则深度 $K$ 签名已经区分所有 $t_i$。
+
+所以“由有限深度读取”不是额外限制；真正重要的是存在一个**对整列模型统一的 $K$**。
+
+---
+
+# 五、overflow 的严格首次分歧分解
+
+现在说明 overflow 至少会产生什么。
+
+选定签名记录的有限字段列表，例如：
+
+$$
+
+\mathfrak D=
+\left\{
+\begin{array}{l}
+\textsf{stop},\\
+\textsf{support},\\
+\textsf{root/pivot/release},\\
+\textsf{blocker/incidence},\\
+\textsf{successor multiplicity},\\
+\textsf{transition label},\\
+\textsf{genealogy/ledger}
+\end{array}
+\right\}.
+
+$$
+
+字段可以进一步细分，但必须是一个固定有限列表。
+
+对固定 $n,K,L$，选择最优函数 $f_n$。记
+
+$$
+
+E_{n,K,L}
+=
+\{w_n\le L,\ \sigma_\infty=f_n(\sigma_K)\}.
+
+$$
+
+对任意
+
+$$
+
+x\notin E_{n,K,L},
+\qquad w_n(x)\le L,
+
+$$
+
+令
+
+$$
+
+t=f_n(\sigma_{n,K}(x)).
+
+$$
+
+因为 $x$ 与 $t$ 具有相同的深度 $K$ 签名，但 exact future 不同，存在最小整数
+
+$$
+
+j(x)>K
+
+$$
+
+使得
+
+$$
+
+\sigma_{n,j(x)}(x)\ne t_{j(x)}.
+
+$$
+
+按照这两个签名在固定字段顺序中的首个不同字段，为 $x$ 指定颜色
+
+$$
+
+c(x)\in\mathfrak D.
+
+$$
+
+令
+
+$$
+
+\Delta_{n,c}^{K,L}
+=
+\left\{
+x:
+w_n(x)\le L,\
+x\notin E_{n,K,L},\
+c(x)=c
+\right\}.
+
+$$
+
+---
+
+# 定理 B：primitive overflow-to-structure
+
+对所有 $n,K,L$，有严格恒等式
+
+$$
+
+\boxed{
+\Theta_n(K,L)
+=
+\mu_n\{w_n>L\}
++
+\sum_{c\in\mathfrak D}
+\mu_n\bigl(\Delta_{n,c}^{K,L}\bigr).
+}
+
+$$
+
+因此，若
+
+$$
+
+\operatorname{Ov}(\mathbf X)\ge\eta>0,
+
+$$
+
+并令 $d=|\mathfrak D|$，则存在一种固定类型
+
+$$
+
+c_*
+\in
+\{\textsf{width}\}\cup\mathfrak D
+
+$$
+
+以及序列
+
+$$
+
+K_m,L_m,n_m\longrightarrow\infty,
+
+$$
+
+使得
+
+$$
+
+\limsup_{m\to\infty}
+\mu_{n_m}
+\bigl(\Delta_{n_m,c_*}^{K_m,L_m}\bigr)
+\ge
+\frac{\eta}{d+1},
+
+$$
+
+这里当 $c_*=\textsf{width}$ 时，把相应集合解释为
+
+$$
+
+\{w_{n_m}>L_m\}.
+
+$$
+
+---
+
+## 证明
+
+集合 $X_n\setminus E_{n,K,L}$ 被不交地分成：
+
+$$
+
+\{w_n>L\}
+
+$$
+
+以及
+
+$$
+
+\{w_n\le L,\ \sigma_\infty\ne f_n(\sigma_K)\}.
+
+$$
+
+第二部分中的每个点都有唯一的首次分歧深度和按固定规则确定的首次分歧类型，因此它又被不交地分解为
+
+$$
+
+\bigsqcup_{c\in\mathfrak D}\Delta_{n,c}^{K,L}.
+
+$$
+
+故
+
+$$
+
+\begin{aligned}
+\Theta_n(K,L)
+&=1-\mu_n(E_{n,K,L})\\
+&=\mu_n(X_n\setminus E_{n,K,L})\\
+&=
+\mu_n\{w_n>L\}
++
+\sum_{c\in\mathfrak D}
+\mu_n(\Delta_{n,c}^{K,L}).
+\end{aligned}
+
+$$
+
+现在假设 $\operatorname{Ov}\ge\eta$。取
+
+$$
+
+K_m=L_m=m.
+
+$$
+
+由 overflow 定义，
+
+$$
+
+\limsup_n\Theta_n(K_m,L_m)\ge\eta.
+
+$$
+
+可递归选取严格递增的 $n_m$，使得
+
+$$
+
+\Theta_{n_m}(K_m,L_m)\ge\eta-\frac1m.
+
+$$
+
+右侧被分成 $d+1$ 个非负项，所以至少有一项不小于
+
+$$
+
+\frac{\eta-1/m}{d+1}.
+
+$$
+
+因为类型只有 $d+1$ 种，由无限抽屉原理，存在某个固定类型 $c_*$ 在无限多个 $m$ 上实现该下界。取这个子序列并令 $m\to\infty$，得到
+
+$$
+
+\limsup_m\mu_{n_m}(\Delta_{n_m,c_*}^{K_m,L_m})
+\ge\frac{\eta}{d+1}.
+
+$$
+
+∎
+
+---
+
+# 六、为什么这还不是仓库所需的结构定理
+
+定理 B 只产生：
+
+- 正质量的活动宽度溢出；或
+- 正质量的首次 support、pivot、blocker、successor、ledger 等分歧。
+
+它没有自动证明这些分歧能转化为：
+
+$$
+
+S,\quad A/\mathrm{reset},\quad
+\text{不同实际边增长},\quad
+\text{heavy-pair concentration},\quad
+\text{recurrent core}.
+
+$$
+
+这不是技术措辞问题，而是逻辑上必需的额外步骤。
+
+---
+
+## 反例：延迟终止链
+
+令
+
+$$
+
+X_n=\{0,1,\dots,n-1\}
+
+$$
+
+带均匀测度。状态 $j$ 的未来是一条长度 $j$ 的路径，然后停止；所有转移标签相同，不含任何实际资源，因此
+
+$$
+
+w_n(j)=0.
+
+$$
+
+深度 $K$ 签名可以区分
+
+$$
+
+j=0,1,\dots,K-1,
+
+$$
+
+但所有 $j\ge K$ 仍处于同一个签名 cell。
+
+一个深度 $K$ atlas 最多保留：
+
+- 前 $K$ 个已被区分的 exact types；
+- 尾部 cell 中的一个 exact type。
+
+所以
+
+$$
+
+\alpha_n(K,L)=\frac{K+1}{n}
+\qquad(n>K),
+
+$$
+
+从而
+
+$$
+
+\Theta_n(K,L)=1-\frac{K+1}{n}
+\longrightarrow1.
+
+$$
+
+因此
+
+$$
+
+\operatorname{Ov}(\mathbf X)=1.
+
+$$
+
+但这个系统：
+
+- 没有实际边；
+- 没有 support；
+- 没有 pivot；
+- 没有 augmentation；
+- 没有循环或 recurrent core。
+
+所以：
+
+$$
+
+\boxed{
+\text{signature overflow 本身不能推出 Route-B 超图结构。}
+}
+
+$$
+
+它只能推出持续存在的首次未来分歧。
+
+---
+
+# 七、有界重数条件下的真正 overflow-to-structure 定理
+
+现在给出能严格推出所需结构出口的条件版本。
+
+令
+
+$$
+
+\mathfrak Z=
+\{
+S,\ A,\ G_{\rm edge},\
+G_{\rm pair},\
+C_{\rm rec},\
+D_{\rm nat}
+\}
+
+$$
+
+表示预先独立定义的自然结构量，其中：
+
+- $S$：actual-support inconsistency 密度；
+- $A$：augmentation/reroot/reset 密度；
+- $G_{\rm edge}$：不同实际边增长密度；
+- $G_{\rm pair}$：共同顶点上的 pair-load concentration；
+- $C_{\rm rec}$：recurrent exact-future codebook/core 密度；
+- $D_{\rm nat}$：其他已经独立定义的自然缺陷。
+
+记相应的非负数为
+
+$$
+
+z_{n,Z}\ge0.
+
+$$
+
+---
+
+## Witness-completeness 假设 WC
+
+存在与 $n,K,L$ 无关的常数
+
+$$
+
+C_{c,Z}\ge0,\qquad C_{\mathrm w,Z}\ge0,
+
+$$
+
+以及满足
+
+$$
+
+r_c(K,L)\longrightarrow0,
+\qquad
+r_{\mathrm w}(L)\longrightarrow0
+
+$$
+
+的误差项，使得：
+
+$$
+
+\mu_n(\Delta_{n,c}^{K,L})
+\le
+\sum_{Z\in\mathfrak Z}C_{c,Z}z_{n,Z}
++r_c(K,L)
+
+$$
+
+对每个 $c\in\mathfrak D$ 成立，并且
+
+$$
+
+\mu_n\{w_n>L\}
+\le
+\sum_{Z\in\mathfrak Z}C_{\mathrm w,Z}z_{n,Z}
++r_{\mathrm w}(L).
+
+$$
+
+其含义是：每个首次分歧或活动宽度溢出都能以统一有界重数转换成某个独立定义的实际结构证书。
+
+---
+
+# 定理 C：Uniform overflow-to-structure
+
+在 F1–F3 和 WC 下，令
+
+$$
+
+C_Z=C_{\mathrm w,Z}+\sum_{c\in\mathfrak D}C_{c,Z}.
+
+$$
+
+则
+
+$$
+
+\boxed{
+\operatorname{Ov}(\mathbf X)
+\le
+\sum_{Z\in\mathfrak Z}
+C_Z
+\limsup_{n\to\infty}z_{n,Z}.
+}
+
+$$
+
+特别地，若
+
+$$
+
+\operatorname{Ov}(\mathbf X)\ge\eta>0,
+
+$$
+
+则至少存在一种结构 $Z\in\mathfrak Z$，满足
+
+$$
+
+\boxed{
+\limsup_{n\to\infty}z_{n,Z}
+\ge
+\frac{\eta}{\sum_{Y\in\mathfrak Z}C_Y}.
+}
+
+$$
+
+---
+
+## 证明
+
+由定理 B，
+
+$$
+
+\Theta_n(K,L)
+=
+\mu_n\{w_n>L\}
++
+\sum_c\mu_n(\Delta_{n,c}^{K,L}).
+
+$$
+
+应用 WC：
+
+$$
+
+\begin{aligned}
+\Theta_n(K,L)
+&\le
+\sum_Z C_{\mathrm w,Z}z_{n,Z}
++r_{\mathrm w}(L)\\
+&\quad+
+\sum_c
+\left(
+\sum_Z C_{c,Z}z_{n,Z}
++r_c(K,L)
+\right)\\
+&=
+\sum_ZC_Zz_{n,Z}
++
+r_{\mathrm w}(L)
++
+\sum_cr_c(K,L).
+\end{aligned}
+
+$$
+
+先取 $n\to\infty$ 的上极限：
+
+$$
+
+\limsup_n\Theta_n(K,L)
+\le
+\sum_ZC_Z\limsup_nz_{n,Z}
++
+r_{\mathrm w}(L)
++
+\sum_cr_c(K,L).
+
+$$
+
+再令 $K,L\to\infty$，误差项趋于零，因此
+
+$$
+
+\operatorname{Ov}(\mathbf X)
+\le
+\sum_ZC_Z\limsup_nz_{n,Z}.
+
+$$
+
+若左侧至少为 $\eta$，则
+
+$$
+
+\eta
+\le
+\sum_ZC_Z\limsup_nz_{n,Z}.
+
+$$
+
+假如所有 $Z$ 都满足
+
+$$
+
+\limsup_nz_{n,Z}
+<
+\frac{\eta}{\sum_YC_Y},
+
+$$
+
+则右侧严格小于 $\eta$，矛盾。因此至少一个 $Z$ 满足所述下界。∎
+
+---
+
+# 八、它对路线 B 的准确意义
+
+现在可以把原先较模糊的命题严格改写为：
+
+> **Uniform overflow-to-structure conjecture for Route B.**
+> 对仓库中的 faithful execution family，F3 成立，并且存在满足 WC 的统一 witness-conversion 体系，其中结构出口为
+> $$
+
+> S,\ A/\mathrm{reset},\
+> \text{distinct real-edge growth},\
+> \text{common-vertex pair concentration},\
+> \text{recurrent exact-future core}.
+>
+$$
+
+其中：
+
+- **定理 A 已经给出完整的紧性/finite-atlas 逻辑；**
+- **定理 B 已经把 overflow 精确定位到有限类首次分歧；**
+- **定理 C 的证明只是严格的质量传递；**
+- **真正尚待证明的是 WC。**
+
+而 WC 的各部分几乎逐项对应此前的两个缺口：
+
+| 首次分歧/宽度类型 | 需要证明的转换 |
+|---|---|
+| support 分歧 | actual $S$-witness |
+| root/pivot/release 分歧 | $A$、reset 或 augmentation |
+| blocker identity 分歧 | 新实际边、pair concentration 或有限 codebook |
+| successor multiplicity 分歧 | augmentation、deadlock 或自然 defect |
+| genealogy/ledger 分歧 | information loss 或 recurrent core |
+| 活动宽度溢出 | Hall/token aggregation，即缺口 B |
+| 重复多边历史 | residual-core classification，即缺口 C |
+
+所以，**严格意义上已经证明的是 uniform overflow-to-primitive-structure；要得到仓库所需的 uniform overflow-to-Route-B-structure，还必须证明 WC，而 WC 不能由 signature compactness 单独推出。**
+
+这也符合 FW-60 的要求：faithful compactness/tightness theorem 可以独立成为进展，但不能把未转换的 residual mass 直接命名为 defect，也不能把三项 closure interface 合并成一个抽象“复杂度”。
+
+本轮仍只进行了只读分析，没有对仓库做任何修改。
+
+
+【提问 轮数4】
+请你指出为了得到1/4的定理，我们还需要什么？
+
+【回答内容 轮数4】
+我会把现有路线压缩成一张“从当前结果到 $1/4$ 定理”的依赖图：哪些已经具备、哪些是必要缺口、哪一个是最小可攻克目标，以及每个缺口闭合后如何接到最终计数。
+
+【回答内容 轮数4】
+## 核心判断
+
+仅仅证明 **uniform overflow-to-structure** 还不能得到 $1/4$ 定理。它解决的是“无限复杂度不能被悄悄压缩”的问题，但从当前仓库状态到最终结论，至少还需要完成下面这条链：
+
+$$
+
+\boxed{
+\begin{aligned}
+&\text{任意无 IT 低度反例}\\
+&\Downarrow\\
+&\text{faithful 全局执行对象}+\text{自然 defect}\\
+&\Downarrow\\
+&\text{正 defect 的定量出口}
+\quad\text{或}\quad
+\text{近零 defect}\\
+&\Downarrow\\
+&\text{binary regeneration forest}
++\text{reversible cores}\\
+&\Downarrow\\
+&\text{增广/完整块矛盾/真实临界 link}\\
+&\Downarrow\\
+&\deg_H(p)\ge \left(\frac14-o(1)\right)b^2.
+\end{aligned}}
+
+$$
+
+仓库自己给出的逻辑路径也是“全局执行对象 $\to$ 零缺陷正常形 $\to$ 可逆核心饱和 $\to$ terminal $1/4$ 结构 $\to$ $\varepsilon$-稳定性”；目前这些主节点仍未闭合。turn622063view0
+
+---
+
+# 一、合法的全局入口
+
+需要证明一个适用于**任意块极小、无独立横截、目标低度实例**的定理。
+
+## 所需定理 E1：Faithful global execution
+
+对每个这样的 $H$，构造概率执行对象
+
+$$
+
+\mathcal X_H
+
+$$
+
+满足：
+
+- 质量守恒，不复制执行质量；
+- future-complete；
+- 保留实际块、实际顶点和 blocker-edge identity；
+- 保留 root projection、pivot、释放点；
+- 保留 actual carrier support；
+- 保留完整 genealogy；
+- 保留 root、slot、global-real-edge 三份独立账本；
+- 所有 quotient 都保持完整合法后继。
+
+同时定义自然非负泛函
+
+$$
+
+\Def(\mathcal X_H)
+=
+D_{\rm crit}
++D_{\rm info}
++D_{\rm nonnormal}
++D_{\rm support}
++D_{\rm boundary}
++\cdots
+
+$$
+
+其中每一项都必须是独立可审计的实际量，不能把“剩余未处理质量”直接称为 defect。仓库把这一步列为活跃问题 Q-0018，并明确说明目前还没有从任意目标超图到统一全局对象的完整入口和 tightness 定理。turn622063view3
+
+### 这一步内部还缺什么
+
+我们讨论的三个接口正位于这里：
+
+1. **critical-profile identification**
+   把 clean chart 中的
+   $$
+
+   F_n(a)=\frac1{n(n-1)}\sum_{i\ne j}a_i(1-a_j)
+
+$$
+   忠实识别为实际 pair-cylinder cross mass；识别失败必须产生具体的 $W/M/A/N/S/R/\mathrm{reset}$ 证书。
+
+2. **heavy-pair aggregation**
+   不能停在“存在一个 $d(x,r)=\Omega(b)$ 的 pair”；必须证明大量 heavy-pair load 要么集中到同一 $x$，要么产生足够多不同实际边，要么形成 $S/A$ codebook 或 recurrent core。仓库已明确记录，单个线性 pair codegree 不能直接推出二次的 $b^2/4$ 度数。turn622063view4
+
+3. **overflow witness-completeness**
+   我们前面形式化的 WC：每种正质量的 future 分歧或活动资源宽度溢出，都必须以统一有界重数转换成一个真实结构证书，而不能只得到一个抽象 inverse-limit object。仓库目前只证明了“有限层稳定或 overflow”，并明确把 overflow 到实际结构的转换列为开放问题。turn973920view0
+
+---
+
+# 二、正 defect 必须有定量后果
+
+即使构造出了自然 defect，也不能只证明
+
+$$
+
+\Def>0.
+
+$$
+
+为了排除
+
+$$
+
+\Delta(H)<\left(\frac14-\varepsilon\right)b^2,
+
+$$
+
+需要一个**定量 defect alternative**。
+
+## 所需定理 E2：Defect-gap theorem
+
+对每个 $\varepsilon>0$，存在
+
+$$
+
+\delta(\varepsilon)>0,\qquad b_0(\varepsilon),
+
+$$
+
+使得若 $b\ge b_0(\varepsilon)$，则任意块极小无 IT 实例满足至少一个：
+
+$$
+
+\Delta(H)\ge
+\left(\frac14-\varepsilon\right)b^2,
+
+$$
+
+或
+
+$$
+
+\Def(\mathcal X_H)\le\delta(\varepsilon).
+
+$$
+
+更展开地说，每个 defect 项必须有自己的出口：
+
+- support defect $\to S$-证书、实际边增长或增广；
+- nonnormal defect $\to$ 可计数的真实窗口；
+- information loss $\to$ 不可逆进展或 recurrent core；
+- heavy-pair defect $\to$ 顶点集中、不同边增长或 codebook；
+- boundary/reset defect $\to$ 消耗独立的边界或方向预算。
+
+这一层不能依赖“所有 residual mass 都能逐单位收费”，但必须证明：**如果 defect 保持正密度，那么已经足以产生度数出口、增广出口或其他可接受矛盾。**
+
+目前 clean product-chart ledger 只控制执行质量；仓库明确提醒，它还没有给出从 rank/leaf mass 到不同原超图边的有界重数映射。turn973920view0
+
+---
+
+# 三、零 defect 全局正常形
+
+假设得到一列反例，其 defect 趋于零。接下来需要精确分类其极限。
+
+## 所需定理 E3：Zero-defect normal form
+
+证明：
+
+$$
+
+\Def(\mathcal X)=0
+\quad\Longrightarrow\quad
+\mathcal X
+=
+\mathcal F\sqcup\mathcal C,
+
+$$
+
+其中：
+
+- $\mathcal F$ 是真实 genealogy 上的 **binary regeneration forest**；
+- $\mathcal C$ 是若干 **reversible exact-future cores**。
+
+并且这个分解必须保留：
+
+$$
+
+\text{actual edge/support/root/pivot/genealogy}.
+
+$$
+
+不能只得到 phase graph、universal cover 或抽象有限自动机。
+
+我们已经在 clean product chart 内得到局部二值性：
+
+$$
+
+D(a)=0
+\Longrightarrow
+a_i\in\{0,1\},\qquad
+\sum_i a_i=\frac n2,
+
+$$
+
+但还需要处理：
+
+- chart 之间的 reroot/reset 粘合；
+- 非稳定 future signatures；
+- forest/core 的规范分解；
+- terminal SCC 的 actual-support 表示。
+
+这就是仓库的 Q-0017；当前仍是开放节点。turn622063view1
+
+---
+
+# 四、森林部分必须终止或产生 $1/4$ 结构
+
+得到 binary regeneration forest 后，仍需证明它不能在低于 $1/4$ 的最大度下无限延伸而没有后果。
+
+## 所需定理 E4：Forest terminal theorem
+
+对每个正质量 binary regeneration component，至少出现：
+
+1. 一个实际 augmentation/survivor，从而继续构造 IT；
+2. 一个 genealogy leaf，给出可收费的实际出口；
+3. 重复 exact future，因而进入 reversible core；
+4. 一个顶点 $p$ 的临界 link 结构；
+5. 一个由完整真实块组成的更小无 IT 子实例。
+
+这里尤其要证明“二值且近平衡”的局部 profile 能沿 genealogy 粘合为真实 terminal structure，而不能只在每个局部 chart 分别选择不同的 pivot、不同的边或不同的 support。
+
+---
+
+# 五、可逆核心的 actual-support 饱和
+
+这是目前最硬的结构桥梁。
+
+## 所需定理 E5：Reversible-core saturation
+
+对每个正质量 reversible exact-future core，证明至少一个：
+
+$$
+
+\boxed{
+\begin{array}{ll}
+\text{(i)} & \text{实际 support 在合法 splice 下饱和；}\\
+\text{(ii)} & \text{存在真实 single-pivot critical link；}\\
+\text{(iii)} & \text{存在 augmentation 或 survivor；}\\
+\text{(iv)} & \text{存在完整真实块无 IT 子实例；}\\
+\text{(v)} & \text{存在严格正的自然 defect。}
+\end{array}}
+
+$$
+
+在零 defect 情形，第 (v) 项被排除，所以核心必须进入前四类。
+
+这一步不能假设：
+
+- 可逆性自动推出 product support；
+- 局部 same-pivot 自动粘成共同 pivot；
+- splice 可以免费反复；
+- 低阶投影可实现就意味着整体 support 可实现。
+
+仓库的 bounded computations 只支持 residual cores 很刚性，并不证明它们一般不存在；当前可信目标是 actual-support 模板分类，再对每个模板证明度数、增广、完整块或正 defect 后果。turn622063view1
+
+---
+
+# 六、真正产生 $1/4$ 的临界 link 定理
+
+“临界核心”本身还不是数值 $1/4$。需要一个把核心变成实际顶点度数的定理。
+
+## 所需定理 E6：Real critical-link product theorem
+
+证明终端结构产生某个实际顶点 $p$，以及两个实际顶点集 $A,B$，满足
+
+$$
+
+A\times B\subseteq E(L_H(p)),
+
+$$
+
+并且
+
+$$
+
+|A|=\left(\frac12-o(1)\right)b,
+\qquad
+|B|=\left(\frac12-o(1)\right)b.
+
+$$
+
+于是每个 $(a,b)\in A\times B$ 对应一条不同的实际超边
+
+$$
+
+\{p,a,b\}\in E(H),
+
+$$
+
+所以
+
+$$
+
+\deg_H(p)
+\ge |A||B|
+=
+\left(\frac14-o(1)\right)b^2.
+
+$$
+
+这里必须核实：
+
+- $A,B$ 是实际顶点集，不是相位或投影类；
+- 所有 pair 都真实存在于 link；
+- 不同 pair 对应不同实际超边；
+- 没有 genealogy 复用造成虚假的乘法计数；
+- 两侧大小确实接近 $b/2$，而不只是平均 continuation 概率为 $1/2$。
+
+仓库把“real critical-link product theorem”单独列为 Route B 的必要主进展之一。
+
+---
+
+# 七、精确分类还必须升级为固定 $\varepsilon$ 稳定性
+
+即使完整证明了
+
+$$
+
+\Def=0
+\Longrightarrow
+\text{精确 terminal }1/4\text{ 结构},
+
+$$
+
+仍然不能直接推出渐近定理。真实反例只会满足
+
+$$
+
+\Def=o(1)
+
+$$
+
+或很小，而未必严格为零。
+
+## 所需定理 E7：Quantitative stability modulus
+
+需要显式函数
+
+$$
+
+\eta(\delta)\longrightarrow0
+\qquad(\delta\to0)
+
+$$
+
+使得
+
+$$
+
+\Def(\mathcal X_H)\le\delta
+
+$$
+
+推出：删除至多 $\eta(\delta)$ 的质量、顶点或实际接口后，执行对象接近一个零 defect forest/core 模型。
+
+随后要把精确结论稳定化为：
+
+$$
+
+|A|,|B|
+\ge
+\left(\frac12-\eta(\delta)-o_b(1)\right)b,
+
+$$
+
+所以
+
+$$
+
+\deg_H(p)
+\ge
+\left(\frac12-\eta(\delta)-o_b(1)\right)^2b^2.
+
+$$
+
+给定 $\varepsilon>0$，再选择足够小的 $\delta$ 和足够大的 $b$，使右侧超过
+
+$$
+
+\left(\frac14-\varepsilon\right)b^2.
+
+$$
+
+稳定性必须分别控制：
+
+- atlas exceptional mass；
+- overflow exceptional mass；
+- support splice failures；
+- reroot/reset；
+- pair-codebook 重数；
+- actual-edge reuse；
+- forest/core 边界；
+- near-binary profile 的非二值坐标；
+- 不平衡量
+  $$
+
+  \left|\sum_i a_i-\frac n2\right|.
+
+$$
+
+仓库目前明确把 quantitative stability modulus 和最终 $\varepsilon$-稳定化列为尚未完成的步骤。turn973920view2
+
+---
+
+# 八、完整的充分定理可以怎样陈述
+
+最紧凑的最终主定理应当具有下面的形式。
+
+> **Route-B master stability theorem。**
+> 对每个 $\varepsilon>0$，存在 $\delta>0$、$b_0$，使得对每个块大小 $b\ge b_0$ 的块极小无 IT 三一致超图 $H$，存在 faithful execution object $\mathcal X_H$，并且至少发生：
+>
+> 1. $\Delta(H)\ge(1/4-\varepsilon)b^2$；
+> 2. 存在实际 augmentation，因而得到 IT；
+> 3. 存在由完整块组成的更小无 IT 子实例，违背块极小性；
+> 4. $\Def(\mathcal X_H)\le\delta$，并由定量稳定性产生实际顶点 $p$ 和 link biclique $A\times B$，满足
+>    $$
+
+>    |A||B|\ge(1/4-\varepsilon)b^2.
+>
+$$
+
+第 4 项同样推出
+
+$$
+
+\Delta(H)\ge\deg_H(p)\ge
+\left(\frac14-\varepsilon\right)b^2.
+
+$$
+
+因此在假设
+
+$$
+
+\Delta(H)<
+\left(\frac14-\varepsilon\right)b^2
+
+$$
+
+下，所有分支都矛盾，只能存在独立横截。
+
+---
+
+## 依赖关系的最小清单
+
+为了得到 $1/4$ 定理，最少还需要闭合这六个数学包：
+
+1. **Global entrance and tightness**
+   任意反例 $\to$ faithful execution、自然 defect、测度紧性。
+
+2. **Witness-complete overflow conversion**
+   overflow $\to$ 实际 $S/A$、边增长、pair 集中或 recurrent core。
+
+3. **Exact zero-defect normal form**
+   零 defect $\to$ binary forest + reversible cores。
+
+4. **Actual-support core saturation**
+   每个 core $\to$ 增广、完整块、真实临界 link 或正 defect。
+
+5. **Real $1/4$ terminal counting**
+   真实临界 link $\to$
+   $$
+
+   \deg(p)\ge(1/4-o(1))b^2.
+
+$$
+
+6. **Quantitative $\varepsilon$-stability**
+   把精确零 defect 分类升级到小 defect，并控制所有异常和资源重数。
+
+其中目前最值得优先证明的单一命题，不是再扩大 overflow 的定义，而是：
+
+$$
+
+\boxed{
+\text{一个统一有界重数的 witness-completeness/aggregation 定理。}
+}
+
+$$
+
+它应同时完成：
+
+$$
+
+\begin{aligned}
+&\text{future 分歧}
+&&\to S/A/\text{自然 defect},\\
+&\text{活动资源宽度}
+&&\to\text{实际边增长或 pair 集中},\\
+&\text{重复小 codebook}
+&&\to\text{faithful recurrent core}.
+\end{aligned}
+
+$$
+
+这一命题闭合后，Q-0018 才能真正接到 Q-0017；但即使如此，Q-0016、真实 $1/4$ link 计数和定量稳定性仍是不可省略的后续步骤。
+
+
+【提问 轮数5】
+请你尝试闭合这六个数学包
+
+【回答内容 轮数5】
+我会把六个包逐一压成“精确命题—必要假设—证明尝试—失败点/闭合点”，并尽量把相互依赖合并，避免六条平行战线。先核对仓库最新主线与已有引理，再做小规模计算审计，最后给出一套真正可接成主定理的证明骨架；全程只读，不改仓库。
+
+【回答内容 轮数5】
+初步审计显示，六个包并非都能在现有公理下直接闭合：至少“overflow 自动变成 $S/A/$度数结构”和“可逆核心自动乘积化”已有仓库内反例排除强形式。接下来我会尝试做两件更有价值的事：先闭合其中可纯粹由紧性、SCC 分解和临界恒等式推出的部分；再对真正组合性的部分给出最小充分引理，并检验这些引理是否已被有限模型反驳。
+
+【回答内容 轮数5】
+我认真把六个包重新串了一遍。**目前不能诚实地宣称六个包已经全部闭合**；但可以取得一个相当明确的推进：
+
+- “全局执行对象”的形式构造、零缺陷分解、真实 $1/4$ 计数，以及条件于结构分类的非有效稳定性，都能严格完成。
+- 最困难的部分可以压缩为 **两个真正的组合命题**：
+  1. 源义务到临界圆柱的无损归一化与聚合；
+  2. 正信息量可逆代码簿的因果放大/终局定理。
+
+这与仓库当前把 Q-0018、Q-0017、Q-0016 以及 terminal/link stability 保持开放的状态一致；仓库也明确记录了“可逆性自动给共同 pivot”和“splice 可以免费反复”均不可采用。turn745800view3turn550144view1
+
+## 本轮闭合状态
+
+| 数学包 | 本轮结果 |
+|---|---|
+| 1. Global entrance and tightness | **部分闭合**：可构造规范 faithful 执行及严格 tightness/overflow 二分；尚缺源质量的全局无损归一化 |
+| 2. Witness-complete overflow conversion | **未闭合**：首次分歧可完全分类；无法把高信息量代码簿统一转成度数/增广/完整块 |
+| 3. Exact zero-defect normal form | **条件闭合** |
+| 4. Actual-support core saturation | **低信息量分支闭合；高信息量代码簿分支开放** |
+| 5. Real $1/4$ terminal counting | **闭合，并得到定量熵版本** |
+| 6. Quantitative $\varepsilon$-stability | **条件闭合，得到非有效稳定模量** |
+
+---
+
+# 1. 规范 faithful 执行对象
+
+设 $H$ 是块极小无 IT 实例。块极小性意味着，对每个块 $B$，删去 $B$ 后存在一个独立横截 $T$。
+
+对 one-hole 状态 $(T,B)$ 和 $x\in B$，令
+
+$$
+
+\mathcal K(T,x)
+=
+\{e\in E(H):e\subseteq T\cup\{x\}\}.
+
+$$
+
+因为 $H$ 无 IT，$\mathcal K(T,x)\ne\varnothing$。定义合法释放集
+
+$$
+
+R(T,x)
+=
+\bigcap_{e\in\mathcal K(T,x)}
+(e\setminus\{x\}).
+
+$$
+
+仓库已有精确结论：
+
+$$
+
+r\in R(T,x)
+\iff
+(T-r)+x\text{ 独立},
+
+$$
+
+并且若有多个 blocker，则合法单释放至多一个。turn481022view3
+
+因此可定义规范核：
+
+1. 从当前缺失块均匀选择 $x$；
+2. 若 $R(T,x)=\varnothing$，进入真实 release-deadlock 状态；
+3. 若 $R(T,x)\ne\varnothing$，在所有合法释放中均匀分裂质量，进入
+   $$
+
+   (T-r)+x.
+
+$$
+
+把实际块、顶点、完整 blocker family、释放点、pivot、root projection、genealogy 和三份 ledger 全部保留为状态标记。这样得到：
+
+> **规范执行定理。**
+> 每个块极小无 IT 实例均有一个质量守恒、future-complete、genealogy-coherent、保存实际边身份的执行森林。
+
+证明只是检查每个状态的后继概率总和为一，以及所有实际候选和所有合法释放均出现。这里没有复制执行质量。
+
+### Tightness/overflow
+
+对一列执行对象，令 $w(x)$ 表示切口处仍会影响未来的活动实际资源数。对深度 $K$、宽度 $L$，记录：
+
+- 深度 $K$ 的实际关系结构；
+- 活动资源之间的相等和关联关系；
+- 归一化 fiber 大小和执行质量；
+- blocker、pivot、support、ledger 标记。
+
+在 $w\le L$ 上，这些标记属于紧的有限关系—紧区间空间。因此通过逐深度对角抽取，有严格二分：
+
+$$
+
+\boxed{
+\begin{array}{l}
+\text{活动宽度尾一致紧，因而存在保存实际身份的极限；}\\[2mm]
+\text{或存在 }\eta>0,\text{使任意 }L\text{ 上都有至少 }\eta
+\text{ 的宽度 overflow。}
+\end{array}}
+
+$$
+
+这完成了抽象 compactness 接口。但它尚未证明：从中位源产生的全部 $1/4$ 规模义务，能够无复制地进入这个规范概率空间。仓库已有 future-complete lift 的输入本身仍要求先给定真实根障碍；这一入口正是 Q-0018 留下的部分。turn665318view0
+
+---
+
+# 2. 零缺陷正常形可以条件闭合
+
+定义临界缺陷时应使用精确最大值
+
+$$
+
+F_{\max}(n)
+=
+\frac{\lfloor n^2/4\rfloor}{n(n-1)}.
+
+$$
+
+若
+
+$$
+
+D_{\rm crit}(a)
+=
+F_{\max}(n)-F_n(a)=0,
+
+$$
+
+则 F-0038 的恒等式推出
+
+$$
+
+a_i\in\{0,1\}
+
+$$
+
+且
+
+$$
+
+\sum_i a_i
+\in
+\left\{
+\left\lfloor\frac n2\right\rfloor,
+\left\lceil\frac n2\right\rceil
+\right\}.
+
+$$
+
+偶数 $n$ 时恰好一半 continuation、一半 stop。turn481022view1
+
+再定义不可逆信息缺陷
+
+$$
+
+D_{\rm irr}
+=
+H(S_t\mid S_{t+1},\lambda_t,Q),
+
+$$
+
+其中 $Q$ 是源义务标签，$\lambda_t$ 保留完整实际转移数据。
+
+若 $D_{\rm irr}=0$，则 predecessor 由 successor 和转移标签唯一恢复。对有限 recurrent SCC，每个带标签转移因此是单射；有限集上的单射即双射。
+
+现在对 exact-future 状态图作 SCC 分解：
+
+- SCC condensation 的展开部分具有唯一 genealogy parent，因此是森林；
+- terminal SCC 是 recurrent cores；
+- 零临界缺陷使森林节点成为平衡二值 regeneration 节点；
+- 零信息损失使 recurrent SCC 中的转移可逆。
+
+于是得到：
+
+> **零缺陷正常形定理。**
+> 假设全局执行对象存在，且 critical、information、nonnormal、deadlock、未记录 reroot 和 support inconsistency 等自然缺陷全部为零，则
+> $$
+
+> \mathcal X
+> =
+> \text{binary regeneration forest}
+> \sqcup
+> \text{reversible exact-future cores}.
+>
+$$
+
+森林也无需额外 terminal 假设：在有限 $H$ 中，一条无限 genealogy 必重复 exact state，从而进入 core；有限叶若既不是 IT 又没有结构出口，则必是被排除的 deadlock/boundary 缺陷。
+
+因此包 3 在“自然缺陷已正确构造且为零”的条件下可以闭合。
+
+---
+
+# 3. 一个新的 entropy-to-link 定理
+
+这是本轮最实质的闭合结果。
+
+设 $A,B$ 是两个不同实际块中的顶点集，$P$ 是实际 pivot 集。考虑概率分布
+
+$$
+
+\mu
+\quad\text{定义在}\quad
+P\times A\times B
+
+$$
+
+上，并假设每个有正质量的三元组都是真实超边：
+
+$$
+
+\mu(p,y,z)>0
+\quad\Longrightarrow\quad
+\{p,y,z\}\in E(H).
+
+$$
+
+设 $Y,Z$ 的目标分布分别是 $A,B$ 上的均匀分布，令
+
+$$
+
+\nu
+=
+\mu_P\otimes U_A\otimes U_B,
+
+$$
+
+并定义代码簿信息缺陷
+
+$$
+
+D_{\rm code}
+=
+D_{\mathrm{KL}}(\mu\Vert\nu).
+
+$$
+
+## 定理：低代码簿信息强迫真实稠密 link
+
+若
+
+$$
+
+D_{\rm code}\le\delta,
+
+$$
+
+则存在一个实际顶点 $p$，满足
+
+$$
+
+\boxed{
+d_H(p)
+\ge
+\left(1-\sqrt{\frac{\delta}{2}}\right)|A||B|.
+}
+
+$$
+
+### 证明
+
+记
+
+$$
+
+\mathcal E
+=
+\{(p,y,z):\{p,y,z\}\in E(H)\}.
+
+$$
+
+因为 $\mu$ 完全支撑于 $\mathcal E$，
+
+$$
+
+\mu(\mathcal E^c)=0.
+
+$$
+
+由 Pinsker 不等式，
+
+$$
+
+\|\mu-\nu\|_{\mathrm{TV}}
+\le
+\sqrt{\frac12D_{\mathrm{KL}}(\mu\Vert\nu)}
+\le
+\sqrt{\frac\delta2}.
+
+$$
+
+所以
+
+$$
+
+\nu(\mathcal E^c)
+\le
+\sqrt{\frac\delta2}.
+
+$$
+
+另一方面，
+
+$$
+
+\nu(\mathcal E)
+=
+\sum_p
+\mu_P(p)
+\frac{
+|E(L_H(p))\cap(A\times B)|
+}{
+|A||B|
+}.
+
+$$
+
+故至少有一个 $p$ 满足
+
+$$
+
+|E(L_H(p))\cap(A\times B)|
+\ge
+\left(1-\sqrt{\frac\delta2}\right)|A||B|.
+
+$$
+
+每个不同 pair $(y,z)$ 对应不同超边 $\{p,y,z\}$，结论成立。∎
+
+### 精确零缺陷情形
+
+若 $D_{\rm code}=0$，则
+
+$$
+
+\mu=\mu_P\otimes U_A\otimes U_B.
+
+$$
+
+因此对每个 $\mu_P(p)>0$，
+
+$$
+
+A\times B\subseteq E(L_H(p)).
+
+$$
+
+也就是说，**零代码簿信息直接产生真实 link 笛卡尔积**。这个证明不需要假设 splice 可以免费反复，也不需要预先选择共同 pivot。
+
+### $1/4$ 推论
+
+若
+
+$$
+
+|A|,|B|
+\ge
+\left(\frac12-\alpha\right)b,
+
+$$
+
+则
+
+$$
+
+d_H(p)
+\ge
+\left(1-\sqrt{\frac\delta2}\right)
+\left(\frac12-\alpha\right)^2b^2.
+
+$$
+
+因此当 $\alpha,\delta\to0$ 时，
+
+$$
+
+d_H(p)\ge\left(\frac14-o(1)\right)b^2.
+
+$$
+
+这严格闭合了包 5，并闭合了包 4 的“低信息量 core”分支。
+
+---
+
+# 4. 低度反过来强迫正代码簿信息
+
+上述定理还有一个非常有用的逆向形式。
+
+若所有 $p$ 都满足 $d_H(p)\le\Delta$，则
+
+$$
+
+\nu(\mathcal E)
+\le
+\frac{\Delta}{|A||B|}.
+
+$$
+
+因为 $\mu(\mathcal E)=1$，有
+
+$$
+
+\|\mu-\nu\|_{\mathrm{TV}}
+\ge
+1-\frac{\Delta}{|A||B|}.
+
+$$
+
+再次应用 Pinsker：
+
+$$
+
+\boxed{
+D_{\rm code}
+\ge
+2\left(
+1-\frac{\Delta}{|A||B|}
+\right)_+^2.
+}
+
+$$
+
+特别地，若
+
+$$
+
+|A|,|B|=\left(\frac12-o(1)\right)b
+
+$$
+
+且
+
+$$
+
+\Delta(H)\le
+\left(\frac14-\varepsilon\right)b^2,
+
+$$
+
+则
+
+$$
+
+\boxed{
+D_{\rm code}
+\ge
+32\varepsilon^2-o(1).
+}
+
+$$
+
+所以低于 $1/4-\varepsilon$ 的 terminal critical core **不可能是低信息量 core**。它必须维持一个固定正量的 pivot/query 相关性。
+
+这把包 4 的困难精确定位为：
+
+> 如何排除或终结一个长期保持
+> $$
+
+> I(P;Y,Z)\ge c_\varepsilon>0
+>
+$$
+> 的 reversible actual codebook？
+
+---
+
+# 5. 为什么高信息量分支没有自动闭合
+
+纯自动机层面存在非常简单的障碍。取
+
+$$
+
+A=B=P=\mathbb Z_b,
+\qquad
+P=Y+Z\pmod b.
+
+$$
+
+则：
+
+- $Y,Z$ 可以独立均匀；
+- $P$ 是确定的代码簿输出；
+- 每个 pivot link 只是一条大小为 $b$ 的完美匹配；
+-
+  $$
+
+  I(P;Y,Z)=H(P)=\log b;
+
+$$
+- 这个规则可以由一个有限可逆自动机无限复用。
+
+因此：
+
+$$
+
+\text{可逆性}
++
+\text{future completeness}
++
+\text{正 mutual information}
+
+$$
+
+本身完全不能推出 $b^2/4$ 度数。
+
+这不是原定理的反例，因为该抽象代码簿未必来自块极小无 IT 超图。但它证明高信息量分支必须真正使用：
+
+- pivot 已经属于实际 root；
+- 完整块而非抽象字母表；
+- blocker edge 的实际身份；
+- release 后 root 的变化；
+- genealogy 中的边复用；
+- 块极小性和全局无 IT。
+
+仓库保留 diagonal codebooks、fixed-light-anchor cores 和正常 $Q_4$ 正是为了阻止忽略这些数据；正常 $Q_4$ 还明确排除了共同 pivot 和免费 splice 两条捷径。turn665318view1turn550144view1
+
+---
+
+# 6. Overflow 可以闭合到“原始结构”，但不能闭合到 $1/4$
+
+对深度 $K$、宽度 $L$，令 $\Theta(K,L)$ 是不能由有限接口正确预测 exact future 的质量。按首次不同字段，可严格分解为
+
+$$
+
+\Theta(K,L)
+=
+\mu(w>L)
++
+\sum_c \mu(\Delta_c),
+
+$$
+
+其中 $c$ 可以取：
+
+$$
+
+\textsf{stop},\
+\textsf{support},\
+\textsf{root/pivot},\
+\textsf{blocker},\
+\textsf{successor},\
+\textsf{ledger}.
+
+$$
+
+保持完整 faithful 数据后：
+
+- support 首次分歧给出真实 $S$-witness；
+- root/pivot 分歧给出 $A/reset$；
+- blocker 分歧由公共释放定理分成 $M/N/R$ 或新实际边；
+- exact token 重复给出 recurrent core；
+- 不重复且宽度增长给出实际资源增长。
+
+这闭合了
+
+$$
+
+\text{overflow}
+\Longrightarrow
+\text{primitive actual structure}.
+
+$$
+
+但它没有闭合
+
+$$
+
+\text{primitive structure}
+\Longrightarrow
+1/4\text{ 或增广/完整块}.
+
+$$
+
+仓库现有 wide-fan 定理也只到“真实 heavy pair fiber”，并明确说明单个线性 codegree 不能推出 $b^2/4$；bare incidence 也没有单位容量，因为真正资源是 $(\sigma,x,e)$。turn481022view3
+
+---
+
+# 7. 包 6：条件于结构终局，稳定模量自动存在
+
+假设以下精确终局已经成立：
+
+- 零缺陷 forest/core 分类；
+- 每个 terminal core 都给出增广、完整块子核心，或前述 link law；
+- 高信息量 codebook 分支也被分类。
+
+固定 $\varepsilon>0$。若不存在稳定模量，则有一列执行对象满足：
+
+$$
+
+\Delta(H_n)
+\le
+\left(\frac14-\varepsilon\right)b_n^2,
+
+$$
+
+自然缺陷趋于零，但没有 IT 或完整块矛盾。
+
+由包 1 的 tightness，抽取 faithful 极限。所有 cylinder 型缺陷的下半连续性给出极限缺陷为零。包 3 将其分成 binary forest 与 reversible cores；精确 terminal theorem 给出实际 link law，包 5 推出
+
+$$
+
+\liminf_n\frac{\Delta(H_n)}{b_n^2}
+\ge\frac14,
+
+$$
+
+与假设矛盾。
+
+因此：
+
+> **条件稳定性定理。**
+> 一旦精确 terminal/core theorem 成立，就必存在某个非有效函数
+> $$
+
+> \delta(\varepsilon)>0
+>
+$$
+> 使得 defect 小于 $\delta(\varepsilon)$ 时产生
+> $$
+
+> \Delta(H)\ge
+> \left(\frac14-\varepsilon\right)b^2
+>
+$$
+> 或 IT/完整块矛盾。
+
+这里的 compactness 只能保证模量存在，不自动给出漂亮的显式公式。
+
+---
+
+# 六个包最终缩成的两个命题
+
+## A. 源归一化—聚合定理
+
+需要证明：中位源的
+
+$$
+
+\left(\frac14-o(1)\right)b^2
+
+$$
+
+义务，可以无质量复制地进入规范执行对象；除进入临界圆柱的部分外，所有质量都必须：
+
+- 产生增广或完整块子核心；
+- 进入可全局计数的真实边增长；
+- 或进入 positive-mass recurrent exact-future core。
+
+这同时包含：
+
+- global entrance；
+- critical-profile identification；
+- heavy-pair aggregation；
+- overflow witness completeness。
+
+## B. 因果代码簿放大定理
+
+需要证明：设 terminal reversible core 在正质量 critical cylinders 上具有
+
+$$
+
+|A|,|B|
+=
+\left(\frac12-o(1)\right)b
+
+$$
+
+且
+
+$$
+
+I(P;Y,Z)\ge c>0.
+
+$$
+
+那么至少发生：
+
+$$
+
+\boxed{
+\begin{array}{l}
+\text{某个 pivot 的实际 link 达到 }(1/4-o(1))b^2;\\
+\text{或存在 augmentation/survivor；}\\
+\text{或存在由完整真实块组成的真子无 IT 核心；}\\
+\text{或存在可定量支付的实际 support/reuse 缺陷。}
+\end{array}}
+
+$$
+
+证明必须使用完整 root genealogy 和 actual edge reuse，不能只研究有限自动机或相位代码簿。
+
+---
+
+## 最终判断
+
+我没有闭合完整的 $1/4$ 定理；声称已经闭合会是不诚实的。
+
+但本轮把六个包显著压缩了：
+
+1. canonical execution 与 measured compactness 可以严格建立；
+2. 零缺陷 forest + reversible-core 正常形可条件证明；
+3. 得到了严格的 entropy-to-link 定理
+   $$
+
+   d_H(p)\ge
+   \left(1-\sqrt{\delta/2}\right)|A||B|;
+
+$$
+4. 低度反过来强迫
+   $$
+
+   I(P;Y,Z)\ge32\varepsilon^2-o(1);
+
+$$
+5. 真实 $1/4$ 计数和条件稳定性由此闭合；
+6. 剩余核心不再是笼统的“六个包”，而是两个具体命题，尤其是**正信息量实际代码簿为什么不能在完整块 genealogy 中永久复用**。
+
+本轮仍只进行了只读分析，没有改动仓库。
+
+
+【提问 轮数6】
+请你将这个完整的证明写成.tex文档供合作者审阅，注意保证文本完全可以独立受审计。对于尚未闭合的命题，请你在引理开头做标识。
+
+【回答内容 轮数6】
+我会把它整理成一份可独立审计的 LaTeX 证明文稿：先给出主定理与逻辑依赖，再逐条写出已证明部分的完整证明；所有尚未闭合的命题都会在引理标题开头统一标为 **[OPEN]**，并明确说明其输入、输出及当前缺口，避免把条件结论误写成无条件证明。
+
+【回答内容 轮数6】
+文稿会明确区分三种状态：无标记的定理均在正文中给出完整证明；蓝色 **[CONDITIONAL]** 只依赖其陈述中列出的假设；红色 **[OPEN]** 是尚未闭合、不得在后续证明中无条件调用的接口。主定理会以“依赖哪些 [OPEN] 引理”的形式单独列出，便于合作者逐条审计。
+
+【回答内容 轮数6】
+已整理为一份 **1,477 行、单文件、自包含的 LaTeX 审计稿**：
+
+[下载 `route_b_one_quarter_audit.tex`](sandbox:/mnt/data/route_b_one_quarter_audit.tex)
+
+文稿包含：
+
+- 问题定义、块极小化和完整符号约定；
+- 公共释放判据与规范一孔执行的逐步证明；
+- 临界 profile 精确恒等式，包括奇数维时的正确极值；
+- measured equivariant finite-atlas/overflow 定理及证明；
+- primitive overflow 分解和延迟终止链反例；
+- Hall 聚合接口；
+- 有限 exact quotient 的零缺陷森林—可逆核心分解；
+- actual-support 交换闭包乘积化；
+- entropy-to-link 定理及
+  $$
+
+  \deg_H(p)\ge\left(1-\sqrt{\delta/2}\right)|A||B|
+
+$$
+  的完整证明；
+- 低于 $1/4-\varepsilon$ 时的代码簿信息下界
+  $$
+
+  D_{\mathrm{KL}}\ge 32\varepsilon^2-o(1);
+
+$$
+- 抽象非有效稳定模量；
+- 条件主定理、六包依赖表和合作者审计清单。
+
+所有尚未闭合的陈述都在定理环境开头以红色 **[OPEN]** 标明；条件结论以蓝色 **[CONDITIONAL]** 标明。文稿没有把当前工作误称为已经完成的 $1/4$ 定理证明，因为仓库当前仍明确将该定理列为开放，并列出 critical-profile identification、heavy-pair aggregation 和 actual-support residual-core classification 等未闭合接口。turn278249view2
+
+正文以仓库公开基线提交 `cfadd24b52546d4d5800c4a3c5a75a2add86f928` 为来源锚点。 仓库未被修改。

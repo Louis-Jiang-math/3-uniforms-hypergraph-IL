@@ -908,3 +908,194 @@
 - **Caveats:** 本条不从任意目标超图构造 exact execution tree，不证明 root/slot 预算，不把 Round 流自动识别为 F-0042 所需的全局递推量，不转换 overflow，也不分类 actual recurrent core。它没有重新激活 Route A。
 - **DAG role:** R1/S1 finite faithful Round-or-Core interface
 - **Last updated:** 2026-08-01
+
+## F-0056 — 完备有限 Markov 标签使 future signature 在深度零稳定
+
+- **Status:** verified-conditional
+- **Statement:** 若一个 unfolded actual execution 的有限状态标签完整决定一步的实际 support、完整 blocker family、全部合法 releases、successor、owner 与 ledger increments，则 F-0053 的 future-signature 划分在 \(K=0\) 稳定。
+- **Scope:** 条件于该完整有限标签已经从目标执行中构造；不反向证明全局 E1/E2。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §1。
+- **Dependencies:** F-0053
+- **Related:** Q-0017, Q-0018, A-0036
+- **Caveats:** 有限底层超图不自动意味着一个压缩状态保存全部 future-compatible 数据。
+- **Last updated:** 2026-08-03
+
+## F-0057 — 均匀 hole-vertex sampling 下 eventually-same-edge 尾事件为零测
+
+- **Status:** verified-conditional
+- **Statement:** 若每一步在大小 \(b\) 的缺块中均匀选择尝试顶点，则从任意时刻起永远使用同一真实边 \(e\) 的概率为零；对有限边集和可数起始时刻取并后仍为零测。
+- **Scope:** 依赖均匀正概率 sampling；不适用于任意 faithful policy。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §3。
+- **Dependencies:** none
+- **Related:** F-0052, F-0055, Q-0017
+- **Caveats:** 这是测度结论，不是对 history graph 中同边振荡的组合不存在性。
+- **Last updated:** 2026-08-03
+
+## F-0058 — fixed-pivot target-following 与 \(b^2\) link 下界
+
+- **Status:** verified
+- **Statement:** 固定实际 pivot \(p\)，沿目标横截追踪当前 hole；每个 ordinary blocker \(\{p,x_M,z\}\) 要么产生目标中的 \(p\)-link edge，要么严格增加已匹配目标坐标。故一个 future-complete、无 augmentation/multi-blocker/forced-off-pivot 的 fixed-pivot class 满足
+  \[
+  d_H(p)=|E(L_H(p))|\ge b^2.
+  \]
+  对均匀目标，停止于 forced off-pivot 或其他实际出口的概率至少为
+  \[
+  1-\frac{d_H(p)}{b^2}.
+  \]
+- **Scope:** actual one-hole states；目标坐标作为 no-copy refinement。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §4。
+- **Dependencies:** F-0048
+- **Related:** Q-0016, F-0065, A-0040
+- **Caveats:** target-follow 是 core 的第二阶段 postprocessing，不字面等同于 F-0051 clean chart 内的 \(G_A\)。
+- **Last updated:** 2026-08-03
+
+## F-0059 — literal specified one-coordinate splice closure 的零集是 Cartesian product
+
+- **Status:** verified
+- **Statement:** 若非空 \(X\subseteq\prod_iA_i\) 对任意 \(x,y\in X\) 和坐标 \(i\) 都包含把 \(x_i\) 替换为 \(y_i\) 的 tuple，则
+  \[
+  X=\prod_i\operatorname{proj}_i(X).
+  \]
+- **Scope:** literal actual-support closure。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §5。
+- **Dependencies:** none
+- **Related:** Q-0016, A-0002, A-0029
+- **Caveats:** phase consistency、reversibility、monodromy 或 projected surjectivity 不蕴含该假设。
+- **Last updated:** 2026-08-03
+
+## F-0060 — harmonic failure 的 degree-budget 精确局部压缩
+
+- **Status:** verified
+- **Statement:** 对固定 \((S,B)\) 及每个失败顶点选定的最小 harmonic blocker，存在实际生成系数 \(c_{S,B}(y)\) 使 failure term 等于
+  \[
+  \sum_{y\in S}c_{S,B}(y)\gamma_{S-y},
+  \]
+  且
+  \[
+  0\le c_{S,B}(y)\le1,\qquad
+  \sum_{y\in S}d_H(y)c_{S,B}(y)=|F(S,B)|.
+  \]
+- **Scope:** 只对实际 blocker 配对产生的系数成立。
+- **Evidence:** `evidence/proofs/HARMONIC_SHADOW_COUNTEREXAMPLE.md` §1。
+- **Dependencies:** none
+- **Related:** A-0038, Q-0015
+- **Caveats:** 任意满足同样线性预算的系数不一定可实现；该投影不足以证明 harmonic feasibility。
+- **Last updated:** 2026-08-03
+
+## F-0061 — unique blocker 的 release-complete no-copy 分裂
+
+- **Status:** verified
+- **Statement:** 若完整 blocker family 为 \(\{\{x,a,b\}\}\)，则释放 \(a\) 与释放 \(b\) 都合法；父 cylinder 可由独立二元坐标分成两个互不相交的实际后继，质量守恒且不复制。
+- **Scope:** unique-blocker actual one-hole transition。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §2。
+- **Dependencies:** F-0048
+- **Related:** Q-0018, A-0037
+- **Caveats:** 只保留其中一个 release 是执行 policy，不是 future completeness。
+- **Last updated:** 2026-08-03
+
+## F-0062 — clean epoch 的端点控制收缩与有限类型 transient 消失
+
+- **Status:** verified-conditional
+- **Statement:** 在无 reroot/reset 的单调 profile 区间，
+  \[
+  Q_{t+1}-Q_t=2\alpha_t-1+2D_t,\qquad D_t\ge0,
+  \]
+  因而 continuation mass 由两个端点的 critical deficit 控制并指数收缩。若实际执行只有有限完整转移类型，则避免终止与有限 recurrent class、且不重复完整转移类型的 surviving mass 随深度趋零。
+- **Scope:** 依赖 profile 单调性、F-0038 端点界和有限完整转移类型。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §6。
+- **Dependencies:** F-0038, F-0041
+- **Related:** Q-0017, Q-0018
+- **Caveats:** 不分类 recurrent 部分，也不自动构造全局 faithful execution。
+- **Last updated:** 2026-08-03
+
+## F-0063 — all-release unique-blocker core 的三角形分解与 weighted context regularity
+
+- **Status:** verified
+- **Statement:** 在有限强连通、无 augmentation、unique-blocker、all-release actual core 中，state graph 是 \(2b\)-正则并按 full completions 分解为三角形；若 \(c_e\) 是真实边 \(e\) 的 completion multiplicity，则
+  \[
+  b|K|=3|\Omega_K|,
+  \qquad
+  \sum_{e\ni v}c_e=|K_{B(v)}|.
+  \]
+- **Scope:** 保留完整实际 support 和全部 release branches 的 finite core。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §§1–3。
+- **Dependencies:** F-0048, F-0061
+- **Related:** Q-0016
+- **Caveats:** 低度只迫使高 context reuse，不直接排除 blocker。
+- **Last updated:** 2026-08-03
+
+## F-0064 — core common-state multiplicity 恒等式
+
+- **Status:** verified
+- **Statement:** 对 F-0063 的 core，若 \(m_{ef}\) 统计同一 one-hole state 中真实边 \(e,f\) 作为不同尝试 blockers 的次数，则
+  \[
+  \sum_{f\ne e}m_{ef}=3(b-1)c_e,
+  \qquad
+  m_{ef}\le\min(c_e,c_f).
+  \]
+  相应不相容图满足
+  \[
+  \rho(A_K)\ge3(b-1),
+  \qquad
+  d_{A_K}(e)\le3(b-1)\Delta(H).
+  \]
+- **Scope:** 同 F-0063。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §4。
+- **Dependencies:** F-0063
+- **Related:** Q-0016, F-0067
+- **Caveats:** 谱半径与最大度粗界本身远弱于 \(1/4\) 终局。
+- **Last updated:** 2026-08-03
+
+## F-0065 — recurrent core 的 target-follow forced-off-pivot 质量
+
+- **Status:** verified
+- **Statement:** 对 F-0063 的 core 中任意当前实际顶点 \(p\)，均匀目标 target-follow 满足
+  \[
+  \Pr(\text{first forced off-pivot})
+  \ge1-\frac{d_H(p)}{b^2}.
+  \]
+  对互不相交的 core 入口 cylinders，总质量 \(M_K\) 与第二阶段 forced-off-pivot 质量 \(G_A^{\rm core}\) 满足
+  \[
+  G_A^{\rm core}\ge
+  \left(1-\frac{\Delta(H)}{b^2}\right)M_K.
+  \]
+- **Scope:** unique-blocker all-release core 的第二阶段 no-copy target refinement。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §5。
+- **Dependencies:** F-0058, F-0063
+- **Related:** Q-0016, A-0040
+- **Caveats:** \(G_A^{\rm core}\) 与 F-0051 的 clean-chart \(G_A\) 是互斥阶段的同单位质量，不是同一变量。
+- **Last updated:** 2026-08-03
+
+## F-0066 — pairwise incompatible 真实边族的静态上界
+
+- **Status:** verified
+- **Statement:** 若 \(\mathcal F\subseteq E(H)\) 中任意两边不相容，则
+  \[
+  |\mathcal F|\le3(b-1)\Delta(H)+1.
+  \]
+  若其还恰好覆盖每个完整横截一次，则
+  \[
+  |\mathcal F|=b^3,\qquad
+  \Delta(H)\ge\frac{b^2+b+1}{3}.
+  \]
+- **Scope:** 等块三一致 stretched 模型。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §6。
+- **Dependencies:** none
+- **Related:** Q-0016
+- **Caveats:** 仍需从 recurrent core 推出这种精确覆盖。
+- **Last updated:** 2026-08-03
+
+## F-0067 — 最大复用边的 completion–switch 同步—分散二分
+
+- **Status:** verified
+- **Statement:** 对最大 context multiplicity 边 \(e\)，每个 \(e\)-completion 给出一个 injective switch map \(\pi_W:S(e)\to E(H)\)，其平均矩阵是 slot-side saturated fractional matching。对任意 \(\delta>0\)，要么绝大多数 context–slot pairs 接近某个实际 switch matching，并产生 \(3(b-1)\) 个近最大 multiplicity 邻边；要么
+  \[
+  \sum_s\left(1-\sum_fp_s(f)^2\right)>\delta\,3(b-1),
+  \]
+  且正比例 context–slot pairs 偏离各 slot 的 modal output。精确同步时，相邻最大复用 context 族之间存在双射。
+- **Scope:** F-0063 的 finite actual core。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §§7–9。
+- **Dependencies:** F-0063, F-0064
+- **Related:** Q-0016, A-0041, D-0011
+- **Caveats:** 分散不自动给 actual-edge capacity slack；同步不自动给 product support。
+- **Last updated:** 2026-08-03

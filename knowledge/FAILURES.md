@@ -588,3 +588,100 @@
 - **Do not repeat:** 不得把 max-flow 求解器的反向弧、对偶交换或 fractional rerouting 本身列为 actual execution transition。
 - **Status:** failed
 - **Last updated:** 2026-08-01
+
+## A-0036 — 将 conditional canonical E1/E2 object 提升为 global closure
+
+- **Goal:** 从一个已指定的有限实际执行或 canonical residual process 直接关闭 Q-0018/E1/E2。
+- **Approach:** 先假设完整 finite Markov state、owner、candidate sets 与三账本接口已存在，再把 F-0053 的稳定化结论反向解释为这些全局对象已经构造。
+- **Failure type:** quantifier/interface error
+- **Failure point:** F-0056 只说明“完整有限状态已存在时 signature 在深度零稳定”；它不从任意原超图构造该状态，也不验证 Round normalization。
+- **Evidence:** `evidence/audits/CHAT_DERIVED_ROUTE_B_AUDIT_2026_08_03.md`；F-0056。
+- **Retry conditions:** 独立构造原实例上的 exact sample space、first owners、complete candidate sets 与三账本兼容。
+- **Do not repeat:** 不得把条件执行对象的有限性写成 global entrance theorem。
+- **Status:** failed
+- **Last updated:** 2026-08-03
+
+## A-0037 — 用 release policy 人为制造 pivot-switch defect
+
+- **Goal:** 在 unique blocker \(\{x,a,b\}\) 下，把释放当前 pivot 的分支直接登记为自然 \(A\)-defect，并用正 switch 密度闭合 core。
+- **Approach:** 只保留维持旧 pivot 的 release，或用均匀 release policy 产生固定比例 switch。
+- **Failure type:** policy-generated defect / future-completeness error
+- **Failure point:** F-0061 说明两个 release 都是合法实际后继；switch 率可随 policy 任意改变，而超图不变。
+- **Evidence:** `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md` §2。
+- **Retry conditions:** 只统计 blocker 不含旧 pivot 的 forced off-pivot，或保留全部 release branches。
+- **Do not repeat:** 不得把主动选择另一合法 release 当成结构性损失。
+- **Status:** failed
+- **Last updated:** 2026-08-03
+
+## A-0038 — 用 degree-budget/shadow projection 证明 harmonic feasibility
+
+- **Goal:** 删除真实 blocker 的旧端点配对，只用
+  \[
+  0\le c_y\le1,\qquad \sum_yd_H(y)c_y=|F|
+  \]
+  排除 harmonic dual obstruction。
+- **Approach:** 把 F-0060 的实际生成系数替换为 degree-budget polytope 中任意系数。
+- **Failure type:** strict relaxation / explicit counterexample
+- **Failure point:** 完整三部 \(b=2\) 实例存在满足 projected dual 的显式赋值，但真实 harmonic inequality 在 pair \(p_iq_j\) 上要求 \(1\le1/2\)。
+- **Evidence:** `evidence/proofs/HARMONIC_SHADOW_COUNTEREXAMPLE.md` §2。
+- **Retry conditions:** 保留 blocker 两旧端点的 pair coupling 或完整 occurrence-edge variables。
+- **Do not repeat:** 不得把局部守恒的投影可行性当作原 LP 可行性。
+- **Status:** refuted
+- **Last updated:** 2026-08-03
+
+## A-0039 — 把 one-hole release 误建模为 open-hole queue
+
+- **Goal:** 用会累积多个未修复 hole 的 FIFO/LIFO queue 表示实际 blocker-release 动力学。
+- **Approach:** failure 增加 hole，success 删除 hole，并尝试用 queue matching/Kraft 估计闭合。
+- **Failure type:** semantic model mismatch
+- **Failure point:** 实际 one-hole release 是填入当前 hole 并删除一个旧端点，hole 只是在块之间移动；它不会累积成多个 open holes。
+- **Evidence:** `evidence/audits/CHAT_DERIVED_ROUTE_B_AUDIT_2026_08_03.md`。
+- **Retry conditions:** 直接使用 one-hole state 与 release-complete branching。
+- **Do not repeat:** 不得把错误 queue 的闭合或反例解释为原执行定理。
+- **Status:** failed
+- **Last updated:** 2026-08-03
+
+## A-0040 — 将 core target-follow postprocessing 字面等同于 F-0051 的 \(G_A\)
+
+- **Goal:** 用 F-0065 的 forced-off-pivot 质量直接替换 F-0051 clean product chart 内的 \(G_A\)。
+- **Approach:** 只因两者都是实际 \(A\)-型 first exits 且质量单位相同，就把它们视为同一随机变量。
+- **Failure type:** stage/normalization mismatch
+- **Failure point:** F-0051 的 \(G_A\) 发生在 clean chart 内；F-0065 是进入 recurrent core 后附加 target coordinates 的第二阶段 postprocessing。
+- **Evidence:** F-0065；`evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §5。
+- **Retry conditions:** 建立互斥两阶段 ledger，并另证其对递推的共同耗散后果。
+- **Do not repeat:** 不得用名称相同替代 first-owner、阶段和 normalization 审计。
+- **Status:** failed-as-identification
+- **Last updated:** 2026-08-03
+
+## A-0041 — completion–switch 分散自动产生 actual-edge capacity slack
+
+- **Goal:** 从 switch maps 在 contexts 间高度分散直接推出真实边负载不饱和，进而关闭 Hall/recurrence。
+- **Approach:** 用 Hamming 或 \(L^2\) dispersion 代替实际列容量分析。
+- **Failure type:** formal counterexample / missing actual incidence
+- **Failure point:** 循环数组
+  \[
+  \pi_t(s)=s+t\pmod q
+  \]
+  中所有 switch maps 都是不同置换，且每个 slot 的输出完全均匀；但每个 label column 的总负载仍为 \(C=q\)，全部饱和。
+- **Evidence:** `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md` §10。
+- **Retry conditions:** 使用真实三端点 incidence、support transport、block-minimality 或 faithful \(Q_4\) windows，而不是只用矩阵边际。
+- **Do not repeat:** 不得写“分散 \(\Rightarrow\) spare capacity”而不增加 actual-incidence 假设。
+- **Status:** refuted-formal
+- **Last updated:** 2026-08-03
+
+## A-0042 — 反复换名识别同一个 actual context-reuse 缺口
+
+- **Goal:** 通过提出新的 “absorption / mixing / compression / synchronization / Latin conversion” 名称制造主线推进。
+- **Approach:** 每次证明一个代数或概率二分后，把尚未完成的 actual-incidence 转换重新命名为新的最小缺口。
+- **Failure type:** strategy drift / semantic duplication
+- **Failure point:** 所有版本都仍需证明
+  \[
+  \text{high actual context reuse}
+  \Longrightarrow
+  \text{terminal structure or quantitative loss}.
+  \]
+- **Evidence:** `evidence/audits/CHAT_DERIVED_ROUTE_B_AUDIT_2026_08_03.md` §§3–5。
+- **Retry conditions:** 固定 Q-0016 的 saturated actual switch-matching 子问题；只有得到 terminal consequence、strict monotone quantity 或实际反模型时再改 proof DAG。
+- **Do not repeat:** 不得为未跨越的同一箭头持续增加 obstruction 名称。
+- **Status:** strategy-warning
+- **Last updated:** 2026-08-03

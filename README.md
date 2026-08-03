@@ -49,11 +49,12 @@ one-quarter theorem. It changes what counts as main progress: the project now
 seeks a faithful Round-or-Core entrance and an actual-support Core Endgame,
 rather than a unit-by-unit charging of all residual mass.
 
-Recent supporting progress now includes a finite future-signature
-stabilization/overflow interface, an actual-edge-history potential-or-core
-criterion, exact competing-blocker release structure, a wide-fan/heavy-pair
-bound, a clean product-chart deficit ledger, and a pathwise finite-depth
-Round-or-Core-or-Overflow theorem. These are recorded as F-0048–F-0055.
+Recent supporting progress includes the finite Round-or-Core interface
+F-0048–F-0055 and the audited execution/core lemmas F-0056–F-0067.  The latter
+add release-complete branching, target-following, transient clean-epoch
+contraction, all-release core triangle/context identities, a static
+pairwise-incompatible bound, and a rigorous maximum-reuse
+completion–switch synchronization–dispersion theorem.
 
 The current remaining-gap judgment is:
 
@@ -61,7 +62,8 @@ The current remaining-gap judgment is:
    the separate root, slot, and real-edge ledgers;
 2. convert unbounded exact-future overflow into named actual structure or a
    positive-mass core;
-3. prove the actual-support Core Endgame of Q-0016.
+3. prove the actual-support Core Endgame of Q-0016, now narrowed to the
+   saturated actual switch-matching/context-reuse conversion fixed by D-0011.
 
 Critical-profile identification and heavy-pair aggregation remain subcontracts
 of the first item. F-0038/F-0051/F-0042 are the available conditional stability

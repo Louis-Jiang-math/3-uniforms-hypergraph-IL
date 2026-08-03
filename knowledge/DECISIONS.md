@@ -96,3 +96,22 @@
 - **Nonclaim:** F-0055 does not construct the global execution object, prove overflow structure, or classify recurrent cores.
 - **Related:** D-0002, D-0006, D-0007, F-0055, Q-0016, Q-0017, Q-0018
 - **Last updated:** 2026-08-01
+
+## D-0010 — Audit chat-derived claims before canonical promotion
+
+- **Status:** active
+- **Decision:** 对话中关于 E1/E2/E3、harmonic scheduler、target-follow 或 core closure 的陈述，只有在仓库内获得自足证明或显式反例后才可登记；条件对象不得提升为 global closure。
+- **Reason:** 同一讨论中多次出现先宣称闭合、随后因 release-completeness、normalization 或 actual-support 问题而降级的情况。
+- **Consequences:** F-0056–F-0067 只按其精确范围登记；A-0036–A-0041 保存被否定的升级。
+- **Related:** D-0007, Q-0016, Q-0018
+- **Last updated:** 2026-08-03
+
+## D-0011 — Freeze the Core bottleneck at saturated actual switch matching
+
+- **Status:** active
+- **Decision:** 不再为 Q-0016 的同一剩余箭头增加新的 core-gap 名称。当前严格子问题固定为：从饱和 completion–switch fractional matching 与实际三端点 incidence 推出 real terminal outcome 或 quantitative recurrence loss。
+- **Reason:** F-0067 已完成纯匹配层的同步—分散二分；A-0041 证明纯分散不产生容量 slack，A-0042 证明继续换名不会改变 proof obligation。
+- **Accepted progress:** actual expansion completeness、near-\(1/4\) link、pairwise incompatible exact cover、complete-block reduction、可计算的 strict Hall slack，或满足全部实际条件的反模型。
+- **Nonprogress:** 新 phase/atlas/cut/Latin 名称，或只使用 \(P_e\) 边际的另一二分。
+- **Related:** Q-0016, F-0063–F-0067, A-0041, A-0042
+- **Last updated:** 2026-08-03

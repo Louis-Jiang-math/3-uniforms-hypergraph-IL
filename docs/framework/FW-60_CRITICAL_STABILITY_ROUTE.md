@@ -176,10 +176,28 @@ positive-mass actual recurrent core and prove at least one:
 1. augmentation or survivor;
 2. a genuine near-one-quarter single-pivot link;
 3. a complete real-block no-IT subinstance;
-4. a strictly positive natural defect.
+4. a strictly positive natural defect with a proved dissipation consequence.
+
+The following exact supporting structure is now available for a finite
+unique-blocker, all-release core:
+
+- release-complete no-copy branching (F-0061);
+- triangle decomposition and weighted context regularity (F-0063);
+- common-state multiplicity identities (F-0064);
+- target-follow forced-off-pivot mass (F-0065);
+- the pairwise-incompatible family bound (F-0066);
+- maximal-reuse completion–switch synchronization–dispersion (F-0067).
+
+These results identify high context reuse as the remaining obstruction.  The
+canonical subproblem is fixed by D-0011: convert a saturated actual switch
+matching, using actual three-endpoint incidence and support transport, into an
+accepted terminal outcome or quantitative recurrence loss.  Matrix dispersion
+alone is insufficient by A-0041, and exact synchronization alone does not imply
+product support.
 
 This is Q-0016. Product support, a universal common pivot, phase consistency,
-holonomy, or local same-pivot windows may not be assumed.
+holonomy, local same-pivot windows, or a new alias for the same context-reuse
+gap may not be assumed.
 
 ### 8.4 Conditional stability backend
 
@@ -234,6 +252,10 @@ A Route-B result counts as main progress only if it supplies at least one:
 
 Stop and record a failure instead of extending the taxonomy when the next step
 only introduces a new cut, token, quotient candidate, or obstruction name.
+In particular, the context-reuse / actual-incidence conversion inside Q-0016
+must not be repeatedly renamed as absorption, mixing, compression,
+synchronization, or Latin conversion without a new terminal consequence,
+strict monotone quantity, or actual countermodel.
 
 ## 12. Nonclaims
 

@@ -2,130 +2,137 @@
 
 ## Objective
 
-Prove the independent-transversal threshold at \(1/4-o(1)\). The theorem remains
-open.
+Prove the independent-transversal threshold at \(1/4-o(1)\).  The theorem
+remains open.
 
-## Current strategy
+## Current strategy and status
 
 - **Primary strategy:** Route B — critical stability.
 - **Active node:** `S1 / Q-0018` — faithful global Round-or-Core entrance and
   natural defect.
-- **Route A status:** suspended as a main route. Its exact identities, Hall
-  tools, auditors, and conditional recurrence criteria remain supporting
-  modules only.
-- **Open status:** Q-0016, Q-0017, Q-0018, and the one-quarter theorem remain
-  open.
+- **Route A status:** suspended as a main route; exact Hall, pair-cylinder, Lyapunov,
+  and conditional recurrence tools remain supporting modules.
+- **Open:** Q-0016, Q-0017, Q-0018, and the one-quarter theorem.
 
-Route B does not require every residual atom to acquire an independent charging
-entitlement. It seeks a no-copy split between a transient/Round part and actual
-critical histories.
+No canonical proof node is closed by the 2026-08-03 audit.
 
-## Newly reliable finite interface
+## Reliable finite and execution interfaces
 
-F-0055 and `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md` establish the
-following under explicit exact execution-tree hypotheses:
+F-0055 supplies the conditional exact execution-tree
+Round-or-Core-or-Overflow interface.  The newly audited supporting facts add:
 
-1. a first-owner stopping line gives a no-copy entrance partition;
-2. the finite-depth dynamic actual-edge network has an exact max-flow/min-cut
-   formula;
-3. every feasible flow has a pathwise realization by disjoint actual sample
-   mass, so the final forward assignment respects global real-edge capacities;
-4. max-flow reverse residual arcs are algorithmic and are not interpreted as
-   actual blocker-release transitions;
-5. if the depth flow tends to full entrance mass, arbitrary-precision faithful
-   Round is available;
-6. otherwise positive actual mass never reaches a named exit; a stable faithful
-   atlas yields positive-mass same-edge `R` or an actual multi-edge recurrent
-   core, while nonstabilization remains explicit exact-future overflow.
+1. F-0056: a complete finite Markov label stabilizes future signatures at depth
+   zero, conditional on constructing that label;
+2. F-0057: under uniform hole-vertex sampling, eventually-same-edge tails have
+   measure zero;
+3. F-0058: fixed-pivot target-following; a closed ordinary fixed-pivot class
+   forces \(d_H(p)\ge b^2\);
+4. F-0061: unique blockers require release-complete no-copy branching;
+5. F-0062: clean monotone epochs contract, and finite-type nonrecurrent
+   transient mass vanishes;
+6. F-0063–F-0067: all-release recurrent-core triangle/context identities,
+   forced-off-pivot mass, incompatible-family bounds, and the maximum-reuse
+   completion–switch synchronization–dispersion theorem.
 
-This is a proved-conditional supporting interface. It does **not** construct the
-execution tree from every target hypergraph, prove root/slot budgets, convert
-overflow, classify actual cores, or prove the theorem.
+The self-contained proofs are in:
 
-## Current genuine closure gaps
+- `evidence/proofs/CHAT_DERIVED_SUPPORTING_LEMMAS.md`;
+- `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md`;
+- `evidence/proofs/HARMONIC_SHADOW_COUNTEREXAMPLE.md`.
 
-### E1. Global faithful entrance and Round compatibility
+## Current genuine gaps
 
-From every target low-degree block-minimal no-IT instance, construct the actual
-sample space and exact execution tree required by F-0055. Prove:
+### E1 — Global faithful entrance and Round compatibility
 
-- conservative first ownership under refinement, reroot, and genealogy;
-- complete actual blocker-edge candidate sets;
-- separate root/configuration and projection-sensitive slot budgets before the
-  global actual-edge flow;
-- identification of the Round output with the actual recurrence/profile mass
-  required by F-0038, F-0051, and F-0042;
-- zero or uniformly vanishing loss.
+Construct from every target low-degree block-minimal no-IT instance the exact
+sample space, first-owner stopping line, complete candidate blocker sets, and
+separate root/slot/real-edge ledgers required by F-0055.  Identify the resulting
+Round mass with the recurrence/profile mass used by F-0038/F-0051/F-0042, with
+zero or uniformly vanishing loss.
 
-Critical-profile identification and heavy-pair aggregation are subcontracts of
-this interface, not separate final endgames.
+F-0056 is conditional and does not construct this object.
 
-### E2. Overflow conversion
+### E2 — Overflow conversion
 
-Turn F-0053's unbounded exact-future interface growth into a named
-`W/M/A/N/S/reset` consequence, actual resource growth, or a positive-mass
-actual recurrent core. Unstable signatures may not be silently quotiented or
-called a small defect by definition.
+Convert unbounded exact-future interface growth into a named actual exit,
+resource growth, or positive-mass actual recurrent core.  A finite state chosen
+after assuming the needed complete interface does not by itself close this
+global problem.
 
-### E3. Actual-support Core Endgame — Q-0016
+### E3 — Actual-support Core Endgame (Q-0016)
 
-For every positive-mass actual recurrent core, prove at least one:
+For a finite unique-blocker, all-release core, the actual structure is now much
+more explicit:
 
-- augmentation or survivor;
-- a real near-\(1/4\) single-pivot link;
-- a complete real-block no-IT subinstance;
-- a strictly positive natural defect.
+\[
+\sum_{e\ni v}c_e=|K_{B(v)}|,
+\qquad
+\sum_fm_{ef}=3(b-1)c_e,
+\]
+and every maximum-multiplicity edge carries an injective completion–switch
+matching.  F-0067 gives a strict synchronization–dispersion dichotomy.
 
-Local phase, holonomy, square-balance, projected support, or same-pivot windows
-are only candidate sublemmas unless they yield one of these terminal outcomes.
+The remaining conversion is fixed by D-0011:
 
-## Stability status
+\[
+\boxed{
+\text{saturated actual switch matching}
+\Longrightarrow
+\text{accepted terminal structure or quantitative recurrence loss}.
+}
+\]
 
-F-0038 supplies the exact critical-profile deficit identity; F-0051 supplies a
-conditional clean-product-chart ledger; F-0042 closes the recurrence once the
-effective multiplicity and residual loss make the second-order coefficient
-strictly smaller than \(1/4\).
+The proof must use actual edge endpoints and support transport.  Pure matching
+dispersion is insufficient: A-0041's cyclic Latin-square array is fully
+dispersed while every label column is saturated.  Exact synchronization also
+does not imply product support without literal coordinate expansion.
 
-Accordingly, stability is not treated as a fourth independent structural gap
-after a zero- or vanishing-loss faithful Round-or-Core and a complete Core
-Endgame. The remaining duty is to verify the loss and normalization parameters
-on the global actual object. These conditional results are not promoted to an
-unconditional global stability theorem.
+## Anti-drift rule
+
+Do not rename the same E3 implication as a new absorption, mixing, compression,
+synchronization, or Latin-conversion theorem.  New main progress must produce at
+least one:
+
+- actual hereditary coordinate expansion and complete-block reduction;
+- a real near-\(1/4\) link;
+- a pairwise-incompatible exact cover;
+- strict Hall/capacity slack with the correct recurrence normalization;
+- an actual countermodel satisfying all recurrent-core hypotheses.
+
+The smallest recommended local target is a faithful two-slot switch square:
+commutation should imply actual coordinate expansion; noncommutation must expose
+specific real blocker edges that can be accumulated or charged.
+
+## Important negative results
+
+- Release-policy-generated pivot switches are not natural defects (A-0037).
+- The harmonic degree-budget projection is strictly weaker than the paired
+  blocker system (A-0038).
+- An open-hole queue is not the one-hole release dynamics (A-0039).
+- Core target-follow \(G_A^{\rm core}\) is a second-stage ledger, not literally
+  F-0051's clean-chart \(G_A\) (A-0040).
+- Switch-map dispersion does not imply spare real-edge capacity (A-0041).
+- Repeated aliases for high context reuse are not proof progress (A-0042).
 
 ## Immediate next actions
 
-1. Construct the original-instance first-owner execution tree and verify every
-   F-0055 entrance, owner, candidate-set, and ledger hypothesis.
-2. Prove that the resulting Round mass is exactly the recurrence/profile mass;
-   every mismatch must be an existing named actual exit or core, not a new
-   generic defect.
-3. Prove overflow conversion independently.
-4. State Q-0016 as one complete Core Endgame theorem and stop extending the core
-   taxonomy unless a new distinction yields a terminal outcome.
-
-## Integrity warnings
-
-- F-0055 is conditional on an exact actual execution tree and preverified
-  root/slot ledgers.
-- A dynamic Hall cut is a capacity certificate, not automatically a structural
-  defect.
-- Max-flow reverse residual arcs are not actual execution transitions.
-- Root/configuration, projection-sensitive slot, and global real-edge capacities
-  remain separate.
-- Stable finite atlas does not imply product support or a universal pivot.
-- Overflow remains open until an actual structure theorem converts it.
-- Finite computation is not a general proof.
-- No canonical question or theorem is closed by this update.
+1. Preserve S1: construct and verify the global F-0055 entrance/owner/ledger
+   object without using conditional Markov closure backward.
+2. In Q-0016, study one actual two-slot switch square with all four
+   support/blocker identities retained.
+3. Prove either a commutation-to-expansion lemma or a
+   noncommutation-to-real-resource lemma.
+4. Test any proposed lemma against normal \(Q_4\), the differing-pivot model,
+   diagonal codebooks, and the abstract Latin-square saturation array.
 
 ## Required reading
 
 1. `AGENTS.md` and `agent.md`
 2. `docs/PROJECT_STATE.yaml`
 3. `docs/PROOF_DAG.md`
-4. `knowledge/DECISIONS.md#D-0009`
-5. `knowledge/FACTS.md#F-0055`
-6. `knowledge/FAILURES.md#A-0035`
-7. `knowledge/QUESTIONS.md#Q-0016` through `Q-0018`
+4. `knowledge/DECISIONS.md#D-0011`
+5. `knowledge/FACTS.md#F-0058` and `#F-0061` through `#F-0067`
+6. `knowledge/FAILURES.md#A-0037` through `#A-0042`
+7. `knowledge/QUESTIONS.md#Q-0016` through `#Q-0018`
 8. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-9. `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`
-10. `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
+9. `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md`
