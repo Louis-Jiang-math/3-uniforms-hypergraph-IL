@@ -1,120 +1,154 @@
 # 十分钟研究者速览
 
-读完本页后，应能回答项目最关键的七个问题。
+读完本页后，应能定位当前唯一主线、可直接使用的模块和剩余证明义务。
 
 ## 1. 主定理是否已经证明？
 
-没有。
-
-目标仍是证明三一致等块分块超图在
+没有。目标仍是
 
 \[
 \Delta(H)<\left(\frac14-o(1)\right)b^2
+\Longrightarrow
+H\text{ 有独立横截}.
 \]
 
-时存在独立横截。当前转向 Route B：临界稳定性。
+当前策略是 Route B：critical stability。
 
-## 2. 当前唯一 active 的主链命题是什么？
+## 2. 当前 active 节点是什么？
 
-**S1 / Q-0018：faithful global execution and natural defect。**
+逻辑 DAG 的唯一 active 节点仍是：
 
-目标不是把全部 residual 送入收费账本，而是从任意块极小无 IT 反例构造：
+> **S1 / Q-0018 — faithful global Round-or-Core entrance and natural defect.**
 
-1. 保存真实边、块、root projection、pivot、genealogy 和未来坐标的全局执行对象；
-2. 一个自然非负 defect；
-3. defect 趋零时仍保存 actual support 的极限对象。
+Q-0016 是 actual-support Core Endgame，Q-0017 是 zero-defect forest/core
+normal form。三者均 open。
 
-Route A 的 Q-0002/Q-0015 暂时搁置。
+## 3. 当前固定的实现路线是什么？
 
-## 3. 为什么不再以“全部 heavy excess 被支付”为主目标？
-
-因为 \(1/4\) 不必是 \(100\%\) residual-conversion theorem。更合理的稳定性逻辑是：
+D-0012 固定：
 
 \[
-\text{正 defect}
-\Longrightarrow
-\text{耗散},
-\qquad
-\text{defect}\to0
-\Longrightarrow
-\text{临界结构},
+\boxed{
+\text{root-only canonical excess}
+\to
+\text{actual switch-cube core defect}
+\to
+\text{fresh saturated-leaf conversion}
+\to
+\text{F-0042}.
+}
 \]
 
-再由临界结构产生真实 \(1/4\) link、IT 或完整块矛盾。
+详见 `MAIN_PROOF_ROUTE.md`。
 
-逐质量收费仍是合法辅助方法，但不是 Route B 的验收标准。
+## 4. 第一阶段：root-only canonical excess
 
-## 4. Route B 的精确目标是什么？
-
-先证明零缺陷对象属于
+F-0070 已证明，在合法区间 \(I\) 上
 
 \[
-\text{binary regeneration forest}
-+
-\text{reversible exact-future cores}.
+\frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
 \]
 
-然后证明每个 reversible core 在 actual support 上：
+这里的容量只属于原始二步 failure roots。release 后出现的 blocker 不会
+自动刷新一份新容量。
 
-- splice 饱和并乘积化；
-- 或进入 single-pivot critical link；
-- 或产生完整真实块终局；
-- 或具有正 defect。
+当前 Q-0018 要证明：
 
-最后才做固定 \(\varepsilon\) 的定量稳定化。
+\[
+\Xi_I
+\le
+\operatorname{ChartMis}_I
++2\mathcal D_I^\sharp
++\Phi_I
++\mathcal R_I,
+\]
 
-## 5. 本轮新增的有限证据是什么？
+并保持 root、slot、actual-edge 与 recurrence units 一致。
 
-脚本 `enumerate/q4_splice_pay_cylinder_validation.py` 穷举：
+## 5. 第二阶段：actual switch-cube core defect
 
-- 272 个 \(Q_4\) 坐标完美匹配；
-- 8 个正常匹配；
-- 192 个正常独立 one-hole states；
-- 768 个 future-complete release policies。
+F-0063--F-0067 给出 finite unique-blocker all-release core 与
+completion-switch matching。新增支持事实：
 
-分类结果：
+- F-0068：固定 \(e,f\) 时，\(f\) 跨 contexts 只能来自一个固定 switch
+  slot；
+- F-0069：perfect-transition monodromy 为恒等，完美 component 分解为
+  completion sheets。
 
-- 384 个 edge-disjoint splice candidates；
-- 192 个 unavoidable real-edge reuse；
-- 192 个 local same-pivot cylinders。
+它们排除单步 actual Latin-column migration，但不关闭 Q-0016。
 
-所有 384 个 splice candidates 的最小 splice 都使用全部 8 条真实边。因此
-splice 不能被当作免费可重复闭包。该结果仅是 bounded exhaustive evidence。
+当前 candidate theorem 是 actual switch-cube defect：在 ordered
+three-coordinate switches 上保留全部 intermediate actual supports，把坏
+instruction 赋给第一处 nonliteral context-slot，并证明 bounded
+multiplicity。成功后，每个 positive-mass core 产生 Route B 接受的自然正
+actual-support defect。
 
-## 6. 哪些错误必须避免？
+## 6. 第三阶段：fresh saturated leaves
 
-- 把 \(1/4\) 解释成全部 residual 必须收费；
-- 用 desired terminal structure 定义 defect；
-- 把 local same-pivot 当成 global cylinder；
-- 把 reversibility、phase 或 genealogy 可恢复性当成 product support；
-- 假设 common-base diamond 自动存在；
-- 把 splice 当成免费操作；
-- 对 partial support 使用块极小性；
-- 用有限枚举替代一般定理。
+对 \(\Phi_I\) 使用 F-0041 的 no-copy split：
 
-## 7. Route A 的结果还能使用吗？
+\[
+\Phi_I=
+\Phi_I^{\rm edge}
++\Phi_I^{\rm support}
++\Phi_I^{\rm token}
++\Phi_I^{\rm repeat}.
+\]
 
-可以。以下仍是可靠辅助模块：
+固定后端：
 
-- configuration auditor 和三份独立账本；
-- future-complete lift；
-- old-anchor Lyapunov；
-- aggregate normalization；
-- pair-flat/heavy-excess decomposition；
-- orientation progress；
-- F-0034、F-0042 的条件关闭判据；
-- Hall orthogonalization 和 exchange-flow 工具。
+- repeat \(\to\) actual core \(\to\) switch-cube defect；
+- support \(\to\) actual \(S\) witness 或 hereditary coordinate expansion；
+- edge \(\to\) first-certifying bounded-multiplicity actual-edge ledger；
+- token \(\to\) actual three-cylinder critical regeneration。
 
-但这些模块不得自动把 active node 改回 Q-0015。
+固定实例 token universe 有限不够；需要 interval-level 的实际转化。
 
-## 接下来读什么？
+## 7. 最后如何闭合？
+
+得到
+
+\[
+\sum_{k\in I}\mathcal B_k
+\le
+(1+\eta)\Delta(H)S_I
+-\mathsf{Gain}_I
++\mathsf{Boundary}_I,
+\]
+
+且
+
+\[
+\mathsf{Boundary}_I/(b^2S_I)\to0,
+\]
+
+再用 F-0042/Q-0007 选参数使最终系数严格小于 \(1/4\)。这个参数后端已
+条件可用，不是新的结构 gap。
+
+## 8. 哪些方向不再作为主线？
+
+- 动态刷新 descendant blocker capacity；
+- 静态 core edge-set Hall 压缩；
+- 抽象 Latin/phase/monodromy 自动收费；
+- 仅用 finite token-universe exhaustion；
+- 把 positive natural core defect 重新要求为独立 root edge entitlement。
+
+## 9. 必读顺序
 
 1. `../HANDOFF_CURRENT.md`
-2. `PROJECT_STATE.yaml`
+2. `MAIN_PROOF_ROUTE.md`
 3. `PROOF_DAG.md`
-4. `framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-5. `../knowledge/DECISIONS.md`
-6. `../knowledge/FACTS.md`
-7. `../knowledge/FAILURES.md`
-8. `../knowledge/QUESTIONS.md`
-9. `../evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md`
+4. `../knowledge/DECISIONS.md#D-0012`
+5. `../knowledge/FACTS.md#F-0068`
+6. `../knowledge/QUESTIONS.md#Q-0016`
+7. `../knowledge/QUESTIONS.md#Q-0018`
+8. `../evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`
+9. `framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+
+## 10. 当前状态一句话
+
+证明图和实现路线已固定；F-0068--F-0070 是已验证支持事实；switch-cube
+core defect、root-excess clean-chart reduction 和 three-cylinder fresh-token
+regeneration 仍开放，主定理仍未证明。

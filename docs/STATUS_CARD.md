@@ -3,34 +3,37 @@
 | 项目 | 当前状态 |
 |---|---|
 | \(1/4\) 主定理 | open |
-| 唯一 active 节点 | G1c / Q-0015 aggregate heavy-excess control |
-| 配置审计基础设施 | proved-formal |
-| Future-complete lift | proved-formal |
-| 一般近无损配置入口 | open |
-| Q-0017 persistent normal form | open |
-| Q-0016 causal regeneration | open |
-| AMCG | definition/specification |
-| Transition capping 证明 Q-0016/17 | unsupported / withdrawn |
-| Terminal counting | blocked |
+| 唯一 active DAG 节点 | S1 / Q-0018 |
+| 当前实现路线 | D-0012 / `docs/MAIN_PROOF_ROUTE.md` |
+| Root two-step normalization | F-0070 verified |
+| Global switch-slot uniqueness | F-0068 verified |
+| Perfect-transition monodromy/sheets | F-0069 verified |
+| Actual switch-cube defect | open candidate inside Q-0016 |
+| Root-excess clean-chart reduction | open inside Q-0018 |
+| Fresh three-cylinder regeneration | open inside Q-0018 |
+| F-0042 epsilon backend | conditional available |
+| Route A | suspended as main route |
 
 ## 一句话主线
 
 \[
-\text{控制 Q-0015 命名出口}
+\boxed{
+\text{root-only }\Xi_I
 \to
-\text{近无损真实入口}
+\text{switch-cube core defect}
 \to
-\text{\(11/27\) persistent 正常形}
+\text{F-0041 fresh-leaf split}
 \to
-\text{因果再生/集中}
+\text{three-cylinder regeneration}
 \to
-\text{terminal counting}
-\to
-\frac14.
+\text{F-0042}.
+}
 \]
 
 ## 当前禁止偏移
 
-在 G1c 关闭前，不再新增相位、图册、quotient、自动机或新的局部状态语言，
-除非它直接控制精确 heavy-excess 余项、给出 future-compatible quotient，
-或产生严格反例。
+- 不沿 release descendants 刷新 root capacity；
+- 不用静态 core Hall、抽象 Latin dispersion 或 finite token universe
+  代替 actual-support conversion；
+- 不把候选 switch-cube inequality 写成已证；
+- 不重新命名同一 fresh-token 或 saturated-context gap。

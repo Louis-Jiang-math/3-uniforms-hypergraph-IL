@@ -267,12 +267,12 @@
 - **Question:** 对 Q-0018/F-0055 输出的正质量 actual reversible exact-future core，能否证明其产生增广、真实 near-\(1/4\) single-pivot link、完整真子无 IT 块系统，或一个独立自然正 defect？
 - **Status:** open
 - **Why it matters:** 在 strong faithful Round-or-Core 之后，这是从 actual recurrent core 到最终结构矛盾的唯一主要 endgame；phase、projection 或 partial support 正常形本身都不够。
-- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052/F-0055 提供条件 actual recurrent-core 入口。F-0058 给 fixed-pivot target-follow terminal module；F-0063–F-0066 给 all-release core 的三角形分解、weighted context regularity、共同状态恒等式、forced-off-pivot 质量和 pairwise-incompatible 静态界。F-0067 完成最大复用边的 completion–switch 同步—分散二分。A-0041 证明纯矩阵分散不能产生 capacity slack。
-- **Missing:** 从饱和 completion–switch fractional matching 加上实际三端点 incidence、support transport、no-IT 与 block-minimality，推出 augmentation/survivor、real near-\(1/4\) link、complete-block no-IT core、pairwise-incompatible exact cover，或可进入递推的 strict loss。同步不自动给 product support，分散不自动给 spare capacity。
-- **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, A-0024, A-0025, A-0029, A-0030
-- **Suggested next action:** 固定 D-0011 的 saturated actual switch-matching 子问题。先攻击一个忠实的两 slot 交换方块：若两次 switch 可交换，推出遗传 actual coordinate expansion；若不可交换，识别造成差异的具体真实 blocker edges 并证明 strict Hall slack、真实边增长或 accepted terminal structure。停止继续命名同一 context-reuse 障碍。
+- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052/F-0055 提供条件 actual recurrent-core 入口。F-0058 给 fixed-pivot target-follow terminal module；F-0063–F-0067 给 all-release core 的三角形分解、weighted context regularity、共同状态恒等式、forced-off-pivot 质量、pairwise-incompatible 静态界和最大复用 completion–switch 二分。F-0068 进一步证明同一 actual output edge 跨 contexts 只能来自一个固定 switch slot，排除单步 actual Latin-column migration；F-0069 证明完美 transition 的 monodromy 为恒等并产生 sheet 分解。A-0041 仍说明纯矩阵分散不能产生 capacity slack。
+- **Missing:** 证明 actual switch-cube defect theorem：对 ordered three-coordinate switches 保留全部 intermediate actual supports，把坏 instruction 赋给第一处 nonliteral context-slot 并证明 bounded multiplicity，从而由低度推出每个 positive-mass core 具有常数密度的自然 actual-support defect；或给出满足全部 core hypotheses 的真实反模型。F-0068/F-0069 已排除跨 slot migration 与非平凡完美 monodromy，但近满 partial matching 仍不自动给 product support 或 spare capacity。
+- **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, F-0068, F-0069, A-0024, A-0025, A-0029, A-0030
+- **Suggested next action:** 按 D-0012 与 `docs/MAIN_PROOF_ROUTE.md` 完成 actual switch-cube defect：先证明三步 literal switch 的 intermediate-state legality 与 terminal edge identity，再建立 first-nonliteral stopping cylinders 的 bounded multiplicity 和 weighted entrance-cylinder 版本；同步运行 normal \(Q_4\)、differing-pivot、fixed-anchor、diagonal-codebook 与 product/near-\(1/4\) 回归。
 - **Answer criterion:** 对每个正质量 actual reversible core 给出增广、真实 near-\(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection、holonomy 或 partial support 结论不够。
-- **Last updated:** 2026-08-01
+- **Last updated:** 2026-08-04
 
 ## Q-0017 — 零 defect 的 faithful forest/core 正常形
 - **Question:** 对 Q-0018 产生的 faithful global execution object，若所有自然 defect 项严格为零，是否必分解为 no-copy transient/Round forest 与 reversible exact-future cores？
@@ -281,30 +281,36 @@
 - **Known so far:** F-0038 证明固定 genealogy 内 near-critical profile 近二值且近平衡；F-0041 给出 edge/support/orientation/repetition 的精确进展字典。F-0055 已在 exact execution-tree、pre-owned ledgers 与 finite stable atlas 前提下给出 pathwise Round / named exit / R / actual multi-edge core 分解；F-0052 处理 stable quotient 中的 potential-or-core。F-0061 修复 unique-blocker 的 all-release no-copy 语义，F-0062 在单调 clean epochs 与有限完整转移类型下证明 transient mass 消失。零信息损失仍只推出历史可恢复或 permutation behavior，不自动推出 product support。
 - **Missing:** 从原实例获得 F-0055 所需的 global exact tree 与 owner/ledger interface；证明零 defect 与该 pathwise decomposition 的 hypotheses/zero-loss 条件一致；处理 F-0053 的 unbounded overflow。actual core 的终局分类属于 Q-0016，不再重复列入本问题。
 - **Related:** F-0034, F-0036–F-0041, F-0052, F-0053, F-0055, Q-0005, Q-0006, Q-0016, Q-0018, A-0001–A-0003, A-0025
-- **Suggested next action:** 通过 Q-0018 的 global entrance 与 overflow conversion 把 F-0055 从条件 exact tree 提升到原超图；不要重新发明另一套 finite core taxonomy。
+- **Suggested next action:** 在 Q-0018 的 root-only canonical excess 与 fresh-leaf split 上证明 zero-defect histories 只有 clean continuation 或 actual recurrent core；finite core 后果交给 Q-0016 的 switch-cube theorem。不要用 descendant capacity 或 token-universe finiteness 替代 overflow conversion。
 - **Answer criterion:** 给出完整零 defect/no-copy forest-core 分解，保留真实边、块、root projection、pivot、genealogy 和 actual support；或给出满足全部零 defect 公理的真实反模型。
 - **Nonclaim:** F-0055 是条件 finite-interface theorem，不构造 global entrance，也不关闭 overflow 或 Q-0016。
-- **Last updated:** 2026-08-01
+- **Last updated:** 2026-08-04
 
 ## Q-0018 — Faithful global Round-or-Core entrance 与自然 defect
 - **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，使 F-0055 的 pathwise Round-or-Core-or-Overflow 接口适用，并使 Round loss/自然 defect 为零或一致趋零？
 - **Status:** active
 - **Why it matters:** 这是 Route B 的合法全局入口。它允许无法路由的正质量成为实际临界 core 或 overflow，而不要求每份 residual 预先获得独立收费权。
-- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。F-0056 说明完整有限 Markov 标签足以在深度零稳定 future signatures，F-0061 说明 future-complete unique-blocker execution 必须保留两个 release branches；二者均为条件接口，不构造 global entrance。
+- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。F-0056 与 F-0061 是条件 finite-interface/release-complete 工具。F-0070 现已给出合法 interval 上的 root-only canonical excess normalization：原始二步 failure mass 等于 degree 主项加显式 root excess \(\Xi_I\)，且没有授予 release descendants 新容量。
 - **Natural-defect constraints:**
   1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
   2. 不得把“不是 binary forest”“不是 product support”“没有 terminal exit”或“没有被当前 LP 路由”直接写成 defect；
   3. 对 faithful refinement、genealogy 展开和实际 reroot 必须有明确协变性；
   4. defect 为零时仍须保留 actual edge/support identity，不能只得到 phase quotient。
 - **Missing:**
-  1. **Global faithful entrance/Round compatibility:** 从任意目标实例构造统一实际样本空间、first-owner stopping line、完整 candidate blocker sets 与不复制的 root/slot budgets，并证明 Round 输出正是 F-0038/F-0051/F-0042 所需的 actual recurrence mass；critical-profile identification 与 heavy-pair aggregation 是该接口的子合同，而不是独立最终 gap。
-  2. **Overflow conversion:** 把 F-0053 的 unbounded exact-future interface growth 转化为命名 W/M/A/N/S/reset、实际资源增长或 positive-mass actual core；不得静默商化。
-  actual recurrent core 的模板与终局后果由 Q-0016 处理。
-- **Related:** F-0036–F-0044, F-0048–F-0055, Q-0003–Q-0007, Q-0016, Q-0017, A-0031, A-0035
+  1. **Root-excess chart reduction:** 在 F-0070 的同一 interval normalization 中证明
+     \[
+     \Xi_I\le \operatorname{ChartMis}_I+2\mathcal D_I^\sharp+\Phi_I+\mathcal R_I,
+     \]
+     并验证 clean chart、root、slot、actual-edge 与 recurrence units 完全兼容。不得让 descendant blockers 刷新 root capacity。
+  2. **Fresh saturated-leaf conversion:** 对 \(\Phi_I\) 使用 F-0041 的 edge/support/token/repeat no-copy split；repeat 进入 Q-0016 core，support 进入 actual \(S\) 或 coordinate expansion，edge 需要 first-certifying bounded multiplicity，pure token 需要 actual three-cylinder critical regeneration。
+  3. **Overflow conversion:** 把 complete-interface 不稳定性转化为命名 W/M/A/N/S/reset、上述 actual resource growth 或 positive-mass actual core；固定实例 token universe 有限不提供所需的统一量化。
+  actual recurrent core 的终局后果由 Q-0016 的 switch-cube theorem 处理。
+- **Related:** F-0036–F-0044, F-0048–F-0055, F-0070, Q-0003–Q-0007, Q-0016, Q-0017, A-0031, A-0035, D-0012
 - **Sources:**
   - `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
   - `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
   - `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`
-- **Suggested next action:** 构造原实例上的 exact first-owner execution tree，并逐项验证 F-0055 的 entrance、owner、candidate-set 和 Round-compatibility hypotheses；随后单独证明 overflow conversion。不要再把 critical-profile、heavy-pair 和 core classification 混成一个 generic defect。
+  - `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`
+- **Suggested next action:** 先在 root Palm space 证明 \(\Xi_I\) 的 clean-chart reduction；随后按 F-0041 对 fresh saturated leaves 做 edge/support/token/repeat split，并把 pure token 分支表述为 actual three-cylinder regeneration。并行完成 Q-0016 的 switch-cube core theorem；不要扩展 root capacity 到 descendants。
 - **Answer criterion:** 给出可应用于原超图的 faithful entrance construction、三账本兼容的 pathwise Round-or-Core、自然 defect/zero-loss 接口，以及 overflow conversion；或证明这套入口不可能并提供真实反模型。
-- **Last updated:** 2026-08-01
+- **Last updated:** 2026-08-04

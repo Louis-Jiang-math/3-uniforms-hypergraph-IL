@@ -1,33 +1,62 @@
 # Active questions on the proof DAG
 
-## Critical
+## Active
 
-### G1c / Q-0015 — E-exit / aggregate heavy-excess control
+### S1 / Q-0018 — faithful global Round-or-Core entrance and natural defect
 
-原路线是证明最短命名 E 证书由正确账本控制。aggregate 路线已把全部未控质量精确缩减为 \(\mathfrak H_k\)；当前需支付、telescoping 或结构化该正部总量。当前唯一 active 节点。
+The active global obligation is now organized around F-0070's root-only
+canonical excess:
 
-### G1d / Q-0002, Q-0015 — Near-lossless entrance
+\[
+\frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+\le
+(1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
+\]
 
-在 G1c 后，证明跨深度、跨 projection 的近无损配置流。
+Current subcontracts:
 
-## Next
+1. reduce \(\Xi_I\) in the same interval units to actual chart mismatch,
+   F-0038 deficit, fresh saturated leaves, and repeat/core mass;
+2. split fresh leaves by F-0041 into edge/support/token/repeat outcomes;
+3. prove first-certifying bounded multiplicity for edge/support growth;
+4. prove actual three-cylinder regeneration for the pure token branch;
+5. convert remaining unbounded exact-future interfaces into these outcomes or a
+   positive-mass actual core.
 
-### G2 / Q-0017 — Persistent-blocker normal form
+Root capacity does not refresh along release descendants.
 
-从真实入口抽取 \(11/27+o(1)\) 收缩或命名出口。
+## Immediate supporting module
 
-### G3 / Q-0016 — Causal regeneration
+### S3c / Q-0016 — actual-support Core Endgame
 
-禁止新 pivot 无损无限再生，或输出 fresh/old-anchor/core/augmentation/certificate。
+F-0068 and F-0069 remove cross-context switch-slot migration and nontrivial
+perfect monodromy. The current fixed candidate theorem is the actual
+switch-cube defect: ordered three-coordinate switches must either remain literal
+and create actual terminal edges, or encounter a first nonliteral context-slot
+with bounded instruction multiplicity and positive natural defect.
 
-## Blocked
+This module is logically downstream of Q-0018 but may be proved first as an
+independent supporting theorem.
 
-- Q-0003 critical-link stability
-- Q-0005 terminal forcing forest
-- Q-0006 zero-error terminal classification
-- Q-0007 fixed-\(\varepsilon\) stabilization
+## Open normal form
 
-## Parked/historical
+### S2 / Q-0017 — zero-defect forest/core normal form
 
-Q-0001 的 \(3/20\) atlas 路线及其他旧路线仍可提供反例和局部引理，但不占当前主 DAG。
-完整状态仍以根目录 `knowledge/QUESTIONS.md` 为准。
+Use the Q-0018 root-excess/fresh-leaf object to prove zero-defect histories are
+clean no-copy continuations or actual recurrent cores. Do not substitute finite
+token-universe exhaustion or descendant capacity.
+
+## Conditional backend
+
+### S5 / Q-0007
+
+F-0038/F-0051/F-0042 are available once Q-0018 supplies exact or uniformly
+vanishing normalized loss and Q-0016 closes positive-mass cores.
+
+## Parked
+
+Q-0002/Q-0015 and Route A remain supporting only. Reactivation requires an
+explicit decision and synchronized status changes.
+
+Full status remains in `../../knowledge/QUESTIONS.md`; the normative route is
+`../MAIN_PROOF_ROUTE.md`.

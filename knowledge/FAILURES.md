@@ -685,3 +685,15 @@
 - **Do not repeat:** 不得为未跨越的同一箭头持续增加 obstruction 名称。
 - **Status:** strategy-warning
 - **Last updated:** 2026-08-03
+
+## A-0043 — 把 root two-step capacity 当作 descendant entitlement
+
+- **Goal:** 用 F-0039/F-0070 的原始二步 actual-edge capacity 支付同一 release genealogy 中以后出现的所有 blocker edges。
+- **Approach:** 认为 descendant 与 root 属于同一样本，所以可继续访问 root future-block 产生的 edge gates；或在每个新 hole block 上重新生成同类容量。
+- **Failure type:** ledger-scope error / unsupported capacity refresh
+- **Failure point:** F-0070 的容量只由原始第二 future block \(N\) 产生，root blocker 与 \(N\) 相交；release 后的 blocker 只保证包含当前 attempted vertex，未必与原 \(N\) 相交。若逐代重新生成容量，则同一样本和同一 actual edge 可能跨 genealogy 重复获得 entitlement。
+- **Evidence:** F-0070；`evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md` §§4, 8。
+- **Retry conditions:** 证明一条新的 owner-preserving 跨代守恒定理，明确每个 descendant demand 的唯一原始 entitlement；否则 descendants 只用于 structural/resource/core analysis。
+- **Do not repeat:** 不得仅因 blockers 位于同一 release history 就刷新 root capacity。
+- **Status:** unsupported-interface
+- **Last updated:** 2026-08-04

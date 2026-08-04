@@ -1099,3 +1099,61 @@
 - **Related:** Q-0016, A-0041, D-0011
 - **Caveats:** 分散不自动给 actual-edge capacity slack；同步不自动给 product support。
 - **Last updated:** 2026-08-03
+
+## F-0068 — actual switch output 的全局 slot 唯一性
+
+- **Status:** verified
+- **Statement:** 在 F-0063 的 finite unique-blocker all-release core 中，固定真实边 \(e,f\)。若 completion–switch 输出 \(f\)，则产生该输出的 slot \(s=(u,x)\in S(e)\) 与 completion context 无关且至多一个。因而 F-0067 的
+  \[
+  m_{ef}=\sum_{s\in S(e)}n_s(f)
+  \]
+  加强为
+  \[
+  m_{ef}=n_{s(e,f)}(f)
+  \]
+  whenever \(m_{ef}>0\).
+- **Scope:** F-0063 的 actual completion–switch map；结论依赖 stretched block incidence 与每个 switched completion 的唯一 blocker。
+- **Evidence:** `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md` §2。
+- **Dependencies:** F-0063, F-0067
+- **Related:** Q-0016, A-0041, D-0011, D-0012
+- **Caveats:** 该结论排除单步 actual switch map 的跨 slot Latin-column migration，但不自动产生容量 slack、product support 或终局。
+- **Last updated:** 2026-08-04
+
+## F-0069 — 完美 switch transition 的 monodromy 恒等与 sheet 分解
+
+- **Status:** verified
+- **Statement:** 在 F-0063 的 core 中，若 \(c_e=c_f=m_{ef}=C>0\)，则 F-0068 给出一个固定 slot \(s(e,f)=(u,x)\)，且
+  \[
+  \theta_{ef}:\Omega_e\to\Omega_f,\qquad W\mapsto W-u+x
+  \]
+  是双射。沿任意完美 transition 闭路的复合是恒等；因此等 multiplicity 的完美 transition component 的 lifted completion graph 分解为 \(C\) 个互不相交 sheets。若该 lifted graph 连通，则 \(C=1\)。
+- **Scope:** 所有转移均满足 \(c_e=c_f=m_{ef}\) 的 actual perfect-transition component。
+- **Evidence:** `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md` §3。
+- **Dependencies:** F-0068
+- **Related:** Q-0016, D-0011, D-0012
+- **Caveats:** first nonperfect boundary 可以是近满 partial matching；sheet 分解本身不提供 \(1/4\) 级 Hall slack。
+- **Last updated:** 2026-08-04
+
+## F-0070 — root-only canonical global excess normalization
+
+- **Status:** verified
+- **Statement:** 对有限合法区间 \(I\)，令 \(S_I=\sum_{k\in I}A_{k-2}\)，并在 F-0039 的 actual two-step failure Palm space 中为每个 root failure atom 从完整 blocker family 选一个 canonical actual edge。若 \(L_I(e)\) 是 canonical root load，且
+  \[
+  c_I(e)=\frac{1+\eta}{S_Ib^3}
+  \sum_{\substack{k\in I,N\\e\cap N\ne\varnothing}}W_{k,N},
+  \qquad
+  \Xi_I=\sum_e(L_I(e)-c_I(e))_+,
+  \]
+  则
+  \[
+  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+  \le
+  (1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
+  \]
+  同时 \(\sum_ec_I(e)\le(1+\eta)\Delta(H)/b^2\)。
+- **Scope:** 只支付原始二步 root failure atoms；不授予 release descendants 新的 root capacity entitlement。
+- **Evidence:** `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md` §4。
+- **Dependencies:** F-0039
+- **Related:** F-0040, Q-0018, D-0002, D-0012
+- **Caveats:** 该恒等式不证明 \(\Xi_I\) 小，也不证明 clean-chart reduction、fresh-token conversion 或 overflow closure。
+- **Last updated:** 2026-08-04

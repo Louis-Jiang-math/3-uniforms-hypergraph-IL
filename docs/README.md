@@ -3,6 +3,7 @@
 ## Current state
 
 - `../HANDOFF_CURRENT.md`: current operational snapshot;
+- `MAIN_PROOF_ROUTE.md`: authoritative implementation route and anti-drift map;
 - `PROJECT_STATE.yaml`: machine-readable status;
 - `PROOF_DAG.md`: single main-proof dependency graph;
 - `QUICKSTART_10_MINUTES.md`: onboarding;

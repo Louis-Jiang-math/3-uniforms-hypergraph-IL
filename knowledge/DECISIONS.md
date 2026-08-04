@@ -102,7 +102,7 @@
 - **Status:** active
 - **Decision:** 对话中关于 E1/E2/E3、harmonic scheduler、target-follow 或 core closure 的陈述，只有在仓库内获得自足证明或显式反例后才可登记；条件对象不得提升为 global closure。
 - **Reason:** 同一讨论中多次出现先宣称闭合、随后因 release-completeness、normalization 或 actual-support 问题而降级的情况。
-- **Consequences:** F-0056–F-0067 只按其精确范围登记；A-0036–A-0041 保存被否定的升级。
+- **Consequences:** F-0056–F-0070 只按其精确范围登记；A-0036–A-0043 保存被否定或禁止的升级。
 - **Related:** D-0007, Q-0016, Q-0018
 - **Last updated:** 2026-08-03
 
@@ -113,5 +113,25 @@
 - **Reason:** F-0067 已完成纯匹配层的同步—分散二分；A-0041 证明纯分散不产生容量 slack，A-0042 证明继续换名不会改变 proof obligation。
 - **Accepted progress:** actual expansion completeness、near-\(1/4\) link、pairwise incompatible exact cover、complete-block reduction、可计算的 strict Hall slack，或满足全部实际条件的反模型。
 - **Nonprogress:** 新 phase/atlas/cut/Latin 名称，或只使用 \(P_e\) 边际的另一二分。
-- **Related:** Q-0016, F-0063–F-0067, A-0041, A-0042
+- **Related:** Q-0016, F-0063–F-0069, A-0041, A-0042
 - **Last updated:** 2026-08-03
+
+## D-0012 — Freeze the implementation route at root excess, switch cube, and fresh forest
+
+- **Status:** active
+- **Decision:** Route B 的实现顺序固定为：
+  1. 只在原始二步 failure roots 上使用 F-0070 的 canonical global excess；
+  2. 用 actual switch-cube natural defect 处理 finite unique-blocker all-release cores；
+  3. 对 fresh saturated critical leaves 使用 F-0041 的 edge/support/token/repeat no-copy split；
+  4. 把 pure fresh-token 分支压缩为 actual three-cylinder critical regeneration，再代回固定 interval master inequality 和 F-0042。
+- **Reason:** 根二步容量不自动覆盖 release descendants；F-0068 排除 actual one-step switch map 中的跨 slot Latin-column migration；F-0069 说明完美转移只有 sheet 运输而无非平凡 monodromy；F-0070 给出不刷新 descendant capacity 的精确 recurrence entrance。剩余核心因此是 actual switch-cube defect 与 fresh-token three-cylinder conversion，而不是新的动态收费或抽象 quotient。
+- **Consequences:**
+  - descendant blockers 只用于 structural/resource/core analysis，不能仅因处于同一 genealogy 就刷新 root capacity；
+  - Q-0016 的当前 candidate theorem 是 actual switch-cube defect，不再把 partial matching、monodromy 或 Latin dispersion 单独当作终局；
+  - Q-0018 的当前入口是 root-only canonical excess \(\Xi_I\)，其 clean-chart reduction 与 fresh-leaf conversion 仍开放；
+  - Q-0016、Q-0017、Q-0018、S1--S5 与主定理状态均不改变。
+- **Nonprogress:** dynamic descendant entitlement、static core Hall compression、abstract token-universe finiteness、或为同一 fresh-token obligation 更名。
+- **Normative route:** `docs/MAIN_PROOF_ROUTE.md`。
+- **Evidence:** `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`。
+- **Related:** D-0002, D-0006, D-0011, F-0041, F-0042, F-0063--F-0070, Q-0016, Q-0018
+- **Last updated:** 2026-08-04

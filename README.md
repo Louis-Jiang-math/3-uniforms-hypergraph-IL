@@ -10,78 +10,80 @@ partitioned 3-uniform hypergraphs, with the target implication
 
 ## Current status
 
-The one-quarter theorem is **open**. The active proof strategy is now:
+The one-quarter theorem is **open**. The active proof strategy is:
 
 > **Route B — critical stability.**
 
-The single active node is:
+The single active DAG node remains:
 
 > **S1 / Q-0018 — faithful global Round-or-Core entrance and natural defect.**
 
-The current logical path is
+D-0012 now fixes the implementation sequence:
 
 \[
-\text{global faithful entrance}
-\to \text{pathwise Round-or-Core}
-\to \text{overflow conversion / actual core}
-\to \text{Core Endgame}
-\to \text{conditional stability closure}.
+\boxed{
+\text{root-only canonical excess}
+\to
+\text{actual switch-cube core defect}
+\to
+\text{fresh saturated-leaf conversion}
+\to
+\text{F-0042}.
+}
 \]
 
-F-0055 closes the finite/exact dynamic max-flow and pathwise realization
-interface under explicit execution-tree and pre-owned-ledger hypotheses. It does
-not construct that object from every target instance.
+The authoritative route map is
+[`docs/MAIN_PROOF_ROUTE.md`](docs/MAIN_PROOF_ROUTE.md).
 
-Route A—the near-lossless configuration/escape-flow and aggregate
-heavy-excess-dissipation program—is temporarily suspended as a main route.
-Its proved modules remain available as supporting tools:
+Recent verified supporting progress is:
 
-- future-complete lift;
-- no-configuration retyping;
-- old-anchor temporal Lyapunov;
-- aggregate pair-cylinder normalization;
-- pair-flat/heavy-excess orthogonalization;
-- future-compatible orientation accounting;
-- conditional recurrence criteria.
+- F-0068: for fixed actual edges \(e,f\), the output \(f\) can arise from at
+  most one switch slot of \(e\), uniformly over completion contexts;
+- F-0069: perfect switch-transition cycles have trivial monodromy and split
+  into completion sheets;
+- F-0070: original two-step failure roots admit an exact root-only canonical
+  excess normalization
+  \[
+  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+  \le
+  (1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
+  \]
 
-The strategy change does **not** close Q-0015, Q-0016, Q-0017, or the
-one-quarter theorem. It changes what counts as main progress: the project now
-seeks a faithful Round-or-Core entrance and an actual-support Core Endgame,
-rather than a unit-by-unit charging of all residual mass.
+These facts do **not** close Q-0016 or Q-0018. The current open mathematical
+steps are:
 
-Recent supporting progress includes the finite Round-or-Core interface
-F-0048–F-0055 and the audited execution/core lemmas F-0056–F-0067.  The latter
-add release-complete branching, target-following, transient clean-epoch
-contraction, all-release core triangle/context identities, a static
-pairwise-incompatible bound, and a rigorous maximum-reuse
-completion–switch synchronization–dispersion theorem.
+1. prove the Q-0016 actual switch-cube defect theorem on finite all-release
+   cores, keeping all intermediate actual supports and a bounded first-
+   nonliteral assignment;
+2. reduce the root excess \(\Xi_I\) to clean-chart mismatch, F-0038 deficit,
+   fresh saturated leaves, and repeat/core mass in the same interval units;
+3. split fresh leaves by F-0041 into edge/support/token/repeat outcomes and
+   prove the actual three-cylinder regeneration theorem for the pure token
+   branch;
+4. convert any remaining unbounded exact-future interface growth into those
+   actual outcomes or a positive-mass core.
 
-The current remaining-gap judgment is:
+Root two-step capacity is not refreshed along release descendants. Descendant
+blockers are structural/resource/core data, not new copies of the recurrence
+capacity. Route A remains suspended as a main route, although its exact mass
+identities, Hall tools, and F-0042 backend remain available as supporting
+modules.
 
-1. construct the global faithful entrance and verify Round compatibility with
-   the separate root, slot, and real-edge ledgers;
-2. convert unbounded exact-future overflow into named actual structure or a
-   positive-mass core;
-3. prove the actual-support Core Endgame of Q-0016, now narrowed to the
-   saturated actual switch-matching/context-reuse conversion fixed by D-0011.
-
-Critical-profile identification and heavy-pair aggregation remain subcontracts
-of the first item. F-0038/F-0051/F-0042 are the available conditional stability
-backend once the faithful Round loss is zero or uniformly vanishing. No open
-question or theorem is closed by this refinement.
+No open question or theorem is closed by this route clarification.
 
 ## Ten-minute start
 
 1. [`docs/QUICKSTART_10_MINUTES.md`](docs/QUICKSTART_10_MINUTES.md)
 2. [`HANDOFF_CURRENT.md`](HANDOFF_CURRENT.md)
-3. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
-4. [`docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`](docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md)
-5. [`AGENTS.md`](AGENTS.md)
-6. [`agent.md`](agent.md)
-7. [`knowledge/DECISIONS.md`](knowledge/DECISIONS.md)
-8. [`knowledge/FACTS.md`](knowledge/FACTS.md)
-9. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
-10. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+3. [`docs/MAIN_PROOF_ROUTE.md`](docs/MAIN_PROOF_ROUTE.md)
+4. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
+5. [`docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`](docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md)
+6. [`AGENTS.md`](AGENTS.md)
+7. [`agent.md`](agent.md)
+8. [`knowledge/DECISIONS.md`](knowledge/DECISIONS.md)
+9. [`knowledge/FACTS.md`](knowledge/FACTS.md)
+10. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
+11. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
 
 ## Protocol split
 

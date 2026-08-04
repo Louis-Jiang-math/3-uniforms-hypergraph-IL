@@ -8,14 +8,15 @@ This file contains only rules specific to this repository.
 Read in this order:
 
 1. `HANDOFF_CURRENT.md`
-2. `docs/PROJECT_STATE.yaml`
-3. `docs/PROOF_DAG.md`
-4. `knowledge/DECISIONS.md`
-5. `knowledge/FACTS.md`
-6. `knowledge/FAILURES.md`
-7. `knowledge/QUESTIONS.md`
-8. the relevant file under `docs/framework/`
-9. relevant code, tests, and evidence
+2. `docs/MAIN_PROOF_ROUTE.md`
+3. `docs/PROJECT_STATE.yaml`
+4. `docs/PROOF_DAG.md`
+5. `knowledge/DECISIONS.md`
+6. `knowledge/FACTS.md`
+7. `knowledge/FAILURES.md`
+8. `knowledge/QUESTIONS.md`
+9. the relevant file under `docs/framework/`
+10. relevant code, tests, and evidence
 
 Raw conversations under `sources/raw/` and legacy frameworks under `history/` are
 historical sources, not canonical status.
@@ -26,11 +27,14 @@ historical sources, not canonical status.
 - The active proof strategy is **Route B: critical stability**.
 - The single active proof node is `S1 / Q-0018`: faithful global
   Round-or-Core entrance and natural defect.
+- D-0012 fixes the implementation route: root-only canonical excess (F-0070),
+  actual switch-cube core defect (Q-0016 candidate), F-0041 fresh-leaf resource
+  split, then actual three-cylinder regeneration and F-0042.
 - `Q-0017` is the zero-defect global normal-form problem.
 - `Q-0016` is the actual-support Core Endgame problem.
 - F-0055 closes only the exact execution-tree/pathwise finite interface. The
-  current genuine closure map is global faithful entrance/Round compatibility,
-  overflow conversion, and actual-support Core Endgame. Critical-profile and
+  current genuine closure map is the root-excess clean-chart reduction,
+  fresh-leaf/overflow conversion, and the actual switch-cube Core Endgame. Critical-profile and
   heavy-pair work are subcontracts of the first item; the existing stability
   algebra remains conditional on faithful zero- or vanishing-loss input.
 - Route A (`Q-0002/Q-0015`, near-lossless charging and aggregate heavy-excess
@@ -44,15 +48,16 @@ historical sources, not canonical status.
 
 Do not:
 
-1. require all residual mass to acquire an independent charging entitlement;
-2. treat \(1/4\) as a theorem of \(100\%\) residual conversion;
-3. redefine a defect so that the desired terminal structure is true by definition;
-4. promote a new Hall cut, token, quotient candidate, or obstruction name to main
+1. refresh a root two-step actual-edge capacity along release descendants;
+2. require all residual mass to acquire an independent charging entitlement;
+3. treat \(1/4\) as a theorem of \(100\%\) residual conversion;
+4. redefine a defect so that the desired terminal structure is true by definition;
+5. promote a new Hall cut, token, quotient candidate, or obstruction name to main
    progress unless it yields an exact zero-defect classification, a strict
    monotone quantity, a real \(1/4\) link, an IT, or a complete-block contradiction;
-5. treat local same-pivot windows as a global single-pivot cylinder;
-6. treat reversible genealogy or phase consistency as product support;
-7. treat splice as a free repeatable closure operation.
+6. treat local same-pivot windows as a global single-pivot cylinder;
+7. treat reversible genealogy or phase consistency as product support;
+8. treat splice as a free repeatable closure operation.
 
 Reactivating Route A requires an explicit decision in `knowledge/DECISIONS.md`
 and synchronized changes to the handoff, project state, proof DAG, questions, and

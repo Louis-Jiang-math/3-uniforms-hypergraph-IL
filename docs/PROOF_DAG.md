@@ -35,17 +35,25 @@ future-complete、保留 genealogy 与真实支持的执行对象，但不要求
 
 ## 3. Current bottleneck compression
 
-The current working judgment is:
+The logical DAG is unchanged, but D-0012 fixes the implementation sequence:
 
-1. **E1 — global faithful entrance/Round compatibility:** construct the exact
-   first-owner execution object and verify the three ledgers and recurrence
-   normalization. Critical-profile identification and heavy-pair aggregation
-   are subcontracts here.
-2. **E2 — overflow conversion:** turn unbounded exact-future interfaces into a
-   named actual exit, resource growth, or positive-mass actual core.
-3. **E3 — actual-support Core Endgame:** close Q-0016 for every actual core.
+1. **Root-only entrance:** use F-0070 on original two-step failure atoms and
+   reduce the explicit canonical excess \(\Xi_I\) to clean-chart mismatch,
+   F-0038 deficit, fresh saturated leaves, and repeat/core mass. Root capacity
+   does not refresh along descendants.
+2. **Actual core module:** prove the Q-0016 actual switch-cube defect theorem.
+   F-0068 excludes cross-context slot migration and F-0069 makes perfect
+   monodromy trivial; the open step is the first-nonliteral bounded-multiplicity
+   count on the actual three-switch cube.
+3. **Fresh forest:** apply F-0041 to split fresh saturated leaves into new
+   edge/support/token/repeat outcomes. Repeat goes to the core module; pure
+   token mass must be converted by the actual three-cylinder regeneration
+   theorem.
+4. **Backend:** substitute the resulting gain/boundary estimate into the fixed
+   interval master inequality and invoke F-0042/Q-0007.
 
-F-0055 closes only the finite/exact network interface. No node is closed by this
+The normative implementation map is `MAIN_PROOF_ROUTE.md`. F-0055 still closes
+only the finite/exact network interface, and no open node is closed by this
 compression.
 
 ## 4. Node contracts
@@ -54,7 +62,7 @@ compression.
 
 - **Status:** proved-formal/supporting.
 - **Contents:** F-0036–F-0041、F-0043–F-0044、F-0048–F-0055，以及经审计的
-  F-0056–F-0067。
+  F-0056–F-0070。
 - **Output:** 质量守恒的 future lift、no-configuration 重标、old-anchor
   Lyapunov、aggregate orthogonalization、orientation progress、局部 Hall
   deficiency、same-load exchange flow，以及 finite signature atlas、实际边
@@ -63,17 +71,19 @@ compression.
 - **Does not prove:** 全局 defect 很小、零缺陷分类、product support、全局
   single-pivot cylinder 或 \(1/4\)。
 
-### R2 — Global entrance, tightness, and overflow conversion
+### R2 — Root-excess reduction, fresh forest, and overflow conversion
 
 - **Status:** open.
 - **Input:** 任意目标低度、块极小、无 IT 实例，以及 R1 的有限接口。
-- **Required output:** 构造 F-0055 所需的统一 actual sample space、first-owner
-  stopping line、完整 blocker-edge candidates 与三账本兼容性；证明 Round 输出
-  与 F-0038/F-0051/F-0042 的 actual recurrence 量一致；并把 F-0053 的
-  unbounded overflow 转化为命名结构、实际资源增长或 positive-mass actual core。
+- **Required output:** 从 F-0070 的 root-only canonical excess \(\Xi_I\) 出发，
+  构造与 F-0055/F-0038/F-0051/F-0042 同单位的 clean-chart reduction；对 fresh
+  saturated leaves 保留 first owner 与三份账本，完成 edge/support/token/repeat
+  conversion；并把 F-0053 的 unbounded overflow 转化为命名结构、上述实际资源
+  增长或 positive-mass actual core。
 - **Forbidden shortcuts:** 只对压缩 phase graph 或当前 trace 取极限；把
   critical-profile/heavy-pair mismatch 重新命名为 generic defect；把 unstable
-  signatures 静默商化。
+  signatures 静默商化；沿 release descendants 刷新 F-0070 的 root capacity；
+  用 fixed-instance token-universe finiteness 代替统一 conversion。
 
 ### S1 — Faithful global Round-or-Core entrance and natural defect
 
@@ -133,10 +143,13 @@ compression.
   strictly positive natural defect。
 - **Known supporting structure:** F-0058 与 F-0063–F-0067 给出 target-follow、
   all-release core 三角形/context identities、incompatible-family bound 和
-  maximal-reuse switch-matching 二分。
-- **Current strict subproblem:** D-0011 的 saturated actual switch-matching
-  conversion；必须使用 actual incidence/support transport 得到 terminal
-  outcome 或 quantitative loss。
+  maximal-reuse switch-matching 二分。F-0068 证明 actual output edge 的全局
+  switch-slot 唯一性，F-0069 证明 perfect-transition monodromy 恒等与 sheet
+  分解。
+- **Current strict subproblem:** D-0011/D-0012 的 actual switch-cube defect。
+  必须在 ordered three-coordinate switches 上保留全部 intermediate actual
+  supports，并把坏 instruction 赋给第一处 nonliteral context-slot，得到
+  bounded multiplicity 与自然正 defect。
 - **Known limits:** common-base diamond 原命题为假；splice 不是免费重复操作；
   phase/reversibility 不自动推出 product support；A-0041 排除“switch-map
   dispersion 自动给 spare capacity”。

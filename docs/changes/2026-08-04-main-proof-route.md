@@ -1,0 +1,21 @@
+# Main-proof route clarification
+
+- **Base commit:** `314bcba`
+- **Write mode:** `status-promotion`
+- **Task:** Integrate the locally audited proof route so a collaborator or a new LLM can locate the active main line, its proved supporting lemmas, its candidate core theorem, and the remaining global conversion without relying on conversation history.
+- **Target DAG node:** `S1 / Q-0018`, with the `S3c / Q-0016` supporting module and the fixed `S5 / F-0042` backend.
+- **Inputs:** Local repository at `314bcba`; existing F-0038--F-0067; D-0011; the audited root-only canonical-excess and actual switch-slot arguments.
+- **Outputs:** A normative main-route document; self-contained evidence for F-0068--F-0070; synchronized decisions, facts, questions, DAG, project state, onboarding, handoff, and status views.
+- **Allowed paths:** `AGENTS.md`, `README.md`, `HANDOFF_CURRENT.md`, `knowledge/`, `docs/`, `evidence/proofs/`.
+- **Forbidden paths:** `sources/raw/`, `history/`, `old/`, generated experiment payloads, implementation code, tests, and unrelated evidence.
+- **Claim status sought:** Promote only three supporting statements whose proofs are self-contained: global switch-slot uniqueness, perfect-transition monodromy/sheet decomposition, and root-only canonical excess normalization. Do not close Q-0016, Q-0017, Q-0018, S1--S5, or M0.
+- **Acceptance criterion:** The repository presents one unambiguous route: root-only canonical excess at the recurrence entrance; actual switch-cube defect for finite all-release cores; F-0041 resource split for fresh saturated leaves; a three-cylinder fresh-token conversion as the remaining global theorem. Every candidate/open step is visibly marked and no descendant blocker receives root capacity by assertion.
+- **Required validations:**
+  - `python -m compileall -q src enumerate tools tests`
+  - `python -m pytest -q`
+  - `python tools/check_repository.py`
+  - `python tools/check_generated_artifacts.py`
+  - `python enumerate/q0015_configuration_auditor.py --regressions-only --generated-at 2026-07-28T00:00:00Z --output-dir artifacts/runs/q0015`
+  - `python enumerate/q4_splice_pay_cylinder_validation.py`
+- **Non-goals:** Prove the switch-cube inequality, close the fresh-token forest conversion, reactivate Route A, or claim the one-quarter theorem.
+- **Final status:** validated

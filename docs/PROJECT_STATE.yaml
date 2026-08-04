@@ -1,5 +1,5 @@
 schema_version: 1
-updated: 2026-08-03
+updated: 2026-08-04
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -24,25 +24,37 @@ proof_strategy:
   route_a_status: suspended
   route_a_reactivation: "requires an explicit decision and synchronized state changes"
   nonclaim: "The strategy change proves no new asymptotic threshold."
+implementation_route:
+  decision: D-0012
+  normative_document: docs/MAIN_PROOF_ROUTE.md
+  sequence:
+    - "root-only canonical excess at original two-step failure atoms (F-0070)"
+    - "actual switch-cube natural defect for finite all-release cores (Q-0016 candidate theorem)"
+    - "F-0041 edge/support/token/repeat split for fresh saturated leaves"
+    - "three-cylinder fresh-token regeneration into the fixed interval master inequality"
+  forbidden_shortcuts:
+    - "refresh root capacity along release descendants"
+    - "replace actual support by a static core Hall compression"
+    - "treat abstract Latin dispersion or finite token-universe size as closure"
 active_node:
   id: S1
   question: Q-0018
   title: "Faithful global Round-or-Core entrance and natural defect"
   status: active
   exact_goal: >
-    Construct the faithful actual execution tree, first-owner interface, and
-    three-ledger-compatible pathwise Round-or-Core required by F-0055; make the
-    Round output compatible with the existing stability backend; and convert
-    unbounded exact-future overflow without building the desired terminal
-    structure into the defect definition.
+    Starting from the F-0070 root-only canonical excess, prove the clean-chart
+    reduction and the F-0041 edge/support/token/repeat conversion with separate
+    root, slot, and real-edge ledgers; send repeat/core mass to the Q-0016
+    switch-cube module and convert pure fresh-token/overflow mass by actual
+    three-cylinder regeneration.
 nodes:
   R1:
     title: "Faithful supporting modules"
     status: proved-formal-supporting
     references:
-      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053", "F-0055", "F-0056", "F-0057", "F-0058", "F-0059", "F-0060", "F-0061", "F-0062", "F-0063", "F-0064", "F-0065", "F-0066", "F-0067"]
+      ["F-0036", "F-0037", "F-0038", "F-0039", "F-0040", "F-0041", "F-0043", "F-0044", "F-0048", "F-0049", "F-0050", "F-0051", "F-0052", "F-0053", "F-0055", "F-0056", "F-0057", "F-0058", "F-0059", "F-0060", "F-0061", "F-0062", "F-0063", "F-0064", "F-0065", "F-0066", "F-0067", "F-0068", "F-0069", "F-0070"]
   R2:
-    title: "Global entrance, tightness, and overflow conversion"
+    title: "Root-excess reduction, fresh forest, and overflow conversion"
     status: open
     depends_on: ["R1"]
   S1:
@@ -90,17 +102,19 @@ current_gap_judgment:
         - "one no-copy actual sample space and first-owner stopping line"
         - "complete actual blocker-edge candidate sets"
         - "separate root, slot, and global real-edge ledger compatibility"
-        - "critical-profile identification and heavy-pair aggregation as backend subcontracts"
+        - "root-only canonical excess Xi_I in the F-0039 interval normalization"
+        - "clean-chart reduction of Xi_I into profile mismatch, fresh saturated leaves, and repeat/core mass"
+        - "first-certifying edge/support/token resource multiplicities without descendant capacity refresh"
         - "zero or uniformly vanishing Round loss in the recurrence normalization"
     - id: E2
       title: "Overflow conversion"
-      goal: "Convert unbounded exact-future interfaces to named structure, actual resource growth, or a positive-mass actual core."
+      goal: "Convert unbounded exact-future interfaces to named structure, the F-0041 edge/support/token/repeat resources, or a positive-mass actual core; finite token-universe size alone is insufficient."
     - id: E3
       title: "Actual-support Core Endgame"
       question: Q-0016
-      goal: "Use the audited all-release context identities and saturated completion-switch matching to force augmentation, a real near-1/4 pivot link, a complete-block no-IT core, an exact incompatible cover, or quantitative loss."
+      goal: "Prove the actual switch-cube defect theorem on finite all-release cores, using actual intermediate supports and first-nonliteral bounded multiplicity, or produce a real countermodel satisfying all core hypotheses."
   nonclaim: >
-    The one-quarter theorem and Q-0016/Q-0017/Q-0018 remain open; F-0056--F-0067 are supporting results only, and the conditional stability backend is not promoted to a global theorem.
+    The one-quarter theorem and Q-0016/Q-0017/Q-0018 remain open; F-0056--F-0070 are supporting results only, the switch-cube inequality and three-cylinder regeneration remain open, and the conditional stability backend is not promoted to a global theorem.
 parked_route_a:
   status: suspended
   questions: ["Q-0002", "Q-0015"]
@@ -115,6 +129,21 @@ parked_route_a:
     - "A new Hall cut or token name alone"
     - "An unproved claim that all residual mass has a charging entitlement"
 accepted_latest_progress:
+  - id: R-SWITCH-SLOT-01
+    status: proved-formal-supporting
+    statement: >
+      In a finite unique-blocker all-release actual core, a fixed output edge f
+      can arise from at most one switch slot of a fixed input edge e, uniformly
+      over all completion contexts. Perfect-transition cycles have trivial
+      monodromy and decompose into completion sheets.
+    nonclaim: "This does not prove the switch-cube defect or close Q-0016."
+  - id: R-ROOT-EXCESS-01
+    status: proved-formal-supporting
+    statement: >
+      On a finite legal interval, original two-step root failures admit one
+      no-copy canonical actual-edge load and one root-only capacity ledger,
+      yielding the exact bound degree term plus Xi_I.
+    nonclaim: "Xi_I is not yet controlled, and the capacity does not refresh on descendants."
   - id: R-ROUND-CORE-01
     status: proved-conditional-supporting
     statement: >

@@ -3,6 +3,43 @@
 只记录证明状态的净变化，不记录“新增文档行数”或一般探索。
 
 
+## 2026-08-04 — Root-excess and actual switch-cube route clarification
+
+### Proved-formal supporting
+
+- F-0068: a fixed actual switch output edge can arise from at most one slot of a
+  fixed input edge, uniformly over all completion contexts;
+- F-0069: perfect transition cycles have trivial monodromy and decompose into
+  completion sheets;
+- F-0070: legal-interval two-step root failures satisfy the exact root-only
+  canonical excess normalization.
+
+### Strategy clarification
+
+D-0012 fixes the implementation route:
+
+\[
+\text{root-only canonical excess}
+\to
+\text{actual switch-cube core defect}
+\to
+\text{F-0041 fresh-leaf split}
+\to
+\text{three-cylinder regeneration}
+\to
+\text{F-0042}.
+\]
+
+Root capacity is not refreshed on release descendants. Dynamic descendant
+charging, static core Hall compression, abstract Latin dispersion, and finite
+token-universe exhaustion are not main-route substitutes.
+
+### Canonical status
+
+Q-0016, Q-0017, Q-0018, S1--S5, and the one-quarter theorem remain open. The
+switch-cube defect inequality, clean-chart reduction of \(\Xi_I\), and
+three-cylinder fresh-token conversion are not promoted.
+
 ## 2026-07-29 — Q-0015 aggregate heavy-excess reduction
 
 ### Proved-formal
