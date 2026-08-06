@@ -265,13 +265,20 @@
 
 ## Q-0016 — actual-support Core Endgame
 - **Question:** 对 Q-0018/F-0055 输出的正质量 actual reversible exact-future core，能否证明其产生增广、真实 near-\(1/4\) single-pivot link、完整真子无 IT 块系统，或一个独立自然正 defect？
-- **Status:** open
-- **Why it matters:** 在 strong faithful Round-or-Core 之后，这是从 actual recurrent core 到最终结构矛盾的唯一主要 endgame；phase、projection 或 partial support 正常形本身都不够。
-- **Known so far:** F-0035 只给 incidence 集中或顶点增殖；A-0024 排除纯 incidence 论证。A-0029 排除“可逆性自动给 common-base diamond”；A-0030 排除“splice 可免费反复”。F-0052/F-0055 提供条件 actual recurrent-core 入口。F-0058 给 fixed-pivot target-follow terminal module；F-0063–F-0067 给 all-release core 的三角形分解、weighted context regularity、共同状态恒等式、forced-off-pivot 质量、pairwise-incompatible 静态界和最大复用 completion–switch 二分。F-0068 进一步证明同一 actual output edge 跨 contexts 只能来自一个固定 switch slot，排除单步 actual Latin-column migration；F-0069 证明完美 transition 的 monodromy 为恒等并产生 sheet 分解。A-0041 仍说明纯矩阵分散不能产生 capacity slack。
-- **Missing:** 证明 actual switch-cube defect theorem：对 ordered three-coordinate switches 保留全部 intermediate actual supports，把坏 instruction 赋给第一处 nonliteral context-slot 并证明 bounded multiplicity，从而由低度推出每个 positive-mass core 具有常数密度的自然 actual-support defect；或给出满足全部 core hypotheses 的真实反模型。F-0068/F-0069 已排除跨 slot migration 与非平凡完美 monodromy，但近满 partial matching 仍不自动给 product support 或 spare capacity。
-- **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, F-0068, F-0069, A-0024, A-0025, A-0029, A-0030
-- **Suggested next action:** 按 D-0012 与 `docs/MAIN_PROOF_ROUTE.md` 完成 actual switch-cube defect：先证明三步 literal switch 的 intermediate-state legality 与 terminal edge identity，再建立 first-nonliteral stopping cylinders 的 bounded multiplicity 和 weighted entrance-cylinder 版本；同步运行 normal \(Q_4\)、differing-pivot、fixed-anchor、diagonal-codebook 与 product/near-\(1/4\) 回归。
-- **Answer criterion:** 对每个正质量 actual reversible core 给出增广、真实 near-\(1/4\) pivot link、完整真实块子核心或正 defect 之一；phase、projection、holonomy 或 partial support 结论不够。
+- **Status:** open globally; finite unique-blocker all-release normal form answered
+- **Why it matters:** 在 strong faithful Round-or-Core 之后，这是从 actual recurrent core 到最终结构矛盾的主要 endgame。
+- **Known so far:** F-0063–F-0069 给出 finite all-release core 的 actual completion-switch 结构。F-0071 现已闭合该 normal form：若 \(\beta_K\) 是 nonliteral switch 密度，则
+  \[
+  \Delta(H)\ge(1-3\beta_K)_+\frac{(b-1)^3}{b},
+  \]
+  且在低度假设下，带权 actual endpoint-loss defect 以正常数乘以 core 入口质量为下界。该 defect no-copy、对 faithful refinement 协变，并具有零集/耗散后果，满足 FW-60 的 Route-B 接受标准。
+- **Missing:** 只剩 global coverage：证明 Q-0017/Q-0018 输出的每个 positive-mass relevant core 要么进入 finite unique-blocker all-release normal form，从而应用 F-0071；要么直接产生 W/M/A/N/S/reset、near-\(1/4\) link、完整子核心或其他 accepted terminal。非稳定 exact-future overflow 仍属于 Q-0018。
+- **Related:** Q-0003, Q-0004, Q-0005, Q-0006, Q-0009, Q-0010, Q-0017, Q-0018, F-0063–F-0071
+- **Sources:**
+  - `evidence/proofs/CORE_CONTEXT_REUSE_AND_SWITCH_MATCHING.md`
+  - `evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md`
+- **Suggested next action:** 不再重做 finite switch-cube 计数。只验证 global faithful core entrance/all-release normal-form coverage，并把 repeat/core mass从 F-0072/F-0041 接到 F-0071。
+- **Answer criterion:** 对每个正质量 actual recurrent core 给出 F-0071 normal form 或其他 accepted outcome；phase、projection、holonomy 或 partial support 结论不够。
 - **Last updated:** 2026-08-04
 
 ## Q-0017 — 零 defect 的 faithful forest/core 正常形
@@ -288,29 +295,84 @@
 
 ## Q-0018 — Faithful global Round-or-Core entrance 与自然 defect
 - **Question:** 能否从任意目标低度、块极小、无 IT 实例构造一个质量守恒、future-complete、genealogy-coherent、保存 actual support 和三份账本历史的全局执行对象，使 F-0055 的 pathwise Round-or-Core-or-Overflow 接口适用，并使 Round loss/自然 defect 为零或一致趋零？
-- **Status:** active
-- **Why it matters:** 这是 Route B 的合法全局入口。它允许无法路由的正质量成为实际临界 core 或 overflow，而不要求每份 residual 预先获得独立收费权。
-- **Known so far:** F-0036–F-0041 提供 faithful lift、无损重标、精确 near-equality identity、aggregate normalization 和 orientation progress；F-0043–F-0044 提供局部正交化工具。F-0048–F-0053 给出 competing-blocker rank-one release、fresh/return、wide-fan/heavy-pair、clean product-chart ledger、actual-edge-history core 与 finite signature overflow。F-0055 进一步闭合 exact execution tree 上的 first-owner、动态 max-flow/min-cut、pathwise no-copy realization，以及 stable-atlas `R`/Core / nonstable Overflow 分解。F-0056 与 F-0061 是条件 finite-interface/release-complete 工具。F-0070 现已给出合法 interval 上的 root-only canonical excess normalization：原始二步 failure mass 等于 degree 主项加显式 root excess \(\Xi_I\)，且没有授予 release descendants 新容量。
+- **Status:** open-supporting
+- **Why it matters:** 这是有限状态/稳定性支持框架，不再是 active closing node。
+- **Known so far:** F-0070 给出 root-only canonical excess normalization。F-0077 已用 rounding-free actual-cross 分解加强 F-0072：给定 faithful actual-cross atlas，定义 exact chart Hall deficiency \(\operatorname{ChartMis}_I\)，有
+  \[
+  \Xi_I=\operatorname{ChartMis}_I+\Phi_I^\times+\mathcal R_I^\times.
+  \]
+  确定性 profile rounding 及正误差 \(2\mathcal D_I^\sharp\) 已从 master inequality 删除。
+  F-0071 已关闭 finite unique-blocker all-release repeat/core 后端。F-0073 修正并关闭 first-token 入口的 exact priority split；F-0074 关闭 persistent pure-token remainder。F-0075 进一步把 new-edge/new-support 作为有限实际资源增量后重启，并证明固定有限实例中 edge/support/pure-token 持久尾全部为零；F-0076 关闭 supplied-atlas 的 exact common-zero-set branch。F-0038、F-0049、F-0051、F-0055 仍提供 profile、chart 和 pathwise interfaces。
 - **Natural-defect constraints:**
-  1. defect 必须来自独立可审计的实际量，例如不可逆信息损失、F-0038 deficit、非正常交换、actual-support splice failure 或真实执行不一致；
-  2. 不得把“不是 binary forest”“不是 product support”“没有 terminal exit”或“没有被当前 LP 路由”直接写成 defect；
-  3. 对 faithful refinement、genealogy 展开和实际 reroot 必须有明确协变性；
-  4. defect 为零时仍须保留 actual edge/support identity，不能只得到 phase quotient。
+  1. defect 必须来自独立可审计的实际量；
+  2. 不得把未路由质量、chart deficiency、fresh token 或“不是 product”直接定义成 terminal defect；
+  3. 对 faithful refinement、genealogy 展开和 reroot 必须协变；
+  4. 零 defect 仍须保留 actual edge/support identity。
 - **Missing:**
-  1. **Root-excess chart reduction:** 在 F-0070 的同一 interval normalization 中证明
-     \[
-     \Xi_I\le \operatorname{ChartMis}_I+2\mathcal D_I^\sharp+\Phi_I+\mathcal R_I,
-     \]
-     并验证 clean chart、root、slot、actual-edge 与 recurrence units 完全兼容。不得让 descendant blockers 刷新 root capacity。
-  2. **Fresh saturated-leaf conversion:** 对 \(\Phi_I\) 使用 F-0041 的 edge/support/token/repeat no-copy split；repeat 进入 Q-0016 core，support 进入 actual \(S\) 或 coordinate expansion，edge 需要 first-certifying bounded multiplicity，pure token 需要 actual three-cylinder critical regeneration。
-  3. **Overflow conversion:** 把 complete-interface 不稳定性转化为命名 W/M/A/N/S/reset、上述 actual resource growth 或 positive-mass actual core；固定实例 token universe 有限不提供所需的统一量化。
-  actual recurrent core 的终局后果由 Q-0016 的 switch-cube theorem 处理。
-- **Related:** F-0036–F-0044, F-0048–F-0055, F-0070, Q-0003–Q-0007, Q-0016, Q-0017, A-0031, A-0035, D-0012
+  1. **Terminal/gain absorption:** F-0078 已绕过 clean atlas，将 canonical excess exact 穷尽为 actual `M`/deadlock、splice、return/core 与 augmentation。 F-0075 已证明 edge/support 只需作为有限资源增量重启，不再需要 first-edge bounded multiplicity 来排除 persistence。仍需把最终的 named exit、atlas-boundary、three-cylinder splice、F-0071 switch-square defect和 profile deficit分别转成 accepted structural terminal、固定 master inequality 的真实负 gain 或合法 boundary。
+  2. **Residual normal-form coverage:** 将 F-0078 的 sound return/merge histories送入 F-0071 finite unique-blocker all-release core，或保留第一 actual multi/release incompatibility；不得静默 quotient。
+- **Related:** F-0036–F-0055, F-0070, F-0071, F-0072, F-0073, F-0074, F-0075, F-0076, Q-0016, Q-0017
 - **Sources:**
+  - `docs/MAIN_PROOF_ROUTE.md`
+  - `evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md`
   - `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
-  - `evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md`
-  - `evidence/proofs/ROUND_OR_CORE_FINITE_INTERFACE.md`
-  - `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`
-- **Suggested next action:** 先在 root Palm space 证明 \(\Xi_I\) 的 clean-chart reduction；随后按 F-0041 对 fresh saturated leaves 做 edge/support/token/repeat split，并把 pure token 分支表述为 actual three-cylinder regeneration。并行完成 Q-0016 的 switch-cube core theorem；不要扩展 root capacity 到 descendants。
-- **Answer criterion:** 给出可应用于原超图的 faithful entrance construction、三账本兼容的 pathwise Round-or-Core、自然 defect/zero-loss 接口，以及 overflow conversion；或证明这套入口不可能并提供真实反模型。
+- **Suggested next action:** 使用 F-0078 的 atlas-free physical exhaustion，证明有限 terminal list（ChartMis/profile deficit/named or atlas exit/splice/switch-square defect）的 actual terminal-or-gain absorption；同时构造 global atlas/residual normal form。不要重新打开 root normalization、finite switch-cube、first-edge persistence或 token-universe counting。
+- **Answer criterion:** 给出可应用于原超图的 faithful atlas/entrance、三账本兼容的 loss/defect 转换、overflow conversion，并在固定 interval master inequality 中得到 zero 或 uniformly vanishing additive loss。
 - **Last updated:** 2026-08-04
+
+## Q-0019 — Global inverse-fiber decomposition for fork mass
+
+- **Question:** For weighted actual disjoint-blocker fork occurrences with
+  fixed pivot \(x\), can one construct an exhaustive no-copy decomposition
+  into a two-coordinate diffuse part, an independently valid exit part, a
+  complete proper-block subsystem, and a future-complete class with one fixed
+  anchor, while retaining owner, root, actual edge identities and legal future
+  transitions?
+- **Status:** active
+- **Why it matters:** With
+  \[
+  2F_x\le d_H(x)\ell_x^*,
+  \]
+  a uniform diffuse estimate
+  \[
+  \ell_x^*\le(8+o_b(1))F_x/b^2
+  \]
+  gives the one-quarter degree bound, while F-0058 gives \(d_H(p)\ge b^2\) for
+  the fixed-anchor branch.
+- **Known so far:** F-0091 forces positive fork density below the target degree
+  threshold. F-0092 gives \(b^{-2}\) multiplicity for outputs using both
+  replacement coordinates and \(b^{-1}\) for outputs using exactly one.
+  F-0093 gives a uniform \(b^{-2}\) certificate after full fork-rooted refill,
+  but on the later output edge rather than the original fork edge. F-0094 can
+  retain the original pivot throughout: its only outcomes are a pivot-retaining
+  independent augmentation, a two-target edge through the original pivot, or
+  a three-target off-pivot edge. The through-pivot output mass is at most
+  \(d_H(x)W/b^2\), and a fixed off-pivot output has mass at most \(W/b^3\).
+  F-0095 shows that directly inserting these outputs into a nested macro record
+  does not bypass the gap: a newly degree-indexed actual output gives at best
+  the constant mark \(\Delta/b^2\), whose optimistic self-consistent threshold
+  is \(0.211390706210804\ldots<1/4\). F-0058 closes an already future-complete
+  fixed-pivot class.
+- **Missing:** Construct a no-copy transport from the F-0093/F-0094 output
+  certificates back to the original source fork edges, retaining the original
+  fork partner and parent provenance. In the pivot-protected form, one must
+  convert the augmentation and three-target off-pivot mass into an independently
+  valid paid exit or a complete proper-block no-IT subsystem, or prove that the
+  residual is closed under every relevant legal successor with one fixed
+  anchor. A local off-pivot target edge and a partial independent augmentation
+  are not those outcomes.
+- **Answer criterion:** An explicit uniform decomposition that preserves every
+  actual occurrence without copying or merging and proves the required
+  inverse-multiplicity bound. Merely naming migration as a terminal, using a
+  deterministic-policy cycle, or invoking fixed-instance finiteness does not
+  answer the question.
+- **Related:** F-0052, F-0058, F-0090--F-0095, A-0044--A-0051
+- **Suggested next action:** Any replacement backend must first exhibit an
+  explicit source invariant that makes the effective fork mark \(o_b(1)\): an
+  output identity already determined by the source, an extra irreversible
+  coordinate, a uniform source-owned stopping modulus, or all-successor
+  same-anchor closure. Only then derive a new record polynomial. Do not attach
+  independent refill boxes or record descendant edges directly without this
+  invariant; F-0095/A-0051 show that this only gives a constant-scale mark and
+  reintroduces Q-0019 on continuation.
+- **Last updated:** 2026-08-06

@@ -1,232 +1,195 @@
-# Current Handoff
+# Current handoff
 
 ## Objective
 
-Prove the independent-transversal threshold at \(1/4-o(1)\). The theorem
-remains open.
+Prove the asymptotic one-quarter threshold for independent transversals in
+equal-block partitioned 3-uniform hypergraphs. The theorem remains open.
 
-## Current strategy and status
+## Active route
 
-- **Primary strategy:** Route B — critical stability.
-- **Active DAG node:** `S1 / Q-0018` — faithful global Round-or-Core entrance
-  and natural defect.
-- **Implementation route:** D-0012 and `docs/MAIN_PROOF_ROUTE.md`.
-- **Route A status:** suspended as a main route; its exact identities, Hall
-  tools, and F-0042 backend remain supporting modules.
-- **Open:** Q-0016, Q-0017, Q-0018, S1--S5, and the one-quarter theorem.
+- **Primary strategy:** fork--inverse-fiber--anchor.
+- **Active DAG node:** `S1 / Q-0019`.
+- **Supporting finite-state machinery:** F-0052, F-0053, F-0055 and the valid
+  local part of F-0074/F-0078.
+- **Former Route-B ledger strategy:** retained as supporting algebra, no longer
+  the theorem-level closing mechanism.
+- **Route A:** suspended.
 
-No theorem or open question is closed by the 2026-08-04 route clarification.
-
-## Fixed final target
-
-For a legal finite interval \(I\), write
-
-\[
-S_I=\sum_{k\in I}A_{k-2}.
-\]
-
-The final target is
-
-\[
-\sum_{k\in I}\mathcal B_k
-\le
-(1+\eta)\Delta(H)S_I
--\mathsf{Gain}_I
-+\mathsf{Boundary}_I,
-\]
-
-with
-
-\[
-\mathsf{Boundary}_I/(b^2S_I)\to0.
-\]
-
-F-0042/Q-0007 is the conditional backend once the normalized additive loss is
-below
-
-\[
-\varepsilon-\eta(1/4-\varepsilon).
-\]
-
-Do not rename a local subterm as a new final objective.
-
-## Fixed implementation route
+The active chain is
 
 \[
 \boxed{
-\text{root-only canonical excess}
-\to
-\text{actual switch-cube core defect}
-\to
-\text{fresh saturated-leaf conversion}
-\to
-\text{F-0042}.
-}
+\begin{aligned}
+&\text{finite actual-history LP / stopping exhaustion}\\
+&\quad\longrightarrow\text{canonical maximal-matching repair}\\
+&\quad\longrightarrow\text{positive disjoint-blocker fork density}\\
+&\quad\longrightarrow\text{global inverse-fiber codimension decomposition}\\
+&\quad\longrightarrow
+\begin{cases}
+\text{diffuse load: }\Delta(H)\ge(1/4-o(1))b^2,\\
+\text{persistent anchor: }\Delta(H)\ge b^2.
+\end{cases}
+\end{aligned}}
 \]
 
-### Stage A — root-only recurrence entrance
+## What is rigorously available
 
-F-0070 is verified. On a finite legal interval,
+### Finite history organization
+
+For a supplied finite faithful actual-history digraph, F-0052 gives
 
 \[
-\frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+\text{strict potential}
+\Longleftrightarrow
+\text{acyclic reduced digraph}
+\Longleftrightarrow
+\text{no residual circulation}.
+\]
+
+This is an exhaustion and localization tool. It does not itself create a
+negative term or a degree lower bound.
+
+### Rank-two repair and the one-quarter constant
+
+For an independent partial transversal \(S\) and attempted vertex \(x\), let
+\(G_x(S)\) be the graph of blocker pairs. A canonical maximal matching
+\(M_x(S)\) hits every blocker pair, so
+
+\[
+S'=(S\cup\{x\})\setminus V(M_x(S))
+\]
+
+is independent. If every matching has size at most one, the faithful record
+generating function is
+
+\[
+1+\Delta z^2,
+\qquad
+\inf_{z>0}\frac{1+\Delta z^2}{z}=2\sqrt\Delta.
+\]
+
+Thus the fork-free branch has the exact threshold \(\Delta<b^2/4\). Under
+\(\Delta\le(1/4-\varepsilon)b^2\), a no-IT execution must instead contain a
+positive linear density of matching excess, each unit yielding two blocker
+edges disjoint away from the pivot.
+
+### Local inverse-fiber codimension
+
+For a private transversal of an edge \(e=\{x,a,b\}\), replace \(a,b\) by
+\((u,v)\) in their blocks. Every selected edge in the replacement target uses
+at least one of \(u,v\). A fixed output edge has at most one preimage when it
+uses both replacements, and at most \(b\) preimages when it uses exactly one.
+This gives genuine \(b^{-2}\) and \(b^{-1}\) multiplicity bounds while
+retaining the parent history.
+
+The fork-rooted refill box F-0093 starts from the actual full matching repair
+and refills every resulting hole against a product target. It gives an exact
+augmentation/two-target-blocker dichotomy and at most \(3W/b^2\) received mass
+on a fixed later output edge. F-0094 additionally protects the original pivot:
+the terminal is then either a two-target edge through that pivot or a
+three-target off-pivot edge; a fixed output in the latter class has mass at
+most \(W/b^3\).
+
+These estimates do not yet bound the source load \(\ell_x\). The independent
+augmentation remains partial, and an off-pivot target edge on some target atoms
+does not supply a complete proper-block no-IT subsystem.
+
+### Direct macro-record audit
+
+F-0095 tests the proposed bypass in which each refill output is recorded
+directly as a nested entropy-compression macro. If matching excess is assigned
+an independent mark \(y\), the exact infimum in the resulting weighted-tree
+envelope is
+
+\[
+G(y)=\inf_{0<u<1/y}
+\frac{1+(1-y)u}{\sqrt u(1-yu)}.
+\]
+
+Approaching the one-quarter threshold requires \(y=o_b(1)\). A new actual
+three-edge output localized by one of its target endpoints gives only
+\(y=\Delta/b^2\); even granting that factor independently to every excess unit
+has self-consistent threshold \(0.211390706210804\ldots\). Repeating independent
+boxes does not shrink the dispersed off-pivot output family. Therefore the
+direct macro route is A-0051, not a replacement for the owner-preserving
+transport/closure theorem.
+
+### Persistent-anchor endgame
+
+If a positive-mass class is future-complete for a fixed pivot \(p\), and every
+unique blocker in every legal continuation contains \(p\), then target-following
+shows that every full target outside the block of \(p\) contains a link edge of
+\(p\). Double counting gives
+
+\[
+d_H(p)\ge b^2.
+\]
+
+This is an endgame theorem, not an anchor-extraction theorem.
+
+## Exact remaining problem
+
+For fork mass \(F_x\), define the edge load
+
+\[
+\ell_x(e)=\sum_f w_x(e,f),
+\qquad
+\ell_x^*=\max_{e\ni x}\ell_x(e).
+\]
+
+The elementary double count is
+
+\[
+2F_x\le d_H(x)\ell_x^*.
+\]
+
+The missing global theorem must prove a no-copy, history-preserving decomposition
+that implies, schematically,
+
+\[
+\ell_x^*
 \le
-(1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
+\frac{8+o_b(1)}{b^2}F_x
++\mathsf{Exit}_x
++\mathsf{Proper}_x
++\mathsf{Anchor}_x.
 \]
 
-The capacity in F-0070 belongs only to original two-step failure roots. A
-blocker appearing after a release does not receive another copy of the root
-capacity merely because it lies in the same genealogy.
+The unresolved part is an owner-preserving transport from the refill outputs
+back to the original fork edges. In the pivot-protected form this is precisely
+the augmentation/three-target off-pivot mass: it must enter an independently
+verified progress term, cover a complete proper-block subsystem, or leave a
+future-complete class with the same fixed anchor. Local concentration does not
+imply any of these global alternatives.
 
-The open Q-0018 chart interface is
+## F-0078 correction
 
-\[
-\Xi_I
-\le
-\operatorname{ChartMis}_I
-+2\mathcal D_I^\sharp
-+\Phi_I
-+\mathcal R_I,
-\]
+Do not use F-0078 to assert any of the following:
 
-in the same interval normalization and with root, slot, and actual-edge types
-kept separate.
+1. \(G_\infty^W=0\) from global nonexistence of an independent transversal;
+2. the physical token alone determines return versus fresh continuation;
+3. a deterministic-policy return is an all-release F-0071 core;
+4. fixed-instance exhaustion supplies a uniform finite-depth error bound.
 
-### Stage B — actual finite cores
+The valid residue is the unfolded stopping identity together with F-0074's
+local contraction.
 
-F-0063--F-0067 give the finite unique-blocker all-release core and its
-completion-switch matching.
+## Do not reopen as main routes
 
-New verified supporting facts:
-
-1. **F-0068 — global switch-slot uniqueness.** For fixed actual edges \(e,f\),
-   the output \(f\) can arise from at most one switch slot of \(e\), uniformly
-   over all completion contexts. Thus the abstract Latin-column migration of
-   A-0041 cannot occur in a one-step actual switch map.
-2. **F-0069 — perfect-transition monodromy.** Perfect transition cycles have
-   identity monodromy and perfect components split into completion sheets.
-
-These facts do not close Q-0016. The fixed candidate theorem is the **actual
-switch-cube defect**: on ordered three-coordinate switches, preserve every
-intermediate actual support, assign each bad instruction to its first
-nonliteral context-slot, and prove bounded multiplicity. A successful proof
-gives a natural positive actual-support defect for every positive-mass finite
-core, which is an accepted Route-B Q-0016 outcome.
-
-### Stage C — fresh saturated leaves
-
-After the root-excess reduction, use the F-0041 no-copy priority split
-
-\[
-\Phi_I=
-\Phi_I^{\rm edge}
-+\Phi_I^{\rm support}
-+\Phi_I^{\rm token}
-+\Phi_I^{\rm repeat}.
-\]
-
-Fixed destinations:
-
-- repeat \(\to\) actual recurrent core \(\to\) switch-cube defect;
-- support \(\to\) actual \(S\) witness or hereditary coordinate expansion and
-  a complete-block/product terminal;
-- edge \(\to\) first-certifying actual-edge growth with owner-preserving
-  bounded multiplicity;
-- token \(\to\) the remaining actual three-cylinder critical regeneration
-  theorem.
-
-Finite token-universe exhaustion for each fixed instance is qualitative and is
-not a substitute for the required interval-level conversion.
-
-## Verified supporting facts added in this patch
-
-### F-0068 — global switch-slot uniqueness
-
-For fixed \(e,f\), if \(\pi_W(u,x)=f\), then \(f\) must contain the new vertex
-\(x\). Two different slots would force \(f\) either to contain two vertices
-from one block or to contain a replacement vertex absent from the other
-switched completion. Hence the producing slot is unique.
-
-### F-0069 — trivial perfect monodromy
-
-A perfect transition is a fixed coordinate overwrite bijection between equal
-completion fibers. A cycle of such maps is idempotent on the ambient product
-and bijective on the fiber, hence is the identity. Perfect components therefore
-split into sheets.
-
-### F-0070 — root-only canonical excess
-
-For canonical root load \(L_I(e)\), root-only capacity \(c_I(e)\), and
-
-\[
-\Xi_I=\sum_e(L_I(e)-c_I(e))_+,
-\]
-
-one has the exact degree-term-plus-excess bound above and
-
-\[
-\sum_ec_I(e)
-\le
-(1+\eta)\frac{\Delta(H)}{b^2}.
-\]
-
-This fact does not control \(\Xi_I\).
-
-## Current genuine gaps
-
-### E1 / Q-0018 — root-excess clean-chart compatibility
-
-Prove the reduction of \(\Xi_I\) to actual chart mismatch, F-0038 deficit,
-fresh saturated leaves, and repeat/core mass. Verify the exact correspondence
-between the Palm roots, F-0051 clean charts, and F-0042 recurrence units.
-
-### E2 / Q-0018 — fresh forest and overflow conversion
-
-Prove the F-0041 edge/support/token/repeat conversion with first-owner and
-three-ledger multiplicities. The pure token branch must become actual
-three-cylinder regeneration, not merely a finite-state exhaustion statement.
-Unbounded exact-future interfaces must produce the same named structures,
-resource growth, or a positive-mass actual core.
-
-### E3 / Q-0016 — actual switch-cube defect
-
-Prove intermediate-state legality, terminal-edge identity, first-nonliteral
-measurability, bounded instruction multiplicity, weighted entrance-cylinder
-covariance, and the required model regressions. Alternatively construct a real
-countermodel satisfying all F-0063 core hypotheses.
-
-## Immediate next actions
-
-1. Formalize the weighted actual switch-cube defect theorem and its
-   first-nonliteral assignment.
-2. Prove the root-excess chart reduction in the exact F-0070 interval units.
-3. Split fresh saturated leaves by F-0041 and isolate the pure three-cylinder
-   token statement.
-4. Keep all tests against normal \(Q_4\), differing-pivot, fixed-anchor,
-   diagonal-codebook, and product/near-\(1/4\) models.
-
-## Anti-drift rules
-
-Do not:
-
-- refresh root capacity along release descendants;
-- treat a static core edge set as the actual support/genealogy object;
-- infer capacity slack from abstract Latin dispersion;
-- infer uniform loss from fixed-instance token finiteness;
-- require a positive natural core defect to acquire a separate root charging
-  entitlement;
-- promote the candidate switch-cube inequality before its actual-support proof
-  and weighted interface are complete.
+- global signed re-entry or Hall transport without an independently verified
+  negative term;
+- waiting-time, Kraft or exact-certificate regeneration as a source of loss;
+- first-owner compression or stationary matching;
+- private-target external-coordinate concentration as link concentration;
+- Hall deficiency alone as control of spread or blocker multiplicity.
 
 ## Required reading
 
-1. `AGENTS.md` and `agent.md`
-2. `docs/MAIN_PROOF_ROUTE.md`
-3. `docs/PROJECT_STATE.yaml`
-4. `docs/PROOF_DAG.md`
-5. `knowledge/DECISIONS.md#D-0012`
-6. `knowledge/FACTS.md#F-0068` through `#F-0070`
-7. `knowledge/FAILURES.md#A-0041` through `#A-0043`
-8. `knowledge/QUESTIONS.md#Q-0016` through `#Q-0018`
-9. `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`
-10. `docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+1. `docs/MAIN_PROOF_ROUTE.md`
+2. `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`
+3. `evidence/audits/F0078_SCOPE_CORRECTION.md`
+4. `knowledge/FACTS.md` entries F-0052, F-0058, F-0090--F-0095
+5. `knowledge/QUESTIONS.md#Q-0019`
+6. `knowledge/FAILURES.md#A-0051`
+7. `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`
+8. `manuscript/independent_transversal_fork_route.tex`

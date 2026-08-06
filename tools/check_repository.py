@@ -27,6 +27,11 @@ required = [
     "knowledge/DECISIONS.md", "knowledge/DEFINITIONS.md",
     "docs/PROJECT_STATE.yaml", "docs/PROOF_DAG.md", "docs/QUICKSTART_10_MINUTES.md",
     "docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md",
+    "evidence/audits/F0078_SCOPE_CORRECTION.md",
+    "evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md",
+    "manuscript/independent_transversal_fork_route.tex",
+    "src/hypergraph_il/fork_route.py",
+    "tests/test_fork_route.py",
     "evidence/audits/REPOSITORY_AUDIT.md",
     "evidence/proofs/ROUTE_B_REORIENTATION_AUDIT.md",
     "evidence/proofs/ROUTE_B_ATLAS_LP_LEDGER.md",
@@ -47,6 +52,9 @@ required = [
     "src/hypergraph_il/route_b_atlas.py",
     "tests/test_artifacts.py",
     "tests/test_route_b_atlas.py",
+    "src/hypergraph_il/route_b_closure.py",
+    "tests/test_route_b_closure.py",
+    "evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md",
 ]
 for item in required:
     require(item)
@@ -88,6 +96,7 @@ canonical_paths = [
     *sorted((ROOT / "knowledge").glob("*.md")),
     *sorted((ROOT / "docs").rglob("*.md")),
     *sorted((ROOT / "evidence").rglob("*.md")),
+    *sorted((ROOT / "manuscript").rglob("*.tex")),
 ]
 for path in canonical_paths:
     text = path.read_text(encoding="utf-8")
@@ -119,9 +128,10 @@ for expected in [
     "commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928",
     "commit: 3f9cb079b0d486ec10a39e9a733949e6236cc742",
     "status: open",
-    "primary: route_b_critical_stability",
+    "primary: fork_inverse_fiber_anchor",
     "route_a_status: suspended",
     "id: S1",
+    "question: Q-0019",
     "question: Q-0018",
     "question: Q-0017",
     "question: Q-0016",
@@ -130,9 +140,9 @@ for expected in [
         ERRORS.append(f"PROJECT_STATE.yaml missing: {expected}")
 
 handoff = require("HANDOFF_CURRENT.md").read_text(encoding="utf-8")
-if "S1 / Q-0018" not in handoff:
-    ERRORS.append("handoff does not name the Route-B active node")
-if "Route A status:" not in handoff or "suspended" not in handoff:
+if "S1 / Q-0019" not in handoff:
+    ERRORS.append("handoff does not name the active inverse-fiber node")
+if "Route A" not in handoff or "suspended" not in handoff:
     ERRORS.append("handoff does not explicitly suspend Route A")
 if re.search(r"Q-0016.{0,50}(closed|已证明|已关闭)", handoff, re.I):
     ERRORS.append("handoff overclaims Q-0016")
@@ -150,7 +160,8 @@ if "D-0009" not in decisions_text:
 for token in [
     "F-0035", "F-0036", "F-0043", "F-0048", "F-0053", "F-0055",
     "A-0025", "A-0026", "A-0029", "A-0033", "A-0035",
-    "Q-0015", "Q-0016", "Q-0017", "Q-0018",
+    "Q-0015", "Q-0016", "Q-0017", "Q-0018", "Q-0019", "F-0071", "F-0072",
+    "F-0090", "F-0091", "F-0092",
 ]:
     if token not in registries:
         ERRORS.append(f"stable registry ID disappeared: {token}")

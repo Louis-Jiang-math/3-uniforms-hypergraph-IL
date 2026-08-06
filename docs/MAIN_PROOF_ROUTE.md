@@ -1,202 +1,240 @@
 # Main proof route
 
-## 1. Status
+## 1. Status and target
 
-The one-quarter theorem is open.  This document fixes the current Route-B
-implementation sequence without changing the logical DAG or closing any open
-question.
-
-The final target is the legal-interval estimate
+The target is
 
 \[
-\sum_{k\in I}\mathcal B_k
-\le
-(1+\eta)\Delta(H)S_I
--\mathsf{Gain}_I
-+\mathsf{Boundary}_I,
-\qquad
-S_I=\sum_{k\in I}A_{k-2},
+\Delta(H)<\left(\frac14-o(1)\right)b^2
+\Longrightarrow H\text{ has an independent transversal}.
 \]
 
-with
+The theorem is open. The primary route is no longer a global terminal-absorption
+extension of the root-excess ledger. The active route isolates the mechanism
+that naturally yields the constant \(1/4\): canonical rank-two repair.
 
-\[
-\mathsf{Boundary}_I/(b^2S_I)\to0.
-\]
-
-Once the normalized additive loss is below
-
-\[
-\varepsilon-\eta(1/4-\varepsilon),
-\]
-
-F-0042/Q-0007 closes the recurrence.
-
-## 2. One-line route
+## 2. Fixed route
 
 \[
 \boxed{
-\text{root-only canonical excess}
-\to
-\text{actual switch-cube core defect}
-\to
-\text{fresh saturated-leaf conversion}
-\to
-\text{F-0042}.
-}
+\begin{aligned}
+&\text{A. finite actual-history organization}\\
+&\quad\downarrow\\
+&\text{B. canonical maximal-matching repair}\\
+&\quad\downarrow\\
+&\text{C. disjoint-blocker fork density}\\
+&\quad\downarrow\\
+&\text{D. global inverse-fiber codimension decomposition}\\
+&\quad\downarrow\\
+&\text{E. diffuse degree bound or persistent-anchor endgame.}
+\end{aligned}}
 \]
 
-This is the route a new collaborator or LLM should follow.  Do not replace it
-with dynamic descendant charging, a static core Hall compression, or an
-abstract Latin/phase quotient.
+Only stage D is active at theorem level.
 
-## 3. Stage A — root-only recurrence entrance
+## 3. Stage A: finite actual-history organization
 
-Use F-0039 on a finite legal interval and the root-only normalization F-0070:
+The role of LP and stopping arguments is limited but important. On any supplied
+finite faithful history digraph, F-0052 gives the standard equivalence among a
+strict potential, acyclicity after named exits are deleted, and absence of a
+nonzero residual circulation. Bottom strongly connected components localize
+nonterminating behavior.
+
+This stage must retain enough history to determine every legal transition. A
+state label that omits the visited set cannot decide whether a successor is a
+return. The finite quotient is therefore an input to the argument, not a free
+consequence of the physical state alone.
+
+No claim in this stage converts circulation into degree concentration.
+
+## 4. Stage B: canonical maximal-matching repair
+
+Let \(S\) be an independent partial transversal and let \(x\) lie in a missing
+block. Define
 
 \[
-\frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
-\le
-(1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
+G_x(S)=\{\{u,v\}\subseteq S:\{x,u,v\}\in E(H)\}.
 \]
 
-The capacity in F-0070 belongs only to original two-step failure atoms.  A
-blocker that appears after a release does not automatically receive another
-copy of this capacity.
-
-The current Q-0018 interface is to prove, in the same normalization,
+Choose a maximal matching \(M_x(S)\) by a fixed deterministic order and set
 
 \[
-\Xi_I
-\le
-\operatorname{ChartMis}_I
-+2\mathcal D_I^\sharp
-+\Phi_I
-+\mathcal R_I.
+S'=(S\cup\{x\})\setminus V(M_x(S)).
 \]
 
-This inequality is still open.  It must use actual clean charts and preserve
-root/configuration, projection-sensitive slot, and global real-edge types.
+Every blocker pair meets \(V(M_x(S))\), so \(S'\) is independent. If the
+matching size is \(r\), the height change is \(1-2r\).
 
-## 4. Stage B — finite actual cores
-
-F-0063--F-0067 give the all-release core and completion-switch structure.
-F-0068 adds global switch-slot uniqueness across contexts, and F-0069 gives
-trivial perfect-transition monodromy and sheet decomposition.
-
-These facts eliminate the abstract Latin-column migration obstruction from the
-one-step actual switch map, but they do not close Q-0016.
-
-The fixed Q-0016 target is the candidate **actual switch-cube defect theorem**:
+The crucial distinction is
 
 \[
-\Delta(H)
-\ge
-(1-3\beta_K)_+\frac{(b-1)^3}{b},
+\text{many blockers with matching number one}
+\quad\text{versus}\quad
+\nu(G_x(S))\ge2.
 \]
 
-where \(\beta_K\) is the density of nonliteral actual context-slot switches.
-The proof must retain all intermediate actual supports and assign a bad ordered
-three-switch instruction to its first nonliteral context-slot with bounded
-multiplicity.
+Only the second case creates a disjoint-blocker fork.
 
-A successful proof produces a natural positive actual-support defect in every
-positive-mass finite core.  Route B accepts that as the Q-0016 outcome; the core
-mass need not be separately recharged to a root edge.
+## 5. Stage C: the source of the one-quarter constant
 
-## 5. Stage C — fresh saturated leaves
-
-After the Q-0018 root-excess reduction, apply F-0041 with a no-copy priority
-split:
+When every repair has matching size zero or one, the faithful record generating
+function is
 
 \[
-\Phi_I=
-\Phi_I^{\rm edge}
-+\Phi_I^{\rm support}
-+\Phi_I^{\rm token}
-+\Phi_I^{\rm repeat}.
+\Phi_0(z)=1+\Delta z^2.
 \]
 
-Use the following fixed destinations:
+Hence
 
-- `repeat`: actual recurrent core, then the switch-cube defect;
-- `support`: actual \(S\) witness or hereditary coordinate expansion and a
-  complete-block/product terminal;
-- `edge`: first-certifying actual-edge growth with owner-preserving bounded
-  multiplicity;
-- `token`: the remaining three-cylinder regeneration theorem.
+\[
+\inf_{z>0}\frac{\Phi_0(z)}z=2\sqrt\Delta.
+\]
 
-Do not replace the token branch by the statement that a fixed instance has a
-finite token universe.  That is qualitative and gives no uniform interval
-bound.
+The reconstruction count therefore yields the fork-free implication
 
-## 6. Remaining new global theorem
+\[
+\Delta<\frac{b^2}{4}\Longrightarrow\text{an independent transversal exists}.
+\]
 
-The remaining theorem is the **three-cylinder critical regeneration** statement.
-For each saturated critical leaf, the three-coordinate switch cube has one
-terminal-complete branch and three first-missing-coordinate cylinders.  Each
-missing-coordinate cylinder must yield one of:
+If \(\Delta\le(1/4-\varepsilon)b^2\) and there is no independent transversal,
+a weighted version of the same generating function shows that almost every
+long execution contains a positive linear density of matching excess. Each
+excess unit supplies two actual blocker edges
 
-1. a first-certifying actual edge;
-2. an actual support or named \(S/A/N/reset\) witness;
-3. sound repetition and an actual recurrent core;
-4. a clean-chart continuation child with a telescoping rank/leaf potential
-   change.
+\[
+\{x,u_1,v_1\},\qquad \{x,u_2,v_2\}
+\]
 
-The terminal-complete branch is paid by actual degree.  The other three
-cylinders must regenerate the F-0038/F-0051 ledger.  This is the remaining
-central new global argument after the switch-cube core theorem.
+with disjoint non-pivot endpoints.
 
-## 7. What is proved, candidate, and open
+This stage explains the constant \(1/4\) without tuning a final error term.
 
-### Verified supporting facts
+## 6. Stage D: global inverse-fiber codimension decomposition
 
-- F-0038--F-0042: critical deficit, two-step normalization, resource progress,
-  and the conditional recurrence backend;
-- F-0055--F-0067: finite execution/core interfaces under their stated scopes;
-- F-0068: global switch-slot uniqueness;
-- F-0069: perfect-transition monodromy is trivial and perfect components split
-  into sheets;
-- F-0070: root-only canonical excess normalization.
+For weighted fork occurrences with pivot \(x\), put
 
-### Candidate theorem inside Q-0016
+\[
+F_x=\sum_{\{e,f\}}w_x(e,f),
+\qquad
+\ell_x(e)=\sum_f w_x(e,f),
+\qquad
+\ell_x^*=\max_{e\ni x}\ell_x(e).
+\]
 
-- actual switch-cube defect inequality and its weighted entrance-cylinder
-  version.
+Then
 
-### Open Q-0018 interfaces
+\[
+2F_x=\sum_{e\ni x}\ell_x(e)
+\le d_H(x)\ell_x^*.
+\]
 
-- clean-chart identification and the reduction of \(\Xi_I\);
-- first-certifying edge/support/resource multiplicities;
-- three-cylinder fresh-token regeneration;
-- overflow conversion outside finite complete interfaces.
+Thus the diffuse branch closes if
 
-### Unchanged status
+\[
+\ell_x^*\le\frac{8+o_b(1)}{b^2}F_x.
+\]
 
-Q-0016, Q-0017, Q-0018, S1--S5, and the one-quarter theorem remain open.
+F-0092 supplies the local codimension mechanism. For a private transversal of
+\(e=\{x,a,b\}\), vary the two non-pivot coordinates. A fixed output edge has
+at most one preimage when it uses both new coordinates, and at most \(b\)
+preimages when it uses exactly one. The two-coordinate part therefore has the
+required \(b^{-2}\) loss.
 
-## 8. Required reading order
+The theorem-level obstruction is the one-coordinate part. Its heavy auxiliary
+vertex or pair may vary from row to row, from source edge to source edge, and
+from one future transition to the next. The active theorem Q-0019 must prove a
+history-preserving partition into
 
-1. `../HANDOFF_CURRENT.md`
-2. `MAIN_PROOF_ROUTE.md`
-3. `PROOF_DAG.md`
-4. `../knowledge/DECISIONS.md#D-0012`
-5. `../knowledge/FACTS.md#F-0068`
-6. `../knowledge/QUESTIONS.md#Q-0016`
-7. `../knowledge/QUESTIONS.md#Q-0018`
-8. `../evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`
-9. `framework/FW-60_CRITICAL_STABILITY_ROUTE.md`
+\[
+\text{two-coordinate diffuse}
+\sqcup
+\text{valid exit}
+\sqcup
+\text{proper-block subsystem}
+\sqcup
+\text{future-complete fixed anchor}.
+\]
 
-## 9. Anti-drift checklist
+The partition must be exhaustive, no-copy, and quantitatively uniform.
 
-Before promoting a new main result, check:
+## 7. Stage E: persistent-anchor endgame
 
-- Does it enter the fixed interval master inequality or close the accepted
-  Q-0016 natural-defect contract?
-- Does it retain actual edge endpoints, support, owner, root projection, and
-  genealogy?
-- Does it avoid refreshing root capacity along descendants?
-- Is a named exit supplied with a real terminal, natural-defect, or
-  quantitative consequence?
-- Is the statement more than a new name for fresh-token growth or saturated
-  context reuse?
+Suppose a class is future-complete for a fixed vertex \(p\), every state is an
+independent one-hole transversal, and every legal continuation has a unique
+blocker containing \(p\). For any full target outside the block of \(p\),
+follow target coordinates while preserving \(p\). Either the process finds a
+link edge of \(p\) inside the target, or the number of matched target
+coordinates increases. Hence every target contains a link edge of \(p\).
+
+There are \(b^{m-1}\) targets and each link edge belongs to \(b^{m-3}\) of
+them, so
+
+\[
+d_H(p)b^{m-3}\ge b^{m-1},
+\qquad d_H(p)\ge b^2.
+\]
+
+This closes an already persistent anchor. It does not extract one from a
+single heavy inverse fiber.
+
+## 8. Corrected scope of the physical stopping route
+
+The local stopping forest can be retained in fully unfolded history space, but
+four former conclusions are disallowed.
+
+1. The mass \(G_\infty^W\) of independent partial completions cannot be deleted
+   merely because the full instance has no independent transversal.
+2. The label consisting of current completion, blocker and seen resources does
+   not determine return status unless visited history is included.
+3. A cycle under a selected release policy is not automatically closed under
+   every legal release.
+4. A tail estimate depending on \(|E(H)|+|V(H)|\) is fixed-instance, not a
+   uniform asymptotic gap.
+
+Consequently F-0078 is not the theorem-level zero-set closure and does not
+reduce the proof to a finite named terminal list.
+
+## 9. Supporting modules retained from earlier routes
+
+The following remain valid within their stated hypotheses:
+
+- root-only normalization and exact algebraic stability identities;
+- finite all-release switch-cube estimates;
+- local three-cylinder contraction;
+- canonical full-target repair;
+- finite actual-history LP and future-signature constructions.
+
+They may be used to construct or audit the decomposition in stage D. They may
+not replace it.
+
+## 10. Rejected closing mechanisms
+
+The following do not create the required degree bound by themselves:
+
+- global signed re-entry or Hall deficiency without a verified original
+  negative term;
+- waiting-time or Kraft coding of reversible histories;
+- exact blocker-pattern regeneration;
+- first-owner compression;
+- stationary perfect matching;
+- private-target external-coordinate concentration;
+- recurrence of a live pair-fan;
+- local high inverse multiplicity without future persistence.
+
+## 11. Acceptance criterion for Q-0019
+
+A solution must provide an explicit measurable/finite decomposition of actual
+fork occurrences satisfying all of the following:
+
+1. parent occurrence, owner, root and actual edge identities are retained;
+2. no occurrence is copied or silently merged;
+3. the diffuse part has a uniform \(O(b^{-2})\) inverse multiplicity;
+4. every removed part is paired with an independently established exit or a
+   complete proper-block subsystem;
+5. every anchor part is closed under all legal relevant successors with the
+   same anchor;
+6. the constants are uniform over the number of blocks and the size of the
+   finite history graph.
+
+Once these conditions hold, the fork double count and F-0058 close the two
+branches at the required scale.

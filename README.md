@@ -10,99 +10,78 @@ partitioned 3-uniform hypergraphs, with the target implication
 
 ## Current status
 
-The one-quarter theorem is **open**. The active proof strategy is:
-
-> **Route B — critical stability.**
-
-The single active DAG node remains:
-
-> **S1 / Q-0018 — faithful global Round-or-Core entrance and natural defect.**
-
-D-0012 now fixes the implementation sequence:
+The one-quarter theorem is **open**. The active proof node is now
+**S1 / Q-0019**, the global inverse-fiber decomposition problem. The primary
+research route is
 
 \[
 \boxed{
-\text{root-only canonical excess}
+\text{finite actual-history exhaustion}
 \to
-\text{actual switch-cube core defect}
+\text{rank-two repair and fork density}
 \to
-\text{fresh saturated-leaf conversion}
+\text{inverse-fiber codimension}
 \to
-\text{F-0042}.
+\text{persistent-anchor target-following}.
 }
 \]
 
-The authoritative route map is
-[`docs/MAIN_PROOF_ROUTE.md`](docs/MAIN_PROOF_ROUTE.md).
+The roles are deliberately separated:
 
-Recent verified supporting progress is:
+- finite-state LP and physical stopping organize transient histories, recurrent
+  classes, and named exits;
+- canonical maximal-matching repair is the mechanism that produces the
+  one-quarter constant;
+- inverse-fiber estimates address repeated use of a small set of actual edges;
+- fixed-pivot target-following closes a genuinely future-complete anchored
+  class by proving \(d_H(p)\ge b^2\).
 
-- F-0068: for fixed actual edges \(e,f\), the output \(f\) can arise from at
-  most one switch slot of \(e\), uniformly over completion contexts;
-- F-0069: perfect switch-transition cycles have trivial monodromy and split
-  into completion sheets;
-- F-0070: original two-step failure roots admit an exact root-only canonical
-  excess normalization
-  \[
-  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
-  \le
-  (1+\eta)\frac{\Delta(H)}{b^2}+\Xi_I.
-  \]
+The precise unresolved bridge is global: every residual disjoint-blocker fork
+occurrence must be assigned, without duplicating mass and with its actual
+history retained, to a two-coordinate diffuse fiber, an already paid exit, a
+proper-block subsystem, or a future-complete fixed-anchor class. Local
+replacement-box estimates do not by themselves provide this assignment.
 
-These facts do **not** close Q-0016 or Q-0018. The current open mathematical
-steps are:
+## Scope correction for F-0078
 
-1. prove the Q-0016 actual switch-cube defect theorem on finite all-release
-   cores, keeping all intermediate actual supports and a bounded first-
-   nonliteral assignment;
-2. reduce the root excess \(\Xi_I\) to clean-chart mismatch, F-0038 deficit,
-   fresh saturated leaves, and repeat/core mass in the same interval units;
-3. split fresh leaves by F-0041 into edge/support/token/repeat outcomes and
-   prove the actual three-cylinder regeneration theorem for the pure token
-   branch;
-4. convert any remaining unbounded exact-future interface growth into those
-   actual outcomes or a positive-mass core.
+F-0074's local three-cylinder contraction and the fixed-instance stopping
+identity remain useful. The stronger interpretation formerly attached to
+F-0078 is not valid:
 
-Root two-step capacity is not refreshed along release descendants. Descendant
-blockers are structural/resource/core data, not new copies of the recurrence
-capacity. Route A remains suspended as a main route, although its exact mass
-identities, Hall tools, and F-0042 backend remain available as supporting
-modules.
+- a partial independent completion is not a global independent transversal;
+- the proposed physical token is not a transition congruence when return status
+  depends on the visited history;
+- a return under one deterministic release policy does not imply an all-release
+  recurrent core;
+- fixed-instance exhaustion does not give a uniform asymptotic stopping depth.
 
-No open question or theorem is closed by this route clarification.
+F-0078 is therefore retained only as a local, history-unfolded stopping
+statement, not as a zero-set closure theorem or as the final backend.
 
-## Ten-minute start
+## Verified central modules
 
-1. [`docs/QUICKSTART_10_MINUTES.md`](docs/QUICKSTART_10_MINUTES.md)
-2. [`HANDOFF_CURRENT.md`](HANDOFF_CURRENT.md)
-3. [`docs/MAIN_PROOF_ROUTE.md`](docs/MAIN_PROOF_ROUTE.md)
-4. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
-5. [`docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md`](docs/framework/FW-60_CRITICAL_STABILITY_ROUTE.md)
-6. [`AGENTS.md`](AGENTS.md)
-7. [`agent.md`](agent.md)
-8. [`knowledge/DECISIONS.md`](knowledge/DECISIONS.md)
-9. [`knowledge/FACTS.md`](knowledge/FACTS.md)
-10. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
-11. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+- **F-0052:** finite actual-history potential / recurrent-core equivalence;
+- **F-0058:** fixed-pivot target-following, conditional on future-complete
+  persistence, gives \(d_H(p)\ge b^2\);
+- **F-0090:** canonical full-target repair reaches either the target or an
+  actual target-supported edge;
+- **F-0091:** canonical maximal-matching repair is independent; the fork-free
+  record growth is \(2\sqrt{\Delta}\), and low-degree no-IT executions carry
+  positive density of disjoint-blocker forks;
+- **F-0092:** a private-edge two-coordinate replacement box gives global
+  \(b^{-2}\) multiplicity for outputs using both replacement coordinates and
+  \(b^{-1}\) multiplicity for outputs using exactly one.
 
-## Protocol split
+## Start here
 
-- `agent.md`: short mandatory write protocol;
-- `WORKFLOW.md`: detailed explanations, templates, and examples;
-- `AGENTS.md`: project-specific mathematical and repository constraints.
-
-Agents should read the short protocol on every write task and load the detailed
-workflow only when its templates or explanations are needed.
-
-## Information architecture
-
-- `knowledge/`: canonical facts, failures, questions, decisions, and definitions;
-- `docs/framework/`: normative mathematical interfaces;
-- `evidence/`: audits, experiment baselines, reports, proofs, and certificates;
-- `src/`, `tests/`, `tools/`, `enumerate/`: executable proof-engineering infrastructure;
-- `sources/raw/`: immutable source conversations and manifests;
-- `history/`: superseded and monolithic documents;
-- `HANDOFF_CURRENT.md`: clean current snapshot, not a changelog.
+1. [`HANDOFF_CURRENT.md`](HANDOFF_CURRENT.md)
+2. [`docs/MAIN_PROOF_ROUTE.md`](docs/MAIN_PROOF_ROUTE.md)
+3. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
+4. [`manuscript/independent_transversal_fork_route.tex`](manuscript/independent_transversal_fork_route.tex)
+5. [`evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`](evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md)
+6. [`evidence/audits/F0078_SCOPE_CORRECTION.md`](evidence/audits/F0078_SCOPE_CORRECTION.md)
+7. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+8. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
 
 ## Install and validate
 
@@ -113,15 +92,11 @@ python -m compileall -q src enumerate tools tests
 python -m pytest -q
 python tools/check_repository.py
 python tools/check_generated_artifacts.py
-python enumerate/q0015_configuration_auditor.py \
-  --regressions-only \
-  --generated-at 2026-07-28T00:00:00Z \
-  --output-dir artifacts/runs/q0015
-python enumerate/q4_splice_pay_cylinder_validation.py
 ```
 
 ## Source baseline
 
 The public source baseline is commit
-`cfadd24b52546d4d5800c4a3c5a75a2add86f928` dated 2026-07-28.
-See [`docs/BASELINE.md`](docs/BASELINE.md).
+`cfadd24b52546d4d5800c4a3c5a75a2add86f928` dated 2026-07-28. The present
+archive is a research-state update built on that baseline; it does not claim a
+new public upstream commit.

@@ -48,3 +48,7 @@
 - recorded F-0038/F-0051/F-0042 as a conditional stability backend rather than a
   fourth independent structural gap;
 - no theorem or open question was closed, and Route A remains suspended.
+
+## 2026-08-06
+
+Reoriented the active proof route to fork--inverse-fiber--anchor, added Q-0019, and downgraded the overstrong F-0078 zero-set interpretation.

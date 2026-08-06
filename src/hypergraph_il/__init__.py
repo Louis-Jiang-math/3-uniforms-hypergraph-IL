@@ -4,6 +4,7 @@ from .models import Edge, Hypergraph, Vertex, canonical_edge
 from .execution import Configuration, ExecutionRecord, Obligation, RootGroup, SlotKey
 from .certificates import ExitCertificate, ExitType
 from .artifacts import atomic_write_json, build_artifact, validate_artifact
+from .fork_route import MatchingRepair, canonical_matching_repair, fork_density_parameters
 
 __all__ = [
     "Edge",
@@ -20,4 +21,7 @@ __all__ = [
     "atomic_write_json",
     "build_artifact",
     "validate_artifact",
+    "MatchingRepair",
+    "canonical_matching_repair",
+    "fork_density_parameters",
 ]

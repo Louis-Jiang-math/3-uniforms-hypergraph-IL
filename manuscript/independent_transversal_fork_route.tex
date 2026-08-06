@@ -1,0 +1,494 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Open Problem}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\cP}{\mathcal P}
+\newcommand{\cF}{\mathcal F}
+\newcommand{\IT}{\mathrm{IT}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\defect}{\operatorname{def}}
+\newcommand{\one}{\mathbf 1}
+
+\title{A Rank-Two Repair Program for Independent Transversals\\
+       in Partitioned Three-Uniform Hypergraphs}
+\author{}
+\date{6 August 2026}
+
+\begin{document}
+\maketitle
+
+\section{Setting and current status}
+
+Let \(H=(V,E)\) be a three-uniform hypergraph.  Its vertex set is partitioned
+into blocks
+\[
+  \cP=\{B_1,\dots,B_m\},
+  \qquad |B_i|=b.
+\]
+Every edge is assumed to meet each block in at most one vertex.  A
+\emph{transversal} is a set containing exactly one vertex from every block, and
+an \emph{independent transversal} is a transversal containing no edge of
+\(H\).  Write \(d_H(v)\) for the degree of \(v\) and
+\(\Delta(H)=\max_v d_H(v)\).
+
+The target assertion is
+\begin{equation}\label{eq:target}
+  \Delta(H)<\left(\frac14-o(1)\right)b^2
+  \quad\Longrightarrow\quad
+  H\text{ has an independent transversal}.
+\end{equation}
+The assertion remains open.  The purpose of this paper is to isolate a route
+whose local counting naturally yields the constant \(1/4\), to prove the
+available local and conditional structural statements, and to state the one
+remaining global decomposition precisely.
+
+The route has four components:
+\[
+\boxed{
+\begin{aligned}
+&\text{finite actual-history organization}\longrightarrow
+  \text{rank-two repair},\\
+&\text{rank-two repair}\longrightarrow
+  \text{positive disjoint-blocker fork density},\\
+&\text{fork density}\longrightarrow
+  \text{inverse-fiber codimension or a persistent anchor},\\
+&\text{persistent anchor}\longrightarrow d_H(p)\ge b^2.
+\end{aligned}}
+\]
+The unresolved step is the third arrow in its global, history-preserving form.
+
+\section{Blockers and canonical maximal-matching repair}
+
+A \emph{partial transversal} is a set meeting every block in at most one
+vertex.  Let \(S\) be an independent partial transversal and let \(x\) belong
+to a block missed by \(S\).  Since \(S\) is independent, every edge contained
+in \(S\cup\{x\}\) contains \(x\).
+
+\begin{definition}[Blocker-link graph]
+The blocker-link graph at \((S,x)\) is
+\[
+  G_x(S)=\bigl\{\{u,v\}\subseteq S:\{x,u,v\}\in E(H)\bigr\}.
+\]
+Fix an order on all vertex pairs and let \(M_x(S)\) be the greedy maximal
+matching of \(G_x(S)\) in that order.  Put
+\[
+  r_x(S)=|M_x(S)|.
+\]
+\end{definition}
+
+\begin{lemma}[Canonical matching repair]\label{lem:matching-repair}
+The set
+\[
+  R_x(S)=(S\cup\{x\})\setminus V(M_x(S))
+\]
+is an independent partial transversal.  Moreover,
+\[
+  |R_x(S)|-|S|=1-2r_x(S).
+\]
+\end{lemma}
+
+\begin{proof}
+If a blocker pair \(f\in G_x(S)\) were disjoint from \(V(M_x(S))\), then
+\(f\) could be added to the matching, contradicting maximality.  Thus
+\(V(M_x(S))\) meets every blocker pair, and deleting it destroys every edge
+created by adding \(x\).  The block condition is preserved because only old
+vertices are deleted and \(x\) lies in a missing block.  The size identity is
+immediate.
+\end{proof}
+
+\begin{definition}[Disjoint-blocker fork]
+A repair occurrence is a disjoint-blocker fork if \(r_x(S)\ge2\).  Choosing
+the first two matching edges gives actual hyperedges
+\[
+  e_1=\{x,u_1,v_1\},\qquad e_2=\{x,u_2,v_2\}
+\]
+with
+\[
+  \{u_1,v_1\}\cap\{u_2,v_2\}=\varnothing.
+\]
+The quantity \((r_x(S)-1)_+\) is the fork excess of the occurrence.
+\end{definition}
+
+A blocker family may contain many edges while its matching number is one.  In
+that case two deleted old vertices hit the entire family.  Thus the relevant
+obstruction is not ``more than one blocker'' but matching number at least two.
+
+\section{Record growth and the constant one quarter}
+
+We use a standard reconstruction hypothesis.  A deterministic repair protocol
+is called \emph{faithfully reconstructible} if its finite execution record,
+final partial transversal, and fixed initial data determine the sequence of
+attempted vertices.  Actual edge labels and all choices made by the canonical
+matching rule are retained in the record.
+
+\subsection{Fork-free records}
+
+Assume first that \(r_x(S)\in\{0,1\}\) at every step.  A successful insertion
+has height change \(+1\) and no edge label.  A rank-two repair has height change
+\(-1\) and records one edge containing the attempted vertex, with at most
+\(\Delta(H)\) choices.  The node polynomial is therefore
+\[
+  \Phi_0(z)=1+\Delta(H)z^2.
+\]
+
+\begin{proposition}[Fork-free growth]\label{prop:fork-free}
+For a faithfully reconstructible fork-free protocol, the exponential growth
+rate of records is at most
+\[
+  \inf_{z>0}\frac{1+\Delta(H)z^2}{z}=2\sqrt{\Delta(H)}.
+\]
+Consequently, if every word in an alphabet of size \(b\) generated a
+nonterminating fork-free record, then \(b\le2\sqrt{\Delta(H)}\).
+\end{proposition}
+
+\begin{proof}
+The weighted tree bound gives the coefficient growth controlled by
+\(\inf_{z>0}\Phi_0(z)/z\).  The minimum of \(z^{-1}+\Delta z\) occurs at
+\(z=\Delta^{-1/2}\).  Faithful reconstruction injects the choice words into
+records up to subexponential initial and terminal data, yielding the stated
+inequality.
+\end{proof}
+
+\begin{corollary}\label{cor:fork-free-quarter}
+Within the faithfully reconstructible fork-free class,
+\[
+  \Delta(H)<\frac{b^2}{4}
+\]
+forces termination at an independent transversal.
+\end{corollary}
+
+This is the first important reason to use maximal-matching repair: the target
+constant appears before any global stability or terminal accounting.
+
+\subsection{Fork density below the threshold}
+
+Introduce a weight \(y^{(r-1)_+}\), where \(0<y<1\).  Bounding the number of
+possible ordered matching-edge labels by \(\Delta^r\) gives
+\[
+  \Phi_y(z)
+  =1+\sum_{r\ge1}y^{r-1}\Delta^r z^{2r}
+  =1+\frac{\Delta z^2}{1-y\Delta z^2}.
+\]
+At \(z=\Delta^{-1/2}\),
+\begin{equation}\label{eq:weighted-growth}
+  \frac{\Phi_y(z)}{z}
+  =\sqrt\Delta\,\frac{2-y}{1-y}.
+\end{equation}
+
+Fix \(0<\varepsilon<1/4\), set \(y=\varepsilon\), and define
+\[
+  A_\varepsilon
+  =\frac{\sqrt{1-4\varepsilon}}2
+    \frac{2-\varepsilon}{1-\varepsilon}.
+\]
+A direct calculation gives
+\[
+  4(1-\varepsilon)^2
+  -(1-4\varepsilon)(2-\varepsilon)^2
+  =\varepsilon(4\varepsilon^2-13\varepsilon+12)>0,
+\]
+so \(A_\varepsilon<1\).  Put
+\[
+  \alpha_\varepsilon
+  =\frac{-\log A_\varepsilon}{2\log(1/\varepsilon)}>0.
+\]
+
+\begin{proposition}[Positive fork density]\label{prop:fork-density}
+Suppose
+\[
+  \Delta(H)\le\left(\frac14-\varepsilon\right)b^2.
+\]
+In a faithfully reconstructible nonterminating protocol, records of length
+\(T\) with total fork excess at most \(\alpha_\varepsilon T\) have exponential
+growth strictly smaller than \(b^T\).  Hence, if all \(b\)-ary choice words
+avoid an independent transversal, an exponentially dominant set of long
+records has positive linear fork excess.
+\end{proposition}
+
+\begin{proof}
+If the excess is at most \(\alpha T\), then
+\(y^{\mathrm{excess}}\ge y^{\alpha T}\).  Dividing the weighted record count by
+this factor and using \cref{eq:weighted-growth} bounds the growth by
+\[
+  y^{-\alpha}\sqrt\Delta\frac{2-y}{1-y}.
+\]
+With the choices above and
+\(\sqrt\Delta\le\tfrac12\sqrt{1-4\varepsilon}\,b\), the resulting base is
+\(\sqrt{A_\varepsilon}\,b<b\).
+\end{proof}
+
+\section{Finite actual-history linear programming}
+
+The entropy argument produces fork occurrences.  A separate issue is the
+organization of long histories.  Let \(D=(\Omega,A)\) be a finite directed
+graph of actual history states after all already accepted exits have been
+deleted.
+
+\begin{proposition}[Potential--core equivalence]\label{prop:potential-core}
+The following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item there is a function \(\varphi:\Omega\to\mathbb R\) that strictly
+decreases on every arc of \(D\);
+\item \(D\) is acyclic;
+\item \(D\) has no nonzero nonnegative circulation.
+\end{enumerate}
+If these conditions fail, some bottom strongly connected component supports a
+nonzero circulation.
+\end{proposition}
+
+\begin{proof}
+A strict potential excludes directed cycles.  Every finite acyclic digraph has
+a topological ordering, which is a strict potential after reversing sign.  A
+directed cycle supports a nonzero circulation, while a nonzero nonnegative
+circulation contains a directed cycle in its positive support.
+\end{proof}
+
+This proposition is an exhaustion tool.  It does not imply that a recurrent
+class has bounded inverse multiplicity, that it is closed under every legal
+release omitted by a deterministic policy, or that it produces a negative
+term.  The state space must retain all history needed to determine successor
+classification.
+
+\section{Fork loads and inverse fibers}
+
+Fix a pivot \(x\).  Let \(w_x(e,f)\ge0\) be a weight on unordered pairs of
+actual edges through \(x\) whose non-pivot endpoint pairs are disjoint.  Define
+\[
+  F_x=\sum_{\{e,f\}}w_x(e,f),
+  \qquad
+  \ell_x(e)=\sum_f w_x(e,f),
+  \qquad
+  \ell_x^*=\max_{e\ni x}\ell_x(e).
+\]
+
+\begin{lemma}[Fork load double count]\label{lem:fork-load}
+\[
+  2F_x=\sum_{e\ni x}\ell_x(e)
+  \le d_H(x)\ell_x^*.
+\]
+\end{lemma}
+
+Thus a bound
+\[
+  \ell_x^*\le\frac{8+o_b(1)}{b^2}F_x
+\]
+would give
+\[
+  d_H(x)\ge\left(\frac14-o_b(1)\right)b^2.
+\]
+The issue is therefore not the existence of many forks but their possible
+reuse of a small set of actual edges.
+
+\subsection{Two-coordinate replacement boxes}
+
+Assume that \(H\) is edge-minimal subject to having no independent
+transversal.  For every edge \(e\), there is a full transversal \(W_e\) with
+\[
+  E(H[W_e])=\{e\}.
+\]
+Indeed, an independent transversal of \(H-e\) must contain \(e\).
+
+Fix \(e=\{x,a,b\}\), where \(a\in A\) and \(b\in B\).  For
+\(u\in A\), \(v\in B\), set
+\[
+  W_e(u,v)=W_e-a-b+u+v.
+\]
+Since \(H\) has no independent transversal, choose an edge
+\(g_e(u,v)\subseteq W_e(u,v)\) by a fixed rule.
+
+\begin{proposition}[Replacement-box codimension]\label{prop:box}
+Every \(g_e(u,v)\) contains \(u\) or \(v\).  For a fixed actual edge \(g\),
+\[
+\left|\{(u,v):g_e(u,v)=g,\ \{u,v\}\subseteq g\}\right|\le1,
+\]
+and
+\[
+\left|\{(u,v):g_e(u,v)=g,\ |g\cap\{u,v\}|=1\}\right|\le b.
+\]
+The same estimates hold for weighted parent occurrences when the parent
+history is retained as part of the sample point.
+\end{proposition}
+
+\begin{proof}
+If \(g_e(u,v)\) contains neither replacement coordinate, then it is contained
+in \(W_e\setminus\{a,b\}\), contradicting
+\(E(H[W_e])=\{e\}\).  If \(g\) contains both replacements, its vertices in
+blocks \(A,B\) determine \((u,v)\).  If it contains exactly one, that coordinate
+is determined and the other has at most \(b\) choices.  Retaining the parent
+occurrence makes the weighted statement a disjoint sum of these pointwise
+bounds.
+\end{proof}
+
+The first class has the desired \(b^{-2}\) inverse multiplicity.  The second
+has only \(b^{-1}\).  An output in that class can have the form
+\[
+  g_e(u,v)=\{u,p,q\},
+\]
+where the pair \(\{p,q\}\) is fixed along one row but may change from row to
+row.  Such row-dependent coverings can occur with maximum degree of order
+\(b\); therefore local box counting alone cannot produce a persistent anchor.
+
+\section{The persistent-anchor endgame}
+
+Let \(p\) be a vertex.  We formulate the exact closure hypothesis needed for
+target-following.
+
+\begin{definition}[Future-complete fixed-pivot class]
+A class \(\mathcal C_p\) consists of independent one-hole transversals and is
+future-complete for \(p\) if, whenever a state in \(\mathcal C_p\) attempts a
+vertex in its missing block, the following hold unless an already accepted exit
+occurs:
+\begin{enumerate}[label=(\alph*)]
+\item there is a unique blocker;
+\item that blocker contains \(p\);
+\item every legal release successor that preserves the fixed-pivot procedure
+belongs to \(\mathcal C_p\).
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Fixed-pivot target covering]\label{thm:anchor}
+If a nonempty class \(\mathcal C_p\) is future-complete for \(p\) and has no
+accepted exit, then
+\[
+  d_H(p)\ge b^2.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix a target \(Q\) choosing one vertex from every block other than the block of
+\(p\).  Starting from a state in \(\mathcal C_p\), attempt the target vertex in
+the missing block.  The unique blocker has the form
+\(\{p,q_M,z\}\), where \(q_M\) is the attempted target vertex and \(z\) is an
+old selected vertex.  Release \(z\).
+
+Let \(\Psi\) be the number of non-pivot blocks whose selected vertex agrees
+with \(Q\).  If \(z\) is not the target vertex of its block, then the operation
+installs \(q_M\) and deletes a non-target vertex, so \(\Psi\) increases.  If
+\(z\) is the target vertex of its block, then \(Q\) contains the link edge
+\(\{q_M,z\}\in E(L_H(p))\).  Since \(\Psi\) is bounded, every target contains a
+link edge of \(p\).
+
+There are \(b^{m-1}\) targets outside the block of \(p\).  Each link edge fixes
+two block coordinates and belongs to exactly \(b^{m-3}\) targets.  Hence
+\[
+  b^{m-1}\le d_H(p)b^{m-3},
+\]
+which proves the claim.
+\end{proof}
+
+The hypothesis of \cref{thm:anchor} is genuinely global.  A heavy vertex or
+pair in one inverse fiber need not survive the next release, need not occur in
+the next blocker, and need not be shared by different branches.
+
+\section{The active global decomposition problem}
+
+We can now state the missing theorem without referring to an artificial
+terminal category.
+
+\begin{problem}[Global inverse-fiber decomposition]\label{prob:global-fiber}
+For the weighted actual fork occurrences produced by
+\cref{prop:fork-density}, construct a decomposition, preserving parent history,
+owner, root and actual edge identities, into the following four disjoint parts:
+\begin{enumerate}[label=(\roman*)]
+\item a two-coordinate diffuse part satisfying
+\[
+  \ell_x^*\le\frac{8+o_b(1)}{b^2}F_x;
+\]
+\item a part reaching an independently verified exit or strict progress term;
+\item a part contained in a no-IT subsystem induced by a proper set of complete
+blocks;
+\item a positive-mass future-complete class with one fixed persistent anchor.
+\end{enumerate}
+The decomposition and its constants must be uniform in the number of blocks and
+in the size of the finite history graph.
+\end{problem}
+
+The two endpoints are already available.  Part~(i) combines with
+\cref{lem:fork-load}; part~(iv) combines with \cref{thm:anchor}.  The precise
+unresolved behavior is one-coordinate concentration whose heavy pair migrates
+when an external coordinate is first lost.  A proof should therefore be
+organized by the first anchor-loss time and an inclusion-minimal candidate
+anchor.
+
+\section{Why the finite stopping route is not a closure theorem}
+
+A local three-coordinate contraction can be iterated in fully unfolded history
+space, but four distinctions are essential.
+
+First, an independent completion on the currently exposed proper block set is
+not a global independent transversal.  Its terminal mass cannot be deleted
+from a stopping identity using only the global no-IT assumption.
+
+Second, whether a successor is a fresh state or a return depends on the visited
+history.  A label consisting only of the current physical configuration,
+blocker and seen resources is not a transition congruence.
+
+Third, a return along one deterministic release policy gives only a policy
+cycle.  It does not imply closure under every legal release, which is required
+by an all-release recurrent-core theorem.
+
+Fourth, a tail bound whose depth depends on
+\(|E(H)|+|V(H)|\) is a fixed-instance statement.  It cannot be inserted as a
+uniform asymptotic error without a separate quantitative argument.
+
+These observations do not invalidate finite history organization; they limit
+its role to the first stage of the program.
+
+\section{Assessment of competing routes}
+
+The rank-two route is distinguished by three features.
+
+\begin{enumerate}[label=(\arabic*)]
+\item It produces the constant \(1/4\) directly from the repair polynomial
+\(1+\Delta z^2\).
+\item It treats high inverse multiplicity as a possible source of rigidity,
+rather than assuming bounded multiplicity.
+\item Its zero-loss branch has a concrete endgame: a fixed pivot whose link
+covers every target, forcing degree at least \(b^2\).
+\end{enumerate}
+
+Finite-state LP, root normalization and critical-stability identities remain
+valuable for exhaustion and bookkeeping.  They do not by themselves convert
+residual circulation into a degree lower bound.  Global signed re-entry, Hall
+transport, waiting-time coding, first-owner compression, stationary matching,
+and private-target external-coordinate concentration all fail at that
+conversion unless supplemented by a new actual-object theorem.  The active
+problem \cref{prob:global-fiber} is therefore the most concentrated remaining
+bridge among the explored approaches.
+
+\section{Conditional closure}
+
+\begin{theorem}[Conditional one-quarter conclusion]
+Assume that the global inverse-fiber decomposition in
+\cref{prob:global-fiber} holds with the stated uniform constants, and that the
+proper-block branch is excluded by block minimality.  Then, for every fixed
+\(\varepsilon>0\) and all sufficiently large \(b\),
+\[
+  \Delta(H)\le\left(\frac14-\varepsilon\right)b^2
+\]
+forces an independent transversal.
+\end{theorem}
+
+\begin{proof}
+If no independent transversal exists, \cref{prop:fork-density} yields positive
+fork mass.  In the diffuse branch, \cref{lem:fork-load} and the required
+\(b^{-2}\) inverse-multiplicity estimate give a vertex of degree
+\((1/4-o_b(1))b^2\), contradicting the assumed gap for large \(b\).  The exit
+branch is absorbed by its independent progress statement, the proper-block
+branch contradicts minimality, and the anchor branch contradicts
+\cref{thm:anchor}.  Hence the no-IT assumption is impossible.
+\end{proof}
+
+\end{document}

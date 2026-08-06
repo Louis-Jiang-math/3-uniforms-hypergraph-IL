@@ -697,3 +697,145 @@
 - **Do not repeat:** 不得仅因 blockers 位于同一 release history 就刷新 root capacity。
 - **Status:** unsupported-interface
 - **Last updated:** 2026-08-04
+
+## A-0044 — Deleting the partial-completion term in F-0078
+
+- **Goal:** Deduce \(\Xi_I=0\) from vanishing multi-blocker, splice and
+  switch-square terms in a no-IT instance.
+- **Failure type:** omitted term / scope error
+- **Failure point:** The exact identity still contains \(G_\infty^W\), where
+  \(W\) is independent only on the currently exposed proper block set. Global
+  nonexistence of an independent transversal does not eliminate it.
+- **Retry conditions:** Prove extension to a global transversal, a telescoping
+  identity, or a genuine signed-progress inequality for \(G_\infty^W\).
+- **Do not repeat:** Do not identify a partial completion with a global IT.
+- **Status:** failed
+- **Evidence:** `evidence/audits/F0078_SCOPE_CORRECTION.md`.
+- **Last updated:** 2026-08-06
+
+## A-0045 — Treating the F-0078 physical token as a transition congruence
+
+- **Goal:** Obtain a finite history-free quotient from current completion,
+  blocker and seen resources.
+- **Failure type:** history-dependence
+- **Failure point:** Return versus fresh continuation depends on which tokens
+  were visited earlier in the current genealogy. Two histories with the same
+  physical label can classify the same successor differently.
+- **Retry conditions:** Include all history needed to determine every successor
+  classification, and keep the resulting statement fixed-instance.
+- **Do not repeat:** Finiteness of the underlying hypergraph is not by itself a
+  proof of congruence.
+- **Status:** failed
+- **Evidence:** `evidence/audits/F0078_SCOPE_CORRECTION.md`.
+- **Last updated:** 2026-08-06
+
+## A-0046 — Promoting a deterministic-policy return to an all-release core
+
+- **Goal:** Send every repeated physical state directly to F-0071.
+- **Failure type:** closure error
+- **Failure point:** A cycle under one selected release policy need not contain
+  the successors of the other legal releases. An unused branch may augment,
+  create multiple blockers, splice, reveal a new resource, or leave the class.
+- **Retry conditions:** Prove closure under every legal release, or retain the
+  first branch that exits the normal form.
+- **Do not repeat:** Policy recurrence is weaker than all-release recurrence.
+- **Status:** failed
+- **Evidence:** `evidence/audits/F0078_SCOPE_CORRECTION.md`.
+- **Last updated:** 2026-08-06
+
+## A-0047 — Using fixed-instance exhaustion as a uniform asymptotic gap
+
+- **Goal:** Insert a tail bound depending on \(N_H=|E(H)|+|V(H)|\) directly
+  into the uniform one-quarter recurrence.
+- **Failure type:** quantifier error
+- **Failure point:** For every fixed \(H\), the tail may tend to zero while no
+  depth works uniformly over unbounded \(N_H\).
+- **Retry conditions:** Prove a uniform stopping modulus, a legal telescoping
+  boundary, or a compactness theorem with quantitative control.
+- **Do not repeat:** \(\forall H\,\lim_L U_L(H)=0\) does not imply
+  \(\lim_L\sup_H U_L(H)=0\).
+- **Status:** failed
+- **Evidence:** `evidence/audits/F0078_SCOPE_CORRECTION.md`.
+- **Last updated:** 2026-08-06
+
+## A-0048 — First-owner or stationary matching as signed compression
+
+- **Goal:** Turn repeated occurrences or balanced input/output counts into a
+  negative term.
+- **Failure type:** no-copy / conservation error
+- **Failure point:** Retaining full genealogy makes repeated occurrences
+  distinct; deleting genealogy removes real positive mass. A stationary
+  perfect matching is only a relabeling of balanced counts, not an actual
+  inverse repair map.
+- **Retry conditions:** Pair every removed occurrence with an independently
+  verified deletion, root reassignment, strict potential loss, or structural
+  contradiction.
+- **Do not repeat:** Provenance selection alone does not create dissipation.
+- **Status:** failed
+- **Last updated:** 2026-08-06
+
+## A-0049 — Local one-coordinate concentration implies a persistent anchor
+
+- **Goal:** Close high inverse multiplicity by applying fixed-pivot
+  target-following immediately to a heavy row or pair in one replacement box.
+- **Failure type:** persistence gap
+- **Failure point:** The heavy vertex or pair may change between rows, source
+  edges, release branches, and future transitions. F-0058 assumes the same
+  pivot is retained throughout a future-complete class.
+- **Retry conditions:** Prove a first-anchor-loss dichotomy producing a valid
+  exit, proper-block subsystem, or future-complete same-anchor subfamily.
+- **Do not repeat:** An anchor endgame is not an anchor extraction theorem.
+- **Status:** active obstruction
+- **Related:** F-0058, F-0092, Q-0019
+- **Last updated:** 2026-08-06
+
+## A-0050 — Hall deficiency or recurrence controls spread automatically
+
+- **Goal:** Derive the one-quarter degree bound or unique-blocker normal form
+  from a connected deficient pair-fan incidence core.
+- **Failure type:** counterexample / insufficient invariant
+- **Failure point:** Positive mass can recur on two fixed edges in a live
+  pair-fan two-cycle. Hall deficiency records capacity shortage but does not
+  force many distinct third endpoints, and common release does not reduce
+  blocker multiplicity on return.
+- **Retry conditions:** Use additional global no-IT/minimality structure to
+  convert low-spread recurrent pair-fans into a valid exit, defect, or the
+  inverse-fiber decomposition of Q-0019.
+- **Do not repeat:** Do not call the residual class a natural extremal object
+  merely because it is the fourth case of a proof partition.
+- **Status:** failed as a closing mechanism
+- **Related:** Q-0019
+- **Last updated:** 2026-08-06
+
+## A-0051 — Directly using refill codimension as a macro-record fork penalty
+
+- **Goal:** Bypass output-to-source transport by recording the first F-0093 or
+  F-0094 descendant output edge directly in a nested entropy-compression macro.
+- **Approach:** Treat a two- or three-target output as an independent small
+  multiplicative mark on every matching-excess unit; repeat independent refill
+  boxes to make the unresolved link residue tend to zero.
+- **Failure type:** entropy accounting / actual-edge localization
+- **Failure point:** A new actual output edge has at most \(\Delta\) choices
+  only after one endpoint is known. For an off-pivot three-target edge, locating
+  that endpoint consumes or stores one of the three target coordinates, so the
+  net direct mark is \(\Delta/b^2\), not \(\Delta/b^3\). The standard
+  independently marked tree envelope then has best-case self-consistent threshold
+  \(0.211390706210804\ldots<1/4\). Independent repetition shrinks only a named
+  link subfamily; the dispersed off-pivot outputs still partition the remaining
+  target mass. Following them through actual successors reintroduces the
+  owner-preserving future-transport problem.
+- **Why it failed:** Pointwise inverse-fiber codimension does not by itself
+  bound the total faithful record alphabet. The current attempted coordinate
+  is already the record node and cannot be counted again as an extra entropy
+  loss.
+- **Evidence:** `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`.
+- **Retry conditions:** Supply an output edge determined by the original source
+  record without a new \(\Delta\)-choice, an additional irreversible
+  coordinate, a uniform source-owned \(o_b(1)\) stopping modulus, or an
+  all-successor same-anchor closure theorem.
+- **Do not repeat:** Do not insert the F-0094 pointwise \(b^{-3}\) fiber directly
+  as an \(o(1)\) record mark, and do not tensor independent boxes while omitting
+  their actual off-pivot output identities or stopping contexts.
+- **Status:** failed as a direct replacement for Q-0019
+- **Related:** F-0093, F-0094, F-0095, A-0024, A-0050, Q-0019
+- **Last updated:** 2026-08-06

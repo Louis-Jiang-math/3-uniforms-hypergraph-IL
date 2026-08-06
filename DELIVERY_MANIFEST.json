@@ -1,5 +1,5 @@
 {
-  "schema_version": "delivery-manifest-v3",
+  "schema_version": "delivery-manifest-v3.2",
   "source_repository": "Louis-Jiang-math/3-uniforms-hypergraph-IL",
   "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
   "source_date": "2026-07-28",
@@ -19,10 +19,13 @@
   },
   "mathematical_status": {
     "main_theorem": "open",
-    "active_node": "G1c / Q-0015",
+    "active_node": "S1 / Q-0019",
+    "primary_strategy": "fork_inverse_fiber_anchor",
     "Q-0016": "open",
     "Q-0017": "open",
-    "canonical_status_promoted_by_restructure": false
+    "Q-0018": "open-supporting",
+    "Q-0019": "active",
+    "F-0078": "downgraded-scope"
   },
   "known_raw_source_limitations": [
     "One optional large historical conversation is referenced in sources/raw/MANIFEST.json but not embedded.",
@@ -31,20 +34,10 @@
   "validation": {
     "local_patch_validation": {
       "compileall": "passed",
-      "pytest": "14 passed",
+      "pytest": "60 passed",
       "repository_consistency": "passed",
       "generated_artifacts": "passed",
-      "q0015_regression": {
-        "root_groups_with_failures": 144,
-        "classification": {
-          "zero-error-budget-feasible": 48,
-          "positive-root-budget-gap": 48,
-          "no-configuration": 48
-        },
-        "specified_t_min": 2.0,
-        "forbidden_genealogy_merge_eta": 1.0,
-        "payload_sha256": "ef02bf6446618026052c1a107913e4d015e3c8f3b48a59441a72afa09429a8ad"
-      }
+      "latex_syntax": "XeLaTeX no-PDF mode, three passes, no warnings"
     },
     "github_actions": {
       "status": "must-pass-after-merge",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hypergraph-il-audit"
-version = "0.3.0"
+version = "0.4.0"
 description = "Auditable proof-engineering tools for partitioned hypergraph independent transversals"
 requires-python = ">=3.12"
 dependencies = [

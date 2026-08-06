@@ -1157,3 +1157,336 @@
 - **Related:** F-0040, Q-0018, D-0002, D-0012
 - **Caveats:** 该恒等式不证明 \(\Xi_I\) 小，也不证明 clean-chart reduction、fresh-token conversion 或 overflow closure。
 - **Last updated:** 2026-08-04
+
+## F-0071 — finite all-release core 的 actual switch-cube defect
+
+- **Status:** verified
+- **Kind:** exact finite-core natural-defect theorem
+- **Statement:** 设 \(K\) 是 F-0063 的 finite unique-blocker all-release actual core，\(\beta_K\) 是 nonliteral context-slot 密度。则
+  \[
+  \Delta(H)\ge(1-3\beta_K)_+\frac{(b-1)^3}{b}.
+  \]
+  若 \(\delta_\square(K)\) 是每次 switch 遗失旧 blocker endpoints 的归一化 actual-support defect，则
+  \[
+  \frac{\beta_K}{2}\le\delta_\square(K)\le\beta_K.
+  \]
+  因而在 \(\Delta(H)\le(1/4-\varepsilon)b^2\) 下，
+  \[
+  \delta_\square(K)\ge
+  \frac16\left[1-(1/4-\varepsilon)\left(\frac b{b-1}\right)^3\right]
+  =\frac18+\frac\varepsilon6-O_\varepsilon(b^{-1}).
+  \]
+  对互不相交 core 入口 cylinders 加权后，同一常数乘以总 core 入口质量给出全局 defect 下界。
+- **Proof mechanism:** 每个 completion 有 \(6(b-1)^3\) 个 ordered three-switch instructions；all-literal instructions 的 intermediate states 均合法并最终产生实际边 \(\{x_1,x_2,x_3\}\)。每个坏 instruction 赋给第一处 nonliteral current context-slot；固定 context-slot 在三个位置的原像分别至多 \(2(b-1)^2\)，总计至多 \(6(b-1)^2\)。
+- **Scope:** finite unique-blocker all-release actual cores；带权版本要求入口 cylinders no-copy 且先进入该 normal form。
+- **Evidence:** `evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md` §§1–4；regression helpers in `src/hypergraph_il/route_b_closure.py` and `tests/test_route_b_closure.py`.
+- **Dependencies:** F-0063, F-0061
+- **Related:** Q-0016, Q-0017, Q-0018, FW-60
+- **Caveats:** 本条关闭 finite normal-form core 的 natural-defect endgame；不构造 global core entrance，也不处理 overflow 或非 finite/all-release core。
+- **Last updated:** 2026-08-04
+
+## F-0072 — canonical root excess 的 exact clean-cross reduction
+
+- **Status:** confirmed_conditional
+- **Kind:** exact no-copy chart-interface theorem
+- **Statement:** 在 F-0070 的 interval Palm normalization 中，以 canonical excess submeasure \(\nu_I\) 表示 \(\Xi_I\)。给定一个 F-0051 scope 的 faithful clean-chart atlas，把 excess atoms 仅在 owner、root projection、actual blocker、support interface、ordered directions 和 genealogy 一致时送入 ordered cross cells；令 \(\operatorname{ChartMis}_I\) 为该有限 no-copy max-flow 的 exact Hall deficiency。定义
+  \[
+  \mathcal D_I^\sharp=\sum_um(u)(n(u)-1)D_{n(u)}(a(u)),
+  \]
+  并在 rounded-compatible cells 上按 F-0049/F-0041 分成首次 token 质量 \(\Phi_I\) 与 return/merge/cycle/core 质量 \(\mathcal R_I\)。则
+  \[
+  \Xi_I\le
+  \operatorname{ChartMis}_I+2\mathcal D_I^\sharp+\Phi_I+\mathcal R_I.
+  \]
+  因此
+  \[
+  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+  \le
+  (1+\eta)\frac{\Delta(H)}{b^2}
+  +\operatorname{ChartMis}_I+2\mathcal D_I^\sharp+\Phi_I+\mathcal R_I.
+  \]
+- **Proof mechanism:** incompatible ordered-cross capacity satisfies
+  \[
+  \Lambda_{\rm cross}(u)
+  \le\frac{m(u)}{n(u)}\sum_i|a_i-\mathbf1_{a_i\ge1/2}|
+  \le2m(u)(n(u)-1)D_{n(u)}(a(u)).
+  \]
+  unassigned mass is exactly the chart Hall deficiency；compatible assigned mass由 first/return token partition 精确分割。
+- **Scope:** 需要一个 supplied faithful clean-chart atlas；atlas 可以不覆盖全部 excess，未覆盖部分精确保留为 \(\operatorname{ChartMis}_I\)。root capacity 只属于原始二步 failure atoms。
+- **Evidence:** `evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md` §§5–7；regression helpers in `src/hypergraph_il/route_b_closure.py` and `tests/test_route_b_closure.py`.
+- **Dependencies:** F-0038, F-0049, F-0051, F-0070
+- **Related:** Q-0018, Q-0017, F-0041, F-0042
+- **Caveats:** 本条不证明 global faithful atlas 存在，不证明 \(\operatorname{ChartMis}_I\)、\(\Phi_I\) 或 \(\mathcal R_I\) 小，也不允许把 chart deficiency 定义为 terminal。F-0038 的负 margin 仍需在最终 master ledger 中保留。
+- **Last updated:** 2026-08-04
+
+## F-0073 — fresh compatible mass 的 exact priority split
+
+- **Status:** verified
+- **Kind:** exact no-copy genealogy partition
+- **Statement:** 在 F-0072 的 rounded-compatible first-token submeasure \(\Phi_I\) 上，先移出由完整实际标签认证的 \(M/A/N/S/\mathrm{reset}\) exits；其余 unique-blocker clean atoms 按优先级精确分为：当前 actual blocker edge 首次出现、edge 已见但 carrier support 新增顶点、以及 edge/support 均已见而 faithful token 首次出现。因 \(\Phi_I\) 本身已是 first-token 质量，入口分解中不存在独立的 repeat 项：
+  \[
+  \Phi_I=\Phi_I^{\rm exit}+\Phi_I^{\rm edge}
+  +\Phi_I^{\rm support}+\Phi_I^{\rm token}.
+  \]
+  该分解可测、互斥、穷尽、no-copy，并在 faithful refinement 下协变。
+- **Evidence:** `evidence/proofs/FRESH_LEAF_THREE_CYLINDER_CLOSURE.md` §§1–2；helpers in `src/hypergraph_il/route_b_closure.py`；`tests/test_fresh_leaf_three_cylinder.py`。
+- **Dependencies:** F-0041, F-0049, F-0072
+- **Related:** Q-0018, D-0012
+- **Caveats:** 本条只分类 first-token mass；edge/support/exit 的全局 terminal 或 recurrence 后果仍需证明。重复 token 仍在 \(\mathcal R_I\) 或 F-0074 的 return stopping output 中。
+- **Last updated:** 2026-08-04
+
+## F-0074 — pure fresh-token 的 actual three-cylinder stopping line
+
+- **Status:** verified-conditional
+- **Kind:** release-complete no-copy stopping theorem
+- **Statement:** 给定 F-0073 的 pure-token atoms 的 faithful release-complete actual execution lift，对当前 unique blocker \(e(W)=\{u_1,u_2,u_3\}\) 在三个端点块独立均匀选择 replacements。沿六种 orders 保存完整 blocker family，并在首次出现 named exit、new actual edge、new carrier support 或 sound token return 时停止；若无这些输出且某 terminal coordinate 不可由 pure prefixes 到达，则输出指定的 actual-support three-cylinder splice defect；仅当三个 terminals 均可达且最终状态仍为 pure fresh token 时继续。若 \(R_L\) 是深度 \(L\) 后的 surviving pure-token mass，则
+  \[
+  R_L\le q_b^L\Phi_I^{\rm token},
+  \qquad q_b=\frac{b\Delta(H)}{(b-1)^3}.
+  \]
+  对 \(q_b<1\)，全部 pure-token mass 被 no-copy first-stopping cylinders 穷尽为 exit/edge/support/return/splice-defect；没有 token-universe remainder。
+- **Proof mechanism:** 若一个 target triple 继续，则每个 terminal coordinate 有一条 pure-prefix order；同一最终 completion 的唯一 blocker必须同时包含三个 replacement vertices，故为 \(\{x_1,x_2,x_3\}\)。逐 root 可继续 triples 至多是三个端点块之间的实际边数，因而不超过 \(b\Delta(H)\)。逐代点态收缩给出几何 remainder。
+- **Scope:** 需要保留 actual owner、root projection、complete blocker family、carrier support、faithful token、完整 genealogy，并使用 F-0061 release-complete no-copy branching。六种 order 只用于有限实际路径查询；输出时选择全局次序下最早的 actual certificate，child 选择最早的 pure order 作为 canonical genealogy，因此不复制质量或资源账本。离开 pure-token scope 的质量必须保留为其实际 first output，不能丢弃。
+- **Evidence:** `evidence/proofs/FRESH_LEAF_THREE_CYLINDER_CLOSURE.md` §§3–7；helpers in `src/hypergraph_il/route_b_closure.py`；`tests/test_fresh_leaf_three_cylinder.py`。
+- **Dependencies:** F-0041, F-0048, F-0049, F-0061, F-0073
+- **Related:** Q-0018, Q-0017, FW-60
+- **Caveats:** 本条消除 persistent pure-token 分支，但不支付 first-certifying edge mass，不把 Cartesian support 自动当作 terminal，也不构造 global atlas 或转换 overflow。
+- **Last updated:** 2026-08-04
+
+
+## F-0075 — finite-resource restart exhausts edge/support/pure-token persistence
+
+- **Status:** verified-conditional
+- **Kind:** no-copy fixed-instance stopping theorem
+- **Statement:** 在 F-0072/F-0073/F-0074 的 supplied faithful release-complete actual lift 中，不把 first-certifying edge 或 new carrier support 当作终局，而是在 genealogy 上登记新实际资源并从其实际输出状态重启。令
+  \[
+  N_H=|E(H)|+|V(H)|,
+  \qquad q_b=\frac{b\Delta(H)}{(b-1)^3}.
+  \]
+  若 \(U_L\) 是经过 \(L\) 次 restart/query transitions 后仍未到达 exit、atlas-boundary、sound return 或 specified splice defect 的质量，则
+  \[
+  U_L\le
+  \Phi_I\sum_{r=0}^{\min\{N_H,L\}}\binom Lr q_b^{L-r}.
+  \]
+  因而对每个固定有限 \(H\) 和 \(q_b<1\)，\(U_L\to0\)。不存在 persistent new-edge、new-support 或 pure-token remainder；unbounded token-universe size 不再是该 lift 内的 obstruction。
+- **Proof mechanism:** 每个 edge/support restart 严格增加已见实际边或 support-vertex 集，故一条 genealogy 至多有 \(N_H\) 个 resource transitions；其余 surviving transitions 都是 F-0074 pure children，逐步总条件质量至多 \(q_b\)。按 resource positions 求和得到 polynomial-geometric bound。
+- **Scope:** 需要 faithful atlas、actual owner/root/blocker/support/genealogy 与 release-complete F-0074 lift。离开 clean/compatible scope 的第一时刻必须记录为 actual atlas-boundary output。该结论逐固定实例 exact，但不提供对所有实例统一的有限深度速率。
+- **Evidence:** `evidence/proofs/FINITE_RESOURCE_RESTART_EXHAUSTION.md` §§1–4；helpers in `src/hypergraph_il/route_b_closure.py`；`tests/test_finite_resource_restart.py`。
+- **Dependencies:** F-0072, F-0073, F-0074
+- **Related:** Q-0017, Q-0018, F-0052, F-0057
+- **Caveats:** 本条不证明 exit、atlas-boundary、splice 或 return/core 已产生最终 master gain/terminal；不构造 global faithful atlas。
+- **Last updated:** 2026-08-04
+
+## F-0076 — supplied-atlas exact zero-defect root closure
+
+- **Status:** confirmed_conditional
+- **Kind:** exact common-zero-set closure
+- **Statement:** 在 F-0072 faithful atlas、F-0075 restart lift 及 F-0052/F-0057 finite residual normal form均给定时，若
+  \[
+  \operatorname{ChartMis}_I=\mathcal D_I^\sharp=0,
+  \]
+  且 restart stopping outputs中的 named exit、atlas-boundary、three-cylinder splice defect及 F-0071 switch-square defect均为零，则
+  \[
+  \Xi_I=0
+  \]
+  并且
+  \[
+  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+  \le(1+\eta)\frac{\Delta(H)}{b^2}.
+  \]
+- **Proof mechanism:** F-0075 把全部 fresh compatible mass exact 地穷尽为有限 stopping categories；sound return 在 supplied residual normal form 中进入 F-0071 core。共同零集使 F-0072 右端全部消失，再调用 F-0070。
+- **Scope:** exact zero-defect branch only；需要 supplied global atlas 与 residual normal form。
+- **Evidence:** `evidence/proofs/FINITE_RESOURCE_RESTART_EXHAUSTION.md` §§5–7。
+- **Dependencies:** F-0070, F-0071, F-0072, F-0075, F-0052, F-0057
+- **Related:** Q-0017, Q-0018, S4, F-0042
+- **Caveats:** 不证明任意低度反例的这些 defect 为零或小；positive-density terminal/gain consequence仍是主定理义务。
+- **Last updated:** 2026-08-04
+
+
+## F-0077 — rounding-free actual-cross root-excess reduction
+
+- **Status:** verified-conditional
+- **Kind:** exact no-copy chart-interface theorem
+- **Statement:** 在 F-0070 的 canonical excess submeasure 和 supplied faithful actual-cross atlas 中，不对 continuation profile 做确定性阈值舍入。每个已分配 cell 本身已经保存实际 continuation direction 与 actual first-stop direction；在全部 assigned cross atoms 上按完整 faithful token 直接作 F-0049 first/return 分割。若 `ChartMis_I` 是同一 no-copy chart max-flow 的 exact Hall deficiency，`Phi_I^x` 与 `R_I^x` 分别为 assigned mass 的 first-token 与 return/merge/cycle/core 部分，则
+  \[
+  \Xi_I=\operatorname{ChartMis}_I+\Phi_I^\times+\mathcal R_I^\times.
+  \]
+  因而
+  \[
+  \frac{\sum_{k\in I}\mathcal B_k}{b^2S_I}
+  \le(1+\eta)\frac{\Delta(H)}{b^2}
+  +\operatorname{ChartMis}_I+\Phi_I^\times+\mathcal R_I^\times.
+  \]
+  F-0073--F-0075 的 edge/support/token restart 与 three-cylinder stopping 只使用 actual labels，不使用 threshold bits，故对 `Phi_I^x` 原样适用。
+- **Why rounding is removed:** 对 `a_i=1/2` 的 profile，确定性舍入产生 `1/4` incompatible mass，而 F-0038 deficit 只有 `1/(4(n-1))`；二者比值为 `n-1`，所以该误差不可能由 dimension-free deficit margin 支付。
+- **Evidence:** `evidence/proofs/ROUNDING_FREE_ACTUAL_CROSS_REDUCTION.md`; helpers in `src/hypergraph_il/route_b_closure.py`; `tests/test_rounding_free_cross.py`.
+- **Dependencies:** F-0049, F-0070, F-0072
+- **Related:** F-0073, F-0074, F-0075, F-0076, Q-0018
+- **Caveats:** 仍需 supplied faithful actual-cross atlas；本条不证明 `ChartMis_I` 的后果或 global atlas 存在。F-0038/F-0051 可用于其他 temporal stability 论证，但不得再作为正 rounding cost 加入 master inequality。
+- **Last updated:** 2026-08-04
+
+## F-0078 — history-unfolded physical stopping of canonical root excess
+
+- **Status:** downgraded / verified only in restricted scope
+- **Kind:** exact fixed-instance stopping identity
+- **Retained statement:** On the fully unfolded actual history tree, the local
+  F-0074 kernel and finite edge/support restarts give a fixed-instance terminal
+  decomposition
+  \[
+  \Xi_I=G_\infty^W+G_\infty^M+G_\infty^{\mathrm{return}}
+  +G_\infty^{\mathrm{splice}}
+  \]
+  when the corresponding tail tends to zero.
+- **Withdrawn promotions:**
+  1. global no-IT does not imply \(G_\infty^W=0\), because \(W\) is only a
+     completion on the exposed proper block set;
+  2. the physical token without visited-history data is not a transition
+     congruence;
+  3. return under one canonical policy does not imply an all-release F-0071
+     core;
+  4. fixed-instance convergence depending on \(|E(H)|+|V(H)|\) is not a
+     uniform asymptotic stopping estimate.
+- **Evidence:** `evidence/audits/F0078_SCOPE_CORRECTION.md`.
+- **Dependencies:** F-0074, F-0075
+- **Related:** F-0052, F-0071, Q-0017, Q-0018, Q-0019
+- **Last updated:** 2026-08-06
+
+## F-0090 — canonical full-target repair
+
+- **Status:** verified
+- **Statement:** Let \(S\) be an independent partial transversal and \(Q\) a
+  full target transversal. Repeatedly install the first unmatched target
+  coordinate. If a blocker lies inside \(Q\), stop at that actual edge;
+  otherwise delete an inclusion-minimal set of currently selected non-target
+  vertices hitting the complete blocker family. Each step preserves
+  independence and permanently increases agreement with \(Q\). Hence the
+  process reaches the independent target \(Q\) or an actual edge \(e\subseteq
+  Q\). In a no-IT instance every target yields such an edge.
+- **Caveat:** This is a pointwise actual repair map. It gives neither an
+  inverse-multiplicity bound nor a negative term.
+- **Related:** F-0091, Q-0019
+- **Evidence:** `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`.
+- **Last updated:** 2026-08-06
+
+## F-0091 — canonical rank-two repair and fork dichotomy
+
+- **Status:** verified under faithful execution-log reconstruction
+- **Statement:** For an independent partial transversal \(S\) and attempted
+  vertex \(x\), choose a canonical maximal matching in the blocker-link graph
+  \(G_x(S)\), and delete all matching endpoints after adding \(x\). The result
+  is independent. Matching number one remains a rank-two repair even when the
+  blocker family contains many edges. The obstruction is matching number at
+  least two, which yields two actual blocker edges disjoint away from \(x\).
+- **Entropy consequence:** In the fork-free branch the record polynomial is
+  \(1+\Delta z^2\), with minimum growth \(2\sqrt\Delta\), giving the exact
+  threshold \(\Delta<b^2/4\). For every fixed \(\varepsilon>0\), under
+  \(\Delta\le(1/4-\varepsilon)b^2\), a no-IT faithful long execution has a
+  positive linear density of matching excess and hence of disjoint-blocker
+  forks.
+- **Caveat:** The theorem forces fork occurrences but does not control repeated
+  use of the same actual edge.
+- **Related:** F-0092, Q-0019
+- **Evidence:** `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`; executable
+  helpers in `src/hypergraph_il/fork_route.py`.
+- **Last updated:** 2026-08-06
+
+## F-0092 — two-coordinate replacement-box codimension
+
+- **Status:** verified
+- **Statement:** In an edge-minimal no-IT instance, choose for
+  \(e=\{x,a,b\}\) a full transversal \(W_e\) containing no edge other than
+  \(e\). Replace \(a,b\) by \((u,v)\) in their blocks and choose an actual edge
+  in the resulting target. Every chosen edge contains at least one of \(u,v\).
+  A fixed output edge has at most one preimage if it contains both replacement
+  coordinates and at most \(b\) preimages if it contains exactly one. The same
+  bounds hold for weighted occurrences when the parent history is retained.
+- **Consequence:** The two-coordinate part has a genuine \(b^{-2}\) inverse
+  multiplicity; the one-coordinate part has only \(b^{-1}\) and carries a
+  potentially migrating heavy vertex or pair.
+- **Caveat:** Local one-coordinate concentration does not imply future-complete
+  persistence of one anchor.
+- **Related:** F-0058, F-0091, Q-0019
+- **Evidence:** `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`.
+- **Last updated:** 2026-08-06
+
+## F-0093 — fork-rooted refill-box codimension
+
+- **Status:** verified
+- **Statement:** Fix an actual parent occurrence
+  \((h,\operatorname{owner},\operatorname{root},S,x,M)\), where \(S\) is an
+  independent partial transversal, \(x\) lies in a block missed by \(S\), and
+  \(M\) is the canonical maximal blocker matching. Starting from
+  \(R_0=(S\cup\{x\})\setminus V(M)\), refine independently by one uniform
+  target coordinate in every parent block and canonically refill holes. Every
+  target atom yields either an independent augmentation of size \(|S|+1\) or
+  an actual blocker containing the current and an earlier installed target
+  coordinate. Recording the actual edge and an unordered two-block witness
+  gives inverse mass at most \(W/b^2\) per certificate and at most \(3W/b^2\)
+  per actual output edge for parent mass \(W\).
+- **Scope:** Uniform in the matching rank, number of blocks, number of actual
+  histories and finite-history size; the complete parent history, owner, root,
+  actual blocker family and matching-edge identities remain attached to every
+  refined atom.
+- **Caveat:** The bounded load is on the later output edge, which need not
+  contain \(x\). It does not bound the original source-fork load \(\ell_x\).
+- **Evidence:** `evidence/proofs/FORK_ROOTED_REFILL_BOX.md` §§1--4.
+- **Related:** F-0091, F-0092, F-0094, Q-0019, A-0048--A-0050
+- **Last updated:** 2026-08-06
+
+## F-0094 — pivot-protected refill trichotomy
+
+- **Status:** verified
+- **Statement:** Under the hypotheses of F-0093, protect the original pivot
+  \(x\) and every installed target coordinate. If a blocker pair lies inside
+  the protected set, stop; otherwise delete a canonical inherited hitting set
+  for the complete blocker family and continue. The process terminates with
+  exactly one of: (i) an independent augmentation of size \(|S|+1\) retaining
+  \(x\); (ii) an actual edge \(\{x,q_B,q_C\}\); or (iii) an actual off-pivot
+  edge \(\{q_B,q_C,q_D\}\) consisting of three target coordinates. For parent
+  mass \(W\), a fixed output in (ii) receives at most \(W/b^2\), the total mass
+  of (ii) is at most \(d_H(x)W/b^2\), and a fixed output in (iii) receives at
+  most \(W/b^3\).
+- **Scope:** Actual-history-preserving and uniform in the same parameters as
+  F-0093; the hitting set is taken only from selected inherited vertices.
+- **Caveat:** Outcome (i) is a larger partial transversal, not a global
+  independent transversal. One outcome-(iii) edge, or even a proper subset of
+  target atoms with such edges, is not a complete proper-block no-IT subsystem
+  and is not a paid pivot-switch exit.
+- **Evidence:** `evidence/proofs/FORK_ROOTED_REFILL_BOX.md` §5.
+- **Related:** F-0058, F-0090, F-0093, Q-0019, A-0044, A-0048--A-0050
+- **Last updated:** 2026-08-06
+
+## F-0095 — direct macro-record arity barrier
+
+- **Status:** verified
+- **Statement:** If every matching-excess unit is assigned an independent
+  multiplicative mark \(y\), the exact infimum in the corresponding
+  simply-generated-tree envelope is
+  \[
+  G(y)=\inf_{0<u<1/y}
+  \frac{1+(1-y)u}{\sqrt u(1-yu)},
+  \]
+  so a contradiction at \(c=\Delta/b^2\) requires
+  \(\sqrt c\,G(y)<1\). As \(c\to1/4\), this forces \(y\to0\). A directly
+  recorded new three-edge output has, at best, normalized cost
+  \(y=\Delta/b^2=c\): one target coordinate is needed to localize an endpoint
+  before the actual edge has at most \(\Delta\) choices, leaving only two net
+  target coordinates. Even granting this factor independently to every excess
+  unit, the self-consistent threshold is
+  \[
+  c_0=0.211390706210804\ldots<1/4,
+  \]
+  the unique root in \((0,1/4)\) of
+  \(4c^4-12c^3+4c^2-24c+5=0\).
+- **Scope:** The direct independent-mark substitution for source-owned macro
+  codes that record each later actual output by a newly degree-indexed edge
+  label and use no additional source-determined identity, irreversible
+  coordinate or cross-output dependence.
+- **Caveat:** Failure of this tree-envelope bound is not a lower bound on the
+  actual record language. A smaller language would need a genuinely new
+  dependence or source invariant. Independent repetition of the same refill
+  boxes does not create one because the dispersed off-pivot certificate family
+  still exhausts the complementary target mass.
+- **Evidence:** `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`.
+- **Related:** F-0093, F-0094, Q-0019, A-0051
+- **Last updated:** 2026-08-06

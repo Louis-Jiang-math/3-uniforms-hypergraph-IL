@@ -43,7 +43,7 @@
 
 ## D-0006 — Make Route B the active proof strategy
 
-- **Status:** active
+- **Status:** superseded by D-0013
 - **Decision:** `S1 / Q-0018` is the only active main-proof node. Route B studies
   faithful global execution, exact zero-defect structure, reversible-core
   saturation, and quantitative stability.
@@ -118,20 +118,43 @@
 
 ## D-0012 — Freeze the implementation route at root excess, switch cube, and fresh forest
 
-- **Status:** active
+- **Status:** superseded as primary route by D-0013; retained as supporting scope
 - **Decision:** Route B 的实现顺序固定为：
   1. 只在原始二步 failure roots 上使用 F-0070 的 canonical global excess；
   2. 用 actual switch-cube natural defect 处理 finite unique-blocker all-release cores；
-  3. 对 fresh saturated critical leaves 使用 F-0041 的 edge/support/token/repeat no-copy split；
-  4. 把 pure fresh-token 分支压缩为 actual three-cylinder critical regeneration，再代回固定 interval master inequality 和 F-0042。
-- **Reason:** 根二步容量不自动覆盖 release descendants；F-0068 排除 actual one-step switch map 中的跨 slot Latin-column migration；F-0069 说明完美转移只有 sheet 运输而无非平凡 monodromy；F-0070 给出不刷新 descendant capacity 的精确 recurrence entrance。剩余核心因此是 actual switch-cube defect 与 fresh-token three-cylinder conversion，而不是新的动态收费或抽象 quotient。
+  3. 对 fresh saturated critical leaves 使用 F-0073 的 exact exit/edge/support/pure-token split；
+  4. 用 F-0074 的 actual three-cylinder stopping line 消除 persistent pure-token remainder；随后只处理 edge/support/return 的实际后果、global atlas/overflow，并代回固定 interval master inequality 和 F-0042。
+- **Reason:** 根二步容量不自动覆盖 release descendants；F-0068 排除 actual one-step switch map 中的跨 slot Latin-column migration；F-0069 说明完美转移只有 sheet 运输而无非平凡 monodromy；F-0070 给出不刷新 descendant capacity 的精确 recurrence entrance。F-0071 已完成 actual switch-cube defect，F-0072 已完成 root-excess clean-cross reduction，F-0073/F-0074 已完成 first-token priority split 与 pure-token three-cylinder stopping；剩余核心因此是 global atlas/chart-deficiency consequence、edge/support/return 后果与 overflow，而不是新的动态收费、抽象 quotient 或 token-universe counting。
 - **Consequences:**
   - descendant blockers 只用于 structural/resource/core analysis，不能仅因处于同一 genealogy 就刷新 root capacity；
-  - Q-0016 的当前 candidate theorem 是 actual switch-cube defect，不再把 partial matching、monodromy 或 Latin dispersion 单独当作终局；
-  - Q-0018 的当前入口是 root-only canonical excess \(\Xi_I\)，其 clean-chart reduction 与 fresh-leaf conversion 仍开放；
+  - Q-0016 的 finite unique-blocker all-release normal form 已由 F-0071 的 natural defect 闭合；只剩 global normal-form coverage；
+  - Q-0018 的当前入口是 F-0070/F-0072 的 root-only canonical excess 与 exact clean-cross reduction；F-0073/F-0074 已关闭 fresh split 和 pure-token remainder；chart-deficiency consequence、edge/support/return 后果与 overflow 仍开放；
   - Q-0016、Q-0017、Q-0018、S1--S5 与主定理状态均不改变。
 - **Nonprogress:** dynamic descendant entitlement、static core Hall compression、abstract token-universe finiteness、或为同一 fresh-token obligation 更名。
 - **Normative route:** `docs/MAIN_PROOF_ROUTE.md`。
-- **Evidence:** `evidence/proofs/ROOT_ONLY_EXCESS_SWITCH_CUBE_ROUTE.md`。
-- **Related:** D-0002, D-0006, D-0011, F-0041, F-0042, F-0063--F-0070, Q-0016, Q-0018
+- **Evidence:** `evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md`。
+- **Related:** D-0002, D-0006, D-0011, F-0041, F-0042, F-0063--F-0074, Q-0016, Q-0018
 - **Last updated:** 2026-08-04
+
+## D-0013 — Make fork--inverse-fiber--anchor the active route
+
+- **Status:** active
+- **Decision:** The single active theorem-level node is `S1 / Q-0019`. Finite
+  actual-history LP and physical stopping are front-end organization tools;
+  canonical maximal-matching repair supplies the \(1/4\) constant; inverse
+  fibers handle repeated actual-edge use; persistent-anchor target-following
+  is the rigid endgame.
+- **Reason:** This is the only explored route that simultaneously reproduces
+  the target constant locally, treats high inverse multiplicity as structure,
+  and has a nonvacuous zero-loss endgame. The former terminal-absorption route
+  also relied on an overstrong interpretation of F-0078.
+- **Consequences:**
+  - Q-0019 replaces Q-0018 as the active node;
+  - Q-0016--Q-0018 remain open supporting questions;
+  - Route B is supporting, Route A remains suspended;
+  - local heavy coordinates may not be promoted to persistent anchors without
+    future-closure;
+  - F-0078 may not be used as a zero-set closure theorem.
+- **Normative route:** `docs/MAIN_PROOF_ROUTE.md`.
+- **Related:** F-0052, F-0058, F-0078, F-0090--F-0092, Q-0019
+- **Last updated:** 2026-08-06

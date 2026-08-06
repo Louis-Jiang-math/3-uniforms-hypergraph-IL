@@ -18,3 +18,5 @@ Final status: draft | validated | rejected
 ```
 
 The manifest records scope and validation. It is not evidence that a mathematical claim is true.
+
+- `2026-08-06-fork-inverse-fiber-route.md`: active-route change, F-0078 scope correction, and Q-0019.

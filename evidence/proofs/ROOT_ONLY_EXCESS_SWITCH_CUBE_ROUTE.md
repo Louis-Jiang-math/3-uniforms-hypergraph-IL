@@ -2,15 +2,16 @@
 
 ## 0. Status and purpose
 
-This file records the self-contained supporting statements and the fixed proof
-route selected in D-0012.  It separates three levels deliberately:
+This file records the initial supporting statements and the fixed proof route
+selected in D-0012.  The two subsequent closure theorems are now proved in
+`SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md`:
 
-1. **verified supporting facts:** F-0068--F-0070 below;
-2. **a named candidate theorem inside Q-0016:** the actual switch-cube defect;
-3. **the remaining global theorem inside Q-0018:** fresh saturated-leaf
-   conversion.
+1. F-0071 closes the finite unique-blocker all-release switch-cube module;
+2. F-0072 closes the exact root-excess clean-cross reduction;
+3. fresh saturated-leaf and overflow conversion remain open in Q-0018.
 
-Nothing in this file closes Q-0016, Q-0017, Q-0018, or the one-quarter theorem.
+The global forms of Q-0016, Q-0017, Q-0018, and the one-quarter theorem remain
+open.
 The final target remains the legal-interval master inequality
 
 \[
@@ -288,97 +289,51 @@ This is an exact no-copy root normalization.  It makes no assertion that a
 blocker arising later in a release genealogy is entitled to capacity (4.2).
 Such descendants belong to the structural/resource/core analysis below.
 
-## 5. Candidate Q-0016 theorem: actual switch-cube defect
+## 5. F-0071 — actual switch-cube defect
 
-The next core theorem is not promoted here.  It is the fixed D-0011 target.
-
-For a context-slot pair \((W,s)\), call the switch **literal** when
-
-\[
-\pi_W(u,x)=\bigl(e(W)\setminus\{u\}\bigr)\cup\{x\}.
-\tag{5.1}
-\]
-
-Let \(\beta_K\) be the normalized density of nonliteral context-slot pairs in
-an all-release core.  The proposed theorem is the sharp actual-incidence bound
+The candidate theorem stated in the original route is now proved in
+`SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md` §§1–4.  For nonliteral context-slot
+density \(\beta_K\),
 
 \[
-\boxed{
-\Delta(H)
-\ge
-(1-3\beta_K)_+\frac{(b-1)^3}{b}.
-}
-\tag{5.2}
+\Delta(H)\ge(1-3\beta_K)_+\frac{(b-1)^3}{b}.
 \]
 
-Under \(\Delta(H)\le(1/4-\varepsilon)b^2\), it would force a constant-density
-natural actual-support defect in every positive-mass core.  This is accepted by
-the Route-B contract for Q-0016; the core defect need not be recharged to the
-root edge capacities.
+The proof establishes intermediate-state legality, terminal edge identity, and
+the first-nonliteral preimage bound \(6(b-1)^2\).  Its weighted endpoint-loss
+defect is no-copy and covariant under faithful entrance refinement.
 
-The proof program is the ordered three-switch cube:
+## 6. F-0072 — root-excess clean-cross reduction
 
-1. each root completion has \(6(b-1)^3\) ordered three-coordinate instructions;
-2. an all-literal instruction produces the terminal edge
-   \(\{x_1,x_2,x_3\}\);
-3. assign every bad instruction to its first nonliteral context-slot;
-4. prove the required bounded multiplicity of this assignment in the actual
-   genealogy;
-5. convert the number of distinct terminal edges to a vertex-degree lower
-   bound.
-
-Items 2--4, including intermediate-state legality, first-defect measurability,
-and faithful refinement covariance, are the formal obligations still open.
-Finite tests are evidence only.
-
-## 6. Root-excess reduction and fresh saturated leaves
-
-The intended clean-chart reduction is
+The intended reduction is now an exact chart-interface theorem.  Define the
+canonical excess submeasure from F-0070 and assign it by a no-copy max-flow to
+faithful F-0051 ordered clean-cross cells.  The unassigned mass is the exact
+chart Hall deficiency \(\operatorname{ChartMis}_I\).  The rounded-incompatible
+cell capacity is at most \(2\mathcal D_I^\sharp\), and the compatible assigned
+mass splits by F-0049/F-0041 into first and return parts.  Thus
 
 \[
 \boxed{
-\Xi_I
-\le
-\operatorname{ChartMis}_I
-+2\mathcal D_I^\sharp
-+\Phi_I
-+\mathcal R_I.
+\Xi_I\le
+\operatorname{ChartMis}_I+2\mathcal D_I^\sharp+\Phi_I+\mathcal R_I.
 }
-\tag{6.1}
 \]
 
-Here:
+See `SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md` §§5–7.  The theorem does not make
+any right-hand term small.  The remaining Q-0018 work is the actual consequence
+of chart deficiency, the negative-margin integration, and the conversion of
+fresh saturated leaves and overflow.
 
-- \(\operatorname{ChartMis}_I\) is actual chart/interface mismatch already
-  assigned to a named structural module;
-- \(\mathcal D_I^\sharp\) is the F-0038 critical-profile deficit in the correct
-  interval normalization;
-- \(\Phi_I\) is fresh saturated critical-leaf mass;
-- \(\mathcal R_I\) is repeat/merge/cycle/core mass.
-
-Equation (6.1) is a required Q-0018 interface, not a verified fact in this
-file.  Its purpose is to identify the units and prevent pair-heavy or descendant
-capacity from replacing the root excess.
-
-Apply the F-0041 priority split to \(\Phi_I\):
+Apply the F-0041 priority split
 
 \[
 \Phi_I=
-\Phi_I^{\rm edge}
-+\Phi_I^{\rm support}
-+\Phi_I^{\rm token}
+\Phi_I^{\rm edge}+\Phi_I^{\rm support}+\Phi_I^{\rm token}
 +\Phi_I^{\rm repeat}.
-\tag{6.2}
 \]
 
-The fixed route is:
-
-- repeat \(\to\) actual recurrent core \(\to\) the switch-cube defect;
-- new support \(\to\) an actual \(S\) witness or hereditary coordinate
-  expansion/complete-block terminal;
-- new actual edge \(\to\) a first-certifying, owner-preserving bounded-
-  multiplicity ledger;
-- pure fresh token \(\to\) the remaining three-cylinder regeneration theorem.
+Repeat goes to F-0071; support, edge, and token retain the destinations fixed in
+D-0012.
 
 ## 7. Remaining global theorem: three-cylinder regeneration
 
@@ -412,17 +367,17 @@ The selected sequence is:
   \xrightarrow{\text{F-0070}}
   \text{degree term}+\Xi_I,\\
 &\Xi_I
-  \xrightarrow{\text{Q-0018 chart reduction}}
+  \xrightarrow{\text{F-0072}}
   \text{profile mismatch}+\Phi_I+\mathcal R_I,\\
 &\mathcal R_I
-  \xrightarrow{\text{Q-0016 switch cube}}
+  \xrightarrow{\text{F-0071}}
   \text{natural core defect},\\
 &\Phi_I
-  \xrightarrow{\text{F-0041 resource split}}
-  \text{edge/support/token/repeat outcomes},\\
+  \xrightarrow{\text{F-0073}}
+  \text{exit/edge/support/pure-token outcomes},\\
 &\Phi_I^{\rm token}
-  \xrightarrow{\text{three-cylinder regeneration}}
-  \mathsf{Gain}_I+\mathsf{Boundary}_I,\\
+  \xrightarrow{\text{F-0074}}
+  \text{exit/edge/support/return/splice stopping outputs},\\
 &\text{master inequality}
   \xrightarrow{\text{F-0042}}
   \text{IT}.

@@ -3,8 +3,8 @@
 ## 1. Status and purpose
 
 - **Status:** normative research contract; not a theorem.
-- **Active question:** Q-0018.
-- **Primary strategy:** Route B.
+- **Status:** supporting historical framework; Q-0018 remains open.
+- **Current role:** supporting finite-state and stability algebra; not the active closing route.
 - **Route A:** suspended as a main route.
 
 This framework specifies what a legitimate critical-stability proof must preserve
@@ -178,7 +178,7 @@ positive-mass actual recurrent core and prove at least one:
 3. a complete real-block no-IT subinstance;
 4. a strictly positive natural defect with a proved dissipation consequence.
 
-The following exact supporting structure is now available for a finite
+The following exact structure is now available for a finite
 unique-blocker, all-release core:
 
 - release-complete no-copy branching (F-0061);
@@ -186,18 +186,21 @@ unique-blocker, all-release core:
 - common-state multiplicity identities (F-0064);
 - target-follow forced-off-pivot mass (F-0065);
 - the pairwise-incompatible family bound (F-0066);
-- maximal-reuse completion–switch synchronization–dispersion (F-0067).
+- completion-switch synchronization, global slot uniqueness, and perfect
+  sheets (F-0067--F-0069);
+- the actual switch-cube defect theorem (F-0071).
 
-These results identify high context reuse as the remaining obstruction.  The
-canonical subproblem is fixed by D-0011: convert a saturated actual switch
-matching, using actual three-endpoint incidence and support transport, into an
-accepted terminal outcome or quantitative recurrence loss.  Matrix dispersion
-alone is insufficient by A-0041, and exact synchronization alone does not imply
-product support.
+F-0071 proves that low degree forces a constant-density, refinement-covariant
+actual-support defect in every finite core of this normal form. F-0073/F-0074
+also provide an exact first-token split and a release-complete three-cylinder
+stopping line for a supplied faithful pure-token lift, with no persistent token
+remainder. Thus the finite saturated-switch obstruction and the local pure-token
+persistence obstruction are closed.  The remaining Q-0016 duty is global
+coverage: every positive-mass recurrent core produced by E1/E2 must either
+enter this finite normal form or yield another accepted terminal.
 
-This is Q-0016. Product support, a universal common pivot, phase consistency,
-holonomy, local same-pivot windows, or a new alias for the same context-reuse
-gap may not be assumed.
+Product support, a universal common pivot, phase consistency, holonomy, or a
+phase-only quotient may not be assumed when proving that coverage.
 
 ### 8.4 Conditional stability backend
 

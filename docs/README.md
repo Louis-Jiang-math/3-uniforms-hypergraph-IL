@@ -1,31 +1,19 @@
-# Documentation map
+# Documentation
 
-## Current state
+Canonical current-state documents:
 
-- `../HANDOFF_CURRENT.md`: current operational snapshot;
-- `MAIN_PROOF_ROUTE.md`: authoritative implementation route and anti-drift map;
-- `PROJECT_STATE.yaml`: machine-readable status;
-- `PROOF_DAG.md`: single main-proof dependency graph;
-- `QUICKSTART_10_MINUTES.md`: onboarding;
-- `STATUS_CARD.md`: compact status view.
+- `STATUS_CARD.md`
+- `MAIN_PROOF_ROUTE.md`
+- `PROOF_DAG.md`
+- `PROJECT_STATE.yaml`
+- `KNOWN_LIMITATIONS.md`
+- `QUICKSTART_10_MINUTES.md`
+- `ledger/ACTIVE_QUESTIONS.md`
+- `ledger/PROGRESS.md`
 
-## Normative project documents
+The manuscript corresponding to the active route is
+`../manuscript/independent_transversal_fork_route.tex`.
 
-- `framework/`: mathematical interfaces and nonclaims;
-- `NOTATION_AND_TYPES.md`: object and capacity types;
-- `CLAIM_STATUS_POLICY.md`: project claim-status meanings;
-- `PROJECT_WORKFLOW.md`: project-specific research sequence.
-
-## Repository-wide workflow
-
-- `../agent.md`: reusable mandatory write protocol;
-- `../AGENTS.md`: project-specific instructions;
-- `../WORKFLOW.md`: explanatory conversation-driven workflow;
-- `changes/`: scope and validation manifests for substantial writes.
-
-## Registries and evidence
-
-- canonical registries: `../knowledge/`;
-- audits and experiments: `../evidence/`;
-- raw sources: `../sources/raw/`;
-- historical monoliths: `../history/`.
+Files under `changes/` and older framework/evidence packages remain for audit
+history. Current claim status is determined by the documents above together
+with the canonical registries in `../knowledge/`.
