@@ -15,6 +15,7 @@ from hypergraph_il.q0015 import run_regressions
 
 BASELINE = ROOT / "evidence/experiments/q0015/baselines/q0015_audit_results.json"
 ROUTE_B_BASELINE = ROOT / "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json"
+Q0019_RANK_TWO_BASELINE = ROOT / "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json"
 
 
 def main() -> int:
@@ -67,6 +68,37 @@ def main() -> int:
                 errors.append("Route-B committed bounded-search parameters changed")
         except Exception as exc:
             errors.append(f"{ROUTE_B_BASELINE.relative_to(ROOT)}: {exc}")
+    if not Q0019_RANK_TWO_BASELINE.exists():
+        errors.append(f"missing generated artifact: {Q0019_RANK_TWO_BASELINE.relative_to(ROOT)}")
+    else:
+        try:
+            value = json.loads(Q0019_RANK_TWO_BASELINE.read_text(encoding="utf-8"))
+            validate_artifact(value)
+            metadata = value["metadata"]
+            payload = value["payload"]
+            if metadata.get("generator") != "enumerate/q0019_rank_two_zipper_validation.py":
+                errors.append("Q-0019 rank-two baseline generator mismatch")
+            if metadata.get("result_type") != "bounded-exhaustive-plus-exact-milp":
+                errors.append("Q-0019 rank-two baseline result type mismatch")
+            q4 = payload.get("q4", {})
+            if q4.get("coordinate_perfect_matchings") != 272 or q4.get("normal_matchings") != 8:
+                errors.append("Q-0019 rank-two Q4 matching counts mismatch")
+            if q4.get("release_categories") != {"C": 192, "R": 192, "S": 384}:
+                errors.append("Q-0019 rank-two C/S/R counts mismatch")
+            if not q4.get("normal_support_overlap_graph_is_K4_4"):
+                errors.append("Q-0019 fixed-window support graph is not K4,4")
+            ternary = payload.get("ternary_supports", {})
+            if ternary.get("candidate_supports") != 648 or ternary.get("possible_actual_blocker_triples") != 108:
+                errors.append("Q-0019 ternary support universe mismatch")
+            if not ternary.get("support_action_transitive"):
+                errors.append("Q-0019 ternary support action is not marked transitive")
+            if ternary.get("maximum_edge_disjoint_supports") != 12:
+                errors.append("Q-0019 ternary support packing number mismatch")
+            codimension = payload.get("codimension_one", {})
+            if codimension.get("missing_vertex_profile_endpoint_first_inward_central") != {"(3, 1, 0)": 192}:
+                errors.append("Q-0019 codimension-one incidence profile mismatch")
+        except Exception as exc:
+            errors.append(f"{Q0019_RANK_TWO_BASELINE.relative_to(ROOT)}: {exc}")
     if errors:
         print("Generated artifact errors:")
         for error in errors:

@@ -55,6 +55,14 @@ required = [
     "src/hypergraph_il/route_b_closure.py",
     "tests/test_route_b_closure.py",
     "evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md",
+    "evidence/audits/Q0019_RANK_TWO_ZIPPER_PATCH_SCOPE.md",
+    "evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md",
+    "evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md",
+    "evidence/experiments/q0019_rank_two/MANIFEST.json",
+    "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
+    "evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md",
+    "enumerate/q0019_rank_two_zipper_validation.py",
+    "tests/test_q0019_rank_two_zipper.py",
 ]
 for item in required:
     require(item)

@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "artifact_type": "experiment-baseline",
+    "command": "python enumerate/q0019_rank_two_zipper_validation.py --generated-at 2026-08-08T02:45:00Z --output /mnt/data/repo_clean/evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
+    "generated_at": "2026-08-08T02:45:00Z",
+    "generator": "enumerate/q0019_rank_two_zipper_validation.py",
+    "parameters": {
+      "q4_dimension": 4,
+      "ternary_alphabet": 3
+    },
+    "payload_sha256": "acbc5486a572d92feb24ec7d54b460f9d15c58f6b52888372024ddfe0fcb5747",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "result_type": "bounded-exhaustive-plus-exact-milp",
+    "schema_version": "research-artifact-v1",
+    "scope": "complete normal-Q4 state/release spaces and all 648 embedded normal supports in [3]^4",
+    "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928"
+  },
+  "payload": {
+    "codimension_one": {
+      "general_complete_universe_completion_counts": {
+        "endpoint_pair_only": "(b-1)^3",
+        "endpoint_pair_plus_central_completion": "1",
+        "endpoint_pair_plus_first_inward_pair": "b-1"
+      },
+      "missing_vertex_profile_endpoint_first_inward_central": {
+        "(3, 1, 0)": 192
+      },
+      "nonclaim": "the remaining b-ary value is not automatically a source-owned 1/b charge",
+      "vertex_union_size_profile_endpoint_first_inward_central": {
+        "(5, 7, 8)": 192
+      }
+    },
+    "interpretation": {
+      "bounded_scope": "binary normal Q4 and embedded ternary [3]^4 normal-support geometry",
+      "nonclaims": [
+        "finite computation does not close Q-0019",
+        "state confluence is not by itself a P^2 -> P obligation merge",
+        "endpoint tuple persistence is false; only the normal support is invariant under the antipodal zipper inside a fixed window",
+        "the codimension-one missing value is not automatically an independent entropy charge"
+      ]
+    },
+    "q4": {
+      "coordinate_perfect_matchings": 272,
+      "cyclic_8_3_signatures": {
+        "(True, (2, 2, 2, 2, 2, 2, 2, 2), (3, 3, 3, 3, 3, 3, 3, 3))": 192,
+        "(True, (5, 5, 5, 5, 5, 5, 5, 5), (3, 3, 3, 3, 3, 3, 3, 3))": 192
+      },
+      "endpoint_antipode_migration": {
+        "(1, 0, 0, (0, 7), (3, 4))": 192
+      },
+      "endpoint_incidence_signatures": {
+        "(1, 1, 0, 0, 1, 1, 1, 1, 'e1')": 192,
+        "(1, 1, 0, 0, 1, 1, 1, 1, 'e2')": 192
+      },
+      "minimum_nonnormal_root_defects": 6,
+      "nonnormal_root_two_intersection_defect_distribution": {
+        "10": 96,
+        "12": 48,
+        "16": 72,
+        "24": 4,
+        "6": 32,
+        "8": 12
+      },
+      "normal_matchings": 8,
+      "normal_rooted_states": 192,
+      "normal_support_blocker_multiplicity_distribution": {
+        "2": 32
+      },
+      "normal_support_distinct_blocker_triples": 32,
+      "normal_support_overlap_graph_is_K4_4": true,
+      "normal_support_overlap_graph_part_sizes": {
+        "0": 4,
+        "1": 4
+      },
+      "normal_support_pair_overlap_distribution": {
+        "0": 12,
+        "2": 16
+      },
+      "release_categories": {
+        "C": 192,
+        "R": 192,
+        "S": 384
+      },
+      "release_square": {
+        "(0, 0, 'R')": 192,
+        "(0, 1, 'S')": 192,
+        "(1, 0, 'S')": 192,
+        "(1, 1, 'C')": 192
+      },
+      "root_blocker_intersection_sizes": {
+        "1": 192
+      },
+      "source_tuple_support_multiplicity": {
+        "1": 192
+      },
+      "splice_edge_disjoint_cut_count_distribution": {
+        "7": 384
+      },
+      "splice_unique_bridge_order_count_distribution": {
+        "1": 384
+      }
+    },
+    "schema_version": "q0019-rank-two-zipper-validation-v1",
+    "ternary_supports": {
+      "binary_windows": 81,
+      "candidate_supports": 648,
+      "fixed_support_disjoint_candidates": 387,
+      "full_automorphism_orbit_size_of_fixed_support": 648,
+      "maximum_edge_disjoint_supports": 12,
+      "one_twelve_packing_covered_edges": 96,
+      "one_twelve_packing_uncovered_by_omitted_direction": {
+        "0": 3,
+        "1": 3,
+        "2": 3,
+        "3": 3
+      },
+      "one_twelve_packing_uncovered_edges": 12,
+      "pair_overlap_distribution": {
+        "0": 125388,
+        "1": 62208,
+        "2": 11664,
+        "3": 7776,
+        "5": 2592
+      },
+      "possible_actual_blocker_triples": 108,
+      "support_action_transitive": true,
+      "thirteen_packing_infeasible": true,
+      "thirteen_packing_solver_status": 2,
+      "twelve_packing_feasible": true,
+      "twelve_packing_solver_status": 0
+    }
+  }
+}

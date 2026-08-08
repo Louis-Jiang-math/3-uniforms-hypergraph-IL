@@ -1,5 +1,5 @@
 schema_version: 2
-updated: 2026-08-06
+updated: 2026-08-08
 source_baseline:
   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
@@ -55,13 +55,32 @@ scope_corrections:
       - "policy return implies all-release core"
       - "fixed-instance exhaustion implies a uniform asymptotic gap"
 active_obligation:
-  input: "weighted actual disjoint-blocker fork occurrences with provenance"
-  output: "no-copy diffuse/exit/proper/anchor decomposition"
+  input: "weighted actual disjoint-blocker fork occurrences with owner/root/history provenance"
+  output: "no-copy diffuse/exit/proper/anchor decomposition via a faithful rank-two support-return backend"
   quantitative_target: "ell_x^* <= (8+o_b(1)) F_x / b^2 plus valid exceptional terms"
-  unresolved_term: "one-coordinate concentration with migrating heavy vertex or pair"
+  unresolved_term: "owner-weighted rank-two normal-support return: exact future merge or bounded free supports before actual-edge reuse"
+current_subfrontier:
+  name: rank_two_rollback_normal_support_return
+  verified_formal:
+    - F-0096
+  verified_conditional:
+    - F-0097
+    - F-0098
+  bounded_evidence:
+    - F-0099
+    - F-0100
+    - F-0101
+    - F-0102
+    - F-0103
+  refuted_shortcuts:
+    - A-0053
+    - A-0054
+    - A-0055
+    - A-0057
+    - A-0058
 validation:
   compileall: passed
-  pytest: "60 passed"
+  pytest: "63 passed"
   repository_consistency: passed
   generated_artifacts: passed
-  latex_syntax: "XeLaTeX no-PDF mode, three passes, no warnings"
+  latex_syntax: "not rerun; manuscript theorem text unchanged"

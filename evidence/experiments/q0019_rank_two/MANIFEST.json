@@ -1,0 +1,35 @@
+{
+  "schema_version": "q0019-rank-two-evidence-manifest-v1",
+  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
+  "patch_base": "326425f",
+  "canonical_baseline": {
+    "path": "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
+    "generator": "enumerate/q0019_rank_two_zipper_validation.py",
+    "result_type": "bounded-exhaustive-plus-exact-milp",
+    "scope": "complete normal-Q4 state/release spaces and all 648 embedded normal supports in [3]^4"
+  },
+  "reports": [
+    "evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md"
+  ],
+  "reproducible_experiments": [
+    {
+      "path": "enumerate/q0019_rank_two_zipper_validation.py",
+      "result_type": "bounded-exhaustive-plus-exact-milp",
+      "scope": "normal Q4 incidence, endpoint migration, normal-support overlap, ternary support packing, codimension-one certificates"
+    }
+  ],
+  "canonical_nonclaims": [
+    "finite Q4/[3]^4 computation does not close Q-0019",
+    "a common descendant state is not automatically a merger of two future obligations",
+    "the endpoint tuple itself is not persistent under the canonical zipper",
+    "one remaining b-ary complementary value is not automatically a source-owned 1/b entropy charge"
+  ],
+  "validation_status": "validated",
+  "validation": {
+    "compileall": "passed",
+    "pytest": "63 passed",
+    "repository_consistency": "passed",
+    "generated_artifacts": "passed",
+    "fresh_payload_matches_baseline": true
+  }
+}

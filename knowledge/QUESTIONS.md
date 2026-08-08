@@ -322,12 +322,7 @@
 
 ## Q-0019 — Global inverse-fiber decomposition for fork mass
 
-- **Question:** For weighted actual disjoint-blocker fork occurrences with
-  fixed pivot \(x\), can one construct an exhaustive no-copy decomposition
-  into a two-coordinate diffuse part, an independently valid exit part, a
-  complete proper-block subsystem, and a future-complete class with one fixed
-  anchor, while retaining owner, root, actual edge identities and legal future
-  transitions?
+- **Question:** For weighted actual disjoint-blocker fork occurrences with fixed pivot `x`, can one construct an exhaustive no-copy, owner/root/history-preserving backend whose diffuse/low branch has the required `b^{-2}` source load and whose high branch either cancels a genuine future obligation, consumes only finitely/subexponentially many source-static normal supports before actual-edge reuse, enters a valid structural exit, or becomes future-complete for one fixed anchor?
 - **Status:** active
 - **Why it matters:** With
   \[
@@ -337,42 +332,12 @@
   \[
   \ell_x^*\le(8+o_b(1))F_x/b^2
   \]
-  gives the one-quarter degree bound, while F-0058 gives \(d_H(p)\ge b^2\) for
-  the fixed-anchor branch.
-- **Known so far:** F-0091 forces positive fork density below the target degree
-  threshold. F-0092 gives \(b^{-2}\) multiplicity for outputs using both
-  replacement coordinates and \(b^{-1}\) for outputs using exactly one.
-  F-0093 gives a uniform \(b^{-2}\) certificate after full fork-rooted refill,
-  but on the later output edge rather than the original fork edge. F-0094 can
-  retain the original pivot throughout: its only outcomes are a pivot-retaining
-  independent augmentation, a two-target edge through the original pivot, or
-  a three-target off-pivot edge. The through-pivot output mass is at most
-  \(d_H(x)W/b^2\), and a fixed off-pivot output has mass at most \(W/b^3\).
-  F-0095 shows that directly inserting these outputs into a nested macro record
-  does not bypass the gap: a newly degree-indexed actual output gives at best
-  the constant mark \(\Delta/b^2\), whose optimistic self-consistent threshold
-  is \(0.211390706210804\ldots<1/4\). F-0058 closes an already future-complete
-  fixed-pivot class.
-- **Missing:** Construct a no-copy transport from the F-0093/F-0094 output
-  certificates back to the original source fork edges, retaining the original
-  fork partner and parent provenance. In the pivot-protected form, one must
-  convert the augmentation and three-target off-pivot mass into an independently
-  valid paid exit or a complete proper-block no-IT subsystem, or prove that the
-  residual is closed under every relevant legal successor with one fixed
-  anchor. A local off-pivot target edge and a partial independent augmentation
-  are not those outcomes.
-- **Answer criterion:** An explicit uniform decomposition that preserves every
-  actual occurrence without copying or merging and proves the required
-  inverse-multiplicity bound. Merely naming migration as a terminal, using a
-  deterministic-policy cycle, or invoking fixed-instance finiteness does not
-  answer the question.
-- **Related:** F-0052, F-0058, F-0090--F-0095, A-0044--A-0051
-- **Suggested next action:** Any replacement backend must first exhibit an
-  explicit source invariant that makes the effective fork mark \(o_b(1)\): an
-  output identity already determined by the source, an extra irreversible
-  coordinate, a uniform source-owned stopping modulus, or all-successor
-  same-anchor closure. Only then derive a new record polynomial. Do not attach
-  independent refill boxes or record descendant edges directly without this
-  invariant; F-0095/A-0051 show that this only gives a constant-scale mark and
-  reintroduces Q-0019 on continuation.
-- **Last updated:** 2026-08-06
+  gives the one-quarter degree bound, while F-0058 gives `d_H(p)>=b^2` for an already future-complete fixed-anchor class.
+- **Known so far:** F-0091 supplies positive disjoint-blocker fork density below the target degree threshold. F-0092--F-0094 give genuine local inverse-fiber codimension but only on descendant outputs, and F-0095 proves that directly recording a newly degree-indexed descendant edge gives only a constant-scale mark. F-0096 now gives a common-parent parallel reduction: inclusion-minimal bad sets have size 2 or 3, and exact branch rollback removes private deletion/support traces without requiring support synchronization. F-0097 identifies the low pair grammar with polynomial `(1+Delta z)^2` and critical growth `4 Delta`; hence only high nodes require new control. F-0098 shows that protected tokens first deleted by already-recorded canonical matching edges are decoder-safe, but any fixed number of tokens gives only a constant mark near `1/4`, not `o_b(1)`. The irreducible high geometry is therefore the rank-two `(2,0)/(0,2)` core.
+
+  In the bounded normal-Q4 model, F-0099 gives an exact shared-`q` `C/S/R` switch law and a unique eight-edge zipper for every splice. F-0100 refutes strict endpoint persistence: the endpoint tuple moves antipodally, while the full eight-edge normal support remains fixed in the binary window. F-0101 shows the eight fixed-window normal supports form a `K_{4,4}` overlap geometry, and that all 648 embedded normal supports in `[3]^4` have exact edge-disjoint packing number 12. F-0102 shows `(e_1,e_2;q;f_1,f_2)` leaves exactly one complementary `b`-ary value undetermined in the complete-universe incidence model.
+- **Missing:** The remaining gap is a **source-interface / support-return theorem**, not a finer local migration classification. Starting from the actual high rank-two source occurrence, one must prove that normal continuation either (a) merges two open future obligations with an exact future-interface decoder, or (b) consumes a source-static finite support so that later return forces an independently payable actual-edge collision with bounded owner-weighted multiplicity. It is not yet proved that the actual genealogy remains in one ternary four-buffer, that the finite packing bound 12 telescopes along one source owner, or that the last codimension-one complementary value is source-owned. Nonnormal/minimal-bad branches must enter exact rollback or another already valid exit without being renamed as paid mass.
+- **Answer criterion:** An explicit uniform no-copy recurrence/decomposition on actual source occurrences that preserves owner, root, actual edge identities and legal future transitions, and either proves the required source-load bound or shows that every high occurrence has only subexponentially many free support returns before a verified capacity/core/anchor term. State confluence alone, bounded Q4/[3]^4 enumeration, rollback of a retryable value, or a constant protected-token mark does not answer the question.
+- **Related:** F-0052, F-0058, F-0090--F-0103, A-0044--A-0058, D-0014
+- **Suggested next action:** Build the **actual source-owned ternary support-migration graph** for one rank-two occurrence. Its state must retain owner/root, the four source buffer blocks, actual support identity and open pair obligations. Prove one of: (i) every normal transition stays in a bounded source-static support universe so F-0101 yields only `O(1)` free normal events per owner; (ii) first support escape is an independently paid fresh-support/actual-edge event; or (iii) the unique zipper boundary is exact-future congruent and truly cancels one pair obligation. Do not add further migration subtype names unless they reduce mass, capacity or a source-owned return potential.
+- **Last updated:** 2026-08-08

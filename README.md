@@ -42,6 +42,14 @@ history retained, to a two-coordinate diffuse fiber, an already paid exit, a
 proper-block subsystem, or a future-complete fixed-anchor class. Local
 replacement-box estimates do not by themselves provide this assignment.
 
+The current S1 subfrontier is more specific than the original one-coordinate
+migration formulation. Common-parent parallel rollback removes private support
+reset; the low pair grammar has critical growth `4\Delta`; the irreducible
+high case is a rank-two `(2,0)/(0,2)` core. Bounded normal-Q4 computation now
+exhibits a unique eight-edge zipper and finite support-packing structure, but a
+state-level splice is not yet a faithful merger of two future obligations.
+See `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`.
+
 ## Scope correction for F-0078
 
 F-0074's local three-cylinder contraction and the fixed-instance stopping
@@ -79,9 +87,11 @@ statement, not as a zero-set closure theorem or as the final backend.
 3. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
 4. [`manuscript/independent_transversal_fork_route.tex`](manuscript/independent_transversal_fork_route.tex)
 5. [`evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`](evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md)
-6. [`evidence/audits/F0078_SCOPE_CORRECTION.md`](evidence/audits/F0078_SCOPE_CORRECTION.md)
-7. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
-8. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
+6. [`evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`](evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md)
+7. [`evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`](evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md)
+8. [`evidence/audits/F0078_SCOPE_CORRECTION.md`](evidence/audits/F0078_SCOPE_CORRECTION.md)
+9. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+10. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
 
 ## Install and validate
 

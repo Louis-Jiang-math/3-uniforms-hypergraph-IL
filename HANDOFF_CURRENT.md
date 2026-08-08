@@ -2,194 +2,194 @@
 
 ## Objective
 
-Prove the asymptotic one-quarter threshold for independent transversals in
-equal-block partitioned 3-uniform hypergraphs. The theorem remains open.
-
-## Active route
-
-- **Primary strategy:** fork--inverse-fiber--anchor.
-- **Active DAG node:** `S1 / Q-0019`.
-- **Supporting finite-state machinery:** F-0052, F-0053, F-0055 and the valid
-  local part of F-0074/F-0078.
-- **Former Route-B ledger strategy:** retained as supporting algebra, no longer
-  the theorem-level closing mechanism.
-- **Route A:** suspended.
-
-The active chain is
+Prove
 
 \[
-\boxed{
-\begin{aligned}
-&\text{finite actual-history LP / stopping exhaustion}\\
-&\quad\longrightarrow\text{canonical maximal-matching repair}\\
-&\quad\longrightarrow\text{positive disjoint-blocker fork density}\\
-&\quad\longrightarrow\text{global inverse-fiber codimension decomposition}\\
-&\quad\longrightarrow
-\begin{cases}
-\text{diffuse load: }\Delta(H)\ge(1/4-o(1))b^2,\\
-\text{persistent anchor: }\Delta(H)\ge b^2.
-\end{cases}
-\end{aligned}}
+\Delta(H)<\left(\frac14-o(1)\right)b^2
+\Longrightarrow H\text{ has an independent transversal}.
 \]
 
-## What is rigorously available
+The theorem remains open. The theorem-level strategy remains
+**fork--inverse-fiber--anchor**, and the only active theorem-level node is
+`S1 / Q-0019`.
 
-### Finite history organization
+## Current state
 
-For a supplied finite faithful actual-history digraph, F-0052 gives
+- **Active node:** `S1 / Q-0019` — global inverse-fiber/source-load decomposition.
+- **Current S1 subfrontier:** rank-two rollback/support-return.
+- **Recently completed reductions:** common-parent minimal-bad reduction and
+  exact rollback (F-0096); low pair grammar `L(z)=(1+Delta z)^2` (F-0097);
+  protected-token first-use audit and fixed-token limitation (F-0098).
+- **New bounded geometry:** normal-Q4 shared-`q` switch, unique eight-edge
+  zipper, antipodal endpoint migration, fixed-window `K4,4` support geometry,
+  exact `[3]^4` normal-support packing number 12, and codimension-one endpoint/
+  first-inward incidence certificate (F-0099--F-0103).
+- **Current blocker:** turn those finite support facts into an owner/root/open-
+  child preserving recurrence on actual rank-two source occurrences. In
+  particular, prove exact future-obligation cancellation or bounded free
+  support return followed by an independently payable actual-edge collision.
+
+The one-quarter theorem, Q-0019, and supporting Q-0016--Q-0018 are all open.
+Route A remains suspended.
+
+## Reliable inputs
+
+### Fork density and local inverse fibers
+
+F-0091 supplies the canonical maximal-matching repair and the source of the
+one-quarter constant. Below `(1/4-epsilon)b^2`, a no-IT faithful long execution
+contains positive density of matching excess/disjoint-blocker forks.
+
+F-0092--F-0094 provide genuine local `b^{-2}`/`b^{-3}` inverse-fiber estimates
+on later outputs, but they do not by themselves control the original source
+fork load. F-0095 proves that directly recording a new degree-indexed descendant
+edge gives only a constant-scale mark and cannot recover the sharp threshold.
+
+### Common-parent rollback
+
+For four singleton repairs defined from one independent parent,
 
 \[
-\text{strict potential}
-\Longleftrightarrow
-\text{acyclic reduced digraph}
-\Longleftrightarrow
-\text{no residual circulation}.
+R_I(Q)=\left(R\setminus\bigcup_{i\in I}D_i(q_i)\right)\cup\{q_i:i\in I\},
 \]
 
-This is an exhaustion and localization tool. It does not itself create a
-negative term or a degree lower bound.
+an inclusion-minimal bad set has size 2 or 3. Rolling back one whole branch
+returns exactly to `R_{I\setminus{t}}`, already independent by minimality. This
+closes the earlier support-synchronization problem without assuming equal
+private deletion sets.
 
-### Rank-two repair and the one-quarter constant
+Rollback does **not** permanently remove the hole obligation; the block may be
+sampled again.
 
-For an independent partial transversal \(S\) and attempted vertex \(x\), let
-\(G_x(S)\) be the graph of blocker pairs. A canonical maximal matching
-\(M_x(S)\) hits every blocker pair, so
+### Pair grammar
 
-\[
-S'=(S\cup\{x\})\setminus V(M_x(S))
-\]
-
-is independent. If every matching has size at most one, the faithful record
-generating function is
+In the faithful low pair grammar,
 
 \[
-1+\Delta z^2,
+L(z)=(1+\Delta z)^2,
 \qquad
-\inf_{z>0}\frac{1+\Delta z^2}{z}=2\sqrt\Delta.
+\inf_{z>0}\frac{L(z)}z=4\Delta.
 \]
 
-Thus the fork-free branch has the exact threshold \(\Delta<b^2/4\). Under
-\(\Delta\le(1/4-\varepsilon)b^2\), a no-IT execution must instead contain a
-positive linear density of matching excess, each unit yielding two blocker
-edges disjoint away from the pivot.
+Thus only a node with matching rank at least two on one side needs additional
+control. The irreducible high geometry is the first two canonical matching
+edges, i.e. a `(2,0)` or `(0,2)` core, provided the remaining children are left
+untouched.
 
-### Local inverse-fiber codimension
-
-For a private transversal of an edge \(e=\{x,a,b\}\), replace \(a,b\) by
-\((u,v)\) in their blocks. Every selected edge in the replacement target uses
-at least one of \(u,v\). A fixed output edge has at most one preimage when it
-uses both replacements, and at most \(b\) preimages when it uses exactly one.
-This gives genuine \(b^{-2}\) and \(b^{-1}\) multiplicity bounds while
-retaining the parent history.
-
-The fork-rooted refill box F-0093 starts from the actual full matching repair
-and refills every resulting hole against a product target. It gives an exact
-augmentation/two-target-blocker dichotomy and at most \(3W/b^2\) received mass
-on a fixed later output edge. F-0094 additionally protects the original pivot:
-the terminal is then either a two-target edge through that pivot or a
-three-target off-pivot edge; a fixed output in the latter class has mass at
-most \(W/b^3\).
-
-These estimates do not yet bound the source load \(\ell_x\). The independent
-augmentation remains partial, and an off-pivot target edge on some target atoms
-does not supply a complete proper-block no-IT subsystem.
-
-### Direct macro-record audit
-
-F-0095 tests the proposed bypass in which each refill output is recorded
-directly as a nested entropy-compression macro. If matching excess is assigned
-an independent mark \(y\), the exact infimum in the resulting weighted-tree
-envelope is
+Protected tokens can be recovered when their first deletion occurs through an
+already-recorded canonical matching edge. If `N` tokens are born and `2C` are
+deleted by `C` such matching edges, the corresponding token factor is
 
 \[
-G(y)=\inf_{0<u<1/y}
-\frac{1+(1-y)u}{\sqrt u(1-yu)}.
+\Delta^C/b^N.
 \]
 
-Approaching the one-quarter threshold requires \(y=o_b(1)\). A new actual
-three-edge output localized by one of its target endpoints gives only
-\(y=\Delta/b^2\); even granting that factor independently to every excess unit
-has self-consistent threshold \(0.211390706210804\ldots\). Repeating independent
-boxes does not shrink the dispersed off-pivot output family. Therefore the
-direct macro route is A-0051, not a replacement for the owner-preserving
-transport/closure theorem.
+But a fixed number of tokens per high node gives only a constant factor near
+`Delta=b^2/4`, not the required `o_b(1)` mark.
 
-### Persistent-anchor endgame
+### Normal-Q4 zipper geometry
 
-If a positive-mass class is future-complete for a fixed pivot \(p\), and every
-unique blocker in every legal continuation contains \(p\), then target-following
-shows that every full target outside the block of \(p\) contains a link edge of
-\(p\). Double counting gives
+The bounded exhaustive generator
+`enumerate/q0019_rank_two_zipper_validation.py` gives:
 
-\[
-d_H(p)\ge b^2.
-\]
+- 272 coordinate perfect matchings, 8 normal;
+- 192 rooted normal one-hole states;
+- `C/S/R = 192/384/192` for the four two-branch releases;
+- the category is determined by whether the shared actual coordinate-value `q`
+  is retained on both sides, released on both sides, or mixed;
+- every `S` pair has one eight-edge bridge order and seven cuts of that same
+  bridge;
+- the bridge is a cyclic `8_3` support;
+- strict endpoint persistence is false: the endpoint pair moves from bridge
+  seam `(0,7)` to `(3,4)` and `q` changes, while the whole eight-edge support
+  remains unchanged in the binary window;
+- the eight fixed-window normal supports have overlap-2 graph `K4,4`;
+- all 648 embedded normal supports in `[3]^4` form one block/value automorphism
+  orbit and have exact pairwise edge-disjoint packing number 12;
+- `(e_1,e_2;q;f_1,f_2)` exposes 7 of the 8 binary coordinate-value vertices,
+  leaving one complementary `b`-ary value in the complete-universe model.
 
-This is an endgame theorem, not an anchor-extraction theorem.
+These are bounded support facts. They are not an asymptotic source charge and
+do not prove `P^2 -> P`.
 
-## Exact remaining problem
+## Provisional findings retained for reconstruction
 
-For fork mass \(F_x\), define the edge load
+The supplied conversations also reported several potentially useful finite
+results whose generators/certificates are not present in the current patch and
+therefore are **not promoted** to canonical facts:
 
-\[
-\ell_x(e)=\sum_f w_x(e,f),
-\qquad
-\ell_x^*=\max_{e\ni x}\ell_x(e).
-\]
+- a ternary axis-line exact-cover MILP with at most `16/81` normal binary boxes
+  and center-star extremizers;
+- a complete nonnormal-Q4 cancellable-face classification with rooted diagonal
+  exceptions;
+- a rooted-bad edge-weight profile `(1,3,3,1)` yielding a degree-based
+  inequality of the form `3B <= 4 Delta (b-1)^2`.
 
-The elementary double count is
+If these are reused, first reconstruct and commit their generators/certificates.
+The unrooted `16/81` density must not be treated as a source survival
+probability; the supplied conversation already produced a rooted diagonal
+codebook obstruction to that shortcut.
 
-\[
-2F_x\le d_H(x)\ell_x^*.
-\]
+## Do not repeat
 
-The missing global theorem must prove a no-copy, history-preserving decomposition
-that implies, schematically,
+The following mechanisms have been audited and rejected as theorem-closing
+shortcuts:
 
-\[
-\ell_x^*
-\le
-\frac{8+o_b(1)}{b^2}F_x
-+\mathsf{Exit}_x
-+\mathsf{Proper}_x
-+\mathsf{Anchor}_x.
-\]
+1. descendant output codimension automatically bounds the original source row;
+2. a local heavy coordinate automatically becomes a future-complete anchor;
+3. a retained/frozen pair child supplies an additional `1/b` or `1/b^2` mark;
+4. a minimal triple's third target is automatically irreversible;
+5. fixed support implies a fixed pair fiber;
+6. fresh transition rank or fresh Shannon information automatically telescopes
+   across changing supports;
+7. rollback `4 -> 2` is automatically a `b^{-2}` entropy saving;
+8. full protected-pair coverage forces quadratic degree;
+9. normal-window density is automatically a source contraction;
+10. the endpoint tuple `(e_1,e_2;q)` is fixed under the normal zipper;
+11. two histories reaching one actual state are automatically one future
+    obligation.
 
-The unresolved part is an owner-preserving transport from the refill outputs
-back to the original fork edges. In the pivot-protected form this is precisely
-the augmentation/three-target off-pivot mass: it must enter an independently
-verified progress term, cover a complete proper-block subsystem, or leave a
-future-complete class with the same fixed anchor. Local concentration does not
-imply any of these global alternatives.
+The repository-level reason is the same in each case: no-copy source provenance
+or a real capacity/telescoping quantity is missing.
 
-## F-0078 correction
+## Open questions
 
-Do not use F-0078 to assert any of the following:
+1. **Source-owned support universe.** Starting from one actual high rank-two
+   source occurrence, can every no-paid normal continuation be kept inside one
+   bounded source-static ternary support universe, or does first escape itself
+   expose an independently payable actual edge/support?
+2. **Exact future merge.** At the unique `4+4` normal zipper midpoint, are the
+   two open pair boundaries future-congruent with owner/root/stack/provenance
+   preserved, so that one obligation really disappears?
+3. **Owner-weighted support return.** If exact merge fails, can F-0101's finite
+   support packing be lifted to a recurrence saying each source owner has only
+   `O(1)` free normal high events before actual-edge reuse/core?
+4. **Codimension-one completion.** Can the final complementary value left by
+   `(e_1,e_2;q;f_1,f_2)` be recovered from an already-paid future event, rather
+   than recorded as a new free `b`-ary label?
 
-1. \(G_\infty^W=0\) from global nonexistence of an independent transversal;
-2. the physical token alone determines return versus fresh continuation;
-3. a deterministic-policy return is an all-release F-0071 core;
-4. fixed-instance exhaustion supplies a uniform finite-depth error bound.
+## Immediate next actions
 
-The valid residue is the unfolded stopping identity together with F-0074's
-local contraction.
-
-## Do not reopen as main routes
-
-- global signed re-entry or Hall transport without an independently verified
-  negative term;
-- waiting-time, Kraft or exact-certificate regeneration as a source of loss;
-- first-owner compression or stationary matching;
-- private-target external-coordinate concentration as link concentration;
-- Hall deficiency alone as control of spread or blocker multiplicity.
+1. Build an actual rank-two **ternary support-migration graph** whose node label
+   retains owner, root, source four-buffer, current normal support, open pair
+   obligations, and actual-edge history.
+2. Exhaust/verify its bounded transitions: same-box support move, first support
+   escape, exact-future merge, or actual-edge reuse. A new subtype is useful
+   only if it reduces mass/capacity/return potential.
+3. Derive the owner-weighted recurrence. Success means either an `o_b(1)` high
+   mark or only `O(1)` free high events per source owner before a verified paid
+   term. Without this recurrence, do not promote Q-0019.
+4. Separately reconstruct the conversation-reported `16/81`, cancellable-face,
+   and rooted `(1,3,3,1)` generators if those finite lemmas are to be used.
 
 ## Required reading
 
 1. `docs/MAIN_PROOF_ROUTE.md`
-2. `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`
-3. `evidence/audits/F0078_SCOPE_CORRECTION.md`
-4. `knowledge/FACTS.md` entries F-0052, F-0058, F-0090--F-0095
-5. `knowledge/QUESTIONS.md#Q-0019`
-6. `knowledge/FAILURES.md#A-0051`
-7. `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`
-8. `manuscript/independent_transversal_fork_route.tex`
+2. `knowledge/QUESTIONS.md#q-0019--global-inverse-fiber-decomposition-for-fork-mass`
+3. `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`
+4. `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`
+5. `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`
+6. `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`
+7. `evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md`
+8. `knowledge/FAILURES.md` entries A-0051--A-0058
+9. `knowledge/DECISIONS.md` entries D-0013--D-0014

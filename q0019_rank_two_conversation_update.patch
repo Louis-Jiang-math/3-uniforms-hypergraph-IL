@@ -1,0 +1,2669 @@
+diff --git a/HANDOFF_CURRENT.md b/HANDOFF_CURRENT.md
+index 6bc79b1..a74b250 100644
+--- a/HANDOFF_CURRENT.md
++++ b/HANDOFF_CURRENT.md
+@@ -2,194 +2,194 @@
+ 
+ ## Objective
+ 
+-Prove the asymptotic one-quarter threshold for independent transversals in
+-equal-block partitioned 3-uniform hypergraphs. The theorem remains open.
+-
+-## Active route
+-
+-- **Primary strategy:** fork--inverse-fiber--anchor.
+-- **Active DAG node:** `S1 / Q-0019`.
+-- **Supporting finite-state machinery:** F-0052, F-0053, F-0055 and the valid
+-  local part of F-0074/F-0078.
+-- **Former Route-B ledger strategy:** retained as supporting algebra, no longer
+-  the theorem-level closing mechanism.
+-- **Route A:** suspended.
+-
+-The active chain is
+-
+-\[
+-\boxed{
+-\begin{aligned}
+-&\text{finite actual-history LP / stopping exhaustion}\\
+-&\quad\longrightarrow\text{canonical maximal-matching repair}\\
+-&\quad\longrightarrow\text{positive disjoint-blocker fork density}\\
+-&\quad\longrightarrow\text{global inverse-fiber codimension decomposition}\\
+-&\quad\longrightarrow
+-\begin{cases}
+-\text{diffuse load: }\Delta(H)\ge(1/4-o(1))b^2,\\
+-\text{persistent anchor: }\Delta(H)\ge b^2.
+-\end{cases}
+-\end{aligned}}
+-\]
+-
+-## What is rigorously available
+-
+-### Finite history organization
+-
+-For a supplied finite faithful actual-history digraph, F-0052 gives
++Prove
+ 
+ \[
+-\text{strict potential}
+-\Longleftrightarrow
+-\text{acyclic reduced digraph}
+-\Longleftrightarrow
+-\text{no residual circulation}.
++\Delta(H)<\left(\frac14-o(1)\right)b^2
++\Longrightarrow H\text{ has an independent transversal}.
+ \]
+ 
+-This is an exhaustion and localization tool. It does not itself create a
+-negative term or a degree lower bound.
+-
+-### Rank-two repair and the one-quarter constant
++The theorem remains open. The theorem-level strategy remains
++**fork--inverse-fiber--anchor**, and the only active theorem-level node is
++`S1 / Q-0019`.
+ 
+-For an independent partial transversal \(S\) and attempted vertex \(x\), let
+-\(G_x(S)\) be the graph of blocker pairs. A canonical maximal matching
+-\(M_x(S)\) hits every blocker pair, so
+-
+-\[
+-S'=(S\cup\{x\})\setminus V(M_x(S))
+-\]
++## Current state
+ 
+-is independent. If every matching has size at most one, the faithful record
+-generating function is
++- **Active node:** `S1 / Q-0019` — global inverse-fiber/source-load decomposition.
++- **Current S1 subfrontier:** rank-two rollback/support-return.
++- **Recently completed reductions:** common-parent minimal-bad reduction and
++  exact rollback (F-0096); low pair grammar `L(z)=(1+Delta z)^2` (F-0097);
++  protected-token first-use audit and fixed-token limitation (F-0098).
++- **New bounded geometry:** normal-Q4 shared-`q` switch, unique eight-edge
++  zipper, antipodal endpoint migration, fixed-window `K4,4` support geometry,
++  exact `[3]^4` normal-support packing number 12, and codimension-one endpoint/
++  first-inward incidence certificate (F-0099--F-0103).
++- **Current blocker:** turn those finite support facts into an owner/root/open-
++  child preserving recurrence on actual rank-two source occurrences. In
++  particular, prove exact future-obligation cancellation or bounded free
++  support return followed by an independently payable actual-edge collision.
+ 
+-\[
+-1+\Delta z^2,
+-\qquad
+-\inf_{z>0}\frac{1+\Delta z^2}{z}=2\sqrt\Delta.
+-\]
++The one-quarter theorem, Q-0019, and supporting Q-0016--Q-0018 are all open.
++Route A remains suspended.
+ 
+-Thus the fork-free branch has the exact threshold \(\Delta<b^2/4\). Under
+-\(\Delta\le(1/4-\varepsilon)b^2\), a no-IT execution must instead contain a
+-positive linear density of matching excess, each unit yielding two blocker
+-edges disjoint away from the pivot.
++## Reliable inputs
+ 
+-### Local inverse-fiber codimension
++### Fork density and local inverse fibers
+ 
+-For a private transversal of an edge \(e=\{x,a,b\}\), replace \(a,b\) by
+-\((u,v)\) in their blocks. Every selected edge in the replacement target uses
+-at least one of \(u,v\). A fixed output edge has at most one preimage when it
+-uses both replacements, and at most \(b\) preimages when it uses exactly one.
+-This gives genuine \(b^{-2}\) and \(b^{-1}\) multiplicity bounds while
+-retaining the parent history.
++F-0091 supplies the canonical maximal-matching repair and the source of the
++one-quarter constant. Below `(1/4-epsilon)b^2`, a no-IT faithful long execution
++contains positive density of matching excess/disjoint-blocker forks.
+ 
+-The fork-rooted refill box F-0093 starts from the actual full matching repair
+-and refills every resulting hole against a product target. It gives an exact
+-augmentation/two-target-blocker dichotomy and at most \(3W/b^2\) received mass
+-on a fixed later output edge. F-0094 additionally protects the original pivot:
+-the terminal is then either a two-target edge through that pivot or a
+-three-target off-pivot edge; a fixed output in the latter class has mass at
+-most \(W/b^3\).
++F-0092--F-0094 provide genuine local `b^{-2}`/`b^{-3}` inverse-fiber estimates
++on later outputs, but they do not by themselves control the original source
++fork load. F-0095 proves that directly recording a new degree-indexed descendant
++edge gives only a constant-scale mark and cannot recover the sharp threshold.
+ 
+-These estimates do not yet bound the source load \(\ell_x\). The independent
+-augmentation remains partial, and an off-pivot target edge on some target atoms
+-does not supply a complete proper-block no-IT subsystem.
++### Common-parent rollback
+ 
+-### Direct macro-record audit
+-
+-F-0095 tests the proposed bypass in which each refill output is recorded
+-directly as a nested entropy-compression macro. If matching excess is assigned
+-an independent mark \(y\), the exact infimum in the resulting weighted-tree
+-envelope is
++For four singleton repairs defined from one independent parent,
+ 
+ \[
+-G(y)=\inf_{0<u<1/y}
+-\frac{1+(1-y)u}{\sqrt u(1-yu)}.
++R_I(Q)=\left(R\setminus\bigcup_{i\in I}D_i(q_i)\right)\cup\{q_i:i\in I\},
+ \]
+ 
+-Approaching the one-quarter threshold requires \(y=o_b(1)\). A new actual
+-three-edge output localized by one of its target endpoints gives only
+-\(y=\Delta/b^2\); even granting that factor independently to every excess unit
+-has self-consistent threshold \(0.211390706210804\ldots\). Repeating independent
+-boxes does not shrink the dispersed off-pivot output family. Therefore the
+-direct macro route is A-0051, not a replacement for the owner-preserving
+-transport/closure theorem.
+-
+-### Persistent-anchor endgame
+-
+-If a positive-mass class is future-complete for a fixed pivot \(p\), and every
+-unique blocker in every legal continuation contains \(p\), then target-following
+-shows that every full target outside the block of \(p\) contains a link edge of
+-\(p\). Double counting gives
+-
+-\[
+-d_H(p)\ge b^2.
+-\]
++an inclusion-minimal bad set has size 2 or 3. Rolling back one whole branch
++returns exactly to `R_{I\setminus{t}}`, already independent by minimality. This
++closes the earlier support-synchronization problem without assuming equal
++private deletion sets.
+ 
+-This is an endgame theorem, not an anchor-extraction theorem.
++Rollback does **not** permanently remove the hole obligation; the block may be
++sampled again.
+ 
+-## Exact remaining problem
++### Pair grammar
+ 
+-For fork mass \(F_x\), define the edge load
++In the faithful low pair grammar,
+ 
+ \[
+-\ell_x(e)=\sum_f w_x(e,f),
++L(z)=(1+\Delta z)^2,
+ \qquad
+-\ell_x^*=\max_{e\ni x}\ell_x(e).
++\inf_{z>0}\frac{L(z)}z=4\Delta.
+ \]
+ 
+-The elementary double count is
++Thus only a node with matching rank at least two on one side needs additional
++control. The irreducible high geometry is the first two canonical matching
++edges, i.e. a `(2,0)` or `(0,2)` core, provided the remaining children are left
++untouched.
+ 
+-\[
+-2F_x\le d_H(x)\ell_x^*.
+-\]
+-
+-The missing global theorem must prove a no-copy, history-preserving decomposition
+-that implies, schematically,
++Protected tokens can be recovered when their first deletion occurs through an
++already-recorded canonical matching edge. If `N` tokens are born and `2C` are
++deleted by `C` such matching edges, the corresponding token factor is
+ 
+ \[
+-\ell_x^*
+-\le
+-\frac{8+o_b(1)}{b^2}F_x
+-+\mathsf{Exit}_x
+-+\mathsf{Proper}_x
+-+\mathsf{Anchor}_x.
++\Delta^C/b^N.
+ \]
+ 
+-The unresolved part is an owner-preserving transport from the refill outputs
+-back to the original fork edges. In the pivot-protected form this is precisely
+-the augmentation/three-target off-pivot mass: it must enter an independently
+-verified progress term, cover a complete proper-block subsystem, or leave a
+-future-complete class with the same fixed anchor. Local concentration does not
+-imply any of these global alternatives.
+-
+-## F-0078 correction
+-
+-Do not use F-0078 to assert any of the following:
+-
+-1. \(G_\infty^W=0\) from global nonexistence of an independent transversal;
+-2. the physical token alone determines return versus fresh continuation;
+-3. a deterministic-policy return is an all-release F-0071 core;
+-4. fixed-instance exhaustion supplies a uniform finite-depth error bound.
+-
+-The valid residue is the unfolded stopping identity together with F-0074's
+-local contraction.
+-
+-## Do not reopen as main routes
+-
+-- global signed re-entry or Hall transport without an independently verified
+-  negative term;
+-- waiting-time, Kraft or exact-certificate regeneration as a source of loss;
+-- first-owner compression or stationary matching;
+-- private-target external-coordinate concentration as link concentration;
+-- Hall deficiency alone as control of spread or blocker multiplicity.
++But a fixed number of tokens per high node gives only a constant factor near
++`Delta=b^2/4`, not the required `o_b(1)` mark.
++
++### Normal-Q4 zipper geometry
++
++The bounded exhaustive generator
++`enumerate/q0019_rank_two_zipper_validation.py` gives:
++
++- 272 coordinate perfect matchings, 8 normal;
++- 192 rooted normal one-hole states;
++- `C/S/R = 192/384/192` for the four two-branch releases;
++- the category is determined by whether the shared actual coordinate-value `q`
++  is retained on both sides, released on both sides, or mixed;
++- every `S` pair has one eight-edge bridge order and seven cuts of that same
++  bridge;
++- the bridge is a cyclic `8_3` support;
++- strict endpoint persistence is false: the endpoint pair moves from bridge
++  seam `(0,7)` to `(3,4)` and `q` changes, while the whole eight-edge support
++  remains unchanged in the binary window;
++- the eight fixed-window normal supports have overlap-2 graph `K4,4`;
++- all 648 embedded normal supports in `[3]^4` form one block/value automorphism
++  orbit and have exact pairwise edge-disjoint packing number 12;
++- `(e_1,e_2;q;f_1,f_2)` exposes 7 of the 8 binary coordinate-value vertices,
++  leaving one complementary `b`-ary value in the complete-universe model.
++
++These are bounded support facts. They are not an asymptotic source charge and
++do not prove `P^2 -> P`.
++
++## Provisional findings retained for reconstruction
++
++The supplied conversations also reported several potentially useful finite
++results whose generators/certificates are not present in the current patch and
++therefore are **not promoted** to canonical facts:
++
++- a ternary axis-line exact-cover MILP with at most `16/81` normal binary boxes
++  and center-star extremizers;
++- a complete nonnormal-Q4 cancellable-face classification with rooted diagonal
++  exceptions;
++- a rooted-bad edge-weight profile `(1,3,3,1)` yielding a degree-based
++  inequality of the form `3B <= 4 Delta (b-1)^2`.
++
++If these are reused, first reconstruct and commit their generators/certificates.
++The unrooted `16/81` density must not be treated as a source survival
++probability; the supplied conversation already produced a rooted diagonal
++codebook obstruction to that shortcut.
++
++## Do not repeat
++
++The following mechanisms have been audited and rejected as theorem-closing
++shortcuts:
++
++1. descendant output codimension automatically bounds the original source row;
++2. a local heavy coordinate automatically becomes a future-complete anchor;
++3. a retained/frozen pair child supplies an additional `1/b` or `1/b^2` mark;
++4. a minimal triple's third target is automatically irreversible;
++5. fixed support implies a fixed pair fiber;
++6. fresh transition rank or fresh Shannon information automatically telescopes
++   across changing supports;
++7. rollback `4 -> 2` is automatically a `b^{-2}` entropy saving;
++8. full protected-pair coverage forces quadratic degree;
++9. normal-window density is automatically a source contraction;
++10. the endpoint tuple `(e_1,e_2;q)` is fixed under the normal zipper;
++11. two histories reaching one actual state are automatically one future
++    obligation.
++
++The repository-level reason is the same in each case: no-copy source provenance
++or a real capacity/telescoping quantity is missing.
++
++## Open questions
++
++1. **Source-owned support universe.** Starting from one actual high rank-two
++   source occurrence, can every no-paid normal continuation be kept inside one
++   bounded source-static ternary support universe, or does first escape itself
++   expose an independently payable actual edge/support?
++2. **Exact future merge.** At the unique `4+4` normal zipper midpoint, are the
++   two open pair boundaries future-congruent with owner/root/stack/provenance
++   preserved, so that one obligation really disappears?
++3. **Owner-weighted support return.** If exact merge fails, can F-0101's finite
++   support packing be lifted to a recurrence saying each source owner has only
++   `O(1)` free normal high events before actual-edge reuse/core?
++4. **Codimension-one completion.** Can the final complementary value left by
++   `(e_1,e_2;q;f_1,f_2)` be recovered from an already-paid future event, rather
++   than recorded as a new free `b`-ary label?
++
++## Immediate next actions
++
++1. Build an actual rank-two **ternary support-migration graph** whose node label
++   retains owner, root, source four-buffer, current normal support, open pair
++   obligations, and actual-edge history.
++2. Exhaust/verify its bounded transitions: same-box support move, first support
++   escape, exact-future merge, or actual-edge reuse. A new subtype is useful
++   only if it reduces mass/capacity/return potential.
++3. Derive the owner-weighted recurrence. Success means either an `o_b(1)` high
++   mark or only `O(1)` free high events per source owner before a verified paid
++   term. Without this recurrence, do not promote Q-0019.
++4. Separately reconstruct the conversation-reported `16/81`, cancellable-face,
++   and rooted `(1,3,3,1)` generators if those finite lemmas are to be used.
+ 
+ ## Required reading
+ 
+ 1. `docs/MAIN_PROOF_ROUTE.md`
+-2. `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`
+-3. `evidence/audits/F0078_SCOPE_CORRECTION.md`
+-4. `knowledge/FACTS.md` entries F-0052, F-0058, F-0090--F-0095
+-5. `knowledge/QUESTIONS.md#Q-0019`
+-6. `knowledge/FAILURES.md#A-0051`
+-7. `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`
+-8. `manuscript/independent_transversal_fork_route.tex`
++2. `knowledge/QUESTIONS.md#q-0019--global-inverse-fiber-decomposition-for-fork-mass`
++3. `evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`
++4. `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`
++5. `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`
++6. `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`
++7. `evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md`
++8. `knowledge/FAILURES.md` entries A-0051--A-0058
++9. `knowledge/DECISIONS.md` entries D-0013--D-0014
+diff --git a/README.md b/README.md
+index 688c3fb..cac3b9a 100644
+--- a/README.md
++++ b/README.md
+@@ -42,6 +42,14 @@ history retained, to a two-coordinate diffuse fiber, an already paid exit, a
+ proper-block subsystem, or a future-complete fixed-anchor class. Local
+ replacement-box estimates do not by themselves provide this assignment.
+ 
++The current S1 subfrontier is more specific than the original one-coordinate
++migration formulation. Common-parent parallel rollback removes private support
++reset; the low pair grammar has critical growth `4\Delta`; the irreducible
++high case is a rank-two `(2,0)/(0,2)` core. Bounded normal-Q4 computation now
++exhibits a unique eight-edge zipper and finite support-packing structure, but a
++state-level splice is not yet a faithful merger of two future obligations.
++See `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`.
++
+ ## Scope correction for F-0078
+ 
+ F-0074's local three-cylinder contraction and the fixed-instance stopping
+@@ -79,9 +87,11 @@ statement, not as a zero-set closure theorem or as the final backend.
+ 3. [`docs/PROOF_DAG.md`](docs/PROOF_DAG.md)
+ 4. [`manuscript/independent_transversal_fork_route.tex`](manuscript/independent_transversal_fork_route.tex)
+ 5. [`evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md`](evidence/proofs/FORK_INVERSE_FIBER_ANCHOR_ROUTE.md)
+-6. [`evidence/audits/F0078_SCOPE_CORRECTION.md`](evidence/audits/F0078_SCOPE_CORRECTION.md)
+-7. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
+-8. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
++6. [`evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`](evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md)
++7. [`evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`](evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md)
++8. [`evidence/audits/F0078_SCOPE_CORRECTION.md`](evidence/audits/F0078_SCOPE_CORRECTION.md)
++9. [`knowledge/QUESTIONS.md`](knowledge/QUESTIONS.md)
++10. [`knowledge/FAILURES.md`](knowledge/FAILURES.md)
+ 
+ ## Install and validate
+ 
+diff --git a/docs/MAIN_PROOF_ROUTE.md b/docs/MAIN_PROOF_ROUTE.md
+index 18267ff..487157f 100644
+--- a/docs/MAIN_PROOF_ROUTE.md
++++ b/docs/MAIN_PROOF_ROUTE.md
+@@ -140,10 +140,10 @@ at most one preimage when it uses both new coordinates, and at most \(b\)
+ preimages when it uses exactly one. The two-coordinate part therefore has the
+ required \(b^{-2}\) loss.
+ 
+-The theorem-level obstruction is the one-coordinate part. Its heavy auxiliary
+-vertex or pair may vary from row to row, from source edge to source edge, and
+-from one future transition to the next. The active theorem Q-0019 must prove a
+-history-preserving partition into
++The theorem-level obstruction is the one-coordinate/high-rank part. Its heavy
++auxiliary vertex, pair, endpoint seam, or support may vary between source
++occurrences and future transitions. The active theorem Q-0019 must still prove
++a history-preserving partition into
+ 
+ \[
+ \text{two-coordinate diffuse}
+@@ -152,10 +152,53 @@ history-preserving partition into
+ \sqcup
+ \text{proper-block subsystem}
+ \sqcup
+-\text{future-complete fixed anchor}.
++\text{future-complete fixed anchor},
+ \]
+ 
+-The partition must be exhaustive, no-copy, and quantitatively uniform.
++but the current backend reduces the residual more sharply before attempting that
++partition.
++
++### 6.1 Current rank-two backend
++
++F-0096 replaces sequential repair by four common-parent singleton repairs. Any
++inclusion-minimal nonindependent parallel state uses only two or three target
++coordinates, and rolling back one complete branch returns exactly to a smaller
++independent parallel state. Thus private deletion/support synchronization is no
++longer the active issue. Rollback itself is not an entropy credit, because the
++same hole obligation may later be retried.
++
++The surviving pair genealogy has a low grammar
++
++\[
++L(z)=(1+\Delta z)^2,
++\qquad
++\inf_{z>0}L(z)/z=4\Delta,
++\]
++
++so only nodes with a side of matching rank at least two need an additional
++mechanism. After isolating the first two canonical matching edges, the
++irreducible high geometry is a rank-two `(2,0)` or `(0,2)` core. F-0098 shows
++that protected tokens first deleted by already-recorded matching edges are
++decoder-safe, but any fixed number gives only a constant mark near the sharp
++threshold and cannot be the final `o_b(1)` penalty.
++
++For the finite normal-Q4 model, F-0099--F-0102 give a more concrete support
++picture. A mixed shared-`q` release produces a unique eight-edge zipper. The
++endpoint tuple is not persistent under the antipodal zipper, but the whole
++normal support is. The eight fixed-window normal supports form a `K_{4,4}`
++overlap geometry; in `[3]^4` the 648 embedded normal supports have exact
++edge-disjoint packing number 12. The endpoint/first-inward tuple is
++codimension one in the binary support.
++
++These are genuine finite support and incidence reductions, not yet source
++charges. The remaining backend problem is to prove, with owner/root/open-child
++provenance retained, that a normal high occurrence either exactly cancels a
++future obligation or consumes only finitely/subexponentially many source-static
++supports before an independently payable actual-edge reuse. A common descendant
++state alone is not an obligation merge.
++
++The final stage-D partition must remain exhaustive, no-copy, and quantitatively
++uniform.
+ 
+ ## 7. Stage E: persistent-anchor endgame
+ 
+diff --git a/docs/PROJECT_STATE.yaml b/docs/PROJECT_STATE.yaml
+index 354e885..79aec59 100644
+--- a/docs/PROJECT_STATE.yaml
++++ b/docs/PROJECT_STATE.yaml
+@@ -1,5 +1,5 @@
+ schema_version: 2
+-updated: 2026-08-06
++updated: 2026-08-08
+ source_baseline:
+   repository: Louis-Jiang-math/3-uniforms-hypergraph-IL
+   commit: cfadd24b52546d4d5800c4a3c5a75a2add86f928
+@@ -55,13 +55,32 @@ scope_corrections:
+       - "policy return implies all-release core"
+       - "fixed-instance exhaustion implies a uniform asymptotic gap"
+ active_obligation:
+-  input: "weighted actual disjoint-blocker fork occurrences with provenance"
+-  output: "no-copy diffuse/exit/proper/anchor decomposition"
++  input: "weighted actual disjoint-blocker fork occurrences with owner/root/history provenance"
++  output: "no-copy diffuse/exit/proper/anchor decomposition via a faithful rank-two support-return backend"
+   quantitative_target: "ell_x^* <= (8+o_b(1)) F_x / b^2 plus valid exceptional terms"
+-  unresolved_term: "one-coordinate concentration with migrating heavy vertex or pair"
++  unresolved_term: "owner-weighted rank-two normal-support return: exact future merge or bounded free supports before actual-edge reuse"
++current_subfrontier:
++  name: rank_two_rollback_normal_support_return
++  verified_formal:
++    - F-0096
++  verified_conditional:
++    - F-0097
++    - F-0098
++  bounded_evidence:
++    - F-0099
++    - F-0100
++    - F-0101
++    - F-0102
++    - F-0103
++  refuted_shortcuts:
++    - A-0053
++    - A-0054
++    - A-0055
++    - A-0057
++    - A-0058
+ validation:
+   compileall: passed
+-  pytest: "60 passed"
++  pytest: "63 passed"
+   repository_consistency: passed
+   generated_artifacts: passed
+-  latex_syntax: "XeLaTeX no-PDF mode, three passes, no warnings"
++  latex_syntax: "not rerun; manuscript theorem text unchanged"
+diff --git a/docs/PROOF_DAG.md b/docs/PROOF_DAG.md
+index e1ec6c7..fa47436 100644
+--- a/docs/PROOF_DAG.md
++++ b/docs/PROOF_DAG.md
+@@ -51,14 +51,29 @@ M0\ \text{one-quarter theorem.}
+ 
+ - **Status:** active.
+ - **Question:** Q-0019.
+-- **Input:** actual weighted fork occurrences with full provenance.
+-- **Required output:** an exhaustive no-copy partition into a two-coordinate
+-  diffuse part, a valid exit part, a complete proper-block part, and a
+-  future-complete fixed-anchor part.
+-- **Quantitative requirement:** the diffuse edge load is
+-  \(O(F_x/b^2)\), uniformly in the number of contexts and histories.
+-- **Forbidden shortcut:** local heavy coordinates may not be called persistent
+-  without closure under every relevant legal successor.
++- **Input:** actual weighted fork occurrences with full owner/root/history
++  provenance.
++- **Required final output:** an exhaustive no-copy partition into a
++  two-coordinate diffuse part, a valid exit part, a complete proper-block part,
++  and a future-complete fixed-anchor part.
++- **Current backend reduction:** F-0096 removes private support synchronization
++  by common-parent exact rollback. F-0097 sends all rank-at-most-one pair
++  continuation to the exact low grammar `(1+Delta z)^2`; the irreducible high
++  case is rank two. F-0098 rules out a fixed protected-token count as the sharp
++  high penalty. F-0099--F-0102 identify a bounded normal-Q4 zipper/support
++  geometry, while F-0100 refutes strict endpoint persistence.
++- **Current subproblem:** prove an owner-preserving rank-two recurrence in which
++  normal continuation either exactly cancels a future obligation or consumes
++  only finitely/subexponentially many source-static supports before a verified
++  actual-edge reuse/core/exit term. The `[3]^4` support-packing number 12 is
++  finite evidence for this mechanism, not yet the recurrence.
++- **Quantitative requirement:** the eventual diffuse edge load is
++  `O(F_x/b^2)` uniformly, or equivalently the high backend contributes only
++  `o_b(1)` exponential weight / `O(1)` free events per source owner before a
++  paid term.
++- **Forbidden shortcuts:** a common descendant state is not a pair-obligation
++  merge; a retryable rollback is not entropy loss; a bounded normal-window
++  statistic is not a source charge; the endpoint tuple is not persistent.
+ 
+ ### S2a — diffuse branch
+ 
+@@ -87,14 +102,18 @@ M0\ \text{one-quarter theorem.}
+ 
+ ## 4. Progress rule
+ 
+-Progress on S1 requires one of:
+-
+-1. a proof of anchor persistence from first loss of an external coordinate;
+-2. a uniform charging of anchor migration to already valid exits;
+-3. an explicit counterexample satisfying all global no-IT and minimality
+-   hypotheses, which would refute the route;
+-4. a stronger global product-space covering theorem that directly yields the
+-   same diffuse/anchor dichotomy.
+-
+-New terminal names, local box estimates, or finite-instance enumerations do not
+-change the active node by themselves.
++Progress on S1 now requires at least one **real combinatorial compression**:
++
++1. exact future-interface cancellation of one rank-two pair obligation;
++2. an owner-weighted support-return/collision recurrence proving only
++   `O(1)`/subexponentially many free normal high events per source occurrence;
++3. a uniform actual-edge/codegree capacity paying first support reuse or
++   escape;
++4. a source-owned irreversible/telescoping coordinate that yields an
++   `o_b(1)` high mark; or
++5. an explicit counterexample satisfying the full actual-source hypotheses,
++   which would refute the backend.
++
++Further migration subtype names, state-only confluence, fixed protected-token
++marks, unrooted window densities, or bounded finite enumeration without a
++source interface do not count as theorem-level progress.
+diff --git a/docs/STATUS_CARD.md b/docs/STATUS_CARD.md
+index a8d1c7a..0f228d4 100644
+--- a/docs/STATUS_CARD.md
++++ b/docs/STATUS_CARD.md
+@@ -5,34 +5,42 @@
+ | One-quarter theorem | open |
+ | Active node | S1 / Q-0019 |
+ | Primary route | fork--inverse-fiber--anchor |
++| Current S1 subfrontier | rank-two rollback / normal-support return |
+ | Finite actual-history LP dichotomy | verified supporting module (F-0052) |
+-| Canonical full-target repair | verified (F-0090) |
+ | Canonical maximal-matching repair | verified (F-0091) |
+-| Fork-free \(1/4\) record bound | verified under faithful reconstruction (F-0091) |
+-| Positive fork-density reduction | verified under the same execution model (F-0091) |
+-| Two-coordinate replacement-box multiplicity | verified (F-0092) |
++| Local refill inverse fibers | verified (F-0092--F-0094) |
++| Direct descendant-edge macro penalty | insufficient for `1/4` (F-0095 / A-0051) |
++| Common-parent minimal-bad rollback | verified formal (F-0096) |
++| Low pair grammar | verified conditional, growth `4 Delta` (F-0097) |
++| Fixed protected-token high mark | insufficient asymptotically (F-0098 / A-0053) |
++| Normal-Q4 zipper geometry | bounded exhaustive evidence (F-0099--F-0100) |
++| Fixed-window normal support graph | `K4,4`, bounded exhaustive (F-0101) |
++| `[3]^4` normal-support packing | exactly 12, bounded exact MILP (F-0101) |
++| Codimension-one zipper incidence | bounded evidence/formal completion count (F-0102) |
+ | Persistent fixed-anchor endgame | verified conditional on future completeness (F-0058) |
+ | Global inverse-fiber decomposition | open (Q-0019) |
+-| F-0078 zero-set closure | withdrawn / scope corrected |
+-| Former Route-B master inequality | supporting only |
+ | Route A | suspended |
+ 
+ ## One-line route
+ 
+ \[
+ \boxed{
+-\text{LP exhausts}
++\text{fork density}
+ \to
+-\text{rank-two repair produces }1/4
++\text{parallel rollback}
+ \to
+-\text{inverse fibers control reuse}
++\text{low }4\Delta\text{ pair grammar}
+ \to
+-\text{anchors give }b^2.
++\text{rank-two support return/collision}
++\to
++\text{diffuse or anchor endgame}.
+ }
+ \]
+ 
+ ## Main caution
+ 
+-A heavy coordinate in one replacement box is not yet a persistent anchor. The
+-active theorem must construct persistence or produce an already valid exit;
+-it may not define the remaining migrating mass as a new terminal.
++The finite normal zipper gives state confluence and finite support geometry, not
++a faithful `P^2 -> P` merger.  The endpoint tuple itself migrates.  Q-0019 now
++needs an owner/root/open-child preserving support-return recurrence or exact
++future-interface cancellation; finite packing or codimension-one incidence
++alone is not a source charge.
+diff --git a/docs/changes/2026-08-08-q0019-rank-two-zipper.md b/docs/changes/2026-08-08-q0019-rank-two-zipper.md
+new file mode 100644
+index 0000000..5bd340d
+--- /dev/null
++++ b/docs/changes/2026-08-08-q0019-rank-two-zipper.md
+@@ -0,0 +1,31 @@
++# Q-0019 rank-two rollback/zipper update
++
++- **Base commit:** `326425f`
++- **Write mode:** implementation; no theorem/Q-0019 closure
++- **Task:** integrate the proof-gap conversation results and current rank-two incidence computations into auditable evidence and current state.
++- **Target DAG node:** `S1 / Q-0019`
++- **Allowed paths:** README/handoff, docs, knowledge, evidence, enumerate/tests, generated-artifact checker, changelog.
++- **Forbidden paths:** raw sources, old conversations, unrelated modules, theorem manuscript claims, Git history.
++- **Claim status sought:** formal only for self-contained rollback/record-language lemmas; bounded finite computations remain observed/computer-assisted.
++- **Acceptance criterion:** preserve the fork--inverse-fiber--anchor route and open status; replace the vague migration frontier by the rank-two support-return problem; record refuted shortcuts; add reproducible Q4/[3]^4 evidence.
++- **Required validations:** compileall, pytest, repository consistency, generated-artifact checks, fresh rank-two generator run.
++- **Final status:** validated
++
++## Changes
++
++- added F-0096--F-0103 and A-0052--A-0058;
++- added D-0014 freezing the active Q-0019 subfrontier at rank-two rollback/support return;
++- rewrote Q-0019 known/missing/next-action around exact rollback, low `4 Delta` pair grammar, normal zipper support geometry, and owner-weighted support return;
++- added a self-contained proof/route note and a broader combinatorial-compression audit preserving both positive and negative conversation results;
++- added a deterministic normal-Q4/[3]^4 generator, hashed baseline, report, manifest, tests, and generated-artifact validation;
++- synchronized README, main route, proof DAG, project state, status card, and handoff;
++- did not close Q-0019 or change the theorem status.
++
++
++## Validation
++
++- `python -m compileall -q src enumerate tools tests` — passed;
++- `python -m pytest -q` — `63 passed`;
++- `python tools/check_repository.py` — passed;
++- `python tools/check_generated_artifacts.py` — passed;
++- fresh `q0019_rank_two_zipper_validation.py` payload matched the committed baseline exactly.
+diff --git a/docs/changes/README.md b/docs/changes/README.md
+index 8f1d5a9..ec05ac3 100644
+--- a/docs/changes/README.md
++++ b/docs/changes/README.md
+@@ -20,3 +20,4 @@ Final status: draft | validated | rejected
+ The manifest records scope and validation. It is not evidence that a mathematical claim is true.
+ 
+ - `2026-08-06-fork-inverse-fiber-route.md`: active-route change, F-0078 scope correction, and Q-0019.
++- `2026-08-08-q0019-rank-two-zipper.md`: Q-0019 common-parent rollback, pair grammar, normal-Q4 zipper/support geometry, and current rank-two support-return frontier.
+diff --git a/enumerate/q0019_rank_two_zipper_validation.py b/enumerate/q0019_rank_two_zipper_validation.py
+new file mode 100644
+index 0000000..8cdc334
+--- /dev/null
++++ b/enumerate/q0019_rank_two_zipper_validation.py
+@@ -0,0 +1,628 @@
++from __future__ import annotations
++
++import argparse
++import json
++import sys
++from collections import Counter, defaultdict, deque
++from functools import lru_cache
++from itertools import combinations, permutations, product
++from pathlib import Path
++
++import numpy as np
++from scipy.optimize import Bounds, LinearConstraint, milp
++from scipy.sparse import csr_matrix, lil_matrix
++
++ROOT = Path(__file__).resolve().parents[1]
++SRC = ROOT / "src"
++if str(ROOT) not in sys.path:
++    sys.path.insert(0, str(ROOT))
++if str(SRC) not in sys.path:
++    sys.path.insert(0, str(SRC))
++
++from hypergraph_il.artifacts import atomic_write_json, build_artifact
++
++D = 4
++VERTICES = tuple(range(1 << D))
++
++
++def bit(vertex: int, coordinate: int) -> int:
++    return (vertex >> coordinate) & 1
++
++
++def neighbors(vertex: int) -> tuple[int, ...]:
++    return tuple(vertex ^ (1 << coordinate) for coordinate in range(D))
++
++
++@lru_cache(None)
++def enumerate_matchings(remaining: tuple[int, ...]):
++    if not remaining:
++        return ((),)
++    pool = set(remaining)
++    vertex = min(pool)
++    output = []
++    for other in neighbors(vertex):
++        if other not in pool:
++            continue
++        rest = tuple(sorted(pool - {vertex, other}))
++        for tail in enumerate_matchings(rest):
++            output.append(((min(vertex, other), max(vertex, other)),) + tail)
++    return tuple(output)
++
++
++def with_directions(matching):
++    return tuple((left, right, (left ^ right).bit_length() - 1) for left, right in matching)
++
++
++FACES = []
++for free in combinations(range(D), 2):
++    fixed = tuple(i for i in range(D) if i not in free)
++    for fixed_values in product((0, 1), repeat=2):
++        face = []
++        for free_values in product((0, 1), repeat=2):
++            values = [0] * D
++            for coordinate, value in zip(fixed, fixed_values):
++                values[coordinate] = value
++            for coordinate, value in zip(free, free_values):
++                values[coordinate] = value
++            face.append(sum(values[i] << i for i in range(D)))
++        FACES.append(tuple(face))
++
++
++def direction_and_edge_maps(matching):
++    direction = {}
++    edge_id = {}
++    for index, (left, right, omitted) in enumerate(matching):
++        direction[left] = direction[right] = omitted
++        edge_id[left] = edge_id[right] = index
++    return direction, edge_id
++
++
++def is_normal(matching) -> bool:
++    direction, _ = direction_and_edge_maps(matching)
++    return all(len({direction[vertex] for vertex in face}) == 3 for face in FACES)
++
++
++def state_from_full_remove(vertex: int, missing: int):
++    return tuple(None if i == missing else bit(vertex, i) for i in range(D))
++
++
++def blocker_hyperedge(matching, edge_id: int):
++    left, _, omitted = matching[edge_id]
++    return frozenset((i, bit(left, i)) for i in range(D) if i != omitted)
++
++
++def hyperedge_states(matching):
++    return {
++        state_from_full_remove(left, omitted): edge_id
++        for edge_id, (left, _, omitted) in enumerate(matching)
++    }
++
++
++def independent_states(matching):
++    forbidden = hyperedge_states(matching)
++    output = []
++    for missing in range(D):
++        for values in product((0, 1), repeat=3):
++            iterator = iter(values)
++            state = tuple(None if i == missing else next(iterator) for i in range(D))
++            if state not in forbidden:
++                output.append(state)
++    return output
++
++
++def full_from_state(state, attempted: int):
++    values = list(state)
++    hole = values.index(None)
++    values[hole] = attempted
++    vertex = sum(values[i] << i for i in range(D))
++    return vertex, hole
++
++
++def moves_from_state(matching, state):
++    direction, edge_id = direction_and_edge_maps(matching)
++    output = []
++    for attempted in (0, 1):
++        vertex, hole = full_from_state(state, attempted)
++        omitted = direction[vertex]
++        assert omitted != hole
++        old = [i for i in range(D) if i not in (hole, omitted)]
++        for release in old:
++            pivot = next(i for i in old if i != release)
++            values = [bit(vertex, i) for i in range(D)]
++            values[release] = None
++            output.append(
++                {
++                    "attempted_bit": attempted,
++                    "blocker_edge": edge_id[vertex],
++                    "release": release,
++                    "pivot": (pivot, bit(vertex, pivot)),
++                    "target": tuple(values),
++                }
++            )
++    return output
++
++
++def transition_graph(matching):
++    return {state: moves_from_state(matching, state) for state in independent_states(matching)}
++
++
++def reachable_masks(matching, start, initial_mask: int):
++    graph = transition_graph(matching)
++    reachable = {state: set() for state in graph}
++    queue = deque([(start, initial_mask)])
++    seen = {(start, initial_mask)}
++    reachable[start].add(initial_mask)
++    while queue:
++        state, mask = queue.popleft()
++        for move in graph[state]:
++            edge_mask = 1 << move["blocker_edge"]
++            if mask & edge_mask:
++                continue
++            target = move["target"]
++            new_mask = mask | edge_mask
++            item = (target, new_mask)
++            if item not in seen:
++                seen.add(item)
++                queue.append(item)
++                reachable[target].add(new_mask)
++    return reachable
++
++
++def splice_witnesses(matching, first, second):
++    first_mask = 1 << first["blocker_edge"]
++    second_mask = 1 << second["blocker_edge"]
++    if first_mask & second_mask:
++        return []
++    left = reachable_masks(matching, first["target"], first_mask)
++    right = reachable_masks(matching, second["target"], second_mask)
++    output = []
++    for state in left:
++        for left_mask in left[state]:
++            for right_mask in right[state]:
++                if left_mask & right_mask == 0:
++                    output.append((state, left_mask, right_mask))
++    return output
++
++
++def paths_avoiding(matching, start, initial_used, maximum=8):
++    graph = transition_graph(matching)
++    output = defaultdict(list)
++
++    def dfs(state, used, edges):
++        output[state].append(tuple(edges))
++        if len(used) >= maximum:
++            return
++        for move in graph[state]:
++            edge = move["blocker_edge"]
++            if edge in used:
++                continue
++            dfs(move["target"], used | {edge}, edges + [edge])
++
++    dfs(start, set(initial_used), [])
++    return output
++
++
++def unique_bridge_order(matching, first, second):
++    left = paths_avoiding(matching, first["target"], {first["blocker_edge"]})
++    right = paths_avoiding(matching, second["target"], {second["blocker_edge"]})
++    orders = set()
++    cuts = 0
++    for state in set(left) & set(right):
++        for left_edges in left[state]:
++            for right_edges in right[state]:
++                first_edges = (first["blocker_edge"],) + left_edges
++                second_edges = (second["blocker_edge"],) + right_edges
++                if set(first_edges).isdisjoint(second_edges) and len(set(first_edges) | set(second_edges)) == 8:
++                    orders.add(first_edges + tuple(reversed(second_edges)))
++                    cuts += 1
++    return orders, cuts
++
++
++def endpoint_data(matching, state):
++    moves = moves_from_state(matching, state)
++    left = [move for move in moves if move["attempted_bit"] == 0]
++    right = [move for move in moves if move["attempted_bit"] == 1]
++    edge_ids = (left[0]["blocker_edge"], right[0]["blocker_edge"])
++    edges = tuple(blocker_hyperedge(matching, edge_id) for edge_id in edge_ids)
++    common = edges[0] & edges[1]
++    return {
++        "edge_ids": edge_ids,
++        "edges": edges,
++        "q": next(iter(common)) if len(common) == 1 else None,
++        "hole": state.index(None),
++    }
++
++
++def complement_state(state):
++    return tuple(None if value is None else 1 - value for value in state)
++
++
++def canonical_splice_pair(matching, state):
++    data = endpoint_data(matching, state)
++    q = data["q"]
++    moves = moves_from_state(matching, state)
++    left = [move for move in moves if move["attempted_bit"] == 0]
++    right = [move for move in moves if move["attempted_bit"] == 1]
++    first = next(move for move in left if move["pivot"] == q)
++    second = next(move for move in right if move["pivot"] != q)
++    return first, second
++
++
++def bridge_order(matching, state):
++    first, second = canonical_splice_pair(matching, state)
++    orders, cuts = unique_bridge_order(matching, first, second)
++    assert len(orders) == 1 and cuts == 7
++    return next(iter(orders))
++
++
++def root_defects(matching):
++    defects = []
++    for state in independent_states(matching):
++        moves = moves_from_state(matching, state)
++        first = next(move for move in moves if move["attempted_bit"] == 0)
++        second = next(move for move in moves if move["attempted_bit"] == 1)
++        edge_first = blocker_hyperedge(matching, first["blocker_edge"])
++        edge_second = blocker_hyperedge(matching, second["blocker_edge"])
++        if len(edge_first & edge_second) == 2:
++            defects.append(state)
++    return defects
++
++
++def edge_key(edge):
++    return tuple(sorted(edge))
++
++
++def q4_payload(matchings, normal):
++    categories = Counter()
++    release_square = Counter()
++    root_intersections = Counter()
++    defect_distribution = Counter()
++    bridge_order_counts = Counter()
++    bridge_cut_counts = Counter()
++    endpoint_migration = Counter()
++    endpoint_incidence = Counter()
++    cyclic_signatures = Counter()
++    source_tuple_support_multiplicity = defaultdict(set)
++
++    for matching in matchings:
++        defect_distribution[(is_normal(matching), len(root_defects(matching)))] += 1
++
++    supports = []
++    for matching_index, matching in enumerate(normal):
++        support = frozenset(edge_key(blocker_hyperedge(matching, edge_id)) for edge_id in range(8))
++        supports.append(support)
++        for state in independent_states(matching):
++            data = endpoint_data(matching, state)
++            first_edge, second_edge = data["edges"]
++            root_intersections[len(first_edge & second_edge)] += 1
++            source_tuple_support_multiplicity[
++                (edge_key(first_edge), edge_key(second_edge), data["q"])
++            ].add(support)
++
++            moves = moves_from_state(matching, state)
++            left = [move for move in moves if move["attempted_bit"] == 0]
++            right = [move for move in moves if move["attempted_bit"] == 1]
++            for first in left:
++                for second in right:
++                    edge_first = blocker_hyperedge(matching, first["blocker_edge"])
++                    edge_second = blocker_hyperedge(matching, second["blocker_edge"])
++                    q = next(iter(edge_first & edge_second))
++                    keep_first = q == first["pivot"]
++                    keep_second = q == second["pivot"]
++                    witnesses = splice_witnesses(matching, first, second)
++                    category = (
++                        "C"
++                        if first["pivot"] == second["pivot"]
++                        else ("S" if witnesses else "R")
++                    )
++                    categories[category] += 1
++                    release_square[(int(keep_first), int(keep_second), category)] += 1
++                    if category != "S":
++                        continue
++                    orders, cuts = unique_bridge_order(matching, first, second)
++                    bridge_order_counts[len(orders)] += 1
++                    bridge_cut_counts[cuts] += 1
++                    assert len(orders) == 1
++                    order = next(iter(orders))
++                    hyperedges = [blocker_hyperedge(matching, edge_id) for edge_id in order]
++                    e1, e2 = hyperedges[0], hyperedges[-1]
++                    f1, f2 = hyperedges[1], hyperedges[-2]
++                    q_endpoint = next(iter(e1 & e2))
++                    r = next(iter(f1 & f2))
++                    endpoint_incidence[
++                        (
++                            len(e1 & e2),
++                            len(f1 & f2),
++                            int(q_endpoint in f1),
++                            int(q_endpoint in f2),
++                            len(e1 & f1),
++                            len(e1 & f2),
++                            len(e2 & f1),
++                            len(e2 & f2),
++                            "e1" if r in e1 else "e2" if r in e2 else "none",
++                        )
++                    ] += 1
++                    vertices = [next(iter(hyperedges[i] & hyperedges[(i + 1) % 8])) for i in range(8)]
++                    vertex_index = {vertex: index for index, vertex in enumerate(vertices)}
++                    offsets = []
++                    valid = len(vertex_index) == 8
++                    if valid:
++                        for index, edge in enumerate(hyperedges):
++                            positions = {vertex_index[vertex] for vertex in edge}
++                            third = positions - {(index - 1) % 8, index}
++                            if len(third) != 1:
++                                valid = False
++                                break
++                            offsets.append((next(iter(third)) - index) % 8)
++                    degrees = Counter(vertex for edge in hyperedges for vertex in edge)
++                    cyclic_signatures[(valid, tuple(offsets), tuple(sorted(degrees.values())))] += 1
++
++            antipode = complement_state(state)
++            new_data = endpoint_data(matching, antipode)
++            old_order = bridge_order(matching, state)
++            new_order = bridge_order(matching, antipode)
++            positions = {edge_id: index for index, edge_id in enumerate(old_order)}
++            endpoint_migration[
++                (
++                    int(set(old_order) == set(new_order)),
++                    len(set(data["edge_ids"]) & set(new_data["edge_ids"])),
++                    int(data["q"] == new_data["q"]),
++                    tuple(positions[edge_id] for edge_id in data["edge_ids"]),
++                    tuple(positions[edge_id] for edge_id in new_data["edge_ids"]),
++                )
++            ] += 1
++
++    support_pair_overlap = Counter()
++    support_graph = {index: set() for index in range(len(supports))}
++    blocker_multiplicity = Counter()
++    for support in supports:
++        blocker_multiplicity.update(support)
++    for first_index, first_support in enumerate(supports):
++        for second_index in range(first_index + 1, len(supports)):
++            overlap = len(first_support & supports[second_index])
++            support_pair_overlap[overlap] += 1
++            if overlap == 2:
++                support_graph[first_index].add(second_index)
++                support_graph[second_index].add(first_index)
++    bipartition = {}
++    for start in range(len(supports)):
++        if start in bipartition:
++            continue
++        bipartition[start] = 0
++        queue = [start]
++        while queue:
++            vertex = queue.pop()
++            for neighbor in support_graph[vertex]:
++                if neighbor not in bipartition:
++                    bipartition[neighbor] = 1 - bipartition[vertex]
++                    queue.append(neighbor)
++    part_sizes = Counter(bipartition.values())
++
++    return {
++        "coordinate_perfect_matchings": len(matchings),
++        "normal_matchings": len(normal),
++        "normal_rooted_states": sum(len(independent_states(matching)) for matching in normal),
++        "root_blocker_intersection_sizes": dict(sorted(root_intersections.items())),
++        "release_categories": dict(categories),
++        "release_square": {str(key): value for key, value in sorted(release_square.items())},
++        "nonnormal_root_two_intersection_defect_distribution": {
++            str(defects): count
++            for (normal_flag, defects), count in sorted(defect_distribution.items())
++            if not normal_flag
++        },
++        "minimum_nonnormal_root_defects": min(
++            defects for (normal_flag, defects), count in defect_distribution.items() if not normal_flag and count
++        ),
++        "splice_unique_bridge_order_count_distribution": dict(bridge_order_counts),
++        "splice_edge_disjoint_cut_count_distribution": dict(bridge_cut_counts),
++        "endpoint_incidence_signatures": {str(key): value for key, value in endpoint_incidence.items()},
++        "cyclic_8_3_signatures": {str(key): value for key, value in cyclic_signatures.items()},
++        "endpoint_antipode_migration": {str(key): value for key, value in endpoint_migration.items()},
++        "source_tuple_support_multiplicity": dict(Counter(len(value) for value in source_tuple_support_multiplicity.values())),
++        "normal_support_distinct_blocker_triples": len(blocker_multiplicity),
++        "normal_support_blocker_multiplicity_distribution": dict(Counter(blocker_multiplicity.values())),
++        "normal_support_pair_overlap_distribution": dict(support_pair_overlap),
++        "normal_support_overlap_graph_part_sizes": dict(part_sizes),
++        "normal_support_overlap_graph_is_K4_4": (
++            len(supports) == 8
++            and sorted(part_sizes.values()) == [4, 4]
++            and all(len(neighbors_) == 4 for neighbors_ in support_graph.values())
++        ),
++    }
++
++
++def abstract_normal_supports(normal):
++    return [
++        frozenset(edge_key(blocker_hyperedge(matching, edge_id)) for edge_id in range(8))
++        for matching in normal
++    ]
++
++
++def embed_support(support, window):
++    return frozenset(
++        edge_key((coordinate, window[coordinate][value]) for coordinate, value in edge)
++        for edge in support
++    )
++
++
++def transform_embedded_support(support, block_permutation, value_permutations):
++    transformed = []
++    for edge in support:
++        transformed.append(
++            edge_key(
++                (block_permutation[coordinate], value_permutations[coordinate][value])
++                for coordinate, value in edge
++            )
++        )
++    return frozenset(transformed)
++
++
++def ternary_payload(normal):
++    abstract = abstract_normal_supports(normal)
++    pairs = list(combinations(range(3), 2))
++    embedded = []
++    for window in product(pairs, repeat=4):
++        oriented = tuple(tuple(pair) for pair in window)
++        for support in abstract:
++            embedded.append(embed_support(support, oriented))
++    embedded = list(dict.fromkeys(embedded))
++    all_edges = sorted(set().union(*embedded))
++
++    overlap_distribution = Counter()
++    for first_index, first_support in enumerate(embedded):
++        for second_support in embedded[first_index + 1 :]:
++            overlap_distribution[len(first_support & second_support)] += 1
++
++    # Verify transitivity of the full S_4 x S_3^4 action on the 648 embedded supports.
++    fixed = embedded[0]
++    orbit = set()
++    value_permutations = list(permutations(range(3)))
++    for block_permutation in permutations(range(4)):
++        for value_maps in product(value_permutations, repeat=4):
++            orbit.add(transform_embedded_support(fixed, block_permutation, value_maps))
++    transitive = set(embedded) == orbit
++
++    edge_index = {edge: index for index, edge in enumerate(all_edges)}
++    candidates = [index for index, support in enumerate(embedded) if index != 0 and support.isdisjoint(fixed)]
++    matrix = lil_matrix((len(all_edges), len(candidates)), dtype=float)
++    for column, support_index in enumerate(candidates):
++        for edge in embedded[support_index]:
++            matrix[edge_index[edge], column] = 1.0
++    matrix = csr_matrix(matrix)
++    edge_constraint = LinearConstraint(matrix, lb=np.zeros(len(all_edges)), ub=np.ones(len(all_edges)))
++    bounds = Bounds(np.zeros(len(candidates)), np.ones(len(candidates)))
++    integrality = np.ones(len(candidates))
++
++    # 12-packing: fixed support plus 11 disjoint additional supports.
++    twelve_constraint = LinearConstraint(
++        np.ones((1, len(candidates))), lb=np.array([11.0]), ub=np.array([11.0])
++    )
++    twelve = milp(
++        c=np.zeros(len(candidates)),
++        integrality=integrality,
++        bounds=bounds,
++        constraints=[edge_constraint, twelve_constraint],
++    )
++
++    # 13-packing: by transitivity we may fix one support, then ask for 12 more.
++    thirteen_constraint = LinearConstraint(
++        np.ones((1, len(candidates))), lb=np.array([12.0]), ub=np.array([12.0])
++    )
++    thirteen = milp(
++        c=np.zeros(len(candidates)),
++        integrality=integrality,
++        bounds=bounds,
++        constraints=[edge_constraint, thirteen_constraint],
++    )
++
++    selected = [0]
++    if twelve.x is not None:
++        selected.extend(candidates[index] for index, value in enumerate(twelve.x) if value > 0.5)
++    covered = set().union(*(embedded[index] for index in selected))
++    uncovered = set(all_edges) - covered
++    uncovered_by_direction = Counter(
++        next(iter(set(range(4)) - {coordinate for coordinate, _ in edge})) for edge in uncovered
++    )
++
++    return {
++        "binary_windows": len(pairs) ** 4,
++        "candidate_supports": len(embedded),
++        "possible_actual_blocker_triples": len(all_edges),
++        "pair_overlap_distribution": dict(sorted(overlap_distribution.items())),
++        "full_automorphism_orbit_size_of_fixed_support": len(orbit),
++        "support_action_transitive": transitive,
++        "fixed_support_disjoint_candidates": len(candidates),
++        "twelve_packing_solver_status": int(twelve.status),
++        "twelve_packing_feasible": bool(twelve.x is not None and len(selected) == 12),
++        "thirteen_packing_solver_status": int(thirteen.status),
++        "thirteen_packing_infeasible": int(thirteen.status) == 2,
++        "maximum_edge_disjoint_supports": 12 if transitive and twelve.x is not None and int(thirteen.status) == 2 else None,
++        "one_twelve_packing_covered_edges": len(covered),
++        "one_twelve_packing_uncovered_edges": len(uncovered),
++        "one_twelve_packing_uncovered_by_omitted_direction": dict(uncovered_by_direction),
++    }
++
++
++def codimension_one_payload(normal):
++    profile = Counter()
++    completion_profile = Counter()
++    for matching in normal:
++        for state in independent_states(matching):
++            first, second = canonical_splice_pair(matching, state)
++            orders, _ = unique_bridge_order(matching, first, second)
++            order = next(iter(orders))
++            edges = [blocker_hyperedge(matching, edge_id) for edge_id in order]
++            endpoints = edges[0] | edges[-1]
++            first_inward = endpoints | edges[1] | edges[-2]
++            central = endpoints | edges[3] | edges[4]
++            profile[(len(endpoints), len(first_inward), len(central))] += 1
++            all_vertices = set().union(*edges)
++            completion_profile[
++                (len(all_vertices - endpoints), len(all_vertices - first_inward), len(all_vertices - central))
++            ] += 1
++    return {
++        "vertex_union_size_profile_endpoint_first_inward_central": {str(key): value for key, value in profile.items()},
++        "missing_vertex_profile_endpoint_first_inward_central": {str(key): value for key, value in completion_profile.items()},
++        "general_complete_universe_completion_counts": {
++            "endpoint_pair_only": "(b-1)^3",
++            "endpoint_pair_plus_first_inward_pair": "b-1",
++            "endpoint_pair_plus_central_completion": "1",
++        },
++        "nonclaim": "the remaining b-ary value is not automatically a source-owned 1/b charge",
++    }
++
++
++def build_payload():
++    matchings = [with_directions(matching) for matching in enumerate_matchings(VERTICES)]
++    normal = [matching for matching in matchings if is_normal(matching)]
++    return {
++        "schema_version": "q0019-rank-two-zipper-validation-v1",
++        "q4": q4_payload(matchings, normal),
++        "ternary_supports": ternary_payload(normal),
++        "codimension_one": codimension_one_payload(normal),
++        "interpretation": {
++            "bounded_scope": "binary normal Q4 and embedded ternary [3]^4 normal-support geometry",
++            "nonclaims": [
++                "finite computation does not close Q-0019",
++                "state confluence is not by itself a P^2 -> P obligation merge",
++                "endpoint tuple persistence is false; only the normal support is invariant under the antipodal zipper inside a fixed window",
++                "the codimension-one missing value is not automatically an independent entropy charge",
++            ],
++        },
++    }
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser()
++    parser.add_argument(
++        "--generated-at",
++        default="2026-08-08T02:45:00Z",
++    )
++    parser.add_argument(
++        "--output",
++        type=Path,
++        default=ROOT / "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
++    )
++    args = parser.parse_args()
++    payload = build_payload()
++    command = (
++        "python enumerate/q0019_rank_two_zipper_validation.py "
++        f"--generated-at {args.generated_at} --output {args.output.as_posix()}"
++    )
++    artifact = build_artifact(
++        payload,
++        artifact_type="experiment-baseline",
++        result_type="bounded-exhaustive-plus-exact-milp",
++        generator="enumerate/q0019_rank_two_zipper_validation.py",
++        command=command,
++        parameters={"q4_dimension": 4, "ternary_alphabet": 3},
++        scope="complete normal-Q4 state/release spaces and all 648 embedded normal supports in [3]^4",
++        generated_at=args.generated_at,
++    )
++    atomic_write_json(args.output, artifact)
++    print(json.dumps(artifact, ensure_ascii=False, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md b/evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md
+new file mode 100644
+index 0000000..2ad8614
+--- /dev/null
++++ b/evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md
+@@ -0,0 +1,119 @@
++# Q-0019 combinatorial-compression audit — 2026-08-08
++
++## Purpose
++
++The supplied conversations explored many increasingly specific descriptions of
++the one-coordinate/high-overlap residual.  This audit separates **real
++combinatorial compression** from relabelling.  It is intentionally broader than
++the current normal-zipper route so that useful negative information is not lost.
++
++A step counts as a genuine compression only if it demonstrably reduces at
++least one of:
++
++1. the number of free source coordinates/states;
++2. the arity or sustainable branching of the genealogy;
++3. an actual resource controlled by degree/codegree/support capacity;
++4. a source-owned monotone or telescoping potential.
++
++A smaller name for the residual is not a compression.
++
++## Result ledger
++
++| Conversation result | Disposition | Reason / retained lesson |
++|---|---|---|
++| Output-edge `b^{-2}`/`b^{-3}` fibers | **retain, but source gap remains** | Genuine local codimension; does not control the original fork row. |
++| Specialized hole graph / clique-chain / class-star descriptions | **diagnostic only** | They isolate high-overlap as repeated resampling, but without a source capacity they do not shrink mass. |
++| Missing-square / first-anchor-loss / increasingly fine migration taxonomy | **stop as main activity** | Useful for counterexamples, but later analysis showed further subtype names do not alter the quantitative obligation. |
++| Common-parent parallel singleton repairs | **retain as real compression** | Removes sequential private-witness reset. |
++| Inclusion-minimal bad set has size `2` or `3` | **retain as real compression** | Direct 3-uniform dimensional reduction. |
++| Minimal triple third coordinate gives free `1/b` | **refuted** | Source-owned is not the same as irreversible; the coordinate can be retried. |
++| Parallel rollback | **retain as real compression** | Exactly removes a whole branch and its private deletion trace; closes support synchronization. |
++| Rollback `4 -> 2` gives `b^{-2}` | **refuted** | The rolled-back block may be sampled again. |
++| Protected level alone is globally monotone | **conditional / incomplete** | Two-protected blockers force either deletion of protected endpoints or an independently paid exit. |
++| Protected-pair coverage implies high degree | **refuted** | Degree-one tree example covers an entire hole block. |
++| Pair-state low/high split | **retain as real compression** | Low grammar has exact polynomial `(1+Delta z)^2` and growth `4 Delta`; only high nodes need extra control. |
++| Retained/frozen pair child gives new mark | **refuted as double counting** | The child is already an input obligation. |
++| Three-safe-pegs / safe quadruple | **retain as local gadget only** | Produces real external coordinates and protected stopping shapes, but cross-macro handoff was not proved and cannot itself supply the source mark. |
++| First-use token deletion through the main matching edge | **retain conditionally** | Decoder-safe because the deleting actual edge is already in the record. |
++| Fixed `O(1)` token births per high node close the threshold | **refuted quantitatively** | Near `Delta=b^2/4`, the factor tends to a nonzero constant `2^{-t}` rather than `o(1)`. |
++| Fixed support implies fixed pair | **refuted** | Staircase-style migration and later endpoint computation show the pair may move within one support. |
++| Transition-forest rank gives global unit capacity | **refuted** | The same bare transition can reappear across supports/contexts. |
++| Fresh Shannon/Renyi information telescopes automatically | **refuted** | Each reset may introduce a new random source; no source-owned conservation law was established. |
++| Binary `Q4`: 272 matchings, 8 normal | **retain bounded normal form** | Complete finite obstruction-space compression. |
++| `C/S/R = 192/384/192`, splice uses all 8 edges | **retain bounded normal form** | Existing repository fact, strengthened by unique zipper geometry. |
++| Ternary normal-box density `<=16/81`, extremal center-star | **provisional conversation result** | Reported as exact MILP in the supplied conversation but its generator/certificate is not present in this patch; do not promote until reconstructed. |
++| `16/81` normal density itself contracts source mass | **refuted** | A rooted diagonal codebook can evade the desired rooted cylinder interpretation. |
++| Nonnormal `Q4` has cancellable faces / rooted diagonal exceptions | **provisional conversation result** | Strong bounded structure reported in the supplied conversation; preserve as a reconstruction target, not a canonical fact without its generator. |
++| Rooted-bad edge profile `(1,3,3,1)` and `3B <= 4 Delta (b-1)^2` | **provisional conversation result** | Potentially valuable degree-based incidence inequality; generator/certificate must be restored before promotion. |
++| Normal shared-`q` switching square | **retain observed** | Exhaustive current generator: retain/retain=`C`, mixed=`S`, release/release=`R`. |
++| Normal splice has one eight-edge bridge with seven cuts | **retain observed** | Gives a canonical finite connector rather than seven unrelated witnesses. |
++| Zipper state confluence implies `P^2 -> P` | **refuted as a logical shortcut** | Same state does not imply identical owner/root/stack/provenance future. |
++| Endpoint tuple `(e_1,e_2;q)` is source-static | **refuted by exhaustive computation** | It moves to the opposite bridge seam; endpoint edges are disjoint and `q` changes. |
++| Eight-edge normal support is invariant under the antipodal zipper | **retain observed** | Correct finite invariant inside one binary window. |
++| Eight normal supports form `K4,4` under overlap-2 | **retain observed** | Gives a genuine fixed-window support-packing bound of 4. |
++| `[3]^4` embedded normal supports have packing number 12 | **retain bounded computer-assisted fact** | 648-support transitive family; 12 feasible and 13 infeasible by exact finite MILP. |
++| `(e_1,e_2;q;f_1,f_2)` is codimension one | **retain observed/formal completion count** | Exposes 7 of 8 binary vertices; leaves one `b`-ary complementary value. |
++| The remaining value automatically gives `1/b` | **not proved** | Must be source-owned or exposed by an already-paid faithful event. |
++
++## Superseded intermediate frontiers
++
++Several frontiers were useful because they exposed the next failure, but should
++not remain as the current target:
++
++1. **persistent-anchor extraction from one local heavy coordinate** — too
++   strong; local heavy objects migrate;
++2. **global irreversible peg** — stronger than necessary and not established;
++3. **protected-handoff geometric contraction** — analytically attractive, but
++   state semantics and child double counting were unresolved;
++4. **support synchronization along a cylinder** — superseded by exact parallel
++   rollback;
++5. **strict endpoint persistence** — directly false in normal Q4;
++6. **instantaneous `P^2 -> P` from a splice** — stronger than what confluence
++   proves.
++
++The current useful weakening is: finitely many source-static normal supports
++may be consumed for free; subsequent return must force actual-edge reuse or an
++exact future merge.
++
++## Results from the supplied older proof-gap conversation that remain design constraints
++
++The older conversation repeatedly arrived at the same meta-obstruction through
++different local graphs, switch planes, and entropy variables: a local
++high-overlap residual can be described very finely without reducing source
++mass.  The following conclusions remain valuable even where the intermediate
++notation has been retired:
++
++- the high-overlap regime is essentially repeated one-coordinate/pair reuse,
++  not a failure of the local `b^{-2}` output count;
++- a full two-dimensional switch plane is more informative than following one
++  reset path, but it must be tied to source ownership before producing a charge;
++- a finite transition graph or potential is an organizer, not an automatic
++  degree bound;
++- new entropy at every restart is not a telescoping source budget;
++- any proposed `o(1)` high mark must be checked against the actual pair record
++  language to exclude charging an already-existing child;
++- after all descriptive reductions, progress must come from actual capacity,
++  exact obligation cancellation, or a source-owned return potential.
++
++These principles are now encoded in the Q-0019 route rather than preserved as
++separate migration subtypes.
++
++## Current compression chain
++
++The net chain that survives audit is
++
++\[
++\boxed{
++\begin{aligned}
++\text{arbitrary sequential genealogy}
++&\to\text{common-parent parallel genealogy}\\
++&\to |I|\le3\text{ minimal interaction}\\
++&\to\text{exact branch rollback}\\
++&\to\text{low pair grammar }(1+\Delta z)^2\\
++&\to\text{rank-two high core}\\
++&\to\text{finite normal support / collision frontier}.
++\end{aligned}}
++\]
++
++Every displayed arrow removes a real freedom.  The last line still needs a
++quantitative owner-weighted recurrence; therefore Q-0019 remains open.
+diff --git a/evidence/audits/Q0019_RANK_TWO_ZIPPER_PATCH_SCOPE.md b/evidence/audits/Q0019_RANK_TWO_ZIPPER_PATCH_SCOPE.md
+new file mode 100644
+index 0000000..c77adb5
+--- /dev/null
++++ b/evidence/audits/Q0019_RANK_TWO_ZIPPER_PATCH_SCOPE.md
+@@ -0,0 +1,15 @@
++# Q-0019 rank-two rollback/zipper patch scope
++
++- **Base commit:** `326425f`
++- **Write mode:** implementation (no status promotion of Q-0019 or the main theorem)
++- **Task:** integrate the mathematically meaningful results from the supplied proof-gap conversations and the current rank-two numerical investigation into auditable repository evidence, registries, experiments, and the current handoff.
++- **Target DAG node:** `S1 / Q-0019`
++- **Inputs:** the repository at `326425f`; the supplied proof-gap conversation exports; the current conversation's rank-two incidence calculations.
++- **Outputs:** one self-contained proof/route note; one compression audit; one deterministic finite generator with tests; one generated experiment artifact/report/manifest; synchronized facts, failures, decision, Q-0019, DAG/state/handoff/status/README, and changelog.
++- **Allowed paths:** `README.md`, `HANDOFF_CURRENT.md`, `docs/`, `knowledge/`, `evidence/`, `enumerate/`, `tests/`, `tools/check_generated_artifacts.py`, `history/CHANGELOG.md`.
++- **Forbidden paths:** `sources/raw/`, `old/`, unrelated source modules, manuscript theorem claims, Git history.
++- **Expected status change:** none for the theorem or Q-0019. New finite results may be recorded as `observed`; elementary self-contained lemmas may be recorded as formal/conditional facts within their exact hypotheses.
++- **Acceptance criteria:** preserve the fork--inverse-fiber--anchor umbrella route; make the current rank-two frontier explicit; record refuted shortcuts; distinguish proof from finite computation; provide reproducible bounded evidence; do not claim `P^2 -> P` or close Q-0019.
++- **Required checks:** `python -m compileall -q src enumerate tools tests`; `python -m pytest -q`; `python tools/check_repository.py`; `python tools/check_generated_artifacts.py`; run the new rank-two generator and compare its key payload to the committed baseline.
++- **Non-goals:** proving the one-quarter theorem; promoting bounded computations to an asymptotic theorem; restoring deprecated migration-taxonomy or direct-macro routes; editing raw conversations.
++- **Final status:** validated
+diff --git a/evidence/experiments/q0019_rank_two/MANIFEST.json b/evidence/experiments/q0019_rank_two/MANIFEST.json
+new file mode 100644
+index 0000000..af1e00a
+--- /dev/null
++++ b/evidence/experiments/q0019_rank_two/MANIFEST.json
+@@ -0,0 +1,35 @@
++{
++  "schema_version": "q0019-rank-two-evidence-manifest-v1",
++  "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928",
++  "patch_base": "326425f",
++  "canonical_baseline": {
++    "path": "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
++    "generator": "enumerate/q0019_rank_two_zipper_validation.py",
++    "result_type": "bounded-exhaustive-plus-exact-milp",
++    "scope": "complete normal-Q4 state/release spaces and all 648 embedded normal supports in [3]^4"
++  },
++  "reports": [
++    "evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md"
++  ],
++  "reproducible_experiments": [
++    {
++      "path": "enumerate/q0019_rank_two_zipper_validation.py",
++      "result_type": "bounded-exhaustive-plus-exact-milp",
++      "scope": "normal Q4 incidence, endpoint migration, normal-support overlap, ternary support packing, codimension-one certificates"
++    }
++  ],
++  "canonical_nonclaims": [
++    "finite Q4/[3]^4 computation does not close Q-0019",
++    "a common descendant state is not automatically a merger of two future obligations",
++    "the endpoint tuple itself is not persistent under the canonical zipper",
++    "one remaining b-ary complementary value is not automatically a source-owned 1/b entropy charge"
++  ],
++  "validation_status": "validated",
++  "validation": {
++    "compileall": "passed",
++    "pytest": "63 passed",
++    "repository_consistency": "passed",
++    "generated_artifacts": "passed",
++    "fresh_payload_matches_baseline": true
++  }
++}
+diff --git a/evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json b/evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json
+new file mode 100644
+index 0000000..59b2e9c
+--- /dev/null
++++ b/evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json
+@@ -0,0 +1,134 @@
++{
++  "metadata": {
++    "artifact_type": "experiment-baseline",
++    "command": "python enumerate/q0019_rank_two_zipper_validation.py --generated-at 2026-08-08T02:45:00Z --output /mnt/data/repo_clean/evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
++    "generated_at": "2026-08-08T02:45:00Z",
++    "generator": "enumerate/q0019_rank_two_zipper_validation.py",
++    "parameters": {
++      "q4_dimension": 4,
++      "ternary_alphabet": 3
++    },
++    "payload_sha256": "acbc5486a572d92feb24ec7d54b460f9d15c58f6b52888372024ddfe0fcb5747",
++    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
++    "python": "3.13.5",
++    "result_type": "bounded-exhaustive-plus-exact-milp",
++    "schema_version": "research-artifact-v1",
++    "scope": "complete normal-Q4 state/release spaces and all 648 embedded normal supports in [3]^4",
++    "source_commit": "cfadd24b52546d4d5800c4a3c5a75a2add86f928"
++  },
++  "payload": {
++    "codimension_one": {
++      "general_complete_universe_completion_counts": {
++        "endpoint_pair_only": "(b-1)^3",
++        "endpoint_pair_plus_central_completion": "1",
++        "endpoint_pair_plus_first_inward_pair": "b-1"
++      },
++      "missing_vertex_profile_endpoint_first_inward_central": {
++        "(3, 1, 0)": 192
++      },
++      "nonclaim": "the remaining b-ary value is not automatically a source-owned 1/b charge",
++      "vertex_union_size_profile_endpoint_first_inward_central": {
++        "(5, 7, 8)": 192
++      }
++    },
++    "interpretation": {
++      "bounded_scope": "binary normal Q4 and embedded ternary [3]^4 normal-support geometry",
++      "nonclaims": [
++        "finite computation does not close Q-0019",
++        "state confluence is not by itself a P^2 -> P obligation merge",
++        "endpoint tuple persistence is false; only the normal support is invariant under the antipodal zipper inside a fixed window",
++        "the codimension-one missing value is not automatically an independent entropy charge"
++      ]
++    },
++    "q4": {
++      "coordinate_perfect_matchings": 272,
++      "cyclic_8_3_signatures": {
++        "(True, (2, 2, 2, 2, 2, 2, 2, 2), (3, 3, 3, 3, 3, 3, 3, 3))": 192,
++        "(True, (5, 5, 5, 5, 5, 5, 5, 5), (3, 3, 3, 3, 3, 3, 3, 3))": 192
++      },
++      "endpoint_antipode_migration": {
++        "(1, 0, 0, (0, 7), (3, 4))": 192
++      },
++      "endpoint_incidence_signatures": {
++        "(1, 1, 0, 0, 1, 1, 1, 1, 'e1')": 192,
++        "(1, 1, 0, 0, 1, 1, 1, 1, 'e2')": 192
++      },
++      "minimum_nonnormal_root_defects": 6,
++      "nonnormal_root_two_intersection_defect_distribution": {
++        "10": 96,
++        "12": 48,
++        "16": 72,
++        "24": 4,
++        "6": 32,
++        "8": 12
++      },
++      "normal_matchings": 8,
++      "normal_rooted_states": 192,
++      "normal_support_blocker_multiplicity_distribution": {
++        "2": 32
++      },
++      "normal_support_distinct_blocker_triples": 32,
++      "normal_support_overlap_graph_is_K4_4": true,
++      "normal_support_overlap_graph_part_sizes": {
++        "0": 4,
++        "1": 4
++      },
++      "normal_support_pair_overlap_distribution": {
++        "0": 12,
++        "2": 16
++      },
++      "release_categories": {
++        "C": 192,
++        "R": 192,
++        "S": 384
++      },
++      "release_square": {
++        "(0, 0, 'R')": 192,
++        "(0, 1, 'S')": 192,
++        "(1, 0, 'S')": 192,
++        "(1, 1, 'C')": 192
++      },
++      "root_blocker_intersection_sizes": {
++        "1": 192
++      },
++      "source_tuple_support_multiplicity": {
++        "1": 192
++      },
++      "splice_edge_disjoint_cut_count_distribution": {
++        "7": 384
++      },
++      "splice_unique_bridge_order_count_distribution": {
++        "1": 384
++      }
++    },
++    "schema_version": "q0019-rank-two-zipper-validation-v1",
++    "ternary_supports": {
++      "binary_windows": 81,
++      "candidate_supports": 648,
++      "fixed_support_disjoint_candidates": 387,
++      "full_automorphism_orbit_size_of_fixed_support": 648,
++      "maximum_edge_disjoint_supports": 12,
++      "one_twelve_packing_covered_edges": 96,
++      "one_twelve_packing_uncovered_by_omitted_direction": {
++        "0": 3,
++        "1": 3,
++        "2": 3,
++        "3": 3
++      },
++      "one_twelve_packing_uncovered_edges": 12,
++      "pair_overlap_distribution": {
++        "0": 125388,
++        "1": 62208,
++        "2": 11664,
++        "3": 7776,
++        "5": 2592
++      },
++      "possible_actual_blocker_triples": 108,
++      "support_action_transitive": true,
++      "thirteen_packing_infeasible": true,
++      "thirteen_packing_solver_status": 2,
++      "twelve_packing_feasible": true,
++      "twelve_packing_solver_status": 0
++    }
++  }
++}
+diff --git a/evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md b/evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md
+new file mode 100644
+index 0000000..f9e8ce1
+--- /dev/null
++++ b/evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md
+@@ -0,0 +1,77 @@
++# Q-0019 rank-two normal-zipper validation
++
++- **Generator:** `enumerate/q0019_rank_two_zipper_validation.py`
++- **Command:** `python enumerate/q0019_rank_two_zipper_validation.py`
++- **Artifact:** `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`
++- **Result type:** bounded exhaustive computation plus exact finite MILP
++- **Scope:** all coordinate perfect matchings of binary `Q4`, all normal rooted one-hole states/release pairs, and all embedded normal supports in `[3]^4`.
++
++## Binary normal geometry
++
++The generator reproduces the existing finite baseline:
++
++- 272 coordinate perfect matchings;
++- 8 normal matchings;
++- 192 rooted independent one-hole states;
++- 768 two-branch release pairs, classified as
++
++  \[
++  C=192,\qquad S=384,\qquad R=192.
++  \]
++
++It strengthens the structural readout:
++
++1. every normal root has two completion blockers intersecting in exactly one actual coordinate-value `q`;
++2. the four release choices are determined by whether each branch retains or releases `q`: retain/retain is `C`, the two mixed choices are `S`, and release/release is `R`;
++3. every `S` pair has exactly one eight-edge bridge order and exactly seven edge-disjoint cuts of that same bridge;
++4. the eight blocker triples form one cyclic `8_3` support; the endpoint/first-inward incidence has one unoriented type;
++5. the source endpoint pair determines the normal support uniquely in the binary window.
++
++The antipodal zipper does **not** preserve the endpoint tuple. In all 192 rooted cases it keeps the same eight-edge support, moves the endpoint pair from bridge positions `(0,7)` to `(3,4)`, shares no endpoint actual edge with the old pair, and changes the common coordinate-value. Hence strict endpoint persistence is refuted while support persistence survives in this finite model.
++
++## Normal-support overlap in a fixed binary window
++
++Across the eight normal supports:
++
++- all 32 possible blocker triples occur, each in exactly two normal supports;
++- two distinct supports intersect in either 0 or 2 actual blocker triples;
++- the overlap-2 graph is exactly `K_{4,4}`.
++
++Consequently a fixed binary window contains at most four pairwise actual-edge-disjoint normal supports. This is a finite support-packing statement, not a global source-capacity theorem.
++
++## Embedded ternary supports
++
++Embedding every normal binary support into all `3^4=81` binary subwindows of `[3]^4` gives 648 distinct supports on 108 possible blocker triples. The full `S_4 x S_3^4` block/value action has orbit size 648 on a fixed support, so the support family is transitive.
++
++An exact set-packing MILP then gives:
++
++- a feasible packing of 12 pairwise actual-edge-disjoint normal supports;
++- infeasibility of a packing of 13 supports after fixing one support, which is valid by the verified transitivity.
++
++Thus the finite packing number is exactly
++
++\[
++\nu_{\mathrm{normal}}([3]^4)=12.
++\]
++
++One optimal packing covers 96 of the 108 blocker triples and leaves 12, three in each omitted direction. This is bounded evidence for an `O(1)` free-normal-support principle inside a source-static ternary box; it is not an asymptotic charging theorem.
++
++## Codimension-one incidence certificate
++
++For every normal splice bridge `H_0,...,H_7`, let
++
++\[
++e_1=H_0,\quad e_2=H_7,\quad f_1=H_1,\quad f_2=H_6.
++\]
++
++The endpoint pair exposes 5 of the 8 binary coordinate-value vertices. Adding the two first-inward edges exposes 7 of 8; adding the central completion exposes all 8. Uniformly in the complete `b`-ary completion model, the corresponding raw completion counts are
++
++\[
++(b-1)^3,\qquad b-1,\qquad 1.
++\]
++
++The remaining factor `b-1` is **not** automatically a valid `1/b` record saving: one still has to prove that the last value is source-owned or is exposed by an already-paid faithful future event.
++
++## Interpretation
++
++The computation supports replacing strict endpoint persistence by a weaker source-static support notion. It also supplies a finite packing obstruction to arbitrarily many fresh normal zippers inside a fixed ternary four-buffer. Neither statement proves `P^2 -> P`: confluence of two histories at the same state does not imply equality of owner/root/stack/provenance future obligations.
+diff --git a/evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md b/evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md
+new file mode 100644
+index 0000000..5a89357
+--- /dev/null
++++ b/evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md
+@@ -0,0 +1,472 @@
++# Q-0019 rank-two rollback and normal-zipper route
++
++## 0. Status and purpose
++
++This note records the strongest currently auditable reduction of `S1 / Q-0019`
++obtained from the supplied proof-gap conversations and the new bounded
++rank-two computation.  It does **not** close Q-0019 and does not replace the
++fork--inverse-fiber--anchor umbrella route.
++
++The main conceptual change is that the remaining backend should no longer be
++phrased as arbitrary descendant-edge migration.  The useful reductions are
++actual-state reductions:
++
++\[
++\boxed{
++\text{common-parent parallel repair}
++\to
++\text{minimal bad pair/triple}
++\to
++\text{exact rollback}
++\to
++\text{low pair grammar or rank-two high core}
++\to
++\text{normal zipper / actual-edge collision frontier}.
++}
++\]
++
++The finite normal-Q4 statements are generated by
++`enumerate/q0019_rank_two_zipper_validation.py`.  Claims labelled *conditional*
++below are record-language or execution-interface statements: they are usable
++only after their stated faithful source interface is supplied.
++
++## 1. The inherited source/output gap remains valid
++
++For weighted disjoint-blocker fork mass at pivot `x`, write
++
++\[
++2F_x\le d_H(x)\ell_x^*,
++\qquad
++\ell_x^*=\max_{e\ni x}\sum_f w_x(e,f).
++\]
++
++Local refill estimates on a later output edge do not imply the needed source
++load estimate.  A source row of mass `W` may be partitioned into `b^2`
++descendant certificates of mass `W/b^2` while retaining source load `W`.
++Therefore all new constructions below must preserve owner, root, source
++occurrence, and actual-edge provenance.  No finite normal form is by itself a
++source charge.
++
++## 2. Common-parent parallel repair
++
++Fix an independent parent transversal `R` and four hole blocks
++`A_1,...,A_4`.  For each attempted value `q_i in A_i`, define its canonical
++singleton repair relative to the **same** parent:
++
++\[
++R_i(q_i)=(R\setminus D_i(q_i))\cup\{q_i\},
++\]
++
++where `D_i(q_i) subseteq R` and every singleton state is independent.  For
++`I subseteq [4]` define
++
++\[
++R_I(Q)=
++\left(R\setminus\bigcup_{i\in I}D_i(q_i)\right)
++\cup\{q_i:i\in I\}.
++\tag{2.1}
++\]
++
++The essential point is that all deletion sets are functions of the common
++source parent and the attempted value; there is no sequential private-witness
++reset.
++
++### Lemma 2.1 — minimal bad sets have size two or three
++
++Assume every singleton state `R_{\{i\}}` is independent.  If `I` is
++inclusion-minimal with `R_I` nonindependent, then
++
++\[
++|I|\in\{2,3\}.
++\]
++
++**Proof.** Let `g subseteq R_I` be a three-edge witnessing nonindependence.
++For every `i in I`, minimality implies `g` is not contained in
++`R_{I\setminus\{i\}}`; hence `q_i in g`.  Thus `|I|<=3`.  Since singleton
++states are independent, `|I|>=2`. ∎
++
++This is a genuine dimensional reduction: a four-target interaction never
++needs an arbitrary high-arity local obstruction.
++
++### Lemma 2.2 — exact branch rollback
++
++Let `I` be inclusion-minimal bad and `t in I`.  Remove `q_t` and restore the
++entire branch deletion set `D_t(q_t)`; rollback any spectator branch in the
++same way.  The resulting actual state is exactly
++
++\[
++R_{I\setminus\{t\}}(Q),
++\]
++
++and is independent by minimality.
++
++**Proof.** Expanding (2.1), removing the `t`-branch contribution deletes
++`q_t` and removes `D_t(q_t)` from the union of deleted parent vertices.  This
++is exactly the definition of `R_{I\setminus\{t\}}`. ∎
++
++This eliminates the earlier support-synchronization problem: one need not
++prove `D_t(q)=D_t(q')` along a cylinder.  The entire branch is undone.
++
++### Nonclaim 2.3 — rollback is not irreversible entropy loss
++
++The same hole block may later be sampled again.  Therefore
++
++\[
++4\to2\quad\text{or}\quad4\to1
++\]
++
++at one rollback event does **not** imply a `b^{-2}` or `b^{-3}` record saving.
++A valid credit must either permanently remove a future obligation, enter a
++source-owned telescoping potential, or be paid by an actual bounded resource.
++
++## 3. Pair-state grammar and the true high-node requirement
++
++The conversations isolate a two-sided pair genealogy.  In the low grammar,
++each side has matching rank at most one.  If a rank-zero side contributes
++`1` and a rank-one side contributes one actual edge label and one pair child,
++`Delta z`, the two-sided low polynomial is
++
++\[
++L(z)=(1+\Delta z)^2.
++\tag{3.1}
++\]
++
++Hence
++
++\[
++\inf_{z>0}\frac{L(z)}{z}=4\Delta.
++\tag{3.2}
++\]
++
++This exactly reproduces the one-quarter threshold at the low-rank level.
++Consequently the only place requiring an additional asymptotically vanishing
++mark is a **high node**, where at least one side has matching rank at least two.
++
++A convenient analytic envelope used in the conversation is
++
++\[
++\Phi_y(z)=
++(1+\Delta z)^2
+++y\left[(1-\Delta z)^{-2}-(1+\Delta z)^2\right].
++\tag{3.3}
++\]
++
++A fixed positive `y` changes the leading growth constant; recovering
++`4 Delta + o(Delta)` requires
++
++\[
++y=o_b(1).
++\tag{3.4}
++\]
++
++Thus a constant-scale protected mark is insufficient even if it is perfectly
++faithful.
++
++### Conditional reduction 3.1 — rank two is the irreducible high core
++
++If a high side has rank `r>=2`, take its first two canonical matching edges as
++the rank-two core and leave the remaining `r-2` pair obligations untouched.
++Any owner/root-preserving no-copy macro that handles the first two edges without
++creating a new high obligation lifts to all `r>=2`.  Therefore the irreducible
++high geometry is the `(2,0)` / `(0,2)` core.
++
++This is a reduction of combinatorial arity, not yet a proof that a child is
++cancelled.
++
++## 4. Protected-token first use: what it proves and what it cannot prove
++
++A useful correction from the conversations is that a protected token need not
++survive forever.  It may first be deleted by the **main canonical matching
++repair**, because that repair already records the actual matching edge used to
++delete it.
++
++Suppose `N` source-owned tokens are born.  Let `C` already-recorded matching
++edges later delete `2C` of them in pairs, and let `S=N-2C` tokens survive to the
++macro boundary.  Under the record model in which each token birth contributes
++one `b`-ary coordinate and each deleting matching edge contributes one `Delta`
++choice, the token inverse multiplicity is
++
++\[
++\frac{\Delta^C}{b^N}
++=
++\left(\frac{\sqrt\Delta}{b}\right)^{2C}b^{-S}.
++\tag{4.1}
++\]
++
++For `Delta>=1`, putting
++
++\[
++\vartheta_b=\frac{\sqrt\Delta}{b}
++\]
++
++gives
++
++\[
++\frac{\Delta^C}{b^N}\le\vartheta_b^N.
++\tag{4.2}
++\]
++
++At `Delta <= (1/4-epsilon)b^2`,
++
++\[
++\vartheta_b\le\sqrt{1/4-\varepsilon}<1/2.
++\tag{4.3}
++\]
++
++So first-use deletion by an already-paid matching edge is decoder-safe in this
++model.  Tokens may come from different birth events; only no-copy deletion is
++required.
++
++However, if every high node creates only a fixed `t=O(1)` number of such tokens,
++then near the threshold
++
++\[
++\vartheta_b^t\to2^{-t},
++\]
++
++which is a nonzero constant.  By (3.4), this cannot by itself produce the
++needed `o_b(1)` high-node mark.
++
++Hence the protected-token construction is a **bookkeeping module**, not the
++closing quantitative mechanism.  The closing mechanism must remove a future
++child obligation or force actual resource reuse.
++
++## 5. Protected-pair stopper and why degree counting is insufficient
++
++Exact rollback naturally suggests protecting retained targets.  A new attempt
++`q` can be repaired by deleting inherited/unprotected vertices unless a blocker
++has two already protected endpoints:
++
++\[
++\{q,p_1,p_2\}.
++\tag{5.1}
++\]
++
++This is the first genuine stopper of the monotone protected process.
++
++But complete coverage of a hole block by protected pairs does not imply a
++quadratic degree.  Take `A={q_1,...,q_b}` and `2b` protected vertices in distinct
++blocks and include only
++
++\[
++\{q_i,p_{2i-1},p_{2i}\},\qquad i=1,...,b.
++\]
++
++Then every `q_i` is blocked by a protected pair while `Delta=1`.
++Therefore a protected-pair exit needs a genealogy/collision argument, not bare
++degree counting.
++
++This observation motivates returning the fresh protected-pair tree to the low
++pair grammar (3.1): replacing the two protected endpoints creates two holes.
++Only a later high-rank event needs new treatment.
++
++## 6. Finite normal-Q4 switching geometry
++
++The bounded generator exhausts all coordinate perfect matchings of `Q4`.  The
++existing counts remain
++
++\[
++272\text{ matchings},\qquad8\text{ normal matchings},
++\]
++
++with 192 normal rooted independent one-hole states and 768 two-branch release
++pairs.
++
++### Observation 6.1 — shared-q switching rule
++
++At every normal root, the blockers of the two binary completions intersect in
++one actual coordinate-value `q`.  The four two-branch release choices satisfy
++
++\[
++\begin{array}{c|cc}
++ &q\text{ retained on right}&q\text{ released on right}\\ \hline
++q\text{ retained on left}&C&S\\
++q\text{ released on left}&S&R
++\end{array}
++\tag{6.1}
++\]
++
++with 192 occurrences of each cell.  Thus the two mixed choices are exactly the
++384 splice cases.  There is no fifth local continuation type in this bounded
++normal model.
++
++### Observation 6.2 — unique eight-edge zipper
++
++Every splice case has exactly one eight-edge bridge order and seven
++edge-disjoint meeting cuts of that same order:
++
++\[
++1+7,\ 2+6,\ 3+5,\ 4+4,\ 5+3,\ 6+2,\ 7+1.
++\tag{6.2}
++\]
++
++The eight actual blocker triples form one cyclic `8_3` incidence configuration.
++After cyclic relabelling `v_0,...,v_7`, one orientation has
++
++\[
++H_i=\{v_{i-1},v_i,v_{i+2}\},\qquad i\in\mathbb Z_8.
++\tag{6.3}
++\]
++
++Each vertex has degree three; `H_i` is disjoint only from `H_{i+4}`.
++
++### Lemma 6.3 — same-edge reversal
++
++A one-hole transition using actual blocker edge `g` has a unique reverse
++transition using the same `g`: reinsert the released coordinate value, recover
++the same full word and blocker, then release the old hole coordinate.  Thus the
++normal zipper is a finite reversible connector at the state-transition level.
++
++This does **not** imply a merger of two future obligations.
++
++## 7. Endpoint incidence model and support completion
++
++Write the unique bridge as `H_0,...,H_7` and set
++
++\[
++e_1=H_0,\quad e_2=H_7,\quad f_1=H_1,\quad f_2=H_6,
++\qquad\{q\}=e_1\cap e_2.
++\tag{7.1}
++\]
++
++All 384 splice cases have one unoriented endpoint/first-inward incidence type.
++A representative form is
++
++\[
++\begin{aligned}
++e_1&=\{q,r,s\},\\
++e_2&=\{q,a,b\},\\
++f_1&=\{r,a,z_1\},\\
++f_2&=\{r,b,z_2\},
++\end{aligned}
++\tag{7.2}
++\]
++
++with the displayed seven vertices distinct.  Hence `e_1,e_2` expose five of the
++eight binary coordinate-values; adding `f_1,f_2` exposes seven.
++
++In the complete `b`-ary completion universe, after fixing the endpoint pair the
++three complementary values give `(b-1)^3` completions; adding the first-inward
++pair leaves `b-1`; a suitable central completion determines the last one.
++Thus the tuple `(e_1,e_2;q;f_1,f_2)` is a **codimension-one support certificate**.
++
++The missing `b`-ary value is not yet an entropy saving.  It becomes a valid
++`1/b` mark only if its recovery is source-owned or occurs through an
++already-paid faithful event.
++
++## 8. Strict endpoint persistence is false; support persistence is the right finite invariant
++
++Let `s` be a normal rooted state and `\bar s` the antipodal state obtained by
++keeping the hole block and flipping the other three binary values.  The
++canonical mixed zipper sends `s` to `\bar s`.
++
++The exhaustive computation gives, in all 192 rooted cases:
++
++- the same eight-edge support is used at `s` and `\bar s`;
++- the endpoint edge pair is disjoint from its old pair;
++- the common coordinate-value changes;
++- relative to the old bridge, the endpoints move from positions `(0,7)` to
++  `(3,4)`;
++- applying the antipodal map twice returns to the original rooted state.
++
++Therefore the proposed invariant `(e_1,e_2;q)` is **not** source-static.
++Within a fixed normal binary window, the eight-edge support `M` is the stronger
++finite invariant.
++
++Moreover the 24 rooted independent states are in bijection with the 24
++intersecting unordered edge pairs of the `8_3` support.  An ordered endpoint
++pair reconstructs the rooted state and belongs to a unique normal support in
++the binary window.
++
++## 9. Support packing: four in a binary window, twelve in a ternary box
++
++Across the eight normal supports of a fixed binary window:
++
++- all 32 possible blocker triples occur;
++- each triple belongs to exactly two normal supports;
++- two distinct supports intersect in 0 or 2 blocker triples;
++- the overlap-2 graph is exactly `K_{4,4}`.
++
++Hence a pairwise actual-edge-disjoint normal-support family in one binary window
++has size at most four.
++
++For `[3]^4`, all 81 binary windows and eight normal types produce 648 distinct
++embedded normal supports on 108 possible blocker triples.  The generator
++verifies that the full block/value automorphism group is transitive on these
++648 supports.  Exact finite MILP gives
++
++\[
++\boxed{\nu_{\rm normal}([3]^4)=12.}
++\tag{9.1}
++\]
++
++A 12-packing exists; a 13-packing is infeasible after fixing one support, which
++is valid by transitivity.
++
++This is a real finite resource bound: a source-static ternary four-buffer can
++contain only twelve completely fresh normal zipper supports before some actual
++blocker edge is reused.  What remains open is the bridge from this local
++support reuse to a uniform owner-weighted Q-0019 capacity bound.
++
++## 10. Why a zipper is not yet `P^2 -> P`
++
++The normal zipper proves a confluence statement at the **state** level.  Two
++histories can reach a common midpoint.  But two pair children may still have
++different owner/root/stack/provenance obligations after that state.
++
++Therefore
++
++\[
++\text{same actual state}\not\Rightarrow\text{same future obligation}.
++\tag{10.1}
++\]
++
++A faithful cancellation macro must show one of:
++
++1. **exact-future merge:** the two open boundaries have identical future
++   interfaces and one can be deleted without copying or merging histories;
++2. **bounded return:** a source-static finite support can be used only `O(1)`
++   times before an already-recorded actual edge is reused;
++3. **independent paid exit:** a real capacity/information term pays the second
++   obligation.
++
++The current finite evidence strongly supports option 2 inside a ternary
++source-static box, but the owner-weighted global recurrence is not yet proved.
++
++## 11. Current Q-0019 frontier
++
++The strongest current target is no longer “classify one-coordinate migration.”
++It is the following source-interface statement.
++
++> **Rank-two support-return problem.** Starting from an actual high `(2,0)` or
++> `(0,2)` pair core with full source provenance, construct a no-copy record
++> backend such that every normal continuation either (i) closes an open future
++> obligation exactly, or (ii) consumes one of finitely many source-static
++> normal supports and any later support reuse is paid by an actual-edge
++> collision.  Nonnormal/minimal-bad branches must enter exact rollback or an
++> independently valid defect/exit.  No retained pair child may be charged again
++> merely for being present.
++
++A satisfactory recurrence must combine the low diagonal growth `4 Delta` with
++a strictly subexponential number of free high events per source owner, or an
++`o_b(1)` owner-weighted high mark.  The finite bound `12` is evidence for the
++former but is not yet a theorem about the actual genealogy.
++
++## 12. Do-not-repeat constraints extracted from the conversations
++
++The following shortcuts have been explicitly ruled out and should not re-enter
++Q-0019 under new names:
++
++- descendant output codimension implies source fork-load codimension;
++- a retained/frozen pair child supplies a new `1/b` or `1/b^2` mark;
++- a minimal triple's third target is automatically irreversible;
++- fixed support implies a fixed pair fiber;
++- fresh transition rank or fresh Shannon information automatically telescopes
++  across changing supports;
++- normal-Q4 density by itself is a source survival probability;
++- rollback of a branch permanently removes that hole obligation;
++- complete protected-pair coverage implies quadratic maximum degree;
++- the endpoint tuple `(e_1,e_2;q)` is fixed across a zipper;
++- two histories meeting at one state are automatically one future obligation.
++
++These are design constraints, not merely historical commentary.
+diff --git a/history/CHANGELOG.md b/history/CHANGELOG.md
+index d99b9b3..452fdc5 100644
+--- a/history/CHANGELOG.md
++++ b/history/CHANGELOG.md
+@@ -52,3 +52,22 @@
+ ## 2026-08-06
+ 
+ Reoriented the active proof route to fork--inverse-fiber--anchor, added Q-0019, and downgraded the overstrong F-0078 zero-set interpretation.
++
++## 2026-08-08 — Q-0019 rank-two rollback and normal-support frontier
++
++- integrated the common-parent minimal-bad/rollback reduction and the low pair
++  grammar with critical growth `4 Delta`;
++- recorded that protected-token first-use can be decoder-safe through an
++  already-recorded matching edge, but fixed token counts cannot supply the
++  required `o_b(1)` high mark;
++- added bounded normal-Q4 shared-`q` switching, unique eight-edge zipper,
++  antipodal endpoint migration, fixed-window `K4,4` support geometry,
++  codimension-one incidence, and exact `[3]^4` normal-support packing number 12;
++- refuted strict endpoint persistence and the shortcut from state confluence to
++  `P^2 -> P` obligation cancellation;
++- froze the current S1 subfrontier at an owner-weighted rank-two support-return/
++  collision recurrence rather than further migration taxonomy;
++- preserved conversation-reported `16/81`, cancellable-face and rooted profile
++  computations as provisional reconstruction targets because their generators
++  were not supplied in the current repository;
++- no theorem or open question was closed.
+diff --git a/knowledge/DECISIONS.md b/knowledge/DECISIONS.md
+index 81987d4..24b7bc0 100644
+--- a/knowledge/DECISIONS.md
++++ b/knowledge/DECISIONS.md
+@@ -158,3 +158,18 @@
+ - **Normative route:** `docs/MAIN_PROOF_ROUTE.md`.
+ - **Related:** F-0052, F-0058, F-0078, F-0090--F-0092, Q-0019
+ - **Last updated:** 2026-08-06
++
++## D-0014 — Freeze Q-0019 at the rank-two rollback/support-return frontier
++
++- **Status:** active
++- **Decision:** Keep fork--inverse-fiber--anchor as the theorem-level route, but stop refining one-coordinate migration into new local subtype names. Inside Q-0019, use common-parent parallel repair and exact rollback to eliminate private support reset, send low pair branching to the `(1+Delta z)^2` grammar, and treat `(2,0)/(0,2)` as the irreducible high core. In a normal binary window, track the full eight-edge support rather than the migrating endpoint tuple. Progress must now be an exact future-obligation merge, an owner-weighted support-return/collision recurrence, or another genuine source-owned capacity/potential reduction.
++- **Reason:** The conversation audit shows that further migration taxonomy repeatedly changed descriptions without reducing source mass. F-0096 removes support synchronization, F-0097 isolates the exact `4 Delta` low grammar, F-0098 rules out fixed-token marks as the sharp mechanism, and F-0100 refutes strict endpoint persistence while F-0101 supplies a finite support-packing resource.
++- **Consequences:**
++  - do not reactivate frozen-target, minimal-triple-third-coordinate, fixed-support-implies-fixed-pair, fresh-transition-rank, or normal-window-density shortcuts;
++  - finite normal-Q4/[3]^4 computations are evidence for support geometry and bounded free returns, not asymptotic source charges;
++  - a proposed `P^2 -> P` substitution must include an exact future-interface proof, not only a common descendant state;
++  - the preferred finite next object is a source-static ternary support-migration graph with owner/root provenance, followed by an owner-weighted recurrence.
++- **Nonclaim:** This decision closes no theorem and does not prove that the actual genealogy remains in one ternary box or that support reuse has bounded source multiplicity.
++- **Related:** D-0013, F-0096--F-0102, A-0052--A-0058, Q-0019
++- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`; `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
++- **Last updated:** 2026-08-08
+diff --git a/knowledge/FACTS.md b/knowledge/FACTS.md
+index 7994f57..a80305f 100644
+--- a/knowledge/FACTS.md
++++ b/knowledge/FACTS.md
+@@ -1490,3 +1490,104 @@
+ - **Evidence:** `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`.
+ - **Related:** F-0093, F-0094, Q-0019, A-0051
+ - **Last updated:** 2026-08-06
++
++## F-0096 — common-parent minimal-bad reduction and exact rollback
++
++- **Status:** confirmed_formal
++- **Kind:** exact actual-state reduction
++- **Statement:** Let four singleton repairs be canonically defined from one independent parent `R`, with
++  \[
++  R_I(Q)=\left(R\setminus\bigcup_{i\in I}D_i(q_i)\right)\cup\{q_i:i\in I\}.
++  \]
++  If every singleton state is independent and `I` is inclusion-minimal with `R_I` nonindependent, then `|I|` is 2 or 3. For every `t in I`, deleting `q_t` and restoring the whole branch deletion set `D_t(q_t)` gives exactly the smaller independent state `R_{I\setminus\{t\}}`.
++- **Mechanism:** A witnessing three-edge of a minimal bad state must contain every attempted target in `I`, hence `|I|<=3`; singleton independence gives `|I|>=2`. The rollback identity is immediate from the common-parent definition.
++- **Consequence:** Support synchronization does not require equality of deletion sets along a cylinder; an entire branch can be undone without leaving private support traces.
++- **Caveat:** Rollback is not irreversible entropy loss. The same hole block may later be sampled again.
++- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §§2–3.
++- **Related:** Q-0019, A-0054
++- **Last updated:** 2026-08-08
++
++## F-0097 — low pair grammar has critical growth `4 Delta`
++
++- **Status:** confirmed_conditional
++- **Kind:** faithful record-language calculation
++- **Statement:** In the two-sided pair grammar in which each side of matching rank zero contributes `1` and each side of matching rank one contributes one actual-edge label and one pair child, `Delta z`, the low-rank node polynomial is
++  \[
++  L(z)=(1+\Delta z)^2,
++  \qquad
++  \inf_{z>0}\frac{L(z)}z=4\Delta.
++  \]
++  Hence only nodes with at least one side of matching rank at least two require an additional asymptotically vanishing mark or a true obligation/capacity reduction.
++- **Scope:** Conditional on a faithful pair-state interface preserving owner, root, actual matching-edge identities and the two child obligations.
++- **Caveat:** This calculation does not initialize an arbitrary source fork edge as an independent pair root and does not itself supply the high-node mark.
++- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §3.
++- **Related:** F-0091, Q-0019, A-0052, A-0053
++- **Last updated:** 2026-08-08
++
++## F-0098 — protected-token first-use accounting and its fixed-token limit
++
++- **Status:** confirmed_conditional
++- **Kind:** no-copy decoder/accounting lemma
++- **Statement:** Suppose `N` source-owned protected tokens are created, `2C` are first deleted in pairs by `C` actual matching edges already present in the main canonical repair record, and `S=N-2C` survive to the macro boundary. Under the corresponding record model the token inverse multiplicity is
++  \[
++  \frac{\Delta^C}{b^N}
++  =\left(\frac{\sqrt\Delta}{b}\right)^{2C}b^{-S}.
++  \]
++  For `Delta>=1` this is at most `theta_b^N`, where `theta_b=sqrt(Delta)/b`. Under `Delta<=(1/4-epsilon)b^2`, `theta_b<1/2`.
++- **Negative consequence:** If each high node creates only a fixed `t=O(1)` number of such tokens, the factor tends to `2^{-t}` near the threshold and is not `o_b(1)`. Thus fixed protected tokens alone cannot be the Q-0019 high-node penalty.
++- **Caveat:** The safe first-use conclusion depends on deletion occurring through the already-recorded main matching edge; auxiliary first-use deletion would require a new actual-edge label and reopens A-0051.
++- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §4.
++- **Related:** F-0095, Q-0019, A-0053
++- **Last updated:** 2026-08-08
++
++## F-0099 — normal `Q4` shared-incidence switch and unique zipper
++
++- **Status:** observed
++- **Kind:** bounded exhaustive computation
++- **Statement:** In all 192 rooted independent states of the 8 normal coordinate perfect matchings of `Q4`, the two binary completion blockers intersect in one actual coordinate-value `q`. The four two-branch release choices are exactly: retain/retain `C`, the two mixed retain/release choices `S`, and release/release `R`. Across all roots this gives `C=192`, `S=384`, `R=192`. Every `S` pair has exactly one eight-edge bridge order and exactly seven edge-disjoint meeting cuts of that bridge.
++- **Additional geometry:** The eight blocker triples form one cyclic `8_3` incidence support; an actual one-hole transition has a unique reverse transition using the same blocker edge.
++- **Caveat:** Bounded normal-Q4 confluence is not a proof that two pair obligations merge in the full genealogy.
++- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §6.
++- **Related:** F-0045, F-0046, Q-0019, A-0058
++- **Last updated:** 2026-08-08
++
++## F-0100 — antipodal endpoint migration preserves support, not the endpoint tuple
++
++- **Status:** observed
++- **Kind:** bounded exhaustive computation
++- **Statement:** For every normal rooted `Q4` state, the canonical mixed zipper reaches the antipodal state obtained by keeping the hole block and flipping the other three binary values. The eight-edge normal support is unchanged, but the endpoint edge pair is disjoint from the old endpoint pair and moves from bridge positions `(0,7)` to `(3,4)`; the common coordinate-value changes. The antipodal map has orbit length two on the 192 rooted states.
++- **Additional structure:** The 24 rooted independent states of one normal support are in bijection with its 24 intersecting unordered edge pairs, and an ordered endpoint pair determines the rooted state and a unique normal support in the fixed binary window.
++- **Caveat:** This refutes strict `(e_1,e_2;q)` persistence; the finite invariant is the whole normal support `M`.
++- **Evidence:** same generator/artifact as F-0099; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §§7–8.
++- **Related:** Q-0019, A-0057
++- **Last updated:** 2026-08-08
++
++## F-0101 — normal-support packing is four in one binary window and twelve in `[3]^4`
++
++- **Status:** observed
++- **Kind:** bounded exhaustive computation plus exact finite MILP
++- **Statement:** The eight normal supports in a fixed binary window use all 32 possible blocker triples, each triple in exactly two supports; pairwise support intersections have size 0 or 2, and the overlap-2 graph is `K_{4,4}`. Hence a fixed binary window has at most four pairwise actual-edge-disjoint normal supports. Embedding all normal supports in all 81 binary subwindows of `[3]^4` gives 648 distinct supports on 108 blocker triples. The full block/value automorphism action is transitive on these 648 supports, an edge-disjoint packing of 12 exists, and a packing of 13 is MILP-infeasible. Therefore the finite packing number is exactly 12.
++- **Caveat:** This is a bounded support-packing theorem. Converting support reuse into a uniform owner-weighted source charge remains open.
++- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`; `evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md`.
++- **Related:** Q-0019
++- **Last updated:** 2026-08-08
++
++## F-0102 — `(e_1,e_2;q;f_1,f_2)` is a codimension-one normal-support certificate
++
++- **Status:** observed with formal completion count
++- **Kind:** bounded incidence normal form
++- **Statement:** For the unique normal zipper `H_0,...,H_7`, set `e_1=H_0`, `e_2=H_7`, `f_1=H_1`, `f_2=H_6`, and \(q=e_1\cap e_2\). In every splice case, the endpoint pair exposes 5 of the 8 binary coordinate-value vertices and adding `f_1,f_2` exposes 7 of 8. In the complete `b`-ary completion universe, the raw numbers of compatible complementary-value completions are respectively `(b-1)^3`, `b-1`, and `1` after adding a suitable central completion.
++- **Caveat:** The residual `b-1` freedom is not automatically a valid `1/b` entropy credit. It must be source-owned or exposed through an already-paid faithful event.
++- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §7.
++- **Related:** F-0095, Q-0019
++- **Last updated:** 2026-08-08
++
++## F-0103 — normality has a rooted intersection-defect gap in binary `Q4`
++
++- **Status:** observed
++- **Kind:** bounded exhaustive computation
++- **Statement:** For all 272 coordinate perfect matchings of `Q4`, define `D(M)` as the number of rooted independent states whose two binary completion blockers intersect in two coordinate-values. The 8 normal matchings have `D(M)=0`; every nonnormal matching has `D(M)>0`, and the minimum nonnormal value is 6. The observed nonnormal values are `6,8,10,12,16,24`.
++- **Caveat:** The exhaustive equivalence is finite. The local implication “equal omitted direction at the two completions gives a two-point blocker intersection” is elementary, but no asymptotic defect charge follows from the bounded gap alone.
++- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`.
++- **Related:** F-0099, Q-0019
++- **Last updated:** 2026-08-08
+diff --git a/knowledge/FAILURES.md b/knowledge/FAILURES.md
+index 33a9483..a59ead5 100644
+--- a/knowledge/FAILURES.md
++++ b/knowledge/FAILURES.md
+@@ -839,3 +839,84 @@
+ - **Status:** failed as a direct replacement for Q-0019
+ - **Related:** F-0093, F-0094, F-0095, A-0024, A-0050, Q-0019
+ - **Last updated:** 2026-08-06
++
++## A-0052 — Initializing an arbitrary fork edge by a private transversal
++
++- **Goal:** Start an independent pair genealogy for a fixed source fork edge `e` by choosing a private transversal `W_e` that contains no other hyperedge.
++- **Failure type:** unsupported source interface
++- **Failure point:** The edge-minimal private-transversal statement used by F-0092 is available for edges in the chosen minimal cover/private setup; it is not a free construction for every blocker/fork edge occurring in an arbitrary canonical repair. The real post-repair state may have all endpoints of a larger blocker matching deleted simultaneously.
++- **Why it failed:** Replacing the actual matching repair by a fabricated two-hole source state can lose independence and source provenance.
++- **Retry conditions:** Initialize the backend from the full actual post-repair state or prove an explicit private-source lemma for the required fork occurrence class.
++- **Do not repeat:** Do not silently turn a fixed `ell_x(e)` row into an independent two-hole root.
++- **Status:** active design constraint
++- **Related:** F-0091, F-0097, Q-0019
++- **Evidence:** `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
++- **Last updated:** 2026-08-08
++
++## A-0053 — Charging retained pair children or fixed protected tokens as new entropy
++
++- **Goal:** Give every high pair node a `1/b` or `1/b^2` mark by retaining/fixing coordinates that are already its ordinary pair children, or by creating a fixed number of protected tokens.
++- **Failure type:** double counting / insufficient asymptotic mark
++- **Failure point:** Ordinary pair children are existing input obligations and cannot be charged again. Even for genuinely additional protected tokens whose first deletion is decoder-safe, a fixed `t` tokens gives factor `(sqrt(Delta)/b)^t -> 2^{-t}` near `Delta=b^2/4`, not `o_b(1)`.
++- **Retry conditions:** Produce an additional source-owned coordinate whose obligation is truly cancelled, or use actual resource reuse/return so that the number of free high events per source owner is subexponential.
++- **Do not repeat:** More fixed pegs/tokens do not solve the sharp-threshold requirement by themselves.
++- **Status:** failed as a closing mechanism
++- **Related:** F-0095, F-0098, Q-0019
++- **Last updated:** 2026-08-08
++
++## A-0054 — Treating rollback rank reduction as permanent entropy loss
++
++- **Goal:** Infer a `b^{-1}` or `b^{-2}` mark directly from a local rollback such as `4 -> 2` retained targets.
++- **Failure type:** retry / nonmonotone obligation
++- **Failure point:** Rolling back a branch restores its parent deletion set and removes the current attempted value, but the same block may later become a hole and be sampled again. Rejected samples are not a telescoping source budget.
++- **Retry conditions:** Attach rollback to a source-owned monotone potential, exact future-obligation cancellation, or a capacity-backed first-return event.
++- **Do not repeat:** Current-value erasure is not the same as permanent child deletion.
++- **Status:** failed as a direct entropy charge
++- **Related:** F-0096, Q-0019
++- **Last updated:** 2026-08-08
++
++## A-0055 — Protected-pair coverage implies quadratic degree
++
++- **Goal:** Close the first two-protected blocker stopper by a direct degree count.
++- **Failure type:** counterexample
++- **Failure point:** A hole block `A={q_i}` may be completely blocked by pairwise-disjoint protected pairs using only edges `{q_i,p_{2i-1},p_{2i}}`, while every vertex has degree one.
++- **Why it failed:** Coverage is spread across many protected pairs and carries no vertex concentration.
++- **Retry conditions:** Use the alternating pair genealogy: fresh pair trees belong to the low `4 Delta` grammar; repeated actual pairs/edges must be sent to a capacity/core term.
++- **Do not repeat:** Complete codebook coverage is not a degree lower bound without overlap information.
++- **Status:** failed
++- **Related:** F-0097, Q-0019
++- **Last updated:** 2026-08-08
++
++## A-0056 — Using normal-box density as a source contraction
++
++- **Goal:** Convert a bounded fraction of normal binary windows directly into a multiplicative survival probability for Q-0019 source mass.
++- **Failure type:** source/root mismatch
++- **Failure point:** The supplied conversation exhibits a rooted diagonal-codebook obstruction in which rooted probes can evade the desired cancellable-cylinder interpretation without being governed by the unrooted normal-window fraction. The reported `16/81` ternary normal-density computation therefore cannot by itself be used as a source charge.
++- **Retry conditions:** Reconstruct the reported generator/certificate and prove a faithful rooted source interface or a support-reuse recurrence.
++- **Do not repeat:** Unrooted window density is not an owner-preserving survival probability.
++- **Status:** failed as a direct Q-0019 contraction
++- **Evidence:** `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
++- **Last updated:** 2026-08-08
++
++## A-0057 — Strict persistence of the endpoint tuple `(e_1,e_2;q)`
++
++- **Goal:** Make repeated normal zippers collide by proving the endpoint pair and shared coordinate-value are unchanged after the antipodal splice.
++- **Failure type:** exhaustive finite counterexample
++- **Failure point:** In all 192 normal rooted Q4 cases, the new endpoint pair shares no actual edge with the old pair and the shared coordinate-value changes. The pair moves from bridge positions `(0,7)` to `(3,4)`.
++- **Corrected invariant:** The whole eight-edge normal support is unchanged inside the fixed binary window.
++- **Retry conditions:** Track the source-static support, not the endpoint seam; or prove a weaker bounded support-migration theorem in the actual genealogy.
++- **Status:** refuted
++- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`.
++- **Related:** F-0100, Q-0019
++- **Last updated:** 2026-08-08
++
++## A-0058 — Identifying state confluence with `P^2 -> P` obligation cancellation
++
++- **Goal:** Use the unique normal eight-edge zipper to replace two simultaneous pair children by one merely because the two histories reach a common state.
++- **Failure type:** provenance / future-interface gap
++- **Failure point:** Equality of the actual selected state does not imply equality of owner, root, stack interface, remaining obligations, or source provenance. Two histories may meet and still carry two independent future suffixes.
++- **Retry conditions:** Prove exact-future congruence at the splice boundary, or use the zipper only as a finite support whose repeated use forces actual-edge reuse.
++- **Do not repeat:** Confluence is not cancellation without a faithful future-interface proof.
++- **Status:** active obstruction
++- **Related:** F-0099, F-0101, Q-0019
++- **Last updated:** 2026-08-08
+diff --git a/knowledge/QUESTIONS.md b/knowledge/QUESTIONS.md
+index b8e564a..b5d7f91 100644
+--- a/knowledge/QUESTIONS.md
++++ b/knowledge/QUESTIONS.md
+@@ -322,12 +322,7 @@
+ 
+ ## Q-0019 — Global inverse-fiber decomposition for fork mass
+ 
+-- **Question:** For weighted actual disjoint-blocker fork occurrences with
+-  fixed pivot \(x\), can one construct an exhaustive no-copy decomposition
+-  into a two-coordinate diffuse part, an independently valid exit part, a
+-  complete proper-block subsystem, and a future-complete class with one fixed
+-  anchor, while retaining owner, root, actual edge identities and legal future
+-  transitions?
++- **Question:** For weighted actual disjoint-blocker fork occurrences with fixed pivot `x`, can one construct an exhaustive no-copy, owner/root/history-preserving backend whose diffuse/low branch has the required `b^{-2}` source load and whose high branch either cancels a genuine future obligation, consumes only finitely/subexponentially many source-static normal supports before actual-edge reuse, enters a valid structural exit, or becomes future-complete for one fixed anchor?
+ - **Status:** active
+ - **Why it matters:** With
+   \[
+@@ -337,42 +332,12 @@
+   \[
+   \ell_x^*\le(8+o_b(1))F_x/b^2
+   \]
+-  gives the one-quarter degree bound, while F-0058 gives \(d_H(p)\ge b^2\) for
+-  the fixed-anchor branch.
+-- **Known so far:** F-0091 forces positive fork density below the target degree
+-  threshold. F-0092 gives \(b^{-2}\) multiplicity for outputs using both
+-  replacement coordinates and \(b^{-1}\) for outputs using exactly one.
+-  F-0093 gives a uniform \(b^{-2}\) certificate after full fork-rooted refill,
+-  but on the later output edge rather than the original fork edge. F-0094 can
+-  retain the original pivot throughout: its only outcomes are a pivot-retaining
+-  independent augmentation, a two-target edge through the original pivot, or
+-  a three-target off-pivot edge. The through-pivot output mass is at most
+-  \(d_H(x)W/b^2\), and a fixed off-pivot output has mass at most \(W/b^3\).
+-  F-0095 shows that directly inserting these outputs into a nested macro record
+-  does not bypass the gap: a newly degree-indexed actual output gives at best
+-  the constant mark \(\Delta/b^2\), whose optimistic self-consistent threshold
+-  is \(0.211390706210804\ldots<1/4\). F-0058 closes an already future-complete
+-  fixed-pivot class.
+-- **Missing:** Construct a no-copy transport from the F-0093/F-0094 output
+-  certificates back to the original source fork edges, retaining the original
+-  fork partner and parent provenance. In the pivot-protected form, one must
+-  convert the augmentation and three-target off-pivot mass into an independently
+-  valid paid exit or a complete proper-block no-IT subsystem, or prove that the
+-  residual is closed under every relevant legal successor with one fixed
+-  anchor. A local off-pivot target edge and a partial independent augmentation
+-  are not those outcomes.
+-- **Answer criterion:** An explicit uniform decomposition that preserves every
+-  actual occurrence without copying or merging and proves the required
+-  inverse-multiplicity bound. Merely naming migration as a terminal, using a
+-  deterministic-policy cycle, or invoking fixed-instance finiteness does not
+-  answer the question.
+-- **Related:** F-0052, F-0058, F-0090--F-0095, A-0044--A-0051
+-- **Suggested next action:** Any replacement backend must first exhibit an
+-  explicit source invariant that makes the effective fork mark \(o_b(1)\): an
+-  output identity already determined by the source, an extra irreversible
+-  coordinate, a uniform source-owned stopping modulus, or all-successor
+-  same-anchor closure. Only then derive a new record polynomial. Do not attach
+-  independent refill boxes or record descendant edges directly without this
+-  invariant; F-0095/A-0051 show that this only gives a constant-scale mark and
+-  reintroduces Q-0019 on continuation.
+-- **Last updated:** 2026-08-06
++  gives the one-quarter degree bound, while F-0058 gives `d_H(p)>=b^2` for an already future-complete fixed-anchor class.
++- **Known so far:** F-0091 supplies positive disjoint-blocker fork density below the target degree threshold. F-0092--F-0094 give genuine local inverse-fiber codimension but only on descendant outputs, and F-0095 proves that directly recording a newly degree-indexed descendant edge gives only a constant-scale mark. F-0096 now gives a common-parent parallel reduction: inclusion-minimal bad sets have size 2 or 3, and exact branch rollback removes private deletion/support traces without requiring support synchronization. F-0097 identifies the low pair grammar with polynomial `(1+Delta z)^2` and critical growth `4 Delta`; hence only high nodes require new control. F-0098 shows that protected tokens first deleted by already-recorded canonical matching edges are decoder-safe, but any fixed number of tokens gives only a constant mark near `1/4`, not `o_b(1)`. The irreducible high geometry is therefore the rank-two `(2,0)/(0,2)` core.
++
++  In the bounded normal-Q4 model, F-0099 gives an exact shared-`q` `C/S/R` switch law and a unique eight-edge zipper for every splice. F-0100 refutes strict endpoint persistence: the endpoint tuple moves antipodally, while the full eight-edge normal support remains fixed in the binary window. F-0101 shows the eight fixed-window normal supports form a `K_{4,4}` overlap geometry, and that all 648 embedded normal supports in `[3]^4` have exact edge-disjoint packing number 12. F-0102 shows `(e_1,e_2;q;f_1,f_2)` leaves exactly one complementary `b`-ary value undetermined in the complete-universe incidence model.
++- **Missing:** The remaining gap is a **source-interface / support-return theorem**, not a finer local migration classification. Starting from the actual high rank-two source occurrence, one must prove that normal continuation either (a) merges two open future obligations with an exact future-interface decoder, or (b) consumes a source-static finite support so that later return forces an independently payable actual-edge collision with bounded owner-weighted multiplicity. It is not yet proved that the actual genealogy remains in one ternary four-buffer, that the finite packing bound 12 telescopes along one source owner, or that the last codimension-one complementary value is source-owned. Nonnormal/minimal-bad branches must enter exact rollback or another already valid exit without being renamed as paid mass.
++- **Answer criterion:** An explicit uniform no-copy recurrence/decomposition on actual source occurrences that preserves owner, root, actual edge identities and legal future transitions, and either proves the required source-load bound or shows that every high occurrence has only subexponentially many free support returns before a verified capacity/core/anchor term. State confluence alone, bounded Q4/[3]^4 enumeration, rollback of a retryable value, or a constant protected-token mark does not answer the question.
++- **Related:** F-0052, F-0058, F-0090--F-0103, A-0044--A-0058, D-0014
++- **Suggested next action:** Build the **actual source-owned ternary support-migration graph** for one rank-two occurrence. Its state must retain owner/root, the four source buffer blocks, actual support identity and open pair obligations. Prove one of: (i) every normal transition stays in a bounded source-static support universe so F-0101 yields only `O(1)` free normal events per owner; (ii) first support escape is an independently paid fresh-support/actual-edge event; or (iii) the unique zipper boundary is exact-future congruent and truly cancels one pair obligation. Do not add further migration subtype names unless they reduce mass, capacity or a source-owned return potential.
++- **Last updated:** 2026-08-08
+diff --git a/tests/test_q0019_rank_two_zipper.py b/tests/test_q0019_rank_two_zipper.py
+new file mode 100644
+index 0000000..d5922f0
+--- /dev/null
++++ b/tests/test_q0019_rank_two_zipper.py
+@@ -0,0 +1,62 @@
++from __future__ import annotations
++
++import importlib.util
++import json
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++SCRIPT = ROOT / "enumerate/q0019_rank_two_zipper_validation.py"
++
++spec = importlib.util.spec_from_file_location("q0019_rank_two_zipper_validation", SCRIPT)
++assert spec is not None and spec.loader is not None
++module = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(module)
++
++
++def normal_models():
++    matchings = [module.with_directions(matching) for matching in module.enumerate_matchings(module.VERTICES)]
++    return matchings, [matching for matching in matchings if module.is_normal(matching)]
++
++
++def test_normal_q4_rank_two_geometry() -> None:
++    matchings, normal = normal_models()
++    payload = module.q4_payload(matchings, normal)
++    assert payload["coordinate_perfect_matchings"] == 272
++    assert payload["normal_matchings"] == 8
++    assert payload["normal_rooted_states"] == 192
++    assert payload["release_categories"] == {"C": 192, "S": 384, "R": 192}
++    assert payload["minimum_nonnormal_root_defects"] == 6
++    assert payload["splice_unique_bridge_order_count_distribution"] == {1: 384}
++    assert payload["splice_edge_disjoint_cut_count_distribution"] == {7: 384}
++    assert payload["source_tuple_support_multiplicity"] == {1: 192}
++    assert payload["normal_support_overlap_graph_is_K4_4"] is True
++
++
++def test_endpoint_and_codimension_profiles() -> None:
++    _, normal = normal_models()
++    q4 = module.q4_payload([module.with_directions(m) for m in module.enumerate_matchings(module.VERTICES)], normal)
++    assert q4["endpoint_antipode_migration"] == {
++        "(1, 0, 0, (0, 7), (3, 4))": 192
++    }
++    codimension = module.codimension_one_payload(normal)
++    assert codimension["vertex_union_size_profile_endpoint_first_inward_central"] == {
++        "(5, 7, 8)": 192
++    }
++    assert codimension["missing_vertex_profile_endpoint_first_inward_central"] == {
++        "(3, 1, 0)": 192
++    }
++
++
++def test_committed_ternary_packing_certificate() -> None:
++    artifact = json.loads(
++        (ROOT / "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json")
++        .read_text(encoding="utf-8")
++    )
++    payload = artifact["payload"]["ternary_supports"]
++    assert payload["candidate_supports"] == 648
++    assert payload["possible_actual_blocker_triples"] == 108
++    assert payload["support_action_transitive"] is True
++    assert payload["full_automorphism_orbit_size_of_fixed_support"] == 648
++    assert payload["twelve_packing_feasible"] is True
++    assert payload["thirteen_packing_infeasible"] is True
++    assert payload["maximum_edge_disjoint_supports"] == 12
+diff --git a/tools/check_generated_artifacts.py b/tools/check_generated_artifacts.py
+index 1801ec6..a909172 100644
+--- a/tools/check_generated_artifacts.py
++++ b/tools/check_generated_artifacts.py
+@@ -15,6 +15,7 @@ from hypergraph_il.q0015 import run_regressions
+ 
+ BASELINE = ROOT / "evidence/experiments/q0015/baselines/q0015_audit_results.json"
+ ROUTE_B_BASELINE = ROOT / "evidence/experiments/route_b/baselines/route_b_lp_atlas_validation.json"
++Q0019_RANK_TWO_BASELINE = ROOT / "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json"
+ 
+ 
+ def main() -> int:
+@@ -67,6 +68,37 @@ def main() -> int:
+                 errors.append("Route-B committed bounded-search parameters changed")
+         except Exception as exc:
+             errors.append(f"{ROUTE_B_BASELINE.relative_to(ROOT)}: {exc}")
++    if not Q0019_RANK_TWO_BASELINE.exists():
++        errors.append(f"missing generated artifact: {Q0019_RANK_TWO_BASELINE.relative_to(ROOT)}")
++    else:
++        try:
++            value = json.loads(Q0019_RANK_TWO_BASELINE.read_text(encoding="utf-8"))
++            validate_artifact(value)
++            metadata = value["metadata"]
++            payload = value["payload"]
++            if metadata.get("generator") != "enumerate/q0019_rank_two_zipper_validation.py":
++                errors.append("Q-0019 rank-two baseline generator mismatch")
++            if metadata.get("result_type") != "bounded-exhaustive-plus-exact-milp":
++                errors.append("Q-0019 rank-two baseline result type mismatch")
++            q4 = payload.get("q4", {})
++            if q4.get("coordinate_perfect_matchings") != 272 or q4.get("normal_matchings") != 8:
++                errors.append("Q-0019 rank-two Q4 matching counts mismatch")
++            if q4.get("release_categories") != {"C": 192, "R": 192, "S": 384}:
++                errors.append("Q-0019 rank-two C/S/R counts mismatch")
++            if not q4.get("normal_support_overlap_graph_is_K4_4"):
++                errors.append("Q-0019 fixed-window support graph is not K4,4")
++            ternary = payload.get("ternary_supports", {})
++            if ternary.get("candidate_supports") != 648 or ternary.get("possible_actual_blocker_triples") != 108:
++                errors.append("Q-0019 ternary support universe mismatch")
++            if not ternary.get("support_action_transitive"):
++                errors.append("Q-0019 ternary support action is not marked transitive")
++            if ternary.get("maximum_edge_disjoint_supports") != 12:
++                errors.append("Q-0019 ternary support packing number mismatch")
++            codimension = payload.get("codimension_one", {})
++            if codimension.get("missing_vertex_profile_endpoint_first_inward_central") != {"(3, 1, 0)": 192}:
++                errors.append("Q-0019 codimension-one incidence profile mismatch")
++        except Exception as exc:
++            errors.append(f"{Q0019_RANK_TWO_BASELINE.relative_to(ROOT)}: {exc}")
+     if errors:
+         print("Generated artifact errors:")
+         for error in errors:
+diff --git a/tools/check_repository.py b/tools/check_repository.py
+index c6aef40..dac44c7 100644
+--- a/tools/check_repository.py
++++ b/tools/check_repository.py
+@@ -55,6 +55,14 @@ required = [
+     "src/hypergraph_il/route_b_closure.py",
+     "tests/test_route_b_closure.py",
+     "evidence/proofs/SWITCH_CUBE_AND_ROOT_EXCESS_CLOSURE.md",
++    "evidence/audits/Q0019_RANK_TWO_ZIPPER_PATCH_SCOPE.md",
++    "evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md",
++    "evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md",
++    "evidence/experiments/q0019_rank_two/MANIFEST.json",
++    "evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json",
++    "evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md",
++    "enumerate/q0019_rank_two_zipper_validation.py",
++    "tests/test_q0019_rank_two_zipper.py",
+ ]
+ for item in required:
+     require(item)

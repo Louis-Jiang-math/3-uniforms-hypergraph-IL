@@ -158,3 +158,18 @@
 - **Normative route:** `docs/MAIN_PROOF_ROUTE.md`.
 - **Related:** F-0052, F-0058, F-0078, F-0090--F-0092, Q-0019
 - **Last updated:** 2026-08-06
+
+## D-0014 — Freeze Q-0019 at the rank-two rollback/support-return frontier
+
+- **Status:** active
+- **Decision:** Keep fork--inverse-fiber--anchor as the theorem-level route, but stop refining one-coordinate migration into new local subtype names. Inside Q-0019, use common-parent parallel repair and exact rollback to eliminate private support reset, send low pair branching to the `(1+Delta z)^2` grammar, and treat `(2,0)/(0,2)` as the irreducible high core. In a normal binary window, track the full eight-edge support rather than the migrating endpoint tuple. Progress must now be an exact future-obligation merge, an owner-weighted support-return/collision recurrence, or another genuine source-owned capacity/potential reduction.
+- **Reason:** The conversation audit shows that further migration taxonomy repeatedly changed descriptions without reducing source mass. F-0096 removes support synchronization, F-0097 isolates the exact `4 Delta` low grammar, F-0098 rules out fixed-token marks as the sharp mechanism, and F-0100 refutes strict endpoint persistence while F-0101 supplies a finite support-packing resource.
+- **Consequences:**
+  - do not reactivate frozen-target, minimal-triple-third-coordinate, fixed-support-implies-fixed-pair, fresh-transition-rank, or normal-window-density shortcuts;
+  - finite normal-Q4/[3]^4 computations are evidence for support geometry and bounded free returns, not asymptotic source charges;
+  - a proposed `P^2 -> P` substitution must include an exact future-interface proof, not only a common descendant state;
+  - the preferred finite next object is a source-static ternary support-migration graph with owner/root provenance, followed by an owner-weighted recurrence.
+- **Nonclaim:** This decision closes no theorem and does not prove that the actual genealogy remains in one ternary box or that support reuse has bounded source multiplicity.
+- **Related:** D-0013, F-0096--F-0102, A-0052--A-0058, Q-0019
+- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md`; `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
+- **Last updated:** 2026-08-08

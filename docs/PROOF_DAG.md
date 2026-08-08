@@ -51,14 +51,29 @@ M0\ \text{one-quarter theorem.}
 
 - **Status:** active.
 - **Question:** Q-0019.
-- **Input:** actual weighted fork occurrences with full provenance.
-- **Required output:** an exhaustive no-copy partition into a two-coordinate
-  diffuse part, a valid exit part, a complete proper-block part, and a
-  future-complete fixed-anchor part.
-- **Quantitative requirement:** the diffuse edge load is
-  \(O(F_x/b^2)\), uniformly in the number of contexts and histories.
-- **Forbidden shortcut:** local heavy coordinates may not be called persistent
-  without closure under every relevant legal successor.
+- **Input:** actual weighted fork occurrences with full owner/root/history
+  provenance.
+- **Required final output:** an exhaustive no-copy partition into a
+  two-coordinate diffuse part, a valid exit part, a complete proper-block part,
+  and a future-complete fixed-anchor part.
+- **Current backend reduction:** F-0096 removes private support synchronization
+  by common-parent exact rollback. F-0097 sends all rank-at-most-one pair
+  continuation to the exact low grammar `(1+Delta z)^2`; the irreducible high
+  case is rank two. F-0098 rules out a fixed protected-token count as the sharp
+  high penalty. F-0099--F-0102 identify a bounded normal-Q4 zipper/support
+  geometry, while F-0100 refutes strict endpoint persistence.
+- **Current subproblem:** prove an owner-preserving rank-two recurrence in which
+  normal continuation either exactly cancels a future obligation or consumes
+  only finitely/subexponentially many source-static supports before a verified
+  actual-edge reuse/core/exit term. The `[3]^4` support-packing number 12 is
+  finite evidence for this mechanism, not yet the recurrence.
+- **Quantitative requirement:** the eventual diffuse edge load is
+  `O(F_x/b^2)` uniformly, or equivalently the high backend contributes only
+  `o_b(1)` exponential weight / `O(1)` free events per source owner before a
+  paid term.
+- **Forbidden shortcuts:** a common descendant state is not a pair-obligation
+  merge; a retryable rollback is not entropy loss; a bounded normal-window
+  statistic is not a source charge; the endpoint tuple is not persistent.
 
 ### S2a — diffuse branch
 
@@ -87,14 +102,18 @@ M0\ \text{one-quarter theorem.}
 
 ## 4. Progress rule
 
-Progress on S1 requires one of:
+Progress on S1 now requires at least one **real combinatorial compression**:
 
-1. a proof of anchor persistence from first loss of an external coordinate;
-2. a uniform charging of anchor migration to already valid exits;
-3. an explicit counterexample satisfying all global no-IT and minimality
-   hypotheses, which would refute the route;
-4. a stronger global product-space covering theorem that directly yields the
-   same diffuse/anchor dichotomy.
+1. exact future-interface cancellation of one rank-two pair obligation;
+2. an owner-weighted support-return/collision recurrence proving only
+   `O(1)`/subexponentially many free normal high events per source occurrence;
+3. a uniform actual-edge/codegree capacity paying first support reuse or
+   escape;
+4. a source-owned irreversible/telescoping coordinate that yields an
+   `o_b(1)` high mark; or
+5. an explicit counterexample satisfying the full actual-source hypotheses,
+   which would refute the backend.
 
-New terminal names, local box estimates, or finite-instance enumerations do not
-change the active node by themselves.
+Further migration subtype names, state-only confluence, fixed protected-token
+marks, unrooted window densities, or bounded finite enumeration without a
+source interface do not count as theorem-level progress.

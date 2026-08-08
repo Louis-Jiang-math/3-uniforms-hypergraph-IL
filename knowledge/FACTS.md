@@ -1490,3 +1490,104 @@
 - **Evidence:** `evidence/analyses/FORK_MACRO_RECORD_ARITY_BARRIER.md`.
 - **Related:** F-0093, F-0094, Q-0019, A-0051
 - **Last updated:** 2026-08-06
+
+## F-0096 — common-parent minimal-bad reduction and exact rollback
+
+- **Status:** confirmed_formal
+- **Kind:** exact actual-state reduction
+- **Statement:** Let four singleton repairs be canonically defined from one independent parent `R`, with
+  \[
+  R_I(Q)=\left(R\setminus\bigcup_{i\in I}D_i(q_i)\right)\cup\{q_i:i\in I\}.
+  \]
+  If every singleton state is independent and `I` is inclusion-minimal with `R_I` nonindependent, then `|I|` is 2 or 3. For every `t in I`, deleting `q_t` and restoring the whole branch deletion set `D_t(q_t)` gives exactly the smaller independent state `R_{I\setminus\{t\}}`.
+- **Mechanism:** A witnessing three-edge of a minimal bad state must contain every attempted target in `I`, hence `|I|<=3`; singleton independence gives `|I|>=2`. The rollback identity is immediate from the common-parent definition.
+- **Consequence:** Support synchronization does not require equality of deletion sets along a cylinder; an entire branch can be undone without leaving private support traces.
+- **Caveat:** Rollback is not irreversible entropy loss. The same hole block may later be sampled again.
+- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §§2–3.
+- **Related:** Q-0019, A-0054
+- **Last updated:** 2026-08-08
+
+## F-0097 — low pair grammar has critical growth `4 Delta`
+
+- **Status:** confirmed_conditional
+- **Kind:** faithful record-language calculation
+- **Statement:** In the two-sided pair grammar in which each side of matching rank zero contributes `1` and each side of matching rank one contributes one actual-edge label and one pair child, `Delta z`, the low-rank node polynomial is
+  \[
+  L(z)=(1+\Delta z)^2,
+  \qquad
+  \inf_{z>0}\frac{L(z)}z=4\Delta.
+  \]
+  Hence only nodes with at least one side of matching rank at least two require an additional asymptotically vanishing mark or a true obligation/capacity reduction.
+- **Scope:** Conditional on a faithful pair-state interface preserving owner, root, actual matching-edge identities and the two child obligations.
+- **Caveat:** This calculation does not initialize an arbitrary source fork edge as an independent pair root and does not itself supply the high-node mark.
+- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §3.
+- **Related:** F-0091, Q-0019, A-0052, A-0053
+- **Last updated:** 2026-08-08
+
+## F-0098 — protected-token first-use accounting and its fixed-token limit
+
+- **Status:** confirmed_conditional
+- **Kind:** no-copy decoder/accounting lemma
+- **Statement:** Suppose `N` source-owned protected tokens are created, `2C` are first deleted in pairs by `C` actual matching edges already present in the main canonical repair record, and `S=N-2C` survive to the macro boundary. Under the corresponding record model the token inverse multiplicity is
+  \[
+  \frac{\Delta^C}{b^N}
+  =\left(\frac{\sqrt\Delta}{b}\right)^{2C}b^{-S}.
+  \]
+  For `Delta>=1` this is at most `theta_b^N`, where `theta_b=sqrt(Delta)/b`. Under `Delta<=(1/4-epsilon)b^2`, `theta_b<1/2`.
+- **Negative consequence:** If each high node creates only a fixed `t=O(1)` number of such tokens, the factor tends to `2^{-t}` near the threshold and is not `o_b(1)`. Thus fixed protected tokens alone cannot be the Q-0019 high-node penalty.
+- **Caveat:** The safe first-use conclusion depends on deletion occurring through the already-recorded main matching edge; auxiliary first-use deletion would require a new actual-edge label and reopens A-0051.
+- **Evidence:** `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §4.
+- **Related:** F-0095, Q-0019, A-0053
+- **Last updated:** 2026-08-08
+
+## F-0099 — normal `Q4` shared-incidence switch and unique zipper
+
+- **Status:** observed
+- **Kind:** bounded exhaustive computation
+- **Statement:** In all 192 rooted independent states of the 8 normal coordinate perfect matchings of `Q4`, the two binary completion blockers intersect in one actual coordinate-value `q`. The four two-branch release choices are exactly: retain/retain `C`, the two mixed retain/release choices `S`, and release/release `R`. Across all roots this gives `C=192`, `S=384`, `R=192`. Every `S` pair has exactly one eight-edge bridge order and exactly seven edge-disjoint meeting cuts of that bridge.
+- **Additional geometry:** The eight blocker triples form one cyclic `8_3` incidence support; an actual one-hole transition has a unique reverse transition using the same blocker edge.
+- **Caveat:** Bounded normal-Q4 confluence is not a proof that two pair obligations merge in the full genealogy.
+- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §6.
+- **Related:** F-0045, F-0046, Q-0019, A-0058
+- **Last updated:** 2026-08-08
+
+## F-0100 — antipodal endpoint migration preserves support, not the endpoint tuple
+
+- **Status:** observed
+- **Kind:** bounded exhaustive computation
+- **Statement:** For every normal rooted `Q4` state, the canonical mixed zipper reaches the antipodal state obtained by keeping the hole block and flipping the other three binary values. The eight-edge normal support is unchanged, but the endpoint edge pair is disjoint from the old endpoint pair and moves from bridge positions `(0,7)` to `(3,4)`; the common coordinate-value changes. The antipodal map has orbit length two on the 192 rooted states.
+- **Additional structure:** The 24 rooted independent states of one normal support are in bijection with its 24 intersecting unordered edge pairs, and an ordered endpoint pair determines the rooted state and a unique normal support in the fixed binary window.
+- **Caveat:** This refutes strict `(e_1,e_2;q)` persistence; the finite invariant is the whole normal support `M`.
+- **Evidence:** same generator/artifact as F-0099; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §§7–8.
+- **Related:** Q-0019, A-0057
+- **Last updated:** 2026-08-08
+
+## F-0101 — normal-support packing is four in one binary window and twelve in `[3]^4`
+
+- **Status:** observed
+- **Kind:** bounded exhaustive computation plus exact finite MILP
+- **Statement:** The eight normal supports in a fixed binary window use all 32 possible blocker triples, each triple in exactly two supports; pairwise support intersections have size 0 or 2, and the overlap-2 graph is `K_{4,4}`. Hence a fixed binary window has at most four pairwise actual-edge-disjoint normal supports. Embedding all normal supports in all 81 binary subwindows of `[3]^4` gives 648 distinct supports on 108 blocker triples. The full block/value automorphism action is transitive on these 648 supports, an edge-disjoint packing of 12 exists, and a packing of 13 is MILP-infeasible. Therefore the finite packing number is exactly 12.
+- **Caveat:** This is a bounded support-packing theorem. Converting support reuse into a uniform owner-weighted source charge remains open.
+- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`; `evidence/experiments/q0019_rank_two/reports/q0019_rank_two_zipper_validation.md`.
+- **Related:** Q-0019
+- **Last updated:** 2026-08-08
+
+## F-0102 — `(e_1,e_2;q;f_1,f_2)` is a codimension-one normal-support certificate
+
+- **Status:** observed with formal completion count
+- **Kind:** bounded incidence normal form
+- **Statement:** For the unique normal zipper `H_0,...,H_7`, set `e_1=H_0`, `e_2=H_7`, `f_1=H_1`, `f_2=H_6`, and \(q=e_1\cap e_2\). In every splice case, the endpoint pair exposes 5 of the 8 binary coordinate-value vertices and adding `f_1,f_2` exposes 7 of 8. In the complete `b`-ary completion universe, the raw numbers of compatible complementary-value completions are respectively `(b-1)^3`, `b-1`, and `1` after adding a suitable central completion.
+- **Caveat:** The residual `b-1` freedom is not automatically a valid `1/b` entropy credit. It must be source-owned or exposed through an already-paid faithful event.
+- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/proofs/Q0019_RANK_TWO_ROLLBACK_ZIPPER_ROUTE.md` §7.
+- **Related:** F-0095, Q-0019
+- **Last updated:** 2026-08-08
+
+## F-0103 — normality has a rooted intersection-defect gap in binary `Q4`
+
+- **Status:** observed
+- **Kind:** bounded exhaustive computation
+- **Statement:** For all 272 coordinate perfect matchings of `Q4`, define `D(M)` as the number of rooted independent states whose two binary completion blockers intersect in two coordinate-values. The 8 normal matchings have `D(M)=0`; every nonnormal matching has `D(M)>0`, and the minimum nonnormal value is 6. The observed nonnormal values are `6,8,10,12,16,24`.
+- **Caveat:** The exhaustive equivalence is finite. The local implication “equal omitted direction at the two completions gives a two-point blocker intersection” is elementary, but no asymptotic defect charge follows from the bounded gap alone.
+- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`.
+- **Related:** F-0099, Q-0019
+- **Last updated:** 2026-08-08

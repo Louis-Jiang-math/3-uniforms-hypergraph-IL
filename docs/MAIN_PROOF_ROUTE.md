@@ -140,10 +140,10 @@ at most one preimage when it uses both new coordinates, and at most \(b\)
 preimages when it uses exactly one. The two-coordinate part therefore has the
 required \(b^{-2}\) loss.
 
-The theorem-level obstruction is the one-coordinate part. Its heavy auxiliary
-vertex or pair may vary from row to row, from source edge to source edge, and
-from one future transition to the next. The active theorem Q-0019 must prove a
-history-preserving partition into
+The theorem-level obstruction is the one-coordinate/high-rank part. Its heavy
+auxiliary vertex, pair, endpoint seam, or support may vary between source
+occurrences and future transitions. The active theorem Q-0019 must still prove
+a history-preserving partition into
 
 \[
 \text{two-coordinate diffuse}
@@ -152,10 +152,53 @@ history-preserving partition into
 \sqcup
 \text{proper-block subsystem}
 \sqcup
-\text{future-complete fixed anchor}.
+\text{future-complete fixed anchor},
 \]
 
-The partition must be exhaustive, no-copy, and quantitatively uniform.
+but the current backend reduces the residual more sharply before attempting that
+partition.
+
+### 6.1 Current rank-two backend
+
+F-0096 replaces sequential repair by four common-parent singleton repairs. Any
+inclusion-minimal nonindependent parallel state uses only two or three target
+coordinates, and rolling back one complete branch returns exactly to a smaller
+independent parallel state. Thus private deletion/support synchronization is no
+longer the active issue. Rollback itself is not an entropy credit, because the
+same hole obligation may later be retried.
+
+The surviving pair genealogy has a low grammar
+
+\[
+L(z)=(1+\Delta z)^2,
+\qquad
+\inf_{z>0}L(z)/z=4\Delta,
+\]
+
+so only nodes with a side of matching rank at least two need an additional
+mechanism. After isolating the first two canonical matching edges, the
+irreducible high geometry is a rank-two `(2,0)` or `(0,2)` core. F-0098 shows
+that protected tokens first deleted by already-recorded matching edges are
+decoder-safe, but any fixed number gives only a constant mark near the sharp
+threshold and cannot be the final `o_b(1)` penalty.
+
+For the finite normal-Q4 model, F-0099--F-0102 give a more concrete support
+picture. A mixed shared-`q` release produces a unique eight-edge zipper. The
+endpoint tuple is not persistent under the antipodal zipper, but the whole
+normal support is. The eight fixed-window normal supports form a `K_{4,4}`
+overlap geometry; in `[3]^4` the 648 embedded normal supports have exact
+edge-disjoint packing number 12. The endpoint/first-inward tuple is
+codimension one in the binary support.
+
+These are genuine finite support and incidence reductions, not yet source
+charges. The remaining backend problem is to prove, with owner/root/open-child
+provenance retained, that a normal high occurrence either exactly cancels a
+future obligation or consumes only finitely/subexponentially many source-static
+supports before an independently payable actual-edge reuse. A common descendant
+state alone is not an obligation merge.
+
+The final stage-D partition must remain exhaustive, no-copy, and quantitatively
+uniform.
 
 ## 7. Stage E: persistent-anchor endgame
 

@@ -52,3 +52,22 @@
 ## 2026-08-06
 
 Reoriented the active proof route to fork--inverse-fiber--anchor, added Q-0019, and downgraded the overstrong F-0078 zero-set interpretation.
+
+## 2026-08-08 — Q-0019 rank-two rollback and normal-support frontier
+
+- integrated the common-parent minimal-bad/rollback reduction and the low pair
+  grammar with critical growth `4 Delta`;
+- recorded that protected-token first-use can be decoder-safe through an
+  already-recorded matching edge, but fixed token counts cannot supply the
+  required `o_b(1)` high mark;
+- added bounded normal-Q4 shared-`q` switching, unique eight-edge zipper,
+  antipodal endpoint migration, fixed-window `K4,4` support geometry,
+  codimension-one incidence, and exact `[3]^4` normal-support packing number 12;
+- refuted strict endpoint persistence and the shortcut from state confluence to
+  `P^2 -> P` obligation cancellation;
+- froze the current S1 subfrontier at an owner-weighted rank-two support-return/
+  collision recurrence rather than further migration taxonomy;
+- preserved conversation-reported `16/81`, cancellable-face and rooted profile
+  computations as provisional reconstruction targets because their generators
+  were not supplied in the current repository;
+- no theorem or open question was closed.

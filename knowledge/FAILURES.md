@@ -839,3 +839,84 @@
 - **Status:** failed as a direct replacement for Q-0019
 - **Related:** F-0093, F-0094, F-0095, A-0024, A-0050, Q-0019
 - **Last updated:** 2026-08-06
+
+## A-0052 — Initializing an arbitrary fork edge by a private transversal
+
+- **Goal:** Start an independent pair genealogy for a fixed source fork edge `e` by choosing a private transversal `W_e` that contains no other hyperedge.
+- **Failure type:** unsupported source interface
+- **Failure point:** The edge-minimal private-transversal statement used by F-0092 is available for edges in the chosen minimal cover/private setup; it is not a free construction for every blocker/fork edge occurring in an arbitrary canonical repair. The real post-repair state may have all endpoints of a larger blocker matching deleted simultaneously.
+- **Why it failed:** Replacing the actual matching repair by a fabricated two-hole source state can lose independence and source provenance.
+- **Retry conditions:** Initialize the backend from the full actual post-repair state or prove an explicit private-source lemma for the required fork occurrence class.
+- **Do not repeat:** Do not silently turn a fixed `ell_x(e)` row into an independent two-hole root.
+- **Status:** active design constraint
+- **Related:** F-0091, F-0097, Q-0019
+- **Evidence:** `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
+- **Last updated:** 2026-08-08
+
+## A-0053 — Charging retained pair children or fixed protected tokens as new entropy
+
+- **Goal:** Give every high pair node a `1/b` or `1/b^2` mark by retaining/fixing coordinates that are already its ordinary pair children, or by creating a fixed number of protected tokens.
+- **Failure type:** double counting / insufficient asymptotic mark
+- **Failure point:** Ordinary pair children are existing input obligations and cannot be charged again. Even for genuinely additional protected tokens whose first deletion is decoder-safe, a fixed `t` tokens gives factor `(sqrt(Delta)/b)^t -> 2^{-t}` near `Delta=b^2/4`, not `o_b(1)`.
+- **Retry conditions:** Produce an additional source-owned coordinate whose obligation is truly cancelled, or use actual resource reuse/return so that the number of free high events per source owner is subexponential.
+- **Do not repeat:** More fixed pegs/tokens do not solve the sharp-threshold requirement by themselves.
+- **Status:** failed as a closing mechanism
+- **Related:** F-0095, F-0098, Q-0019
+- **Last updated:** 2026-08-08
+
+## A-0054 — Treating rollback rank reduction as permanent entropy loss
+
+- **Goal:** Infer a `b^{-1}` or `b^{-2}` mark directly from a local rollback such as `4 -> 2` retained targets.
+- **Failure type:** retry / nonmonotone obligation
+- **Failure point:** Rolling back a branch restores its parent deletion set and removes the current attempted value, but the same block may later become a hole and be sampled again. Rejected samples are not a telescoping source budget.
+- **Retry conditions:** Attach rollback to a source-owned monotone potential, exact future-obligation cancellation, or a capacity-backed first-return event.
+- **Do not repeat:** Current-value erasure is not the same as permanent child deletion.
+- **Status:** failed as a direct entropy charge
+- **Related:** F-0096, Q-0019
+- **Last updated:** 2026-08-08
+
+## A-0055 — Protected-pair coverage implies quadratic degree
+
+- **Goal:** Close the first two-protected blocker stopper by a direct degree count.
+- **Failure type:** counterexample
+- **Failure point:** A hole block `A={q_i}` may be completely blocked by pairwise-disjoint protected pairs using only edges `{q_i,p_{2i-1},p_{2i}}`, while every vertex has degree one.
+- **Why it failed:** Coverage is spread across many protected pairs and carries no vertex concentration.
+- **Retry conditions:** Use the alternating pair genealogy: fresh pair trees belong to the low `4 Delta` grammar; repeated actual pairs/edges must be sent to a capacity/core term.
+- **Do not repeat:** Complete codebook coverage is not a degree lower bound without overlap information.
+- **Status:** failed
+- **Related:** F-0097, Q-0019
+- **Last updated:** 2026-08-08
+
+## A-0056 — Using normal-box density as a source contraction
+
+- **Goal:** Convert a bounded fraction of normal binary windows directly into a multiplicative survival probability for Q-0019 source mass.
+- **Failure type:** source/root mismatch
+- **Failure point:** The supplied conversation exhibits a rooted diagonal-codebook obstruction in which rooted probes can evade the desired cancellable-cylinder interpretation without being governed by the unrooted normal-window fraction. The reported `16/81` ternary normal-density computation therefore cannot by itself be used as a source charge.
+- **Retry conditions:** Reconstruct the reported generator/certificate and prove a faithful rooted source interface or a support-reuse recurrence.
+- **Do not repeat:** Unrooted window density is not an owner-preserving survival probability.
+- **Status:** failed as a direct Q-0019 contraction
+- **Evidence:** `evidence/analyses/Q0019_COMBINATORIAL_COMPRESSION_AUDIT_2026_08_08.md`.
+- **Last updated:** 2026-08-08
+
+## A-0057 — Strict persistence of the endpoint tuple `(e_1,e_2;q)`
+
+- **Goal:** Make repeated normal zippers collide by proving the endpoint pair and shared coordinate-value are unchanged after the antipodal splice.
+- **Failure type:** exhaustive finite counterexample
+- **Failure point:** In all 192 normal rooted Q4 cases, the new endpoint pair shares no actual edge with the old pair and the shared coordinate-value changes. The pair moves from bridge positions `(0,7)` to `(3,4)`.
+- **Corrected invariant:** The whole eight-edge normal support is unchanged inside the fixed binary window.
+- **Retry conditions:** Track the source-static support, not the endpoint seam; or prove a weaker bounded support-migration theorem in the actual genealogy.
+- **Status:** refuted
+- **Evidence:** `enumerate/q0019_rank_two_zipper_validation.py`; `evidence/experiments/q0019_rank_two/baselines/q0019_rank_two_zipper_validation.json`.
+- **Related:** F-0100, Q-0019
+- **Last updated:** 2026-08-08
+
+## A-0058 — Identifying state confluence with `P^2 -> P` obligation cancellation
+
+- **Goal:** Use the unique normal eight-edge zipper to replace two simultaneous pair children by one merely because the two histories reach a common state.
+- **Failure type:** provenance / future-interface gap
+- **Failure point:** Equality of the actual selected state does not imply equality of owner, root, stack interface, remaining obligations, or source provenance. Two histories may meet and still carry two independent future suffixes.
+- **Retry conditions:** Prove exact-future congruence at the splice boundary, or use the zipper only as a finite support whose repeated use forces actual-edge reuse.
+- **Do not repeat:** Confluence is not cancellation without a faithful future-interface proof.
+- **Status:** active obstruction
+- **Related:** F-0099, F-0101, Q-0019
+- **Last updated:** 2026-08-08
